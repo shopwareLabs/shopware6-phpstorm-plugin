@@ -1,10 +1,11 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>de.shyim.shopware6phpstormplugin</id>
+    <id>de.shyim.shopware6</id>
     <name>Shopware 6 Toolbox</name>
     <vendor>Shyim</vendor>
 
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.jetbrains.php</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <defaultLiveTemplates file="/liveTemplates/Shopware 6 Config_xml.xml"/>
@@ -12,11 +13,15 @@
     </extensions>
 
     <actions>
-        <group id="ShopwarePlatformGroup" text="Shopware Platform" popup="false">
-            <group id="ShopwarePlatformGroupPlugin" class="com.intellij.ide.actions.NonTrivialActionGroup" text="Shopware Platform" icon="com.github.shyim.shopware6phpstormplugin.ShopwarePluginIcons.SHOPWARE"
+        <group id="ShopwarePlatformGroup" text="Shopware 6" popup="false">
+            <group id="ShopwarePlatformGroupPlugin" class="com.intellij.ide.actions.NonTrivialActionGroup" text="Shopware Platform" icon="ShopwareToolBoxIcons.SHOPWARE"
                    popup="true">
-                <action id="ShopwareConfigXml" class="com.github.shyim.shopware6phpstormplugin.action.generator.NewConfigXmlAction"/>
+
+                <group id="ShopwarePlatformPluginGroup" class="com.intellij.ide.actions.NonTrivialActionGroup" text="Plugin" icon="ShopwareToolBoxIcons.SHOPWARE" popup="true">
+                    <action id="ShopwareConfigXml" class="de.shyim.shopware6.action.generator.NewConfigXmlAction"/>
+                </group>
             </group>
+
             <add-to-group group-id="NewGroup" anchor="last"/>
         </group>
     </actions>

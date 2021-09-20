@@ -1,4 +1,4 @@
-package com.github.shyim.shopware6phpstormplugin.action.generator
+package de.shyim.shopware6.action.generator
 
 import com.intellij.icons.AllIcons
 import com.intellij.ide.highlighter.XmlFileType
@@ -16,7 +16,7 @@ class NewConfigXmlAction() : DumbAwareAction("Create a config.xml", "Create a ne
             return
         }
 
-        Util.buildFile(
+        ActionUtil.buildFile(
                 e,
                 project,
                 "/fileTemplates/config.xml",

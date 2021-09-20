@@ -1,4 +1,4 @@
-package com.github.shyim.shopware6phpstormplugin.action.generator
+package de.shyim.shopware6.action.generator
 
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.LangDataKeys
@@ -12,13 +12,13 @@ import com.intellij.psi.codeStyle.CodeStyleManager
 import java.io.IOException
 
 
-class Util {
+class ActionUtil {
     companion object {
-        fun buildFile(event: AnActionEvent, project: Project, templatePath: String?, fileName: String?, fileType: LanguageFileType?) {
+        fun buildFile(event: AnActionEvent, project: Project, templatePath: String, fileName: String?, fileType: LanguageFileType) {
             val dataContext = event.dataContext
             val view = LangDataKeys.IDE_VIEW.getData(dataContext) ?: return
             val directories = view.directories
-            if (directories.size == 0) {
+            if (directories.isEmpty()) {
                 return
             }
             val initialBaseDir = directories[0] ?: return
@@ -28,7 +28,7 @@ class Util {
             }
             val content: String
             content = try {
-                StreamUtil.readText(Util::class.java.getResourceAsStream(templatePath), "UTF-8")
+                StreamUtil.readText(ActionUtil::class.java.getResourceAsStream(templatePath), "UTF-8")
             } catch (e: IOException) {
                 e.printStackTrace()
                 return

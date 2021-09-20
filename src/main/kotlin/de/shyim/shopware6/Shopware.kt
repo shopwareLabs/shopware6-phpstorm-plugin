@@ -1,13 +1,13 @@
-package com.github.shyim.shopware6phpstormplugin
+package de.shyim.shopware6
 
 import com.intellij.DynamicBundle
 import org.jetbrains.annotations.NonNls
 import org.jetbrains.annotations.PropertyKey
 
 @NonNls
-private const val BUNDLE = "messages.MyBundle"
+private const val BUNDLE = "messages.Shopware"
 
-object MyBundle : DynamicBundle(BUNDLE) {
+object Shopware : DynamicBundle(BUNDLE) {
 
     @Suppress("SpreadOperator")
     @JvmStatic
