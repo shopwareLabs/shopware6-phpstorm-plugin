@@ -4,4 +4,6 @@
 
 ## [Unreleased]
 ### Added
-- Initial scaffold created from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)
+- some live templates
+- config.xml creation dialog
+- vue component creation dialog

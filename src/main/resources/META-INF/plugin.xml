@@ -6,6 +6,7 @@
 
     <depends>com.intellij.modules.platform</depends>
     <depends>com.jetbrains.php</depends>
+    <depends>JavaScript</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <defaultLiveTemplates file="/liveTemplates/Shopware 6 Config_xml.xml"/>
@@ -19,6 +20,10 @@
 
                 <group id="ShopwarePlatformPluginGroup" class="com.intellij.ide.actions.NonTrivialActionGroup" text="Plugin" icon="ShopwareToolBoxIcons.SHOPWARE" popup="true">
                     <action id="ShopwareConfigXml" class="de.shyim.shopware6.action.generator.NewConfigXmlAction"/>
+                </group>
+
+                <group id="ShopwarePlatformAdminGroup" class="com.intellij.ide.actions.NonTrivialActionGroup" text="Administration" icon="ShopwareToolBoxIcons.SHOPWARE" popup="true">
+                    <action id="ShopwareNewComponent" class="de.shyim.shopware6.action.generator.NewComponentAction"/>
                 </group>
             </group>
 
