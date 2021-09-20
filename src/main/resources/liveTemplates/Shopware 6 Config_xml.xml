@@ -1,0 +1,116 @@
+<templateSet group="Shopware 6 Config.xml">
+    <template name="sw-config-base" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#10;&lt;config xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&#10;        xsi:noNamespaceSchemaLocation=&quot;https://raw.githubusercontent.com/shopware/platform/trunk/src/Core/System/SystemConfig/Schema/config.xsd&quot;&gt;&#10;&#10;    &lt;card&gt;&#10;        &lt;title&gt;$NAME$&lt;/title&gt;&#10;&#10;        $ELEMENTS$&#10;    &lt;/card&gt;&#10;&lt;/config&gt;&#10;" shortcut="SPACE" toReformat="false" toShortenFQNames="true">
+        <variable name="NAME" expression="" defaultValue="" alwaysStopAt="true" />
+        <variable name="ELEMENTS" expression="" defaultValue="" alwaysStopAt="true" />
+        <context>
+            <option name="XML" value="true" />
+        </context>
+    </template>
+    <template name="sw-config-element-bool" value="&lt;input-field type=&quot;bool&quot;&gt;&#10;    &lt;name&gt;$NAME$&lt;/name&gt;&#10;    &lt;label&gt;$LABEL$&lt;/label&gt;&#10;&lt;/input-field&gt;" toReformat="false" toShortenFQNames="true">
+        <variable name="NAME" expression="" defaultValue="" alwaysStopAt="true" />
+        <variable name="LABEL" expression="" defaultValue="" alwaysStopAt="true" />
+        <context>
+            <option name="XML" value="true" />
+        </context>
+    </template>
+    <template name="sw-config-element-checkbox" value="&lt;input-field type=&quot;checkbox&quot;&gt;&#10;    &lt;name&gt;$NAME$&lt;/name&gt;&#10;    &lt;label&gt;$LABEL$&lt;/label&gt;&#10;&lt;/input-field&gt;" description="" toReformat="false" toShortenFQNames="true">
+        <variable name="NAME" expression="" defaultValue="" alwaysStopAt="true" />
+        <variable name="LABEL" expression="" defaultValue="" alwaysStopAt="true" />
+        <context>
+            <option name="XML" value="true" />
+        </context>
+    </template>
+    <template name="sw-config-element-text" value="&lt;input-field type=&quot;text&quot;&gt;&#10;    &lt;name&gt;$NAME$&lt;/name&gt;&#10;    &lt;label&gt;$LABEL$&lt;/label&gt;&#10;&lt;/input-field&gt;" description="" toReformat="false" toShortenFQNames="true">
+        <variable name="NAME" expression="" defaultValue="" alwaysStopAt="true" />
+        <variable name="LABEL" expression="" defaultValue="" alwaysStopAt="true" />
+        <context>
+            <option name="XML" value="true" />
+        </context>
+    </template>
+    <template name="sw-config-element-textarea" value="&lt;input-field type=&quot;textarea&quot;&gt;&#10;    &lt;name&gt;$NAME$&lt;/name&gt;&#10;    &lt;label&gt;$LABEL$&lt;/label&gt;&#10;&lt;/input-field&gt;" description="" toReformat="false" toShortenFQNames="true">
+        <variable name="NAME" expression="" defaultValue="" alwaysStopAt="true" />
+        <variable name="LABEL" expression="" defaultValue="" alwaysStopAt="true" />
+        <context>
+            <option name="XML" value="true" />
+        </context>
+    </template>
+    <template name="sw-config-element-text-editor" value="&lt;input-field type=&quot;text-editor&quot;&gt;&#10;    &lt;name&gt;$NAME$&lt;/name&gt;&#10;    &lt;label&gt;$LABEL$&lt;/label&gt;&#10;&lt;/input-field&gt;" description="" toReformat="false" toShortenFQNames="true">
+        <variable name="NAME" expression="" defaultValue="" alwaysStopAt="true" />
+        <variable name="LABEL" expression="" defaultValue="" alwaysStopAt="true" />
+        <context>
+            <option name="XML" value="true" />
+        </context>
+    </template>
+    <template name="sw-config-element-url" value="&lt;input-field type=&quot;url&quot;&gt;&#10;    &lt;name&gt;$NAME$&lt;/name&gt;&#10;    &lt;label&gt;$LABEL$&lt;/label&gt;&#10;&lt;/input-field&gt;" description="" toReformat="false" toShortenFQNames="true">
+        <variable name="NAME" expression="" defaultValue="" alwaysStopAt="true" />
+        <variable name="LABEL" expression="" defaultValue="" alwaysStopAt="true" />
+        <context>
+            <option name="XML" value="true" />
+        </context>
+    </template>
+    <template name="sw-config-element-password" value="&lt;input-field type=&quot;password&quot;&gt;&#10;    &lt;name&gt;$NAME$&lt;/name&gt;&#10;    &lt;label&gt;$LABEL$&lt;/label&gt;&#10;&lt;/input-field&gt;" description="" toReformat="false" toShortenFQNames="true">
+        <variable name="NAME" expression="" defaultValue="" alwaysStopAt="true" />
+        <variable name="LABEL" expression="" defaultValue="" alwaysStopAt="true" />
+        <context>
+            <option name="XML" value="true" />
+        </context>
+    </template>
+    <template name="sw-config-element-int" value="&lt;input-field type=&quot;int&quot;&gt;&#10;    &lt;name&gt;$NAME$&lt;/name&gt;&#10;    &lt;label&gt;$LABEL$&lt;/label&gt;&#10;&lt;/input-field&gt;" description="" toReformat="false" toShortenFQNames="true">
+        <variable name="NAME" expression="" defaultValue="" alwaysStopAt="true" />
+        <variable name="LABEL" expression="" defaultValue="" alwaysStopAt="true" />
+        <context>
+            <option name="XML" value="true" />
+        </context>
+    </template>
+    <template name="sw-config-element-float" value="&lt;input-field type=&quot;float&quot;&gt;&#10;    &lt;name&gt;$NAME$&lt;/name&gt;&#10;    &lt;label&gt;$LABEL$&lt;/label&gt;&#10;&lt;/input-field&gt;" description="" toReformat="false" toShortenFQNames="true">
+        <variable name="NAME" expression="" defaultValue="" alwaysStopAt="true" />
+        <variable name="LABEL" expression="" defaultValue="" alwaysStopAt="true" />
+        <context>
+            <option name="XML" value="true" />
+        </context>
+    </template>
+    <template name="sw-config-element-date" value="&lt;input-field type=&quot;date&quot;&gt;&#10;    &lt;name&gt;$NAME$&lt;/name&gt;&#10;    &lt;label&gt;$LABEL$&lt;/label&gt;&#10;&lt;/input-field&gt;" description="" toReformat="false" toShortenFQNames="true">
+        <variable name="NAME" expression="" defaultValue="" alwaysStopAt="true" />
+        <variable name="LABEL" expression="" defaultValue="" alwaysStopAt="true" />
+        <context>
+            <option name="XML" value="true" />
+        </context>
+    </template>
+    <template name="sw-config-element-datetime" value="&lt;input-field type=&quot;date&quot;&gt;&#10;    &lt;name&gt;$NAME$&lt;/name&gt;&#10;    &lt;label&gt;$LABEL$&lt;/label&gt;&#10;&lt;/input-field&gt;" description="" toReformat="false" toShortenFQNames="true">
+        <variable name="NAME" expression="" defaultValue="" alwaysStopAt="true" />
+        <variable name="LABEL" expression="" defaultValue="" alwaysStopAt="true" />
+        <context>
+            <option name="XML" value="true" />
+        </context>
+    </template>
+    <template name="sw-config-element-time" value="&lt;input-field type=&quot;time&quot;&gt;&#10;    &lt;name&gt;$NAME$&lt;/name&gt;&#10;    &lt;label&gt;$LABEL$&lt;/label&gt;&#10;&lt;/input-field&gt;" description="" toReformat="false" toShortenFQNames="true">
+        <variable name="NAME" expression="" defaultValue="" alwaysStopAt="true" />
+        <variable name="LABEL" expression="" defaultValue="" alwaysStopAt="true" />
+        <context>
+            <option name="XML" value="true" />
+        </context>
+    </template>
+    <template name="sw-config-element-colorpicker" value="&lt;input-field type=&quot;colorpicker&quot;&gt;&#10;    &lt;name&gt;$NAME$&lt;/name&gt;&#10;    &lt;label&gt;$LABEL$&lt;/label&gt;&#10;&lt;/input-field&gt;" description="" toReformat="false" toShortenFQNames="true">
+        <variable name="NAME" expression="" defaultValue="" alwaysStopAt="true" />
+        <variable name="LABEL" expression="" defaultValue="" alwaysStopAt="true" />
+        <context>
+            <option name="XML" value="true" />
+        </context>
+    </template>
+    <template name="sw-config-element-single-select" value="&lt;input-field type=&quot;single-select&quot;&gt;&#10;    &lt;name&gt;$NAME$&lt;/name&gt;&#10;    &lt;label&gt;$LABEL$&lt;/label&gt;&#10;    &lt;entity&gt;$ENTITY$&lt;/entity&gt;&#10;&lt;/input-field&gt;" description="" toReformat="false" toShortenFQNames="true">
+        <variable name="NAME" expression="" defaultValue="" alwaysStopAt="true" />
+        <variable name="LABEL" expression="" defaultValue="" alwaysStopAt="true" />
+        <variable name="ENTITY" expression="" defaultValue="" alwaysStopAt="true" />
+        <context>
+            <option name="XML" value="true" />
+        </context>
+    </template>
+    <template name="sw-config-element-multi-select" value="&lt;input-field type=&quot;multi-select&quot;&gt;&#10;    &lt;name&gt;$NAME$&lt;/name&gt;&#10;    &lt;label&gt;$LABEL$&lt;/label&gt;&#10;    &lt;entity&gt;$ENTITY$&lt;/entity&gt;&#10;&lt;/input-field&gt;" description="" toReformat="false" toShortenFQNames="true">
+        <variable name="NAME" expression="" defaultValue="" alwaysStopAt="true" />
+        <variable name="LABEL" expression="" defaultValue="" alwaysStopAt="true" />
+        <variable name="ENTITY" expression="" defaultValue="" alwaysStopAt="true" />
+        <context>
+            <option name="XML" value="true" />
+        </context>
+    </template>
+</templateSet>
