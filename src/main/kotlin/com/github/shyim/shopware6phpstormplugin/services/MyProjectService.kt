@@ -1,7 +1,7 @@
-package org.jetbrains.plugins.template.services
+package com.github.shyim.shopware6phpstormplugin.services
 
 import com.intellij.openapi.project.Project
-import org.jetbrains.plugins.template.MyBundle
+import com.github.shyim.shopware6phpstormplugin.MyBundle
 
 class MyProjectService(project: Project) {
 
