@@ -6,12 +6,10 @@ import com.intellij.openapi.actionSystem.LangDataKeys
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.fileTypes.LanguageFileType
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.ui.Messages;
-import com.intellij.openapi.util.io.StreamUtil;
+import com.intellij.openapi.ui.Messages
 import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.codeStyle.CodeStyleManager
-import java.io.IOException
 
 
 class ActionUtil {
@@ -25,7 +23,13 @@ class ActionUtil {
             return directories[0] ?: return null
         }
 
-        fun buildFile(event: AnActionEvent, project: Project, templatePath: String, fileName: String?, fileType: LanguageFileType) {
+        fun buildFile(
+            event: AnActionEvent,
+            project: Project,
+            content: String,
+            fileName: String?,
+            fileType: LanguageFileType
+        ) {
             val dataContext = event.dataContext
             val view = LangDataKeys.IDE_VIEW.getData(dataContext) ?: return
             val initialBaseDir = this.getViewDirectory(dataContext) ?: return
@@ -34,13 +38,7 @@ class ActionUtil {
                 Messages.showInfoMessage("File exists", "Error")
                 return
             }
-            val content: String
-            content = try {
-                StreamUtil.readText(ActionUtil::class.java.getResourceAsStream(templatePath), "UTF-8")
-            } catch (e: IOException) {
-                e.printStackTrace()
-                return
-            }
+
             val factory = PsiFileFactory.getInstance(project)
             val file = factory.createFileFromText(fileName, fileType, content)
             ApplicationManager.getApplication().runWriteAction {

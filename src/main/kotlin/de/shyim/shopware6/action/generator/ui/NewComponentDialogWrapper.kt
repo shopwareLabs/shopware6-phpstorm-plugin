@@ -1,30 +1,23 @@
 package de.shyim.shopware6.action.generator.ui
 
 import com.intellij.openapi.ui.DialogWrapper
-import java.awt.BorderLayout
-import java.awt.event.WindowAdapter
-import java.awt.event.WindowEvent
+import de.shyim.shopware6.ui.NewComponentDialog
 import javax.swing.JComponent
-import javax.swing.JPanel
-import javax.swing.JTextField
 
 
 class NewComponentDialogWrapper : DialogWrapper(true) {
-    private var textField: JTextField
+    private var dialog: NewComponentDialog
 
     init {
-        textField = JTextField()
+        this.dialog = NewComponentDialog()
     }
 
     override fun createCenterPanel(): JComponent {
-        val dialogPanel = JPanel(BorderLayout())
-        dialogPanel.add(textField, BorderLayout.CENTER)
-
-        return dialogPanel
+        return dialog.panel
     }
 
     override fun getPreferredFocusedComponent(): JComponent? {
-        return textField
+        return dialog.componentName
     }
 
     init {
@@ -32,10 +25,17 @@ class NewComponentDialogWrapper : DialogWrapper(true) {
         init()
     }
 
-    fun showAndGetName(): String
-    {
+    fun showAndGetName(): NewComponentConfig? {
         show();
 
-        return textField.getText()
+        if (!isOK) {
+            return null
+        }
+
+        return NewComponentConfig(
+            dialog.componentName.getText(),
+            dialog.createSCSSFile.isSelected(),
+            dialog.createTwigFileCheckBox.isSelected
+        )
     }
 }

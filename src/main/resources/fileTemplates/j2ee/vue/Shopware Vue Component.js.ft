@@ -1,0 +1,14 @@
+#if (${GENERATE_TWIG} == true)
+import template from './${NAME}.html.twig';
+#end
+#if (${GENERATE_SCSS} == true)
+import './${NAME}.scss';
+#end
+
+const {Component} = Shopware;
+
+Component.register('${NAME}', {
+    #if (${GENERATE_TWIG} == true)
+        template
+    #end
+});
