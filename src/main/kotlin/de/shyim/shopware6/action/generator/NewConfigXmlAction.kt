@@ -6,6 +6,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.PlatformDataKeys
 import com.intellij.openapi.project.DumbAwareAction
 import com.intellij.openapi.project.Project
+import de.shyim.shopware6.templates.ShopwareTemplates
 
 class NewConfigXmlAction() : DumbAwareAction("Create a config.xml", "Create a new config.xml", AllIcons.FileTypes.Xml) {
 
@@ -17,11 +18,11 @@ class NewConfigXmlAction() : DumbAwareAction("Create a config.xml", "Create a ne
         }
 
         ActionUtil.buildFile(
-                e,
-                project,
-                "/fileTemplates/config.xml",
-                "config.xml",
-                XmlFileType.INSTANCE
+            e,
+            project,
+            ShopwareTemplates.applyShopwarePluginConfig(project),
+            "config.xml",
+            XmlFileType.INSTANCE
         );
     }
 

@@ -119,4 +119,13 @@ tasks {
         // https://plugins.jetbrains.com/docs/intellij/deployment.html#specifying-a-release-channel
         channels.set(listOf(properties("pluginVersion").split('-').getOrElse(1) { "default" }.split('.').first()))
     }
+
+    processResources {
+        exclude("fileTemplates/j2ee/**")
+        from(fileTree("src/main/resources/fileTemplates/j2ee").files) {
+            eachFile {
+                relativePath = RelativePath(true, "fileTemplates", "j2ee", this.name)
+            }
+        }
+    }
 }

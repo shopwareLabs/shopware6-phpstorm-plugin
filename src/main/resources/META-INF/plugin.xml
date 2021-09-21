@@ -7,17 +7,24 @@
     <depends>com.intellij.modules.platform</depends>
     <depends>com.jetbrains.php</depends>
     <depends>JavaScript</depends>
+    <depends>Git4Idea</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <defaultLiveTemplates file="/liveTemplates/Shopware 6 Config_xml.xml"/>
         <defaultLiveTemplates file="/liveTemplates/Shopware 6 PHP.xml"/>
         <defaultLiveTemplates file="/liveTemplates/Shopware 6 General.xml"/>
         <defaultLiveTemplates file="/liveTemplates/Shopware 6 PHPUnit.xml"/>
+
+        <fileTemplateGroup implementation="de.shyim.shopware6.templates.ShopwareTemplates"/>
     </extensions>
 
     <actions>
         <group id="ShopwareToolboxGroupPlugin" class="com.intellij.ide.actions.NonTrivialActionGroup" text="Shopware Platform" icon="ShopwareToolBoxIcons.SHOPWARE"
                popup="true">
+
+            <group id="ShopwareToolboxContributionGroup" class="com.intellij.ide.actions.NonTrivialActionGroup" text="Contribution" icon="ShopwareToolBoxIcons.SHOPWARE" popup="true">
+                <action id="ShopwareToolboxNewContribution" class="de.shyim.shopware6.action.generator.NewChangelogAction"/>
+            </group>
 
             <group id="ShopwareToolboxPluginGroup" class="com.intellij.ide.actions.NonTrivialActionGroup" text="Plugin" icon="ShopwareToolBoxIcons.SHOPWARE" popup="true">
                 <action id="ShopwareToolboxNewConfigXml" class="de.shyim.shopware6.action.generator.NewConfigXmlAction"/>
@@ -26,7 +33,6 @@
             <group id="ShopwareToolboxAdminGroup" class="com.intellij.ide.actions.NonTrivialActionGroup" text="Administration" icon="ShopwareToolBoxIcons.SHOPWARE" popup="true">
                 <action id="ShopwareToolboxNewComponent" class="de.shyim.shopware6.action.generator.NewComponentAction"/>
             </group>
-            <add-to-group group-id="NewGroup" anchor="last"/>
-        </group>
+            <add-to-group group-id="NewGroup" anchor="last"/></group>
     </actions>
 </idea-plugin>
