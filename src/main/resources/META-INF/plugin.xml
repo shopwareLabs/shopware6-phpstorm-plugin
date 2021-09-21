@@ -6,6 +6,7 @@
 
     <depends>com.intellij.modules.platform</depends>
     <depends>com.jetbrains.php</depends>
+    <depends>com.jetbrains.twig</depends>
     <depends>JavaScript</depends>
     <depends>Git4Idea</depends>
 
@@ -16,6 +17,10 @@
         <defaultLiveTemplates file="/liveTemplates/Shopware 6 PHPUnit.xml"/>
 
         <fileTemplateGroup implementation="de.shyim.shopware6.templates.ShopwareTemplates"/>
+        <fileBasedIndex implementation="de.shyim.shopware6.index.FrontendSnippetIndex"/>
+
+        <completion.contributor language="Twig"
+                                implementationClass="de.shyim.shopware6.completion.TwigCompletionProvider"/>
     </extensions>
 
     <actions>
