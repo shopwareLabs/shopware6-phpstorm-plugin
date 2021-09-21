@@ -16,16 +16,16 @@
     </extensions>
 
     <actions>
-        <group id="ShopwarePlatformGroup" text="Shopware 6" popup="false">
-            <group id="ShopwarePlatformGroupPlugin" class="com.intellij.ide.actions.NonTrivialActionGroup" text="Shopware Platform" icon="ShopwareToolBoxIcons.SHOPWARE"
+        <group id="ShopwareToolboxGroup" text="Shopware 6" popup="false">
+            <group id="ShopwareToolboxGroupPlugin" class="com.intellij.ide.actions.NonTrivialActionGroup" text="Shopware Platform" icon="ShopwareToolBoxIcons.SHOPWARE"
                    popup="true">
 
-                <group id="ShopwarePlatformPluginGroup" class="com.intellij.ide.actions.NonTrivialActionGroup" text="Plugin" icon="ShopwareToolBoxIcons.SHOPWARE" popup="true">
-                    <action id="ShopwareConfigXml" class="de.shyim.shopware6.action.generator.NewConfigXmlAction"/>
+                <group id="ShopwareToolboxPluginGroup" class="com.intellij.ide.actions.NonTrivialActionGroup" text="Plugin" icon="ShopwareToolBoxIcons.SHOPWARE" popup="true">
+                    <action id="ShopwareToolboxNewConfigXml" class="de.shyim.shopware6.action.generator.NewConfigXmlAction"/>
                 </group>
 
-                <group id="ShopwarePlatformAdminGroup" class="com.intellij.ide.actions.NonTrivialActionGroup" text="Administration" icon="ShopwareToolBoxIcons.SHOPWARE" popup="true">
-                    <action id="ShopwareNewComponent" class="de.shyim.shopware6.action.generator.NewComponentAction"/>
+                <group id="ShopwareToolboxAdminGroup" class="com.intellij.ide.actions.NonTrivialActionGroup" text="Administration" icon="ShopwareToolBoxIcons.SHOPWARE" popup="true">
+                    <action id="ShopwareToolboxNewComponent" class="de.shyim.shopware6.action.generator.NewComponentAction"/>
                 </group>
             </group>
 
