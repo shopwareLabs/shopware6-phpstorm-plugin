@@ -42,7 +42,7 @@ class ActionUtil {
                 return
             }
             val factory = PsiFileFactory.getInstance(project)
-            val file = factory.createFileFromText(fileName, fileType!!, content)
+            val file = factory.createFileFromText(fileName, fileType, content)
             ApplicationManager.getApplication().runWriteAction {
                 CodeStyleManager.getInstance(project).reformat(file)
                 initialBaseDir.add(file)
