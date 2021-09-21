@@ -5,7 +5,13 @@
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/17632.svg)](https://plugins.jetbrains.com/plugin/17632)
 
 <!-- Plugin description -->
-Shopware 6 Toolbox is a helper plugin for Shopware 6 development. It adds some live templates and scaffolding of common Shopware files
+Shopware 6 Toolbox is a helper plugin for Shopware 6 development. It adds some live templates and scaffolding of common Shopware files.
+
+Current features:
+
+- Lot of live templates for developing. Use STRG + J to see all live templates of current scope
+- A config.xml creator
+- A Vue.js Admin component generator
 <!-- Plugin description end -->
 
 ## Installation
