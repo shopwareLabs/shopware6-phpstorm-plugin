@@ -1,0 +1,27 @@
+<templateSet group="Shopware 6 PHPUnit">
+  <template name="sw-phpunit-case" value="public function test$NAME$(): void&#10;{&#10;    $END$&#10;}" description="Creates new php unit case" toReformat="false" toShortenFQNames="true">
+    <variable name="NAME" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="PHP" value="true" />
+    </context>
+  </template>
+  <template name="sw-phpunit-case-dataprovider" value="public function provider$NAME$(): iterable&#10;{&#10;&#10;}&#10;&#10;/**&#10; * @dataProvider provider$NAME$&#10; */&#10;public function test$NAME$(): void&#10;{&#10;    $END$&#10;}" description="Creates new php unit case with dataprovider" toReformat="false" toShortenFQNames="true">
+    <variable name="NAME" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="PHP" value="true" />
+    </context>
+  </template>
+  <template name="sw-phpunit-integreation" value="use PHPUnit\Framework\TestCase;&#10;use Shopware\Core\Framework\Test\TestCaseBase\IntegrationTestBehaviour;&#10;&#10;class $NAME$ extends TestCase&#10;{&#10;    use IntegrationTestBehaviour;&#10;    &#10;    $END$&#10;}" description="Creates the boilerplate of an integreation test" toReformat="false" toShortenFQNames="true">
+    <variable name="NAME" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="PHP" value="true" />
+    </context>
+  </template>
+  <template name="sw-phpunit-di-get" value="$$$NAME$ = $this-&gt;getContainer()-&gt;get($SERVICE$);" description="Get a service from di" toReformat="false" toShortenFQNames="true">
+    <variable name="SERVICE" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="NAME" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="PHP" value="true" />
+    </context>
+  </template>
+</templateSet>

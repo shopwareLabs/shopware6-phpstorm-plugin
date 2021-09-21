@@ -11,6 +11,8 @@
     <extensions defaultExtensionNs="com.intellij">
         <defaultLiveTemplates file="/liveTemplates/Shopware 6 Config_xml.xml"/>
         <defaultLiveTemplates file="/liveTemplates/Shopware 6 PHP.xml"/>
+        <defaultLiveTemplates file="/liveTemplates/Shopware 6 General.xml"/>
+        <defaultLiveTemplates file="/liveTemplates/Shopware 6 PHPUnit.xml"/>
     </extensions>
 
     <actions>

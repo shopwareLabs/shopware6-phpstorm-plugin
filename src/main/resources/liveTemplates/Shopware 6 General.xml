@@ -1,0 +1,12 @@
+<templateSet group="Shopware 6 General">
+  <template name="sw-uuid" value="$UUID$" description="Generate a valid UUID" toReformat="false" toShortenFQNames="true">
+    <variable name="UUID" expression="groovyScript(&quot;java.util.UUID.randomUUID().toString().replace('-', '').toLowerCase()&quot;)" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+      <option name="JSON" value="true" />
+      <option name="PHP" value="true" />
+      <option name="Twig" value="true" />
+      <option name="TypeScript" value="true" />
+    </context>
+  </template>
+</templateSet>
