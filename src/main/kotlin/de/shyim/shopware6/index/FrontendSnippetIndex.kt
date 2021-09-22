@@ -14,7 +14,7 @@ open class FrontendSnippetIndex : FileBasedIndexExtension<String, Set<String>>()
     }
 
     override fun getVersion(): Int {
-        return 1
+        return 2
     }
 
     override fun dependsOnFileContent(): Boolean {
@@ -27,7 +27,7 @@ open class FrontendSnippetIndex : FileBasedIndexExtension<String, Set<String>>()
                 return@DataIndexer mapOf()
             }
 
-            return@DataIndexer SnippetUtil.flatten(inputData.contentAsText.toString())
+            return@DataIndexer SnippetUtil.flatten(inputData.file.path, inputData.contentAsText.toString())
         }
     }
 

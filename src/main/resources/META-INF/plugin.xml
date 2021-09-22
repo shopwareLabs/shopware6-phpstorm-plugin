@@ -21,6 +21,8 @@
 
         <completion.contributor language="Twig"
                                 implementationClass="de.shyim.shopware6.completion.TwigCompletionProvider"/>
+
+        <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.FrontendSnippetGoToHandler"/>
     </extensions>
 
     <actions>
