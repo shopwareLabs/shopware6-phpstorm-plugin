@@ -11,6 +11,8 @@ class NewChangelogDialogWrapper(defaultTitle: String, defaultTicket: String) : D
         this.dialog = NewChangelogDialog()
         this.dialog.ticketField.text = defaultTicket
         this.dialog.titleField.text = defaultTitle
+
+        setSize(400, 200)
     }
 
     override fun createCenterPanel(): JComponent {
