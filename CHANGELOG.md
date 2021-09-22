@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [0.0.5]
+- Removed custom navigation goto and implemented into Symfony plugin
+- The Symfony plugin does not show anymore missing snippets
+
 ## [0.0.4]
 - Add changelog title escaping to dash
 
