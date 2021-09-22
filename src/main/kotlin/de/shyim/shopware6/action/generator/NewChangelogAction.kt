@@ -31,8 +31,8 @@ class NewChangelogAction: DumbAwareAction("Create a Changelog", "Create a new Ch
             val branchParts = currentBranch.name.split("/")
 
             if (branchParts.count() == 2) {
-                defaultTicket = branchParts[0].uppercase().replace("-", " ")
-                defaultTitle = StringUtils.capitalize(branchParts[1])
+                defaultTicket = branchParts[0].uppercase()
+                defaultTitle = StringUtils.capitalize(branchParts[1]).replace("-", " ")
             }
         }
 
