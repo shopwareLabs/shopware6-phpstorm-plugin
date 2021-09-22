@@ -31,7 +31,7 @@ class NewChangelogAction: DumbAwareAction("Create a Changelog", "Create a new Ch
             val branchParts = currentBranch.name.split("/")
 
             if (branchParts.count() == 2) {
-                defaultTicket = branchParts[0].uppercase()
+                defaultTicket = branchParts[0].uppercase().replace("-", " ")
                 defaultTitle = StringUtils.capitalize(branchParts[1])
             }
         }
@@ -42,7 +42,7 @@ class NewChangelogAction: DumbAwareAction("Create a Changelog", "Create a new Ch
         val date = Date()
         val modifiedDate: String = SimpleDateFormat("yyyy-MM-dd").format(date)
 
-        val fileName = modifiedDate + "-" + dialogResult.title.lowercase() + ".md"
+        val fileName = modifiedDate + "-" + dialogResult.title.lowercase().replace(" ", "-") + ".md"
 
         ActionUtil.buildFile(
             e,
