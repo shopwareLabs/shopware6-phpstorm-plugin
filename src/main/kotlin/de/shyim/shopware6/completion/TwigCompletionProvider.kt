@@ -15,7 +15,7 @@ class TwigCompletionProvider() : CompletionContributor() {
     init {
         extend(
             CompletionType.BASIC,
-            TwigPattern.getTranslationKeyPattern("trans", "transchoice"),
+            TwigPattern.getTranslationKeyPattern("trans"),
             object : CompletionProvider<CompletionParameters>() {
                 override fun addCompletions(
                     parameters: CompletionParameters,
@@ -24,10 +24,16 @@ class TwigCompletionProvider() : CompletionContributor() {
                 ) {
                     val project: Project = parameters.position.project
                     for (key in FileBasedIndex.getInstance().getAllKeys(FrontendSnippetIndex.key, project)) {
-                        val vals = FileBasedIndex.getInstance().getValues(FrontendSnippetIndex.key, key, GlobalSearchScope.allScope(project))
+                        val vals = FileBasedIndex.getInstance()
+                            .getValues(FrontendSnippetIndex.key, key, GlobalSearchScope.allScope(project))
 
-                        if (vals.size > 0) {
-                            result.addElement(LookupElementBuilder.create(key).withTypeText(vals[0].first()).withIcon(ShopwareToolBoxIcons.SHOPWARE))
+                        vals.forEach {
+                            it.snippets.forEach {
+                                result.addElement(
+                                    LookupElementBuilder.create(it.key).withTypeText(it.value)
+                                        .withIcon(ShopwareToolBoxIcons.SHOPWARE)
+                                )
+                            }
                         }
                     }
                 }

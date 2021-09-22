@@ -2,14 +2,17 @@ package de.shyim.shopware6.index
 
 import com.intellij.json.JsonFileType
 import com.intellij.util.indexing.*
-import com.intellij.util.io.DataExternalizer
 import com.intellij.util.io.EnumeratorStringDescriptor
 import com.intellij.util.io.KeyDescriptor
-import com.jetbrains.php.lang.psi.stubs.indexes.StringSetDataExternalizer
+import de.shyim.shopware6.index.externalizer.ObjectStreamDataExternalizer
 import de.shyim.shopware6.util.SnippetUtil
+import gnu.trove.THashMap
 
-open class FrontendSnippetIndex : FileBasedIndexExtension<String, Set<String>>() {
-    override fun getName(): ID<String, Set<String>> {
+
+open class FrontendSnippetIndex : FileBasedIndexExtension<String, SnippetFile>() {
+    private val EXTERNALIZER = ObjectStreamDataExternalizer<SnippetFile>()
+
+    override fun getName(): ID<String, SnippetFile> {
         return key
     }
 
@@ -21,13 +24,16 @@ open class FrontendSnippetIndex : FileBasedIndexExtension<String, Set<String>>()
         return true
     }
 
-    override fun getIndexer(): DataIndexer<String, Set<String>, FileContent> {
+    override fun getIndexer(): DataIndexer<String, SnippetFile, FileContent> {
         return DataIndexer { inputData ->
             if (!inputData.getFile().getName().equals("storefront.en-GB.json")) {
                 return@DataIndexer mapOf()
             }
 
-            return@DataIndexer SnippetUtil.flatten(inputData.file.path, inputData.contentAsText.toString())
+            val snippets = THashMap<String, SnippetFile>()
+            snippets[inputData.file.path] = SnippetUtil.flatten(inputData.file.path, inputData.contentAsText.toString())
+
+            return@DataIndexer snippets
         }
     }
 
@@ -35,12 +41,12 @@ open class FrontendSnippetIndex : FileBasedIndexExtension<String, Set<String>>()
         return EnumeratorStringDescriptor.INSTANCE
     }
 
-    override fun getValueExternalizer(): DataExternalizer<Set<String>> {
-        return StringSetDataExternalizer.INSTANCE
+    override fun getValueExternalizer(): ObjectStreamDataExternalizer<SnippetFile> {
+        return EXTERNALIZER
     }
 
     companion object {
-        val key = ID.create<String, Set<String>>("de.shyim.shopware6.frontend.snippet")
+        val key = ID.create<String, SnippetFile>("de.shyim.shopware6.frontend.snippet")
     }
 
     override fun getInputFilter(): FileBasedIndex.InputFilter {
