@@ -4,6 +4,9 @@
 
 ## [Unreleased]
 
+## [0.0.4]
+- Add changelog title escaping to dash
+
 ## [0.0.3]
 - Moved generated files to file templates. Can be now edited in Settings
 - Improved Vue component generation
