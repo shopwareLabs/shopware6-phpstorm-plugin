@@ -7,6 +7,7 @@
     <depends>com.intellij.modules.platform</depends>
     <depends>com.jetbrains.php</depends>
     <depends>com.jetbrains.twig</depends>
+    <depends>org.jetbrains.plugins.yaml</depends>
     <depends>JavaScript</depends>
     <depends>Git4Idea</depends>
     <depends>fr.adrienbrault.idea.symfony2plugin</depends>
@@ -19,10 +20,15 @@
 
         <fileTemplateGroup implementation="de.shyim.shopware6.templates.ShopwareTemplates"/>
         <fileBasedIndex implementation="de.shyim.shopware6.index.FrontendSnippetIndex"/>
+        <fileBasedIndex implementation="de.shyim.shopware6.index.FeatureFlagIndex"/>
+
+        <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.FeatureFlagGoToDeclareHandler"/>
+
+        <completion.contributor language="PHP"
+                                implementationClass="de.shyim.shopware6.completion.PhpCompletionProvider"/>
 
         <completion.contributor language="Twig"
                                 implementationClass="de.shyim.shopware6.completion.TwigCompletionProvider"/>
-
     </extensions>
 
     <extensions defaultExtensionNs="fr.adrienbrault.idea.symfony2plugin.extension">

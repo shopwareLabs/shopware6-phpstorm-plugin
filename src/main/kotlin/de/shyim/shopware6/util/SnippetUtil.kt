@@ -1,6 +1,6 @@
 package de.shyim.shopware6.util
 
-import de.shyim.shopware6.index.SnippetFile
+import de.shyim.shopware6.index.dict.SnippetFile
 import gnu.trove.THashMap
 import org.codehaus.jettison.json.JSONException
 import org.codehaus.jettison.json.JSONObject

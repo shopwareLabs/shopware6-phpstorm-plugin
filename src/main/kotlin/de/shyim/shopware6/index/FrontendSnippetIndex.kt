@@ -4,6 +4,7 @@ import com.intellij.json.JsonFileType
 import com.intellij.util.indexing.*
 import com.intellij.util.io.EnumeratorStringDescriptor
 import com.intellij.util.io.KeyDescriptor
+import de.shyim.shopware6.index.dict.SnippetFile
 import de.shyim.shopware6.index.externalizer.ObjectStreamDataExternalizer
 import de.shyim.shopware6.util.SnippetUtil
 import gnu.trove.THashMap
@@ -17,7 +18,7 @@ open class FrontendSnippetIndex : FileBasedIndexExtension<String, SnippetFile>()
     }
 
     override fun getVersion(): Int {
-        return 2
+        return 3
     }
 
     override fun dependsOnFileContent(): Boolean {
