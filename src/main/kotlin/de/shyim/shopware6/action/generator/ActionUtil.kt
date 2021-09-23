@@ -9,7 +9,6 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
 import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiFileFactory
-import com.intellij.psi.codeStyle.CodeStyleManager
 
 
 class ActionUtil {
@@ -42,7 +41,6 @@ class ActionUtil {
             val factory = PsiFileFactory.getInstance(project)
             val file = factory.createFileFromText(fileName, fileType, content)
             ApplicationManager.getApplication().runWriteAction {
-                CodeStyleManager.getInstance(project).reformat(file)
                 initialBaseDir.add(file)
             }
             val psiFile = initialBaseDir.findFile(fileName)

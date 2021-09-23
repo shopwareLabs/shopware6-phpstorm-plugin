@@ -5,6 +5,7 @@ import com.intellij.ide.fileTemplates.FileTemplateGroupDescriptor
 import com.intellij.ide.fileTemplates.FileTemplateGroupDescriptorFactory
 import com.intellij.ide.fileTemplates.FileTemplateManager
 import com.intellij.openapi.project.Project
+import de.shyim.shopware6.action.generator.php.NewScheduledTaskConfig
 import de.shyim.shopware6.action.generator.ui.NewChangelogConfig
 import de.shyim.shopware6.action.generator.vue.NewComponentConfig
 import de.shyim.shopware6.action.generator.vue.NewModuleConfig
@@ -43,6 +44,8 @@ class ShopwareTemplates: FileTemplateGroupDescriptorFactory {
         const val SHOPWARE_ADMIN_VUE_COMPONENT_TWIG = "Shopware Vue Component Twig.html.twig"
         const val SHOPWARE_CONTRIBUTION_CHANGELOG_TEMPLATE = "Shopware CHANGELOG.md"
         const val SHOPWARE_PLUGIN_CONFIG_TEMPLATE = "Shopware Plugin config.xml"
+        const val SHOPWARE_PHP_SCHEDULED_TASK = "Shopware PHP Scheduled Task.php"
+        const val SHOPWARE_PHP_SCHEDULED_TASK_HANDLER = "Shopware PHP Scheduled TaskHandler.php"
 
         protected fun Project.applyTemplate(
             templateName: String,
@@ -98,6 +101,28 @@ class ShopwareTemplates: FileTemplateGroupDescriptorFactory {
             return project.applyTemplate(
                 SHOPWARE_ADMIN_VUE_MODULE_SNIPPET_JSON, mapOf(
                     "NAME" to name
+                )
+            );
+        }
+
+        fun applyShopwarePHPScheduledTask(project: Project, config: NewScheduledTaskConfig): String {
+            return project.applyTemplate(
+                SHOPWARE_PHP_SCHEDULED_TASK, mapOf(
+                    "NAME" to config.name,
+                    "TASKNAME" to config.taskName,
+                    "INTERVAL" to config.interval,
+                    "NAMESPACE" to config.namespace
+                )
+            );
+        }
+
+        fun applyShopwarePHPScheduledTaskHandler(project: Project, config: NewScheduledTaskConfig): String {
+            return project.applyTemplate(
+                SHOPWARE_PHP_SCHEDULED_TASK_HANDLER, mapOf(
+                    "NAME" to config.name,
+                    "TASKNAME" to config.taskName,
+                    "INTERVAL" to config.interval,
+                    "NAMESPACE" to config.namespace
                 )
             );
         }

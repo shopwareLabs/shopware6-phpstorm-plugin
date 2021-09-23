@@ -48,13 +48,23 @@
 
             <group id="ShopwareToolboxPluginGroup" class="com.intellij.ide.actions.NonTrivialActionGroup" text="Plugin"
                    icon="ShopwareToolBoxIcons.SHOPWARE" popup="true">
-                <action id="ShopwareToolboxNewConfigXml" class="de.shyim.shopware6.action.generator.NewConfigXmlAction"/>
+                <action id="ShopwareToolboxNewConfigXml"
+                        class="de.shyim.shopware6.action.generator.NewConfigXmlAction"/>
             </group>
 
-            <group id="ShopwareToolboxAdminGroup" class="com.intellij.ide.actions.NonTrivialActionGroup" text="Administration" icon="ShopwareToolBoxIcons.SHOPWARE" popup="true">
-                <action id="ShopwareToolboxNewComponent" class="de.shyim.shopware6.action.generator.vue.NewComponentAction"/>
+            <group id="ShopwareToolboxPHPGroup" class="com.intellij.ide.actions.NonTrivialActionGroup" text="PHP"
+                   icon="ShopwareToolBoxIcons.SHOPWARE" popup="true">
+                <action id="ShopwareToolboxNewScheduledTask"
+                        class="de.shyim.shopware6.action.generator.php.NewScheduledTaskAction"/>
+            </group>
+
+            <group id="ShopwareToolboxAdminGroup" class="com.intellij.ide.actions.NonTrivialActionGroup"
+                   text="Administration" icon="ShopwareToolBoxIcons.SHOPWARE" popup="true">
+                <action id="ShopwareToolboxNewComponent"
+                        class="de.shyim.shopware6.action.generator.vue.NewComponentAction"/>
                 <action id="ShopwareToolboxNewModule" class="de.shyim.shopware6.action.generator.vue.NewModuleAction"/>
             </group>
-            <add-to-group group-id="NewGroup" anchor="last"/></group>
+            <add-to-group group-id="NewGroup" anchor="last"/>
+        </group>
     </actions>
 </idea-plugin>

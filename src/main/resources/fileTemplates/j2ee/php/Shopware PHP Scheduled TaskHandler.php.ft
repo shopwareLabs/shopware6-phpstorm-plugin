@@ -1,0 +1,28 @@
+<?php declare(strict_types=1);
+
+#if (${NAMESPACE} != "")
+namespace ${NAMESPACE};
+#end
+
+use Shopware\Core\Framework\MessageQueue\ScheduledTask\ScheduledTaskHandler;
+
+/**
+ * DI Config:
+ *
+  <service id="${NAMESPACE}\\${NAME}TaskHandler">
+<argument type="service" id="scheduled_task.repository"/>
+<tag name="messenger.message_handler"/>
+</service>
+*/
+class ${NAME}TaskHandler extends ScheduledTaskHandler
+{
+public static function getHandledMessages(): iterable
+{
+return [ ${NAME}Task::class ];
+}
+
+public function run(): void
+{
+// Implement code
+}
+}
