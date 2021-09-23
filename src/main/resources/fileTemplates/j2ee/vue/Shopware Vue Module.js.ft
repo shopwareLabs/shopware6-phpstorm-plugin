@@ -1,0 +1,37 @@
+const { Module } = Shopware;
+
+Module.register('${NAME}', {
+    type: '${TYPE}',
+    title: '${NAME}.general.title',
+    description: '${NAME}.general.description',
+    color: '${COLOR}',
+    icon: '${ICON}',
+
+    routes: {
+        index: {
+            components: {
+                default: '${NAME}-index'
+            },
+            path: 'index'
+        }
+    },
+
+#if (${PARENT_MODULE} != "")
+    navigation: [{
+        id: '${NAME}',
+        label: '${NAME}.general.title',
+        color: '${COLOR}',
+        icon: '${ICON}',
+        parent: '${PARENT_MODULE}',
+        position: 40
+    }],
+#end
+
+    #if (${VISIBLE_IN_SETTINGS} == true)
+    settingsItem: {
+        group: 'system',
+        to: '${NAME}.list',
+        icon: '${ICON}'
+    },
+    #end
+})

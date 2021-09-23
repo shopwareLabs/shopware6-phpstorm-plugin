@@ -1,7 +1,7 @@
-package de.shyim.shopware6.action.generator.ui
+package de.shyim.shopware6.action.generator.vue
 
 import com.intellij.openapi.ui.DialogWrapper
-import de.shyim.shopware6.ui.NewComponentDialog
+import de.shyim.shopware6.ui.vue.NewComponentDialog
 import javax.swing.JComponent
 
 

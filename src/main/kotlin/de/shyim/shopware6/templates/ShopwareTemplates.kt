@@ -6,7 +6,8 @@ import com.intellij.ide.fileTemplates.FileTemplateGroupDescriptorFactory
 import com.intellij.ide.fileTemplates.FileTemplateManager
 import com.intellij.openapi.project.Project
 import de.shyim.shopware6.action.generator.ui.NewChangelogConfig
-import de.shyim.shopware6.action.generator.ui.NewComponentConfig
+import de.shyim.shopware6.action.generator.vue.NewComponentConfig
+import de.shyim.shopware6.action.generator.vue.NewModuleConfig
 import icons.ShopwareToolBoxIcons
 
 class ShopwareTemplates: FileTemplateGroupDescriptorFactory {
@@ -20,6 +21,7 @@ class ShopwareTemplates: FileTemplateGroupDescriptorFactory {
 
         FileTemplateGroupDescriptor("Administration", ShopwareToolBoxIcons.SHOPWARE).let { pluginGroup ->
             group.addTemplate(pluginGroup)
+            pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_ADMIN_VUE_MODULE))
             pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_ADMIN_VUE_COMPONENT))
             pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_ADMIN_VUE_COMPONENT_SCSS))
             pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_ADMIN_VUE_COMPONENT_TWIG))
@@ -34,6 +36,7 @@ class ShopwareTemplates: FileTemplateGroupDescriptorFactory {
     }
 
     companion object {
+        const val SHOPWARE_ADMIN_VUE_MODULE = "Shopware Vue Module.js"
         const val SHOPWARE_ADMIN_VUE_COMPONENT = "Shopware Vue Component.js"
         const val SHOPWARE_ADMIN_VUE_COMPONENT_SCSS = "Shopware Vue Component SCSS.scss"
         const val SHOPWARE_ADMIN_VUE_COMPONENT_TWIG = "Shopware Vue Component Twig.html.twig"
@@ -71,6 +74,19 @@ class ShopwareTemplates: FileTemplateGroupDescriptorFactory {
             )
 
             return project.applyTemplate(name, props)
+        }
+
+        fun applyShopwareAdminVueModule(project: Project, config: NewModuleConfig): String {
+            val props = mapOf(
+                "NAME" to config.name,
+                "TYPE" to config.type,
+                "COLOR" to config.color,
+                "ICON" to config.icon,
+                "PARENT_MODULE" to config.parentModule,
+                "VISIBLE_IN_SETTINGS" to config.showInSettings.toString(),
+            )
+
+            return project.applyTemplate(SHOPWARE_ADMIN_VUE_MODULE, props)
         }
 
         fun applyShopwarePluginConfig(project: Project): String {

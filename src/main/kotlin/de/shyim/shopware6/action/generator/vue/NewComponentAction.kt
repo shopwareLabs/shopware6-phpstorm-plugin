@@ -1,4 +1,4 @@
-package de.shyim.shopware6.action.generator
+package de.shyim.shopware6.action.generator.vue
 
 import com.intellij.icons.AllIcons
 import com.intellij.ide.highlighter.HtmlFileType
@@ -11,7 +11,7 @@ import com.intellij.openapi.ui.Messages
 import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.codeStyle.CodeStyleManager
-import de.shyim.shopware6.action.generator.ui.NewComponentDialogWrapper
+import de.shyim.shopware6.action.generator.ActionUtil
 import de.shyim.shopware6.templates.ShopwareTemplates
 
 class NewComponentAction: DumbAwareAction("Create a component", "Create a new Vue component", AllIcons.FileTypes.JavaScript) {

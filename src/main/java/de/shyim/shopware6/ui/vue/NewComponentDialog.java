@@ -1,4 +1,4 @@
-package de.shyim.shopware6.ui;
+package de.shyim.shopware6.ui.vue;
 
 import javax.swing.*;
 

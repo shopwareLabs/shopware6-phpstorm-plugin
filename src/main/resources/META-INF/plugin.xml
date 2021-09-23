@@ -46,7 +46,8 @@
             </group>
 
             <group id="ShopwareToolboxAdminGroup" class="com.intellij.ide.actions.NonTrivialActionGroup" text="Administration" icon="ShopwareToolBoxIcons.SHOPWARE" popup="true">
-                <action id="ShopwareToolboxNewComponent" class="de.shyim.shopware6.action.generator.NewComponentAction"/>
+                <action id="ShopwareToolboxNewComponent" class="de.shyim.shopware6.action.generator.vue.NewComponentAction"/>
+                <action id="ShopwareToolboxNewModule" class="de.shyim.shopware6.action.generator.vue.NewModuleAction"/>
             </group>
             <add-to-group group-id="NewGroup" anchor="last"/></group>
     </actions>

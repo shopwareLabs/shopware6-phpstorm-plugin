@@ -5,7 +5,7 @@ import template from './${NAME}.html.twig';
 import './${NAME}.scss';
 #end
 
-const {Component} = Shopware;
+const { Component } = Shopware;
 
 Component.register('${NAME}', {
     #if (${GENERATE_TWIG} == true)
