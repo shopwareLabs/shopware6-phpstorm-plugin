@@ -1,4 +1,6 @@
-const { Module } = Shopware;
+import './component/${NAME}-index';
+
+const {Module} = Shopware;
 
 Module.register('${NAME}', {
     type: '${TYPE}',
@@ -9,29 +11,27 @@ Module.register('${NAME}', {
 
     routes: {
         index: {
-            components: {
-                default: '${NAME}-index'
-            },
+            component: '${NAME}-index',
             path: 'index'
         }
     },
 
-#if (${PARENT_MODULE} != "")
-    navigation: [{
-        id: '${NAME}',
-        label: '${NAME}.general.title',
-        color: '${COLOR}',
-        icon: '${ICON}',
-        parent: '${PARENT_MODULE}',
-        position: 40
-    }],
+    #if (${PARENT_MODULE} != "")
+        navigation: [{
+            id: '${NAME}',
+            label: '${NAME}.general.title',
+            color: '${COLOR}',
+            icon: '${ICON}',
+            parent: '${PARENT_MODULE}',
+            position: 40
+        }],
 #end
 
     #if (${VISIBLE_IN_SETTINGS} == true)
-    settingsItem: {
-        group: 'system',
-        to: '${NAME}.list',
-        icon: '${ICON}'
-    },
+        settingsItem: {
+            group: 'system',
+            to: '${NAME}.index',
+            icon: '${ICON}'
+        },
     #end
 })

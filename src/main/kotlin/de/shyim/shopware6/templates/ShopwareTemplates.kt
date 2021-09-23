@@ -37,6 +37,7 @@ class ShopwareTemplates: FileTemplateGroupDescriptorFactory {
 
     companion object {
         const val SHOPWARE_ADMIN_VUE_MODULE = "Shopware Vue Module.js"
+        const val SHOPWARE_ADMIN_VUE_MODULE_SNIPPET_JSON = "Shopware Vue Module Snippet.json"
         const val SHOPWARE_ADMIN_VUE_COMPONENT = "Shopware Vue Component.js"
         const val SHOPWARE_ADMIN_VUE_COMPONENT_SCSS = "Shopware Vue Component SCSS.scss"
         const val SHOPWARE_ADMIN_VUE_COMPONENT_TWIG = "Shopware Vue Component Twig.html.twig"
@@ -91,6 +92,14 @@ class ShopwareTemplates: FileTemplateGroupDescriptorFactory {
 
         fun applyShopwarePluginConfig(project: Project): String {
             return project.applyTemplate(SHOPWARE_PLUGIN_CONFIG_TEMPLATE)
+        }
+
+        fun applyShopwareAdminVueModuleSnippet(project: Project, name: String): String {
+            return project.applyTemplate(
+                SHOPWARE_ADMIN_VUE_MODULE_SNIPPET_JSON, mapOf(
+                    "NAME" to name
+                )
+            );
         }
     }
 

@@ -7,10 +7,10 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.LangDataKeys
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.DumbAwareAction
+import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
 import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiFileFactory
-import com.intellij.psi.codeStyle.CodeStyleManager
 import de.shyim.shopware6.action.generator.ActionUtil
 import de.shyim.shopware6.templates.ShopwareTemplates
 
@@ -27,9 +27,19 @@ class NewComponentAction: DumbAwareAction("Create a component", "Create a new Vu
 
         val folder = ActionUtil.getViewDirectory(e.dataContext) ?: return
 
+        val componentFolder = createComponent(e.project!!, folder, config)
+
+        val view = LangDataKeys.IDE_VIEW.getData(e.dataContext) ?: return
+        val psiFile = componentFolder!!.findFile("index.js")
+        if (psiFile != null) {
+            view.selectElement(psiFile)
+        }
+    }
+
+    fun createComponent(project: Project, folder: PsiDirectory, config: NewComponentConfig): PsiDirectory? {
         if (folder.findSubdirectory(config.name) != null) {
             Messages.showInfoMessage("Component already exists", "Error")
-            return
+            return null
         }
 
         var componentFolder: PsiDirectory? = null
@@ -38,21 +48,20 @@ class NewComponentAction: DumbAwareAction("Create a component", "Create a new Vu
         }
 
         if (componentFolder == null) {
-            return
+            return null
         }
 
         // Create index.js
         val content = ShopwareTemplates.applyShopwareAdminVueComponent(
-            e.project!!,
+            project,
             ShopwareTemplates.SHOPWARE_ADMIN_VUE_COMPONENT,
             config
         )
 
-        val factory = PsiFileFactory.getInstance(e.project)
+        val factory = PsiFileFactory.getInstance(project)
         val file = factory.createFileFromText("index.js", JavaScriptFileType.INSTANCE, content)
 
         ApplicationManager.getApplication().runWriteAction {
-            CodeStyleManager.getInstance(e.project!!).reformat(file)
             componentFolder!!.add(file)
         }
 
@@ -63,14 +72,13 @@ class NewComponentAction: DumbAwareAction("Create a component", "Create a new Vu
                 "${config.name}.html.twig",
                 HtmlFileType.INSTANCE,
                 ShopwareTemplates.applyShopwareAdminVueComponent(
-                    e.project!!,
+                    project,
                     ShopwareTemplates.SHOPWARE_ADMIN_VUE_COMPONENT_TWIG,
                     config
                 )
             )
 
             ApplicationManager.getApplication().runWriteAction {
-                CodeStyleManager.getInstance(e.project!!).reformat(htmlFile)
                 componentFolder!!.add(htmlFile)
             }
         }
@@ -83,22 +91,17 @@ class NewComponentAction: DumbAwareAction("Create a component", "Create a new Vu
                 "${config.name}.scss",
                 HtmlFileType.INSTANCE,
                 ShopwareTemplates.applyShopwareAdminVueComponent(
-                    e.project!!,
+                    project,
                     ShopwareTemplates.SHOPWARE_ADMIN_VUE_COMPONENT_SCSS,
                     config
                 )
             )
 
             ApplicationManager.getApplication().runWriteAction {
-                CodeStyleManager.getInstance(e.project!!).reformat(cssFile)
                 componentFolder!!.add(cssFile)
             }
         }
 
-        val view = LangDataKeys.IDE_VIEW.getData(e.dataContext) ?: return
-        val psiFile = componentFolder!!.findFile("index.js")
-        if (psiFile != null) {
-            view.selectElement(psiFile)
-        }
+        return componentFolder
     }
 }

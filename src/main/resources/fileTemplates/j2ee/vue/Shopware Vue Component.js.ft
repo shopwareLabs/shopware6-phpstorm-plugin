@@ -8,7 +8,7 @@ import './${NAME}.scss';
 const { Component } = Shopware;
 
 Component.register('${NAME}', {
-    #if (${GENERATE_TWIG} == true)
-        template
-    #end
+#if (${GENERATE_TWIG} == true)
+    template
+#end
 });

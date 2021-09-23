@@ -1,0 +1,8 @@
+{
+  "${NAME}": {
+    "general": {
+      "title": "${NAME}",
+      "description": "${NAME}"
+    }
+  }
+}
