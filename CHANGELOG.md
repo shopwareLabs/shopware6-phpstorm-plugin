@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.0.6]
+- Added vue module generator
+- Added scheduled task generator
+- Added feature flag autocomplete and goto handler
+
 ## [0.0.5]
 - Removed custom navigation goto and implemented into Symfony plugin
 - The Symfony plugin does not show anymore missing snippets
