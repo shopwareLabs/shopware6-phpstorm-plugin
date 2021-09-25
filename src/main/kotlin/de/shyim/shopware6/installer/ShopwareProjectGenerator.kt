@@ -23,7 +23,9 @@ import java.io.File
 import java.io.IOException
 import javax.swing.Icon
 
-
+/**
+ * @see https://github.com/Haehnchen/idea-php-shopware-plugin/blob/master/src/main/java/de/espend/idea/shopware/installer/project/ShopwareInstallerProjectGenerator.java
+ */
 class ShopwareProjectGenerator : WebProjectTemplate<ShopwareProjectSettings>() {
     override fun getDescription(): String {
         return "Create a Shopware 6 project"
@@ -90,17 +92,6 @@ class ShopwareProjectGenerator : WebProjectTemplate<ShopwareProjectSettings>() {
                 "Shopware-Installer",
                 content,
                 NotificationType.ERROR
-            ), project
-        )
-    }
-
-    private fun showInfoNotification(project: Project, content: String) {
-        Notifications.Bus.notify(
-            Notification(
-                SymfonyInstallerUtil.INSTALLER_GROUP_DISPLAY_ID,
-                "Shopware-Installer",
-                content,
-                NotificationType.INFORMATION
             ), project
         )
     }

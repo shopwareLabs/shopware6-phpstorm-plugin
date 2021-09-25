@@ -6,7 +6,7 @@ import com.intellij.platform.ProjectTemplatesFactory
 
 class ShopwareTemplatesFactory : ProjectTemplatesFactory() {
     override fun getGroups(): Array<String> {
-        return arrayOf("PHP")
+        return arrayOf("PHP", "Shopware")
     }
 
     override fun createTemplates(group: String?, context: WizardContext?): Array<ProjectTemplate> {
