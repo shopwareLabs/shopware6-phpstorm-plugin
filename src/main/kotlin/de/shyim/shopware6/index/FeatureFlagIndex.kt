@@ -29,11 +29,11 @@ class FeatureFlagIndex : FileBasedIndexExtension<String, FeatureFlag>() {
 
     override fun getIndexer(): DataIndexer<String, FeatureFlag, FileContent> {
         return DataIndexer { inputData ->
-            if (!inputData.getFile().getName().equals("shopware.yaml")) {
+            if (inputData.file.name != "shopware.yaml") {
                 return@DataIndexer mapOf()
             }
 
-            if (!inputData.file.parent.name.equals("packages")) {
+            if (inputData.file.parent.name != "packages") {
                 return@DataIndexer mapOf()
             }
 

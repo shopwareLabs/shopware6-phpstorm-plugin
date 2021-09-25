@@ -20,11 +20,13 @@
 
         <fileTemplateGroup implementation="de.shyim.shopware6.templates.ShopwareTemplates"/>
         <fileBasedIndex implementation="de.shyim.shopware6.index.FrontendSnippetIndex"/>
+        <fileBasedIndex implementation="de.shyim.shopware6.index.AdminSnippetIndex"/>
         <fileBasedIndex implementation="de.shyim.shopware6.index.FeatureFlagIndex"/>
         <fileBasedIndex implementation="de.shyim.shopware6.index.AdminComponentIndex"/>
 
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.FeatureFlagGoToDeclareHandler"/>
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.AdminComponentGoToDeclareHandler"/>
+        <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.AdminSnippetGoToDeclareHandler"/>
 
         <completion.contributor language="PHP"
                                 implementationClass="de.shyim.shopware6.completion.PhpCompletionProvider"/>

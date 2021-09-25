@@ -2,6 +2,7 @@ package de.shyim.shopware6.util
 
 import com.intellij.patterns.ElementPattern
 import com.intellij.patterns.PlatformPatterns
+import com.intellij.patterns.PsiElementPattern
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiWhiteSpace
 import com.jetbrains.twig.TwigLanguage
@@ -65,5 +66,24 @@ object TwigPattern {
             PlatformPatterns.psiElement(TwigElementTypes.FOR_TAG),  // PhpStorm 2017.3.2: {{ asset('') }}
             PlatformPatterns.psiElement(TwigElementTypes.FUNCTION_CALL)
         )
+    }
+
+    fun getTcPattern(): PsiElementPattern.Capture<PsiElement> {
+        return PlatformPatterns
+            .psiElement(TwigTokenTypes.STRING_TEXT)
+            .afterLeafSkipping(
+                PlatformPatterns.or(
+                    PlatformPatterns.psiElement(PsiWhiteSpace::class.java),
+                    PlatformPatterns.psiElement(TwigTokenTypes.SINGLE_QUOTE),
+                    PlatformPatterns.psiElement(TwigTokenTypes.DOUBLE_QUOTE),
+                    PlatformPatterns.psiElement(TwigTokenTypes.LBRACE),
+                ),
+                PlatformPatterns.or(
+                    PlatformPatterns.psiElement(TwigTokenTypes.VAR_IDENTIFIER).withText("\$tc"),
+                    PlatformPatterns.psiElement(TwigTokenTypes.VAR_IDENTIFIER).withText("\$t")
+                )
+            )
+            .withLanguage(TwigLanguage.INSTANCE)
+
     }
 }
