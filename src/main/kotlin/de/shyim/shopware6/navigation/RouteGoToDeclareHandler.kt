@@ -23,7 +23,7 @@ class RouteGoToDeclareHandler : GotoDeclarationHandler {
 
         val psiElements: MutableList<PsiElement> = ArrayList()
 
-        if (TwigPattern.getPrintBlockOrTagFunctionPattern("seoUrl")!!.accepts(element)) {
+        if (TwigPattern.getPrintBlockOrTagFunctionPattern("seoUrl").accepts(element)) {
             psiElements.addAll(RouteHelper.getRouteDefinitionTargets(editor.project!!, element.text))
         }
 

@@ -19,11 +19,11 @@ class AdminComponent(
             .toHashCode()
     }
 
-    override fun equals(obj: Any?): Boolean {
-        return obj is AdminComponent &&
-                Objects.equals(obj.name, this.name) &&
-                Objects.equals(obj.extends, this.extends) &&
-                Objects.equals(obj.props, this.props) &&
-                Objects.equals(obj.file, this.file)
+    override fun equals(other: Any?): Boolean {
+        return other is AdminComponent &&
+                Objects.equals(other.name, this.name) &&
+                Objects.equals(other.extends, this.extends) &&
+                Objects.equals(other.props, this.props) &&
+                Objects.equals(other.file, this.file)
     }
 }

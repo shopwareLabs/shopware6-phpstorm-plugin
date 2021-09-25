@@ -32,7 +32,7 @@ class FeatureFlagGoToDeclareHandler : GotoDeclarationHandler {
 
         if (
             PHPPattern.isFeatureFlagFunction(element) ||
-            TwigPattern.getPrintBlockOrTagFunctionPattern("feature")!!.accepts(element) ||
+            TwigPattern.getPrintBlockOrTagFunctionPattern("feature").accepts(element) ||
             JavaScriptPattern.getFeatureIsActive().accepts(element)
         ) {
             val text = element.text.replace("\"", "").replace("'", "")

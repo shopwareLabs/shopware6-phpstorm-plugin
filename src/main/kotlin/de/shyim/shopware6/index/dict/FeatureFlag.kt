@@ -21,12 +21,12 @@ class FeatureFlag(
             .toHashCode()
     }
 
-    override fun equals(obj: Any?): Boolean {
-        return obj is FeatureFlag &&
-                Objects.equals(obj.name, this.name) &&
-                Objects.equals(obj.default, this.default) &&
-                Objects.equals(obj.major, this.major) &&
-                Objects.equals(obj.description, this.description) &&
-                Objects.equals(obj.file, this.file)
+    override fun equals(other: Any?): Boolean {
+        return other is FeatureFlag &&
+                Objects.equals(other.name, this.name) &&
+                Objects.equals(other.default, this.default) &&
+                Objects.equals(other.major, this.major) &&
+                Objects.equals(other.description, this.description) &&
+                Objects.equals(other.file, this.file)
     }
 }

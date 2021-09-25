@@ -12,9 +12,9 @@ class SnippetFile(var file: String, var snippets: Map<String, String>) : Seriali
             .toHashCode()
     }
 
-    override fun equals(obj: Any?): Boolean {
-        return obj is SnippetFile &&
-                Objects.equals(obj.snippets, this.snippets) &&
-                Objects.equals(obj.file, this.file)
+    override fun equals(other: Any?): Boolean {
+        return other is SnippetFile &&
+                Objects.equals(other.snippets, this.snippets) &&
+                Objects.equals(other.file, this.file)
     }
 }
