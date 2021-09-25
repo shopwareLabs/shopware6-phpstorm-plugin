@@ -40,6 +40,9 @@
 
         <xml.tagNameProvider implementation="de.shyim.shopware6.xml.AdminComponentProvider"/>
         <xml.elementDescriptorProvider implementation="de.shyim.shopware6.xml.AdminComponentProvider"/>
+
+        <directoryProjectGenerator implementation="de.shyim.shopware6.installer.ShopwareProjectGenerator"/>
+        <projectTemplatesFactory implementation="de.shyim.shopware6.installer.ShopwareTemplatesFactory"/>
     </extensions>
 
     <extensions defaultExtensionNs="fr.adrienbrault.idea.symfony2plugin.extension">
