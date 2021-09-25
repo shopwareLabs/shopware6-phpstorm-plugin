@@ -10,6 +10,8 @@ import de.shyim.shopware6.index.AdminSnippetIndex
 import de.shyim.shopware6.index.FeatureFlagIndex
 import de.shyim.shopware6.index.FrontendSnippetIndex
 import de.shyim.shopware6.util.TwigPattern
+import fr.adrienbrault.idea.symfony2plugin.Symfony2ProjectComponent
+import fr.adrienbrault.idea.symfony2plugin.routing.RouteHelper
 import icons.ShopwareToolBoxIcons
 
 
@@ -94,6 +96,24 @@ class TwigCompletionProvider() : CompletionContributor() {
                             }
                         }
                     }
+                }
+            }
+        )
+
+        extend(
+            CompletionType.BASIC,
+            TwigPattern.getPrintBlockOrTagFunctionPattern("seoUrl")!!,
+            object : CompletionProvider<CompletionParameters>() {
+                override fun addCompletions(
+                    parameters: CompletionParameters,
+                    context: ProcessingContext,
+                    result: CompletionResultSet
+                ) {
+                    if (!Symfony2ProjectComponent.isEnabled(parameters.position)) {
+                        return
+                    }
+
+                    result.addAllElements(RouteHelper.getRoutesLookupElements(parameters.position.project))
                 }
             }
         )
