@@ -21,14 +21,22 @@
         <fileTemplateGroup implementation="de.shyim.shopware6.templates.ShopwareTemplates"/>
         <fileBasedIndex implementation="de.shyim.shopware6.index.FrontendSnippetIndex"/>
         <fileBasedIndex implementation="de.shyim.shopware6.index.FeatureFlagIndex"/>
+        <fileBasedIndex implementation="de.shyim.shopware6.index.AdminComponentIndex"/>
 
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.FeatureFlagGoToDeclareHandler"/>
+        <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.AdminComponentGoToDeclareHandler"/>
 
         <completion.contributor language="PHP"
                                 implementationClass="de.shyim.shopware6.completion.PhpCompletionProvider"/>
 
         <completion.contributor language="Twig"
                                 implementationClass="de.shyim.shopware6.completion.TwigCompletionProvider"/>
+
+        <completion.contributor language="JavaScript"
+                                implementationClass="de.shyim.shopware6.completion.JavaScriptCompletionProvider"/>
+
+        <xml.tagNameProvider implementation="de.shyim.shopware6.xml.AdminComponentProvider"/>
+        <xml.elementDescriptorProvider implementation="de.shyim.shopware6.xml.AdminComponentProvider"/>
     </extensions>
 
     <extensions defaultExtensionNs="fr.adrienbrault.idea.symfony2plugin.extension">

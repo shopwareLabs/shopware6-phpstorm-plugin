@@ -4,9 +4,7 @@ import com.intellij.icons.AllIcons
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.fileTypes.PlainTextFileType
 import com.intellij.openapi.project.DumbAwareAction
-import com.intellij.util.indexing.FileBasedIndex
 import de.shyim.shopware6.action.generator.ui.NewChangelogDialogWrapper
-import de.shyim.shopware6.index.FrontendSnippetIndex
 import de.shyim.shopware6.templates.ShopwareTemplates
 import git4idea.branch.GitBranchUtil
 import org.apache.commons.lang.StringUtils
@@ -18,10 +16,6 @@ class NewChangelogAction: DumbAwareAction("Create a Changelog", "Create a new Ch
         if (e.project == null) {
             return
         }
-
-        val index = FileBasedIndex.getInstance()
-        println(index.getAllKeys(FrontendSnippetIndex.key, e.project!!));
-
 
         val currentBranch = GitBranchUtil.getCurrentRepository(e.project!!)?.currentBranch
         var defaultTitle = ""

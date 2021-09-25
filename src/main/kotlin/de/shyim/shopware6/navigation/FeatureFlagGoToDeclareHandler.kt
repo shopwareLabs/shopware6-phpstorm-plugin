@@ -11,6 +11,7 @@ import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.util.indexing.FileBasedIndex
 import de.shyim.shopware6.index.FeatureFlagIndex
 import de.shyim.shopware6.index.dict.FeatureFlag
+import de.shyim.shopware6.util.JavaScriptPattern
 import de.shyim.shopware6.util.PHPPattern
 import de.shyim.shopware6.util.TwigPattern
 import org.jetbrains.yaml.psi.impl.YAMLPlainTextImpl
@@ -29,18 +30,18 @@ class FeatureFlagGoToDeclareHandler : GotoDeclarationHandler {
 
         val psiElements: MutableList<PsiElement> = ArrayList()
 
-        if (PHPPattern.isFeatureFlagFunction(element) || TwigPattern.getPrintBlockOrTagFunctionPattern("feature")!!
-                .accepts(element)
+        if (
+            PHPPattern.isFeatureFlagFunction(element) ||
+            TwigPattern.getPrintBlockOrTagFunctionPattern("feature")!!.accepts(element) ||
+            JavaScriptPattern.getFeatureIsActive().accepts(element)
         ) {
-            for (key in FileBasedIndex.getInstance().getAllKeys(FeatureFlagIndex.key, project)) {
-                if (key == element.text) {
-                    val vals = FileBasedIndex.getInstance()
-                        .getValues(FeatureFlagIndex.key, key, GlobalSearchScope.allScope(project))
+            val text = element.text.replace("\"", "").replace("'", "")
 
-                    vals.forEach {
-                        lookupPsiElementFromFile(psiElements, it, project)
-                    }
-                }
+            val vals = FileBasedIndex.getInstance()
+                .getValues(FeatureFlagIndex.key, text, GlobalSearchScope.allScope(project))
+
+            vals.forEach {
+                lookupPsiElementFromFile(psiElements, it, project)
             }
         }
 
