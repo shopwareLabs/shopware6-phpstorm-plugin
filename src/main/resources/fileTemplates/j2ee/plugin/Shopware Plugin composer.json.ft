@@ -1,0 +1,40 @@
+{
+  "name": "${COMPOSER_NAME}",
+  "description": "${DESCRIPTION}",
+  "type": "shopware-platform-plugin",
+  "version": "1.0.0",
+  "authors": [
+    {
+      "name": "${AUTHOR}"
+    }
+  ],
+  "require": {
+    "shopware/core": "~6.4"
+  },
+  "license": "${LICENSE}",
+  "autoload": {
+    "psr-4": {
+      "${NAMESPACE}\\": "src/"
+    }
+  },
+  "extra": {
+    "shopware-plugin-class": "${NAMESPACE}\\\\${NAME}",
+    "copyright": "${AUTHOR}",
+    "label": {
+      "de-DE": "${NAME}",
+      "en-GB": "${NAME}"
+    },
+    "description": {
+      "de-DE": "${DESCRIPTION}",
+      "en-GB": "${DESCRIPTION}"
+    },
+    "manufacturerLink": {
+      "de-DE": "https://acme.org",
+      "en-GB": "https://acme.org"
+    },
+    "supportLink": {
+      "de-DE": "https://acme.org",
+      "en-GB": "https://acme.org"
+    }
+  }
+}

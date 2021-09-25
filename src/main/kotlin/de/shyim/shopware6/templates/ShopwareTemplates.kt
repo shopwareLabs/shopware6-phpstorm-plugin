@@ -5,6 +5,7 @@ import com.intellij.ide.fileTemplates.FileTemplateGroupDescriptor
 import com.intellij.ide.fileTemplates.FileTemplateGroupDescriptorFactory
 import com.intellij.ide.fileTemplates.FileTemplateManager
 import com.intellij.openapi.project.Project
+import de.shyim.shopware6.action.generator.php.NewPluginConfig
 import de.shyim.shopware6.action.generator.php.NewScheduledTaskConfig
 import de.shyim.shopware6.action.generator.ui.NewChangelogConfig
 import de.shyim.shopware6.action.generator.vue.NewComponentConfig
@@ -31,6 +32,9 @@ class ShopwareTemplates: FileTemplateGroupDescriptorFactory {
         FileTemplateGroupDescriptor("Plugin", ShopwareToolBoxIcons.SHOPWARE).let { pluginGroup ->
             group.addTemplate(pluginGroup)
             pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_PLUGIN_CONFIG_TEMPLATE))
+            pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_PLUGIN_BOOTSTRAP))
+            pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_PLUGIN_CHANGELOG))
+            pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_PLUGIN_COMPOSER_JSON))
         }
 
         return group
@@ -46,6 +50,10 @@ class ShopwareTemplates: FileTemplateGroupDescriptorFactory {
         const val SHOPWARE_PLUGIN_CONFIG_TEMPLATE = "Shopware Plugin config.xml"
         const val SHOPWARE_PHP_SCHEDULED_TASK = "Shopware PHP Scheduled Task.php"
         const val SHOPWARE_PHP_SCHEDULED_TASK_HANDLER = "Shopware PHP Scheduled TaskHandler.php"
+        const val SHOPWARE_PLUGIN_BOOTSTRAP = "Shopware Plugin Bootstrap.php"
+        const val SHOPWARE_PLUGIN_CHANGELOG = "Shopware Plugin Changelog.md"
+        const val SHOPWARE_PLUGIN_COMPOSER_JSON = "Shopware Plugin composer.json"
+        const val SHOPWARE_PLUGIN_SERVICES_XML = "Shopware Plugin services.xml"
 
         protected fun Project.applyTemplate(
             templateName: String,
@@ -124,6 +132,30 @@ class ShopwareTemplates: FileTemplateGroupDescriptorFactory {
                     "INTERVAL" to config.interval,
                     "NAMESPACE" to config.namespace
                 )
+            );
+        }
+
+        fun applyShopwarePluginComposerJson(project: Project, config: NewPluginConfig): String {
+            return project.applyTemplate(
+                SHOPWARE_PLUGIN_COMPOSER_JSON, config.toMap()
+            );
+        }
+
+        fun applyShopwarePluginChangelog(project: Project, config: NewPluginConfig): String {
+            return project.applyTemplate(
+                SHOPWARE_PLUGIN_CHANGELOG, config.toMap()
+            );
+        }
+
+        fun applyShopwarePluginBootstrap(project: Project, config: NewPluginConfig): String {
+            return project.applyTemplate(
+                SHOPWARE_PLUGIN_BOOTSTRAP, config.toMap()
+            );
+        }
+
+        fun applyShopwarePluginServicesXml(project: Project, config: NewPluginConfig): String {
+            return project.applyTemplate(
+                SHOPWARE_PLUGIN_SERVICES_XML, config.toMap()
             );
         }
     }

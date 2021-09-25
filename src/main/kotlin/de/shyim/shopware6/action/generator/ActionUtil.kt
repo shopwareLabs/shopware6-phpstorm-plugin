@@ -4,10 +4,12 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.DataContext
 import com.intellij.openapi.actionSystem.LangDataKeys
 import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.fileTypes.FileType
 import com.intellij.openapi.fileTypes.LanguageFileType
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
 import com.intellij.psi.PsiDirectory
+import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiFileFactory
 
 
@@ -38,15 +40,49 @@ class ActionUtil {
                 return
             }
 
-            val factory = PsiFileFactory.getInstance(project)
-            val file = factory.createFileFromText(fileName, fileType, content)
-            ApplicationManager.getApplication().runWriteAction {
-                initialBaseDir.add(file)
-            }
+            createFile(
+                project,
+                fileType,
+                fileName,
+                content,
+                initialBaseDir
+            )
+
             val psiFile = initialBaseDir.findFile(fileName)
             if (psiFile != null) {
                 view.selectElement(psiFile)
             }
+        }
+
+        fun createFile(
+            project: Project,
+            type: FileType,
+            name: String,
+            content: String,
+            directory: PsiDirectory
+        ): PsiFile {
+            val factory = PsiFileFactory.getInstance(project)
+            val file = factory.createFileFromText(name, type, content)
+
+            ApplicationManager.getApplication().runWriteAction {
+                directory.add(file)
+            }
+
+            return file
+        }
+
+        fun createDirectory(dir: PsiDirectory, name: String): PsiDirectory? {
+            if (dir.findSubdirectory(name) != null) {
+                Messages.showInfoMessage("Folder already exists", "Error")
+                return null
+            }
+
+            var srcFolder: PsiDirectory? = null
+            ApplicationManager.getApplication().runWriteAction {
+                srcFolder = dir.createSubdirectory(name)
+            }
+
+            return srcFolder
         }
     }
 }

@@ -50,6 +50,8 @@
                    icon="ShopwareToolBoxIcons.SHOPWARE" popup="true">
                 <action id="ShopwareToolboxNewConfigXml"
                         class="de.shyim.shopware6.action.generator.NewConfigXmlAction"/>
+                <action id="ShopwareToolboxNewPlugin"
+                        class="de.shyim.shopware6.action.generator.php.NewPluginAction"/>
             </group>
 
             <group id="ShopwareToolboxPHPGroup" class="com.intellij.ide.actions.NonTrivialActionGroup" text="PHP"
