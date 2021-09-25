@@ -28,6 +28,7 @@
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.AdminComponentGoToDeclareHandler"/>
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.AdminSnippetGoToDeclareHandler"/>
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.RouteGoToDeclareHandler"/>
+        <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.PHPSnippetGoToDeclareHandler"/>
 
         <completion.contributor language="PHP"
                                 implementationClass="de.shyim.shopware6.completion.PhpCompletionProvider"/>

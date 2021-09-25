@@ -1,16 +1,13 @@
 package de.shyim.shopware6.completion
 
 import com.intellij.codeInsight.completion.*
-import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.patterns.PlatformPatterns
-import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.util.ProcessingContext
-import com.intellij.util.indexing.FileBasedIndex
 import com.jetbrains.php.lang.psi.elements.ParameterList
 import com.jetbrains.php.lang.psi.elements.StringLiteralExpression
-import de.shyim.shopware6.index.FeatureFlagIndex
+import de.shyim.shopware6.util.FeatureFlagUtil
+import de.shyim.shopware6.util.FrontendSnippetUtil
 import de.shyim.shopware6.util.PHPPattern
-import icons.ShopwareToolBoxIcons
 
 
 class PhpCompletionProvider : CompletionContributor() {
@@ -32,17 +29,11 @@ class PhpCompletionProvider : CompletionContributor() {
                     val project = element.project
 
                     if (PHPPattern.isFeatureFlagFunction(element)) {
-                        for (key in FileBasedIndex.getInstance().getAllKeys(FeatureFlagIndex.key, project)) {
-                            val vals = FileBasedIndex.getInstance()
-                                .getValues(FeatureFlagIndex.key, key, GlobalSearchScope.allScope(project))
+                        result.addAllElements(FeatureFlagUtil.getAllLookupItems(project))
+                    }
 
-                            vals.forEach {
-                                result.addElement(
-                                    LookupElementBuilder.create(it.name).withTypeText(it.description)
-                                        .withIcon(ShopwareToolBoxIcons.SHOPWARE)
-                                )
-                            }
-                        }
+                    if (PHPPattern.isShopwareStorefrontControllerTrans(element)) {
+                        result.addAllElements(FrontendSnippetUtil.getAllLookupItems(project))
                     }
                 }
             }

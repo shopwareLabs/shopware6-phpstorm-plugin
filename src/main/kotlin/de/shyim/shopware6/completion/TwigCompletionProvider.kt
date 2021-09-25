@@ -3,12 +3,10 @@ package de.shyim.shopware6.completion
 import com.intellij.codeInsight.completion.*
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.openapi.project.Project
-import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.util.ProcessingContext
-import com.intellij.util.indexing.FileBasedIndex
-import de.shyim.shopware6.index.AdminSnippetIndex
-import de.shyim.shopware6.index.FeatureFlagIndex
-import de.shyim.shopware6.index.FrontendSnippetIndex
+import de.shyim.shopware6.util.AdminSnippetUtil
+import de.shyim.shopware6.util.FeatureFlagUtil
+import de.shyim.shopware6.util.FrontendSnippetUtil
 import de.shyim.shopware6.util.TwigPattern
 import fr.adrienbrault.idea.symfony2plugin.Symfony2ProjectComponent
 import fr.adrienbrault.idea.symfony2plugin.routing.RouteHelper
@@ -28,19 +26,8 @@ class TwigCompletionProvider() : CompletionContributor() {
                     result: CompletionResultSet
                 ) {
                     val project: Project = parameters.position.project
-                    for (key in FileBasedIndex.getInstance().getAllKeys(FrontendSnippetIndex.key, project)) {
-                        val vals = FileBasedIndex.getInstance()
-                            .getValues(FrontendSnippetIndex.key, key, GlobalSearchScope.allScope(project))
 
-                        vals.forEach {
-                            it.snippets.forEach {
-                                result.addElement(
-                                    LookupElementBuilder.create(it.key).withTypeText(it.value)
-                                        .withIcon(ShopwareToolBoxIcons.SHOPWARE)
-                                )
-                            }
-                        }
-                    }
+                    result.addAllElements(FrontendSnippetUtil.getAllLookupItems(project))
                 }
             }
         )
@@ -54,22 +41,9 @@ class TwigCompletionProvider() : CompletionContributor() {
                     context: ProcessingContext,
                     result: CompletionResultSet
                 ) {
-                    for (key in FileBasedIndex.getInstance()
-                        .getAllKeys(FeatureFlagIndex.key, parameters.position.project)) {
-                        val vals = FileBasedIndex.getInstance()
-                            .getValues(
-                                FeatureFlagIndex.key,
-                                key,
-                                GlobalSearchScope.allScope(parameters.position.project)
-                            )
+                    val project: Project = parameters.position.project
 
-                        vals.forEach {
-                            result.addElement(
-                                LookupElementBuilder.create(it.name).withTypeText(it.description)
-                                    .withIcon(ShopwareToolBoxIcons.SHOPWARE)
-                            )
-                        }
-                    }
+                    result.addAllElements(FeatureFlagUtil.getAllLookupItems(project))
                 }
             }
         )
@@ -84,19 +58,8 @@ class TwigCompletionProvider() : CompletionContributor() {
                     result: CompletionResultSet
                 ) {
                     val project: Project = parameters.position.project
-                    for (key in FileBasedIndex.getInstance().getAllKeys(AdminSnippetIndex.key, project)) {
-                        val vals = FileBasedIndex.getInstance()
-                            .getValues(AdminSnippetIndex.key, key, GlobalSearchScope.allScope(project))
 
-                        vals.forEach {
-                            it.snippets.forEach {
-                                result.addElement(
-                                    LookupElementBuilder.create(it.key).withTypeText(it.value)
-                                        .withIcon(ShopwareToolBoxIcons.SHOPWARE)
-                                )
-                            }
-                        }
-                    }
+                    result.addAllElements(AdminSnippetUtil.getAllLookupItems(project))
                 }
             }
         )

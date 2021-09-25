@@ -1,5 +1,9 @@
 package de.shyim.shopware6.util
 
+import com.intellij.json.psi.JsonProperty
+import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiFile
+import com.intellij.psi.PsiRecursiveElementWalkingVisitor
 import de.shyim.shopware6.index.dict.SnippetFile
 import gnu.trove.THashMap
 import org.codehaus.jettison.json.JSONException
@@ -38,5 +42,35 @@ object SnippetUtil {
             snippetList[prefix] = json.getString(key)
         } catch (ignored: JSONException) {
         }
+    }
+
+    fun getTargets(psi: PsiFile, transKey: String): PsiElement {
+        val snippetParts = transKey.split(".") as MutableList
+        var foundPsi: PsiElement = psi
+
+        psi.acceptChildren(object : PsiRecursiveElementWalkingVisitor() {
+            override fun visitElement(element: PsiElement) {
+                if (snippetParts.isEmpty()) {
+                    return
+                }
+
+                if (element is JsonProperty) {
+                    if (element.firstChild.firstChild.text == "\"" + snippetParts[0] + "\"") {
+                        snippetParts.removeAt(0)
+
+                        if (snippetParts.isEmpty()) {
+                            foundPsi = element
+                            return
+                        }
+
+                        super.visitElement(element)
+                    }
+                }
+
+                super.visitElement(element)
+            }
+        })
+
+        return foundPsi
     }
 }

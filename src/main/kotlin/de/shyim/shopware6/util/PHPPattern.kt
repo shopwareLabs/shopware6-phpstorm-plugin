@@ -15,7 +15,18 @@ object PHPPattern {
         MethodMatcher.CallToSignature("\\Shopware\\Core\\Framework\\Feature", "has"),
     )
 
+    private val SHOPWARE_STOREFRONT_CONTROLLER_TRANS_SIGNATURES: Array<MethodMatcher.CallToSignature> = arrayOf(
+        MethodMatcher.CallToSignature("\\Shopware\\Storefront\\Controller\\StorefrontController", "trans")
+    )
+
     fun isFeatureFlagFunction(element: PsiElement): Boolean {
         return MethodMatcher.getMatchedSignatureWithDepth(element.getContext(), FEATURE_FLAG_SIGNATURES) != null
+    }
+
+    fun isShopwareStorefrontControllerTrans(element: PsiElement): Boolean {
+        return MethodMatcher.getMatchedSignatureWithDepth(
+            element.getContext(),
+            SHOPWARE_STOREFRONT_CONTROLLER_TRANS_SIGNATURES
+        ) != null
     }
 }
