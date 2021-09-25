@@ -34,7 +34,7 @@ object TwigPattern {
             .withLanguage(TwigLanguage.INSTANCE)
     }
 
-    fun getPrintBlockOrTagFunctionPattern(vararg functionName: String?): ElementPattern<PsiElement?>? {
+    fun getPrintBlockOrTagFunctionPattern(vararg functionName: String?): ElementPattern<PsiElement?> {
         return PlatformPatterns
             .psiElement(TwigTokenTypes.STRING_TEXT)
             .withParent(
@@ -85,5 +85,21 @@ object TwigPattern {
             )
             .withLanguage(TwigLanguage.INSTANCE)
 
+    }
+
+    fun getShopwareIncludeExtendsTagPattern(): PsiElementPattern.Capture<PsiElement> {
+        return PlatformPatterns.psiElement(TwigTokenTypes.STRING_TEXT)
+            .afterLeafSkipping(
+                PlatformPatterns.or(
+                    PlatformPatterns.psiElement(PsiWhiteSpace::class.java),
+                    PlatformPatterns.psiElement(TwigTokenTypes.SINGLE_QUOTE),
+                    PlatformPatterns.psiElement(TwigTokenTypes.DOUBLE_QUOTE),
+                ),
+                PlatformPatterns.or(
+                    PlatformPatterns.psiElement(TwigTokenTypes.TAG_NAME).withText("sw_include"),
+                    PlatformPatterns.psiElement(TwigTokenTypes.TAG_NAME).withText("sw_extends")
+                )
+            )
+            .withLanguage(TwigLanguage.INSTANCE)
     }
 }

@@ -12,6 +12,7 @@ import de.shyim.shopware6.index.FrontendSnippetIndex
 import de.shyim.shopware6.util.TwigPattern
 import fr.adrienbrault.idea.symfony2plugin.Symfony2ProjectComponent
 import fr.adrienbrault.idea.symfony2plugin.routing.RouteHelper
+import fr.adrienbrault.idea.symfony2plugin.templating.util.TwigUtil
 import icons.ShopwareToolBoxIcons
 
 
@@ -46,7 +47,7 @@ class TwigCompletionProvider() : CompletionContributor() {
 
         extend(
             CompletionType.BASIC,
-            TwigPattern.getPrintBlockOrTagFunctionPattern("feature")!!,
+            TwigPattern.getPrintBlockOrTagFunctionPattern("feature"),
             object : CompletionProvider<CompletionParameters>() {
                 override fun addCompletions(
                     parameters: CompletionParameters,
@@ -75,7 +76,7 @@ class TwigCompletionProvider() : CompletionContributor() {
 
         extend(
             CompletionType.BASIC,
-            TwigPattern.getTcPattern()!!,
+            TwigPattern.getTcPattern(),
             object : CompletionProvider<CompletionParameters>() {
                 override fun addCompletions(
                     parameters: CompletionParameters,
@@ -102,7 +103,7 @@ class TwigCompletionProvider() : CompletionContributor() {
 
         extend(
             CompletionType.BASIC,
-            TwigPattern.getPrintBlockOrTagFunctionPattern("seoUrl")!!,
+            TwigPattern.getPrintBlockOrTagFunctionPattern("seoUrl"),
             object : CompletionProvider<CompletionParameters>() {
                 override fun addCompletions(
                     parameters: CompletionParameters,
@@ -114,6 +115,47 @@ class TwigCompletionProvider() : CompletionContributor() {
                     }
 
                     result.addAllElements(RouteHelper.getRoutesLookupElements(parameters.position.project))
+                }
+            }
+        )
+
+        extend(
+            CompletionType.BASIC,
+            TwigPattern.getShopwareIncludeExtendsTagPattern(),
+            object : CompletionProvider<CompletionParameters>() {
+                override fun addCompletions(
+                    parameters: CompletionParameters,
+                    context: ProcessingContext,
+                    result: CompletionResultSet
+                ) {
+                    if (!Symfony2ProjectComponent.isEnabled(parameters.position)) {
+                        return
+                    }
+
+                    result.addAllElements(TwigUtil.getTwigLookupElements(parameters.getPosition().getProject()));
+                }
+            }
+        )
+
+        extend(
+            CompletionType.BASIC,
+            fr.adrienbrault.idea.symfony2plugin.templating.TwigPattern.getTagTokenParserPattern(),
+            object : CompletionProvider<CompletionParameters>() {
+                override fun addCompletions(
+                    parameters: CompletionParameters,
+                    context: ProcessingContext,
+                    result: CompletionResultSet
+                ) {
+                    if (!Symfony2ProjectComponent.isEnabled(parameters.position)) {
+                        return
+                    }
+
+                    result.addElement(
+                        LookupElementBuilder.create("sw_include").withIcon(ShopwareToolBoxIcons.SHOPWARE)
+                    );
+                    result.addElement(
+                        LookupElementBuilder.create("sw_extends").withIcon(ShopwareToolBoxIcons.SHOPWARE)
+                    );
                 }
             }
         )
