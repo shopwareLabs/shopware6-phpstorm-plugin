@@ -12,7 +12,9 @@ Current features:
 - Lot of live templates for developing. Use STRG + J to see all live templates of current scope
 - A config.xml creator
 - A Vue.js Admin component generator
-- Frontend Snippet autocompletion
+- Admin / Frontend Snippet autocompletion
+- Admin component autocomplete
+- Autocomplete for seoUrl, sw_include and sw_extends
 <!-- Plugin description end -->
 
 ## Installation
