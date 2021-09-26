@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+## [0.0.7]
+- Added autocomplete for admin snippets
+- Added autocomplete for admin components
+- Added autocomplete for seoUrl, sw_include and sw_extends
+- Added plugin generator
+
 ## [0.0.6]
 - Added vue module generator
 - Added scheduled task generator
