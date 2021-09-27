@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.0.8]
+- Show all translation on goto handler
+- Show admin components only in HTML context
+- Remove internal variable usage
+
 ## [0.0.7]
 - Added autocomplete for admin snippets
 - Added autocomplete for admin components
