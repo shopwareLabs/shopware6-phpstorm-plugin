@@ -42,8 +42,10 @@ class AdminSnippetGoToDeclareHandler : GotoDeclarationHandler {
                         if (file != null) {
                             val psi = PsiManager.getInstance(project).findFile(file)
 
-                            if (psi != null) {
-                                psiElements.add(SnippetUtil.getTargets(psi, text))
+                            psi?.containingDirectory?.files?.forEach { psiFile ->
+                                if (psiFile.name.endsWith(".json")) {
+                                    psiElements.add(SnippetUtil.getTargets(psiFile, text))
+                                }
                             }
                         }
                     }
