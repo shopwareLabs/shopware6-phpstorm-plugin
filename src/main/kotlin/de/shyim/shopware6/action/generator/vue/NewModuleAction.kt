@@ -16,6 +16,10 @@ import de.shyim.shopware6.templates.ShopwareTemplates
 
 class NewModuleAction: DumbAwareAction("Create a module", "Create a new Shopware Admin Module", AllIcons.FileTypes.JavaScript) {
     override fun actionPerformed(e: AnActionEvent) {
+        if (e.project == null) {
+            return
+        }
+
         val ui = NewModuleDialogWrapper()
         val config = ui.showAndGetConfig() ?: return
 
@@ -28,42 +32,31 @@ class NewModuleAction: DumbAwareAction("Create a module", "Create a new Shopware
             return
         }
 
-        var moduleFolder: PsiDirectory? = null
-        ApplicationManager.getApplication().runWriteAction {
-            moduleFolder = folder.createSubdirectory(config.name)
-        }
+        val moduleFolder = ActionUtil.createDirectory(folder, config.name) ?: return
 
-        if (moduleFolder == null) {
-            return
-        }
+        val project = e.project!!
 
         // Create module root file
 
         val content = ShopwareTemplates.applyShopwareAdminVueModule(
-            e.project!!,
+            project,
             config
         )
 
-        val factory = PsiFileFactory.getInstance(e.project)
-        val file = factory.createFileFromText("index.js", JavaScriptFileType.INSTANCE, content)
+        ActionUtil.createFile(
+            project,
+            JavaScriptFileType.INSTANCE,
+            "index.js",
+            content,
+            moduleFolder
+        )
 
-        ApplicationManager.getApplication().runWriteAction {
-            moduleFolder!!.add(file)
-        }
-
-        var componentFolder: PsiDirectory? = null
-        ApplicationManager.getApplication().runWriteAction {
-            componentFolder = moduleFolder!!.createSubdirectory("component")
-        }
-
-        if (componentFolder == null) {
-            return
-        }
+        val componentFolder = ActionUtil.createDirectory(moduleFolder, "component") ?: return
 
         val componentAction = NewComponentAction()
 
         componentAction.createComponent(
-            e.project!!, componentFolder!!, NewComponentConfig(
+            project, componentFolder, NewComponentConfig(
                 config.name + "-index",
                 generateCss = true,
                 generateTwig = true
@@ -72,20 +65,13 @@ class NewModuleAction: DumbAwareAction("Create a module", "Create a new Shopware
 
         // Create snippet files
 
-        var snippetFolder: PsiDirectory? = null
-        ApplicationManager.getApplication().runWriteAction {
-            snippetFolder = moduleFolder!!.createSubdirectory("snippet")
-        }
+        val snippetFolder = ActionUtil.createDirectory(moduleFolder, "snippet") ?: return
 
-        if (snippetFolder == null) {
-            return
-        }
-
-        createSnippet(e.project!!, snippetFolder!!, config.name, "de-DE")
-        createSnippet(e.project!!, snippetFolder!!, config.name, "en-GB")
+        createSnippet(project, snippetFolder, config.name, "de-DE")
+        createSnippet(project, snippetFolder, config.name, "en-GB")
 
         val view = LangDataKeys.IDE_VIEW.getData(e.dataContext) ?: return
-        val psiFile = moduleFolder!!.findFile("index.js")
+        val psiFile = moduleFolder.findFile("index.js")
         if (psiFile != null) {
             view.selectElement(psiFile)
         }

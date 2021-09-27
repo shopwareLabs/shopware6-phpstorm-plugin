@@ -28,10 +28,11 @@ Module.register('${NAME}', {
 #end
 
     #if (${VISIBLE_IN_SETTINGS} == true)
-        settingsItem: {
+        settingsItem: [{
             group: 'system',
             to: '${NAME}.index',
-            icon: '${ICON}'
-        },
+            icon: '${ICON}',
+            name: '${NAME}.general.title'
+        }],
     #end
 })
