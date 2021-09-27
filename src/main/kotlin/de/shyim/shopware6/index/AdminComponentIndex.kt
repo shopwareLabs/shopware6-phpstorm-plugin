@@ -1,14 +1,15 @@
 package de.shyim.shopware6.index
 
+import com.intellij.lang.javascript.JSTokenTypes
 import com.intellij.lang.javascript.JavaScriptFileType
 import com.intellij.lang.javascript.psi.JSCallExpression
 import com.intellij.lang.javascript.psi.JSObjectLiteralExpression
 import com.intellij.lang.javascript.psi.JSProperty
 import com.intellij.lang.javascript.psi.JSReferenceExpression
+import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiRecursiveElementWalkingVisitor
 import com.intellij.psi.impl.source.tree.LeafPsiElement
-import com.intellij.psi.util.elementType
 import com.intellij.util.indexing.*
 import com.intellij.util.io.EnumeratorStringDescriptor
 import com.intellij.util.io.KeyDescriptor
@@ -20,7 +21,7 @@ class AdminComponentIndex : FileBasedIndexExtension<String, AdminComponent>() {
     private val EXTERNALIZER = ObjectStreamDataExternalizer<AdminComponent>()
 
     override fun getName(): ID<String, AdminComponent> {
-        return AdminComponentIndex.key
+        return key
     }
 
     override fun getVersion(): Int {
@@ -34,6 +35,8 @@ class AdminComponentIndex : FileBasedIndexExtension<String, AdminComponent>() {
     override fun getIndexer(): DataIndexer<String, AdminComponent, FileContent> {
         return DataIndexer { inputData ->
             val components = THashMap<String, AdminComponent>()
+
+            val stringLiteral = PlatformPatterns.psiElement(JSTokenTypes.STRING_LITERAL)
 
             inputData.psiFile.acceptChildren(object : PsiRecursiveElementWalkingVisitor() {
                 override fun visitElement(element: PsiElement) {
@@ -49,14 +52,14 @@ class AdminComponentIndex : FileBasedIndexExtension<String, AdminComponent>() {
 
                                 val componentName = arguments.get(0).firstChild
 
-                                if (componentName.elementType == null || componentName.elementType!!.debugName != "STRING_LITERAL") {
+                                if (!stringLiteral.accepts(componentName)) {
                                     return
                                 }
 
                                 if (element.methodExpression!!.lastChild.text == "extend" && arguments.size >= 2) {
                                     val extendsName = arguments.get(1).firstChild
 
-                                    if (extendsName.elementType != null && extendsName.elementType!!.debugName == "STRING_LITERAL") {
+                                    if (stringLiteral.accepts(extendsName)) {
                                         extendsFrom = extendsName.text.replace("'", "").replace("\"", "")
                                     }
                                 }
