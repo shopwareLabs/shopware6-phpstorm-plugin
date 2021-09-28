@@ -135,5 +135,21 @@ class TwigCompletionProvider() : CompletionContributor() {
                 }
             }
         )
+
+        extend(
+            CompletionType.BASIC,
+            TwigPattern.getPrintBlockOrTagFunctionPattern("config"),
+            object : CompletionProvider<CompletionParameters>() {
+                override fun addCompletions(
+                    parameters: CompletionParameters,
+                    context: ProcessingContext,
+                    result: CompletionResultSet
+                ) {
+                    val project: Project = parameters.position.project
+
+                    result.addAllElements(SystemConfigUtil.getAllLookupItems(project))
+                }
+            }
+        )
     }
 }

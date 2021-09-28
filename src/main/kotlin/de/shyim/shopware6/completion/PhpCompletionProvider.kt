@@ -8,6 +8,7 @@ import com.jetbrains.php.lang.psi.elements.StringLiteralExpression
 import de.shyim.shopware6.util.FeatureFlagUtil
 import de.shyim.shopware6.util.FrontendSnippetUtil
 import de.shyim.shopware6.util.PHPPattern
+import de.shyim.shopware6.util.SystemConfigUtil
 
 
 class PhpCompletionProvider : CompletionContributor() {
@@ -34,6 +35,14 @@ class PhpCompletionProvider : CompletionContributor() {
 
                     if (PHPPattern.isShopwareStorefrontControllerTrans(element)) {
                         result.addAllElements(FrontendSnippetUtil.getAllLookupItems(project))
+                    }
+
+                    if (PHPPattern.isShopwareCoreSystemConfigServiceGetSingle(element)) {
+                        result.addAllElements(SystemConfigUtil.getAllLookupItems(project))
+                    }
+
+                    if (PHPPattern.isShopwareCoreSystemConfigServiceGetDomain(element)) {
+                        result.addAllElements(SystemConfigUtil.getAllNamespaceLookupItems(project))
                     }
                 }
             }
