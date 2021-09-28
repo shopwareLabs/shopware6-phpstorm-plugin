@@ -1,5 +1,6 @@
 package de.shyim.shopware6.util
 
+import com.intellij.lang.javascript.JSTokenTypes
 import com.intellij.lang.javascript.JavascriptLanguage
 import com.intellij.lang.javascript.psi.*
 import com.intellij.patterns.ElementPattern
@@ -68,6 +69,14 @@ object JavaScriptPattern {
             .withLanguage(JavascriptLanguage.INSTANCE)
     }
 
+    fun getTranslationPattern(): ElementPattern<PsiElement> {
+        return PlatformPatterns.or(
+            this.getTcPattern(),
+            this.getModuleSnippetPattern(),
+            this.getModuleNavigationSnippetPattern()
+        )
+    }
+
     fun getTcPattern(): ElementPattern<out PsiElement> {
         return PlatformPatterns.psiElement()
             .withParent(
@@ -93,5 +102,64 @@ object JavaScriptPattern {
                     )
             )
             .withLanguage(JavascriptLanguage.INSTANCE)
+    }
+
+    fun getModuleSnippetPattern(): PsiElementPattern.Capture<PsiElement> {
+        return PlatformPatterns.psiElement()
+            .withParent(
+                PlatformPatterns.psiElement(JSLiteralExpression::class.java)
+                    .withParent(
+                        PlatformPatterns.psiElement(JSProperty::class.java)
+                            .withName(PlatformPatterns.string().oneOf("title", "description"))
+                            .withParent(
+                                this.getModuleBodyPattern()
+                            )
+                    )
+            )
+    }
+
+    fun getModuleNavigationSnippetPattern(): PsiElementPattern.Capture<PsiElement> {
+        return PlatformPatterns.psiElement()
+            .withParent(
+                PlatformPatterns.psiElement(JSLiteralExpression::class.java)
+                    .withParent(
+                        PlatformPatterns.psiElement(JSProperty::class.java).withName("label")
+                            .withParent(
+                                PlatformPatterns.psiElement(JSObjectLiteralExpression::class.java)
+                                    .withParent(
+                                        PlatformPatterns.psiElement(JSArrayLiteralExpression::class.java)
+                                            .withParent(
+                                                PlatformPatterns.psiElement(JSProperty::class.java)
+                                                    .withName("navigation")
+                                                    .withParent(
+                                                        this.getModuleBodyPattern()
+                                                    )
+                                            )
+                                    )
+                            )
+                    )
+            )
+    }
+
+    fun getModuleBodyPattern(): PsiElementPattern.Capture<JSObjectLiteralExpression> {
+        return PlatformPatterns.psiElement(JSObjectLiteralExpression::class.java)
+            .withParent(
+                PlatformPatterns.psiElement(JSArgumentList::class.java)
+                    .withParent(
+                        PlatformPatterns.psiElement(JSCallExpression::class.java)
+                            .withFirstChild(
+                                PlatformPatterns.psiElement(JSReferenceExpression::class.java)
+                                    .withFirstChild(
+                                        PlatformPatterns.psiElement(JSReferenceExpression::class.java)
+                                            .withFirstChild(
+                                                PlatformPatterns.psiElement(JSTokenTypes.IDENTIFIER).withText("Module")
+                                            )
+                                    )
+                                    .withLastChild(
+                                        PlatformPatterns.psiElement(JSTokenTypes.IDENTIFIER).withText("register")
+                                    )
+                            )
+                    )
+            )
     }
 }

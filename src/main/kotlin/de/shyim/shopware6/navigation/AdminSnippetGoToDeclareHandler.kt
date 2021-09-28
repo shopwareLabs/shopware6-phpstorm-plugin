@@ -26,7 +26,7 @@ class AdminSnippetGoToDeclareHandler : GotoDeclarationHandler {
 
         val psiElements: MutableList<PsiElement> = ArrayList()
 
-        if (JavaScriptPattern.getTcPattern().accepts(element) || TwigPattern.getTcPattern().accepts(element)) {
+        if (JavaScriptPattern.getTranslationPattern().accepts(element) || TwigPattern.getTcPattern().accepts(element)) {
             val text = element.text.replace("\"", "").replace("'", "")
 
             val keys = FileBasedIndex.getInstance().getAllKeys(AdminSnippetIndex.key, project)

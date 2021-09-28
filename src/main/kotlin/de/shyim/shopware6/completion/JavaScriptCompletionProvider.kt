@@ -59,7 +59,7 @@ class JavaScriptCompletionProvider : CompletionContributor() {
 
         extend(
             CompletionType.BASIC,
-            JavaScriptPattern.getTcPattern(),
+            JavaScriptPattern.getTranslationPattern(),
             object : CompletionProvider<CompletionParameters>() {
                 override fun addCompletions(
                     parameters: CompletionParameters,
