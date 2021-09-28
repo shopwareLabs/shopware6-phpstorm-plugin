@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.0.9]
+- Added autocomplete to twig functions theme_config and config
+- Added autocomplete for Module.register labels
+- Show only admin component autocomplete when the twig file is next to an index.js
+
 ## [0.0.8]
 - Show all translation on goto handler
 - Show admin components only in HTML context
