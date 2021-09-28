@@ -4,10 +4,7 @@ import com.intellij.codeInsight.completion.*
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.openapi.project.Project
 import com.intellij.util.ProcessingContext
-import de.shyim.shopware6.util.AdminSnippetUtil
-import de.shyim.shopware6.util.FeatureFlagUtil
-import de.shyim.shopware6.util.FrontendSnippetUtil
-import de.shyim.shopware6.util.TwigPattern
+import de.shyim.shopware6.util.*
 import fr.adrienbrault.idea.symfony2plugin.Symfony2ProjectComponent
 import fr.adrienbrault.idea.symfony2plugin.routing.RouteHelper
 import fr.adrienbrault.idea.symfony2plugin.templating.util.TwigUtil
@@ -119,6 +116,22 @@ class TwigCompletionProvider() : CompletionContributor() {
                     result.addElement(
                         LookupElementBuilder.create("sw_extends").withIcon(ShopwareToolBoxIcons.SHOPWARE)
                     );
+                }
+            }
+        )
+
+        extend(
+            CompletionType.BASIC,
+            TwigPattern.getPrintBlockOrTagFunctionPattern("theme_config"),
+            object : CompletionProvider<CompletionParameters>() {
+                override fun addCompletions(
+                    parameters: CompletionParameters,
+                    context: ProcessingContext,
+                    result: CompletionResultSet
+                ) {
+                    val project: Project = parameters.position.project
+
+                    result.addAllElements(ThemeConfigUtil.getAllLookupItems(project))
                 }
             }
         )
