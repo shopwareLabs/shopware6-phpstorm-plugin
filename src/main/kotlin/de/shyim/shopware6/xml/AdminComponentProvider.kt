@@ -17,7 +17,7 @@ import icons.ShopwareToolBoxIcons
 
 class AdminComponentProvider : XmlTagNameProvider, XmlElementDescriptorProvider {
     override fun addTagNameVariants(elements: MutableList<LookupElement>, tag: XmlTag, prefix: String?) {
-        if (tag !is HtmlTag) {
+        if (tag !is HtmlTag || tag.containingFile?.originalFile?.containingDirectory?.findFile("index.js") == null) {
             return
         }
 
