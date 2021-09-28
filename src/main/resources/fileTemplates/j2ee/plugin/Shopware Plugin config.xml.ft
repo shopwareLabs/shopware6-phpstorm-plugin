@@ -4,17 +4,17 @@
 
     <card>
         <title>Basic Configuration</title>
-        <title lang="de_DE">Grundeinstellungen</title>
+        <title lang="de-DE">Grundeinstellungen</title>
 
         <input-field>
             <name>email</name>
             <copyable>true</copyable>
             <label>eMail address</label>
-            <label lang="de_DE">E-Mail Adresse</label>
+            <label lang="de-DE">E-Mail Adresse</label>
             <placeholder>you@example.com</placeholder>
-            <placeholder lang="de_DE">du@beispiel.de</placeholder>
+            <placeholder lang="de-DE">du@beispiel.de</placeholder>
             <helpText>Please fill in your personal eMail address</helpText>
-            <helpText lang="de_DE">Bitte trage deine persönliche E-Mail Adresse ein</helpText>
+            <helpText lang="de-DE">Bitte trage deine persönliche E-Mail Adresse ein</helpText>
         </input-field>
     </card>
 </config>
