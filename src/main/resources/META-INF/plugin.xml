@@ -48,6 +48,16 @@
 
         <directoryProjectGenerator implementation="de.shyim.shopware6.installer.ShopwareProjectGenerator"/>
         <projectTemplatesFactory implementation="de.shyim.shopware6.installer.ShopwareTemplatesFactory"/>
+
+        <localInspection
+                groupPath="Shopware 6"
+                shortName="Shopware6AbstractClassInspection"
+                displayName="Class used instead of abstract class"
+                groupName="Shopware 6"
+                enabledByDefault="true"
+                level="ERROR"
+                implementationClass="de.shyim.shopware6.inspection.ClassUsedInsteadOfAbstraction"
+        />
     </extensions>
 
     <extensions defaultExtensionNs="fr.adrienbrault.idea.symfony2plugin.extension">
