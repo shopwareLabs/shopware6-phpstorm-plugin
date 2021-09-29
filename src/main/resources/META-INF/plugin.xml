@@ -65,7 +65,6 @@
         <intentionAction>
             <className>de.shyim.shopware6.intentions.ExtendTwigBlockIntention</className>
             <category>Shopware</category>
-            <descriptionDirectoryName>extendTwigBlockInCustomViewFolder</descriptionDirectoryName>
         </intentionAction>
     </extensions>
 
