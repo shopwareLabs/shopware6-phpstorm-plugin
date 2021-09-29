@@ -59,6 +59,12 @@
                 level="ERROR"
                 implementationClass="de.shyim.shopware6.inspection.ClassUsedInsteadOfAbstraction"
         />
+
+        <intentionAction>
+            <className>de.shyim.shopware6.intentions.ExtendTwigBlockIntention</className>
+            <category>Shopware</category>
+            <descriptionDirectoryName>extendTwigBlockInCustomViewFolder</descriptionDirectoryName>
+        </intentionAction>
     </extensions>
 
     <extensions defaultExtensionNs="fr.adrienbrault.idea.symfony2plugin.extension">

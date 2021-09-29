@@ -10,7 +10,9 @@ import com.jetbrains.php.lang.psi.elements.PhpClass
 import de.shyim.shopware6.index.dict.ShopwareBundle
 import de.shyim.shopware6.index.externalizer.ObjectStreamDataExternalizer
 import gnu.trove.THashMap
+import org.apache.commons.io.FilenameUtils
 import java.nio.file.Files
+import java.nio.file.Paths
 import kotlin.io.path.Path
 
 class ShopwareBundleIndex: FileBasedIndexExtension<String, ShopwareBundle>() {
@@ -64,13 +66,13 @@ class ShopwareBundleIndex: FileBasedIndexExtension<String, ShopwareBundle>() {
     }
 
     fun isShopwareBundle(pClass: PhpClass): Boolean {
-        if (pClass.superClasses.size == 0) {
+        if (pClass.extendsList.referenceElements.size == 0) {
             return false
         }
 
         var found = false
 
-        pClass.superClasses.forEach {
+        pClass.extendsList.referenceElements.forEach {
             if (it.fqn == "\\Shopware\\Core\\Framework\\Bundle" || it.fqn == "\\Shopware\\Core\\Framework\\Plugin") {
                 found = true
             }
@@ -80,7 +82,8 @@ class ShopwareBundleIndex: FileBasedIndexExtension<String, ShopwareBundle>() {
     }
 
     fun getViewDirectory(folderPath: String): String? {
-        val expectedViewDir = "${folderPath}/Resources/views/storefront"
+        val expectedViewDir =
+            FilenameUtils.separatorsToUnix("${Paths.get(folderPath).parent}/Resources/views/storefront/")
 
         if (Files.exists(Path(expectedViewDir))) {
             return expectedViewDir
