@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.0.11]
+- Added autocomplete to this.repositoryFactory.create('x');
+- Added Intention Action "Extend this block" to easy extending a block
+- Added inspection to show an error when abstract class has been wrong used in constructor
+
 ## [0.0.10]
 - Fix system config autocomplete to add .config
 
