@@ -4,6 +4,9 @@
 
 ## [Unreleased]
 
+## [0.0.10]
+- Fix system config autocomplete to add .config
+
 ## [0.0.9]
 - Added autocomplete to twig functions theme_config and config
 - Added autocomplete for Module.register labels
