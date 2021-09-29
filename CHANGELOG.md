@@ -4,6 +4,9 @@
 
 ## [Unreleased]
 
+## [0.0.12]
+- increase min idea version
+
 ## [0.0.11]
 - Added autocomplete to this.repositoryFactory.create('x');
 - Added Intention Action "Extend this block" to easy extending a block
