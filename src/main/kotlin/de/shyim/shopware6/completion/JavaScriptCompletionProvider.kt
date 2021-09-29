@@ -8,6 +8,7 @@ import com.intellij.util.ProcessingContext
 import com.intellij.util.indexing.FileBasedIndex
 import de.shyim.shopware6.index.AdminComponentIndex
 import de.shyim.shopware6.util.AdminSnippetUtil
+import de.shyim.shopware6.util.EntityDefinitionUtil
 import de.shyim.shopware6.util.FeatureFlagUtil
 import de.shyim.shopware6.util.JavaScriptPattern
 import icons.ShopwareToolBoxIcons
@@ -69,6 +70,22 @@ class JavaScriptCompletionProvider : CompletionContributor() {
                     val project: Project = parameters.position.project
 
                     result.addAllElements(AdminSnippetUtil.getAllLookupItems(project))
+                }
+            }
+        )
+
+        extend(
+            CompletionType.BASIC,
+            JavaScriptPattern.getRepositoryFactoryCreatePattern(),
+            object : CompletionProvider<CompletionParameters>() {
+                override fun addCompletions(
+                    parameters: CompletionParameters,
+                    context: ProcessingContext,
+                    result: CompletionResultSet
+                ) {
+                    val project: Project = parameters.position.project
+
+                    result.addAllElements(EntityDefinitionUtil.getAllLookupItems(project))
                 }
             }
         )

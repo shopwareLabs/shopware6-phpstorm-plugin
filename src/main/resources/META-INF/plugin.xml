@@ -26,6 +26,7 @@
         <fileBasedIndex implementation="de.shyim.shopware6.index.ThemeConfigIndex"/>
         <fileBasedIndex implementation="de.shyim.shopware6.index.SystemConfigIndex"/>
         <fileBasedIndex implementation="de.shyim.shopware6.index.ShopwareBundleIndex"/>
+        <fileBasedIndex implementation="de.shyim.shopware6.index.EntityDefinitionIndex"/>
 
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.FeatureFlagGoToDeclareHandler"/>
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.AdminComponentGoToDeclareHandler"/>
@@ -34,6 +35,7 @@
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.PHPSnippetGoToDeclareHandler"/>
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.ThemeConfigGoToDeclareHandler"/>
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.SystemConfigGoToDeclareHandler"/>
+        <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.EntityDefinitionGoToDeclareHandler"/>
 
         <completion.contributor language="PHP"
                                 implementationClass="de.shyim.shopware6.completion.PhpCompletionProvider"/>

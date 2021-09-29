@@ -162,4 +162,31 @@ object JavaScriptPattern {
                     )
             )
     }
+
+    fun getRepositoryFactoryCreatePattern(): PsiElementPattern.Capture<PsiElement> {
+        return PlatformPatterns.psiElement()
+            .withParent(
+                PlatformPatterns.psiElement(JSLiteralExpression::class.java)
+                    .afterSiblingSkipping(
+                        PlatformPatterns.psiElement(PsiWhiteSpace::class.java),
+                        PlatformPatterns.psiElement().withText("(")
+                    )
+                    .withParent(
+                        PlatformPatterns.psiElement(JSArgumentList::class.java).withParent(
+                            PlatformPatterns.psiElement(JSCallExpression::class.java)
+                                .withFirstChild(
+                                    PlatformPatterns.psiElement(JSReferenceExpression::class.java)
+                                        .withFirstChild(
+                                            PlatformPatterns.psiElement(JSReferenceExpression::class.java)
+                                                .withFirstChild(PlatformPatterns.psiElement(JSThisExpression::class.java))
+                                                .withLastChild(
+                                                    PlatformPatterns.psiElement().withText("repositoryFactory"),
+                                                )
+                                        )
+                                        .withLastChild(PlatformPatterns.psiElement().withText("create"))
+                                )
+                        )
+                    )
+            )
+    }
 }

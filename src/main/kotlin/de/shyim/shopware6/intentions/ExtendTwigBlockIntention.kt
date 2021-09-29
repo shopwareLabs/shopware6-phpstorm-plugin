@@ -27,6 +27,7 @@ class ExtendTwigBlockIntention : PsiElementBaseIntentionAction() {
     override fun getFamilyName() = "Extends this block in other template directory"
     override fun getText() = "Extends this block in other template directory"
 
+
     override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean {
         return (element is TwigBlockTag || element.parent is TwigBlockTag) && editor != null
     }
