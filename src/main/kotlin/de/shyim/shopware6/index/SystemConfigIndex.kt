@@ -106,7 +106,7 @@ class SystemConfigIndex : FileBasedIndexExtension<String, SystemConfig>() {
 
             val pluginSplit = pluginClass.split("\\")
 
-            return pluginSplit.get(pluginSplit.size - 1)
+            return pluginSplit.get(pluginSplit.size - 1) + ".config"
         }
 
         if (manifestXml != null) {
