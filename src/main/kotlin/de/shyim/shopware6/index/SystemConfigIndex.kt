@@ -22,7 +22,7 @@ class SystemConfigIndex : FileBasedIndexExtension<String, SystemConfig>() {
     }
 
     override fun getVersion(): Int {
-        return 3
+        return 4
     }
 
     override fun dependsOnFileContent(): Boolean {
