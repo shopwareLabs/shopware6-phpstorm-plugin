@@ -10,11 +10,22 @@ Shopware 6 Toolbox is a helper plugin for Shopware 6 development. It adds some l
 Current features:
 
 - Lot of live templates for developing. Use STRG + J to see all live templates of current scope
-- A config.xml creator
-- A Vue.js Admin component generator
-- Admin / Frontend Snippet autocompletion
-- Admin component autocomplete
-- Autocomplete for seoUrl, sw_include and sw_extends
+- Generators:
+  - Vue.js Admin component
+  - config.xml
+  - `Extend this block` in Storefront with auto file creation
+  - Vue module
+  - Scheduled task
+  - Changelog
+- Inspection to show an error when abstract class is used incorrectly in the constructor
+- Autocompletion for:
+  - Admin component
+  - Snippets in Administration and Storefront 
+  - Storefront functions theme_config, config, seoUrl, sw_include and sw_extends
+  - Repositories at `this.repositoryFactory.create`
+  - `Module.register` labels
+  - Show only admin component autocompletion when the twig file is next to an index.js
+  - Feature flag
 <!-- Plugin description end -->
 
 ## Installation
@@ -28,5 +39,4 @@ Current features:
 
   Download the [latest release](https://github.com/shyim/shopware6-phpstorm-plugin/releases/latest) and install it manually using
   <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
-
 
