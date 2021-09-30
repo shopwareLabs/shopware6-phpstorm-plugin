@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.0.13]
+- Extend twig block works now in vendor folder also ignores vendor plugins to choose
+- ShopwareBundleIndex ignores plugins created for testing
+- Added inspection or missing administration translation
+
 ## [0.0.12]
 - increase min idea version
 
