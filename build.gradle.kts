@@ -105,6 +105,10 @@ tasks {
         systemProperty("jb.consents.confirmation.enabled", "false")
     }
 
+    runIde {
+        jvmArgs("-Xmx4000m")
+    }
+
     signPlugin {
         certificateChain.set(System.getenv("CERTIFICATE_CHAIN"))
         privateKey.set(System.getenv("PRIVATE_KEY"))

@@ -5,8 +5,8 @@ import com.intellij.openapi.project.Project
 object TwigUtil {
     fun getTemplatePathByFilePath(filePath: String, project: Project): String? {
         var path: String? = null
-        ShopwareBundleUtil.getAllBundles(project).forEach { bundle ->
-            if (bundle.viewPath != null && filePath.startsWith(bundle.viewPath)) {
+        ShopwareBundleUtil.getAllBundlesRelatedToViews(project).forEach { bundle ->
+            if (filePath.startsWith(bundle.viewPath)) {
                 path = filePath.replace(bundle.viewPath, "")
             }
         }
@@ -16,8 +16,8 @@ object TwigUtil {
 
     fun getBundleByFilePath(filePath: String, project: Project): String? {
         var name: String? = null
-        ShopwareBundleUtil.getAllBundles(project).forEach { bundle ->
-            if (bundle.viewPath != null && filePath.startsWith(bundle.viewPath)) {
+        ShopwareBundleUtil.getAllBundlesRelatedToViews(project).forEach { bundle ->
+            if (filePath.startsWith(bundle.viewPath)) {
                 name = bundle.name
             }
         }

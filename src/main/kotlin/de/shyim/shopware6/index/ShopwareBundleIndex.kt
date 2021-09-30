@@ -11,9 +11,7 @@ import de.shyim.shopware6.index.dict.ShopwareBundle
 import de.shyim.shopware6.index.externalizer.ObjectStreamDataExternalizer
 import gnu.trove.THashMap
 import org.apache.commons.io.FilenameUtils
-import java.nio.file.Files
 import java.nio.file.Paths
-import kotlin.io.path.Path
 
 class ShopwareBundleIndex: FileBasedIndexExtension<String, ShopwareBundle>() {
     private val EXTERNALIZER = ObjectStreamDataExternalizer<ShopwareBundle>()
@@ -23,7 +21,7 @@ class ShopwareBundleIndex: FileBasedIndexExtension<String, ShopwareBundle>() {
     }
 
     override fun getVersion(): Int {
-        return 1
+        return 2
     }
 
     override fun dependsOnFileContent(): Boolean {
@@ -32,12 +30,24 @@ class ShopwareBundleIndex: FileBasedIndexExtension<String, ShopwareBundle>() {
 
     override fun getIndexer(): DataIndexer<String, ShopwareBundle, FileContent> {
         return DataIndexer { inputData ->
+            if (!isValidForIndex(inputData)) {
+                return@DataIndexer mapOf()
+            }
+
             val bundles = THashMap<String, ShopwareBundle>()
 
-            inputData.psiFile.acceptChildren(object: PsiRecursiveElementWalkingVisitor() {
+            inputData.psiFile.acceptChildren(object : PsiRecursiveElementWalkingVisitor() {
                 override fun visitElement(element: PsiElement) {
                     if (element is PhpClass && !element.isAbstract && isShopwareBundle(element)) {
-                        bundles[element.name] = ShopwareBundle(element.name, inputData.file.path, getViewDirectory(inputData.file.path))
+                        if (element.name.isEmpty()) {
+                            return
+                        }
+
+                        val bundleDir = Paths.get(inputData.file.path).parent
+                        val expectedStorefrontViewFolder =
+                            FilenameUtils.separatorsToUnix("${bundleDir}/Resources/views/storefront/")
+                        bundles[element.name] =
+                            ShopwareBundle(element.name, inputData.file.path, expectedStorefrontViewFolder)
                     }
 
                     super.visitElement(element)
@@ -81,14 +91,27 @@ class ShopwareBundleIndex: FileBasedIndexExtension<String, ShopwareBundle>() {
         return found
     }
 
-    fun getViewDirectory(folderPath: String): String? {
-        val expectedViewDir =
-            FilenameUtils.separatorsToUnix("${Paths.get(folderPath).parent}/Resources/views/storefront/")
+    fun isValidForIndex(inputData: FileContent): Boolean {
+        val fileName = inputData.psiFile.name
+        val filePath = inputData.file.path.lowercase()
 
-        if (Files.exists(Path(expectedViewDir))) {
-            return expectedViewDir
+        if (fileName.startsWith(".") || fileName.endsWith("Test")) {
+            return false
         }
 
-        return null
+        if (
+            filePath.contains("core/framework/test/plugin/_fixture/plugins/") ||
+            filePath.contains("core/framework/test/store/_fixtures") ||
+            filePath.contains("core/content/test/") ||
+            filePath.contains("core/system/test/snippet/files/_fixtures") ||
+            filePath.contains("core/system/test/systemconfig/_fixtures/") ||
+            filePath.contains("core/framework/test/plugin/requirement/_fixture/") ||
+            filePath.contains("core/framework/test/adapter/twig/fixtures") ||
+            filePath.contains("storefront/test/theme/fixtures/")
+        ) {
+            return false
+        }
+
+        return true
     }
 }

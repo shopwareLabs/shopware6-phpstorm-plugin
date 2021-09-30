@@ -7,6 +7,9 @@ import de.shyim.shopware6.index.ShopwareBundleIndex
 import de.shyim.shopware6.index.dict.ShopwareBundle
 
 object ShopwareBundleUtil {
+    private val NON_VIEW_SHOPWARE_BUNDLES =
+        arrayOf("Administration", "DevOps", "Checkout", "Profiling", "Elasticsearch", "Content", "System", "Framework")
+
     fun getAllBundles(project: Project): MutableList<ShopwareBundle> {
         val bundles: MutableList<ShopwareBundle> = ArrayList()
 
@@ -20,9 +23,9 @@ object ShopwareBundleUtil {
         return bundles
     }
 
-    fun getAllBundlesWithViewDirectory(project: Project): List<ShopwareBundle> {
-        return getAllBundles(project).filter { bundle ->
-            return@filter bundle.viewPath != null
+    fun getAllBundlesRelatedToViews(project: Project): List<ShopwareBundle> {
+        return getAllBundles(project).filter {
+            !NON_VIEW_SHOPWARE_BUNDLES.contains(it.name)
         }
     }
 }

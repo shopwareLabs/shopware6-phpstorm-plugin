@@ -45,9 +45,15 @@ class ExtendTwigBlockIntention : PsiElementBaseIntentionAction() {
             return
         }
 
-        val bundleList = ShopwareBundleUtil.getAllBundlesWithViewDirectory(project).filter { bundle ->
+        val bundleList = ShopwareBundleUtil.getAllBundlesRelatedToViews(project).filter { bundle ->
             return@filter bundle.name != currentBundle
+        }.filter {
+            val virtualFile = LocalFileSystem.getInstance().findFileByPath(it.path)!!
+            val psiFile = PsiManager.getInstance(project).findFile(virtualFile)!!
+
+            return@filter psiFile.manager.isInProject(psiFile)
         }
+
         val jbBundleList = JBList(bundleList)
 
         jbBundleList.cellRenderer = object : JBList.StripedListCellRenderer() {
@@ -96,18 +102,25 @@ class ExtendTwigBlockIntention : PsiElementBaseIntentionAction() {
     }
 
     private fun extendBlockInBundle(bundle: ShopwareBundle, templatePath: String, blockName: String, project: Project) {
-        val localFolder = LocalFileSystem.getInstance().findFileByPath(bundle.viewPath!!)
-        var currentFolder = PsiManager.getInstance(project).findDirectory(localFolder!!) as PsiDirectory
+        val localFolder = LocalFileSystem.getInstance().findFileByPath(bundle.viewPath)
+
+        var currentFolder: PsiDirectory?
+        if (localFolder == null) {
+            currentFolder = createMissingViewFolder(bundle, project)
+        } else {
+            currentFolder = PsiManager.getInstance(project).findDirectory(localFolder) as PsiDirectory
+        }
+
         var fileName: String? = null
 
         val templateParts = templatePath.split("/")
 
         templateParts.forEach { part ->
             if (!part.endsWith(".twig")) {
-                currentFolder = if (currentFolder.findSubdirectory(part) != null) {
-                    currentFolder.findSubdirectory(part)!!
+                currentFolder = if (currentFolder!!.findSubdirectory(part) != null) {
+                    currentFolder!!.findSubdirectory(part)!!
                 } else {
-                    currentFolder.createSubdirectory(part)
+                    currentFolder!!.createSubdirectory(part)
                 }
             } else {
                 fileName = part
@@ -124,8 +137,8 @@ class ExtendTwigBlockIntention : PsiElementBaseIntentionAction() {
 {% sw_extends "@Storefront/storefront/${templatePath}" %}
         """.trimIndent()
 
-        if (currentFolder.findFile(fileName!!) != null) {
-            val file = currentFolder.findFile(fileName!!)!!
+        if (currentFolder!!.findFile(fileName!!) != null) {
+            val file = currentFolder!!.findFile(fileName!!)!!
 
             val editor = FileEditorManager.getInstance(project)
                 .openTextEditor(OpenFileDescriptor(project, file.containingFile.virtualFile), true) ?: return
@@ -138,12 +151,35 @@ class ExtendTwigBlockIntention : PsiElementBaseIntentionAction() {
         } else {
             val factory = PsiFileFactory.getInstance(project)
             val file = factory.createFileFromText(fileName!!, TwigFileType.INSTANCE, blockHeader + "\n\n" + blockCode)
-            currentFolder.add(file)
+            currentFolder!!.add(file)
 
             FileEditorManager.getInstance(project)
-                .openTextEditor(OpenFileDescriptor(project, currentFolder.findFile(fileName!!)!!.virtualFile), true)
+                .openTextEditor(OpenFileDescriptor(project, currentFolder!!.findFile(fileName!!)!!.virtualFile), true)
                 ?: return
         }
+    }
+
+    private fun createMissingViewFolder(bundle: ShopwareBundle, project: Project): PsiDirectory {
+        val bundleFile = LocalFileSystem.getInstance().findFileByPath(bundle.path)!!
+        val bundleFolder = PsiManager.getInstance(project).findFile(bundleFile)!!.containingDirectory
+
+        if (bundleFolder.findSubdirectory("Resources") == null) {
+            bundleFolder.createSubdirectory("Resources")
+        }
+
+        val resourcesFolder = bundleFolder.findSubdirectory("Resources")!!
+
+        if (resourcesFolder.findSubdirectory("views") == null) {
+            resourcesFolder.createSubdirectory("views")
+        }
+
+        val viewFolder = resourcesFolder.findSubdirectory("views")!!
+
+        if (viewFolder.findSubdirectory("storefront") != null) {
+            return viewFolder.findSubdirectory("storefront")!!
+        }
+
+        return viewFolder.createSubdirectory("storefront")
     }
 
     override fun checkFile(file: PsiFile?): Boolean {

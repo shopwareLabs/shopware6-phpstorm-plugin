@@ -4,7 +4,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder
 import java.io.Serializable
 import java.util.*
 
-class ShopwareBundle(val name: String, val path: String, val viewPath: String?): Serializable {
+class ShopwareBundle(val name: String, val path: String, val viewPath: String) : Serializable {
     override fun hashCode(): Int {
         return HashCodeBuilder()
             .append(this.name)
