@@ -145,4 +145,8 @@ class ExtendTwigBlockIntention : PsiElementBaseIntentionAction() {
                 ?: return
         }
     }
+
+    override fun checkFile(file: PsiFile?): Boolean {
+        return true
+    }
 }
