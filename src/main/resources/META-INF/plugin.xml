@@ -56,10 +56,20 @@
                 groupPath="Shopware 6"
                 shortName="Shopware6AbstractClassInspection"
                 displayName="Class used instead of abstract class"
-                groupName="Shopware 6"
+                groupName="PHP"
                 enabledByDefault="true"
                 level="ERROR"
                 implementationClass="de.shyim.shopware6.inspection.ClassUsedInsteadOfAbstraction"
+        />
+
+        <localInspection
+                groupPath="Shopware 6"
+                shortName="Shopware6AdministrationSnippetMissing"
+                displayName="Snippet translation is missing"
+                groupName="Administration"
+                enabledByDefault="true"
+                level="WARNING"
+                implementationClass="de.shyim.shopware6.inspection.AdministrationSnippetMissing"
         />
 
         <intentionAction>
