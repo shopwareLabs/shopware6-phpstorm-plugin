@@ -31,9 +31,7 @@ Current features:
 ## Installation
 
 - Using IDE built-in plugin system:
-  
-  Be careful, the plugin might be not up to date!
-  
+
   <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "Shopware 6 Toolbox"</kbd> >
   <kbd>Install Plugin</kbd>
   
