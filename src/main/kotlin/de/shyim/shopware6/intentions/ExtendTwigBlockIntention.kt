@@ -52,7 +52,7 @@ class ExtendTwigBlockIntention : PsiElementBaseIntentionAction() {
             val psiFile = PsiManager.getInstance(project).findFile(virtualFile)!!
 
             return@filter psiFile.manager.isInProject(psiFile)
-        }
+        }.sortedBy { shopwareBundle -> shopwareBundle.name }
 
         val jbBundleList = JBList(bundleList)
 
