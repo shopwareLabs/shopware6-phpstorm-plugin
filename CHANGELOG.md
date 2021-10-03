@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.0.14]
+- Scans for storefront snippets as before
+- The bundles in ExtendTemplate now sorted
+- Added inspection for missing snippets in Administration
+
 ## [0.0.13]
 - Extend twig block works now in vendor folder also ignores vendor plugins to choose
 - ShopwareBundleIndex ignores plugins created for testing
