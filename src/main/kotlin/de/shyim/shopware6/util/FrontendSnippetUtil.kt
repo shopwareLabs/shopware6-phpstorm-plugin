@@ -25,13 +25,20 @@ object FrontendSnippetUtil {
 
     fun getAllLookupItems(project: Project): MutableList<LookupElement> {
         val list: MutableList<LookupElement> = ArrayList()
+        val usedKeys: MutableList<String> = ArrayList()
 
         getAllSnippets(project).forEach {
             it.snippets.forEach {
+                if (usedKeys.contains(it.key)) {
+                    return@forEach
+                }
+
                 list.add(
                     LookupElementBuilder.create(it.key).withTypeText(it.value)
                         .withIcon(ShopwareToolBoxIcons.SHOPWARE)
                 )
+
+                usedKeys.add(it.key)
             }
         }
 
