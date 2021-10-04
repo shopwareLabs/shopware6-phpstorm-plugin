@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [0.0.15]
+- Added Shopware.Mixin.getByName autocomplete
+- Added CreateEventListenerIntention
+
 ## [0.0.14]
 - Scans for storefront snippets as before
 - The bundles in ExtendTemplate now sorted
