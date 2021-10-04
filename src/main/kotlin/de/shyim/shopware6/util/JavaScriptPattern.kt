@@ -189,4 +189,30 @@ object JavaScriptPattern {
                     )
             )
     }
+
+    fun getMixinGetByName(): PsiElementPattern.Capture<PsiElement> {
+        return PlatformPatterns.psiElement()
+            .withParent(
+                PlatformPatterns.psiElement(JSLiteralExpression::class.java)
+                    .afterSibling(
+                        PlatformPatterns.psiElement().withText("(")
+                    )
+                    .withParent(
+                        PlatformPatterns.psiElement(JSArgumentList::class.java)
+                            .withParent(
+                                PlatformPatterns.psiElement(JSCallExpression::class.java).withFirstChild(
+                                    PlatformPatterns.psiElement(JSReferenceExpression::class.java)
+                                        .withFirstChild(
+                                            PlatformPatterns.psiElement(JSReferenceExpression::class.java)
+                                                .withFirstChild(
+                                                    PlatformPatterns.psiElement().withText("Mixin")
+                                                )
+                                        )
+                                        .withLastChild(PlatformPatterns.psiElement().withText("getByName"))
+                                )
+                            )
+                    )
+            )
+            .withLanguage(JavascriptLanguage.INSTANCE)
+    }
 }

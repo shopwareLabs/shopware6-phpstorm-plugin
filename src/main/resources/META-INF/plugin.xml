@@ -27,6 +27,7 @@
         <fileBasedIndex implementation="de.shyim.shopware6.index.SystemConfigIndex"/>
         <fileBasedIndex implementation="de.shyim.shopware6.index.ShopwareBundleIndex"/>
         <fileBasedIndex implementation="de.shyim.shopware6.index.EntityDefinitionIndex"/>
+        <fileBasedIndex implementation="de.shyim.shopware6.index.AdminMixinIndex"/>
 
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.FeatureFlagGoToDeclareHandler"/>
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.AdminComponentGoToDeclareHandler"/>
@@ -36,15 +37,19 @@
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.ThemeConfigGoToDeclareHandler"/>
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.SystemConfigGoToDeclareHandler"/>
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.EntityDefinitionGoToDeclareHandler"/>
+        <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.AdminMixinGoToDeclareHandler"/>
 
         <completion.contributor language="PHP"
-                                implementationClass="de.shyim.shopware6.completion.PhpCompletionProvider"/>
+                                implementationClass="de.shyim.shopware6.completion.PhpCompletionProvider"
+                                order="first"/>
 
         <completion.contributor language="Twig"
-                                implementationClass="de.shyim.shopware6.completion.TwigCompletionProvider"/>
+                                implementationClass="de.shyim.shopware6.completion.TwigCompletionProvider"
+                                order="first"/>
 
         <completion.contributor language="JavaScript"
-                                implementationClass="de.shyim.shopware6.completion.JavaScriptCompletionProvider"/>
+                                implementationClass="de.shyim.shopware6.completion.JavaScriptCompletionProvider"
+                                order="first"/>
 
         <xml.tagNameProvider implementation="de.shyim.shopware6.xml.AdminComponentProvider"/>
         <xml.elementDescriptorProvider implementation="de.shyim.shopware6.xml.AdminComponentProvider"/>

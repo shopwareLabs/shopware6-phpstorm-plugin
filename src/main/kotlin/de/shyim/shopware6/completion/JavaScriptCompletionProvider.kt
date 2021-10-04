@@ -7,10 +7,7 @@ import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.util.ProcessingContext
 import com.intellij.util.indexing.FileBasedIndex
 import de.shyim.shopware6.index.AdminComponentIndex
-import de.shyim.shopware6.util.AdminSnippetUtil
-import de.shyim.shopware6.util.EntityDefinitionUtil
-import de.shyim.shopware6.util.FeatureFlagUtil
-import de.shyim.shopware6.util.JavaScriptPattern
+import de.shyim.shopware6.util.*
 import icons.ShopwareToolBoxIcons
 
 class JavaScriptCompletionProvider : CompletionContributor() {
@@ -86,6 +83,23 @@ class JavaScriptCompletionProvider : CompletionContributor() {
                     val project: Project = parameters.position.project
 
                     result.addAllElements(EntityDefinitionUtil.getAllLookupItems(project))
+                }
+            }
+        )
+
+        extend(
+            CompletionType.BASIC,
+            JavaScriptPattern.getMixinGetByName(),
+            object : CompletionProvider<CompletionParameters>() {
+                override fun addCompletions(
+                    parameters: CompletionParameters,
+                    context: ProcessingContext,
+                    result: CompletionResultSet
+                ) {
+
+                    val project: Project = parameters.position.project
+
+                    result.addAllElements(AdminMixinUtil.getAllLookupItems(project))
                 }
             }
         )
