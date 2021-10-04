@@ -1,0 +1,13 @@
+<?php
+
+namespace ${NAMESPACE};
+
+use ${EVENT};
+
+class ${CLASSNAME}
+{
+    public function __invoke(${EVENT_SHORT} $event): void
+    {
+
+    }
+}

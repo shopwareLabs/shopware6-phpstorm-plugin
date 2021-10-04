@@ -21,6 +21,13 @@ class ShopwareTemplates: FileTemplateGroupDescriptorFactory {
             pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_CONTRIBUTION_CHANGELOG_TEMPLATE))
         }
 
+        FileTemplateGroupDescriptor("PP", ShopwareToolBoxIcons.SHOPWARE).let { pluginGroup ->
+            group.addTemplate(pluginGroup)
+            pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_PHP_SCHEDULED_TASK))
+            pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_PHP_SCHEDULED_TASK_HANDLER))
+            pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_PHP_EVENT_LISTENER))
+        }
+
         FileTemplateGroupDescriptor("Administration", ShopwareToolBoxIcons.SHOPWARE).let { pluginGroup ->
             group.addTemplate(pluginGroup)
             pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_ADMIN_VUE_MODULE))
@@ -50,6 +57,7 @@ class ShopwareTemplates: FileTemplateGroupDescriptorFactory {
         const val SHOPWARE_PLUGIN_CONFIG_TEMPLATE = "Shopware Plugin config.xml"
         const val SHOPWARE_PHP_SCHEDULED_TASK = "Shopware PHP Scheduled Task.php"
         const val SHOPWARE_PHP_SCHEDULED_TASK_HANDLER = "Shopware PHP Scheduled TaskHandler.php"
+        const val SHOPWARE_PHP_EVENT_LISTENER = "Shopware PHP Event Listener.php"
         const val SHOPWARE_PLUGIN_BOOTSTRAP = "Shopware Plugin Bootstrap.php"
         const val SHOPWARE_PLUGIN_CHANGELOG = "Shopware Plugin Changelog.md"
         const val SHOPWARE_PLUGIN_COMPOSER_JSON = "Shopware Plugin composer.json"
@@ -156,7 +164,13 @@ class ShopwareTemplates: FileTemplateGroupDescriptorFactory {
         fun applyShopwarePluginServicesXml(project: Project, config: NewPluginConfig): String {
             return project.applyTemplate(
                 SHOPWARE_PLUGIN_SERVICES_XML, config.toMap()
-            );
+            )
+        }
+
+        fun applyShopwarePHPEventListener(project: Project, config: Map<String, String>): String {
+            return project.applyTemplate(
+                SHOPWARE_PHP_EVENT_LISTENER, config
+            )
         }
     }
 

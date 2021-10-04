@@ -87,7 +87,6 @@ class ExtendTwigBlockIntention : PsiElementBaseIntentionAction() {
                         )
                     }
                 }, "Extend Twig block", null)
-                println(jbBundleList.selectedValue)
             }
             .createPopup()
             .showInBestPositionFor(editor)
