@@ -4,15 +4,33 @@ issue: ${TICKET}
 #if ("${FLAG}" != "")
 flag: ${FLAG}
 #end
+#if ("${AUTHOR}" != "")
+author: ${AUTHOR}
+#end
+#if ("${AUTHOR_EMAIL}" != "")
+author_email: ${AUTHOR_EMAIL}
+#end
+#if ("${AUTHOR_GITHUB}" != "")
+author_github: ${AUTHOR_GITHUB}
+#end
 ---
+
 # Core
+
 *
+
 ___
+
 # API
+
 *
+
 ___
+
 # Administration
+
 *
+
 ___
 # Storefront
 *

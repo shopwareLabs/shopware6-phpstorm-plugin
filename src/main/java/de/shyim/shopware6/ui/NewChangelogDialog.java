@@ -7,4 +7,7 @@ public class NewChangelogDialog {
     public JTextField ticketField;
     public JTextField flagField;
     public JPanel panel;
+    public JTextField nameField;
+    public JTextField emailField;
+    public JTextField githubField;
 }

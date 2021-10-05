@@ -6,6 +6,7 @@ import com.intellij.openapi.fileTypes.PlainTextFileType
 import com.intellij.openapi.project.DumbAwareAction
 import de.shyim.shopware6.action.generator.ui.NewChangelogDialogWrapper
 import de.shyim.shopware6.templates.ShopwareTemplates
+import git4idea.GitUserRegistry
 import git4idea.branch.GitBranchUtil
 import org.apache.commons.lang.StringUtils
 import java.text.SimpleDateFormat
@@ -17,9 +18,14 @@ class NewChangelogAction: DumbAwareAction("Create a Changelog", "Create a new Ch
             return
         }
 
+        val viewDirectory = ActionUtil.getViewDirectory(e.dataContext) ?: return
+
+        val info = GitUserRegistry.getInstance(e.project!!).getOrReadUser(viewDirectory.virtualFile)
         val currentBranch = GitBranchUtil.getCurrentRepository(e.project!!)?.currentBranch
         var defaultTitle = ""
         var defaultTicket = ""
+        var defaultUser = ""
+        var defaultEmail = ""
 
         if (currentBranch != null && currentBranch.name.startsWith("next-")) {
             val branchParts = currentBranch.name.split("/")
@@ -30,7 +36,12 @@ class NewChangelogAction: DumbAwareAction("Create a Changelog", "Create a new Ch
             }
         }
 
-        val dialog = NewChangelogDialogWrapper(defaultTitle, defaultTicket)
+        if (info != null) {
+            defaultUser = info.name
+            defaultEmail = info.email
+        }
+
+        val dialog = NewChangelogDialogWrapper(defaultTitle, defaultTicket, defaultUser, defaultEmail)
         val dialogResult = dialog.showAndGetConfig() ?: return
 
         val date = Date()

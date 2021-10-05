@@ -77,13 +77,7 @@ class ShopwareTemplates: FileTemplateGroupDescriptorFactory {
         }
 
         fun applyChangelogTemplate(project: Project, config: NewChangelogConfig): String {
-            val props = mapOf(
-                "TITLE" to config.title,
-                "TICKET" to config.ticket,
-                "FLAG" to config.flag,
-            )
-
-            return project.applyTemplate(SHOPWARE_CONTRIBUTION_CHANGELOG_TEMPLATE, props)
+            return project.applyTemplate(SHOPWARE_CONTRIBUTION_CHANGELOG_TEMPLATE, config.toMap())
         }
 
         fun applyShopwareAdminVueComponent(project: Project, name: String, config: NewComponentConfig): String {
