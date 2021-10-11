@@ -93,6 +93,7 @@
     </extensions>
 
     <actions>
+        <action class="de.shyim.shopware6.action.project.SynchronizeNamespaceAction"/>
         <group id="ShopwareToolboxGroupPlugin" class="com.intellij.ide.actions.NonTrivialActionGroup"
                text="Shopware Platform" icon="ShopwareToolBoxIcons.SHOPWARE"
                popup="true">

@@ -11,7 +11,10 @@ import de.shyim.shopware6.index.dict.ShopwareBundle
 import de.shyim.shopware6.index.externalizer.ObjectStreamDataExternalizer
 import gnu.trove.THashMap
 import org.apache.commons.io.FilenameUtils
+import java.nio.file.Files
+import java.nio.file.Path
 import java.nio.file.Paths
+import kotlin.io.path.pathString
 
 class ShopwareBundleIndex: FileBasedIndexExtension<String, ShopwareBundle>() {
     private val EXTERNALIZER = ObjectStreamDataExternalizer<ShopwareBundle>()
@@ -21,7 +24,7 @@ class ShopwareBundleIndex: FileBasedIndexExtension<String, ShopwareBundle>() {
     }
 
     override fun getVersion(): Int {
-        return 2
+        return 3
     }
 
     override fun dependsOnFileContent(): Boolean {
@@ -47,7 +50,12 @@ class ShopwareBundleIndex: FileBasedIndexExtension<String, ShopwareBundle>() {
                         val expectedStorefrontViewFolder =
                             FilenameUtils.separatorsToUnix("${bundleDir}/Resources/views/storefront/")
                         bundles[element.name] =
-                            ShopwareBundle(element.name, inputData.file.path, expectedStorefrontViewFolder)
+                            ShopwareBundle(
+                                element.name,
+                                inputData.file.path,
+                                expectedStorefrontViewFolder,
+                                getRootFolder(bundleDir)
+                            )
                     }
 
                     super.visitElement(element)
@@ -56,6 +64,14 @@ class ShopwareBundleIndex: FileBasedIndexExtension<String, ShopwareBundle>() {
 
             return@DataIndexer bundles
         }
+    }
+
+    private fun getRootFolder(bundleDir: Path): String {
+        if (Files.exists(Paths.get("${bundleDir}/composer.json"))) {
+            return FilenameUtils.separatorsToUnix(bundleDir.pathString)
+        }
+
+        return getRootFolder(bundleDir.parent)
     }
 
     override fun getKeyDescriptor(): KeyDescriptor<String> {
