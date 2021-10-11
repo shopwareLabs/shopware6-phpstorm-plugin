@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [0.0.16]
+- Allow snippet creation using Quick Fix
+- Added new action to synchronize IDE settings with existing extensions
+
 ## [0.0.15]
 - Added Shopware.Mixin.getByName autocomplete
 - Added CreateEventListenerIntention
