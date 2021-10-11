@@ -56,7 +56,12 @@ object SnippetUtil {
 
                 if (element is JsonProperty) {
                     if (element.firstChild.firstChild.text == "\"" + snippetParts[0] + "\"") {
-                        snippetParts.removeAt(0)
+                        try {
+                            snippetParts.removeAt(0)
+                        } catch (e: UnsupportedOperationException) {
+                            foundPsi = element
+                            return
+                        }
 
                         if (snippetParts.isEmpty()) {
                             foundPsi = element
