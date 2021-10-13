@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [0.0.17]
+- Added new action to create a CMS block
+- Fixed a bug in SynchronizeNamespaceAction where it doesn't get applied
+
 ## [0.0.16]
 - Allow snippet creation using Quick Fix
 - Added new action to synchronize IDE settings with existing extensions
