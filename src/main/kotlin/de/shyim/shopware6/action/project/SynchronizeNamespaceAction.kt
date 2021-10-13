@@ -78,7 +78,7 @@ class SynchronizeNamespaceAction : DumbAwareAction(
         val it = namespaces.keys()
         while (it.hasNext()) {
             val key = it.next().toString()
-            val sourceFolder =
+            val bundleFolder =
                 LocalFileSystem.getInstance().findFileByPath("${basePath}/${namespaces.getString(key)}")!!
 
             var alreadyRegistered = false
@@ -87,7 +87,7 @@ class SynchronizeNamespaceAction : DumbAwareAction(
                 if (StringUtils.removeEnd(
                         sourceFolder?.file.toString(),
                         "/"
-                    ) == StringUtils.removeEnd(sourceFolder.toString(), "/")
+                    ) == StringUtils.removeEnd(bundleFolder.toString(), "/")
                 ) {
                     sourceFolder.packagePrefix = key
                     alreadyRegistered = true
@@ -98,7 +98,7 @@ class SynchronizeNamespaceAction : DumbAwareAction(
                 continue
             }
 
-            foundContentEntry.addSourceFolder(sourceFolder, type == "autoload-dev", key)
+            foundContentEntry.addSourceFolder(bundleFolder, type == "autoload-dev", key)
         }
     }
 }
