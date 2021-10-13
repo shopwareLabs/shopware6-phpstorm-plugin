@@ -123,6 +123,8 @@
                 <action id="ShopwareToolboxNewComponent"
                         class="de.shyim.shopware6.action.generator.vue.NewComponentAction"/>
                 <action id="ShopwareToolboxNewModule" class="de.shyim.shopware6.action.generator.vue.NewModuleAction"/>
+                <action id="ShopwareToolboxNewCmsBlock"
+                        class="de.shyim.shopware6.action.generator.cms.NewCmsBlockAction"/>
             </group>
             <add-to-group group-id="NewGroup" anchor="last"/>
         </group>

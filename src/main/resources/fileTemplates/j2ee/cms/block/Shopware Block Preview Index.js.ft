@@ -1,0 +1,8 @@
+import template from './sw-cms-preview-${NAME}.html.twig';
+import './sw-cms-preview-${NAME}.scss';
+
+const {Component} = Shopware;
+
+Component.register('sw-cms-preview-${NAME}', {
+    template
+});

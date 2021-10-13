@@ -5,6 +5,7 @@ import com.intellij.ide.fileTemplates.FileTemplateGroupDescriptor
 import com.intellij.ide.fileTemplates.FileTemplateGroupDescriptorFactory
 import com.intellij.ide.fileTemplates.FileTemplateManager
 import com.intellij.openapi.project.Project
+import de.shyim.shopware6.action.generator.cms.NewCmsBlockConfig
 import de.shyim.shopware6.action.generator.php.NewPluginConfig
 import de.shyim.shopware6.action.generator.php.NewScheduledTaskConfig
 import de.shyim.shopware6.action.generator.ui.NewChangelogConfig
@@ -21,7 +22,7 @@ class ShopwareTemplates: FileTemplateGroupDescriptorFactory {
             pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_CONTRIBUTION_CHANGELOG_TEMPLATE))
         }
 
-        FileTemplateGroupDescriptor("PP", ShopwareToolBoxIcons.SHOPWARE).let { pluginGroup ->
+        FileTemplateGroupDescriptor("PHP", ShopwareToolBoxIcons.SHOPWARE).let { pluginGroup ->
             group.addTemplate(pluginGroup)
             pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_PHP_SCHEDULED_TASK))
             pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_PHP_SCHEDULED_TASK_HANDLER))
@@ -34,6 +35,13 @@ class ShopwareTemplates: FileTemplateGroupDescriptorFactory {
             pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_ADMIN_VUE_COMPONENT))
             pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_ADMIN_VUE_COMPONENT_SCSS))
             pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_ADMIN_VUE_COMPONENT_TWIG))
+            pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_ADMIN_CMS_BLOCK_INDEX))
+            pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_ADMIN_CMS_BLOCK_COMPONENT_INDEX))
+            pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_ADMIN_CMS_BLOCK_COMPONENT_TEMPLATE))
+            pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_ADMIN_CMS_BLOCK_COMPONENT_PREVIEW_INDEX))
+            pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_ADMIN_CMS_BLOCK_COMPONENT_PREVIEW_TEMPLATE))
+            pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_ADMIN_CMS_BLOCK_COMPONENT_PREVIEW_SCSS))
+            pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_ADMIN_CMS_BLOCK_COMPONENT_STOREFRONT_TEMPLATE))
         }
 
         FileTemplateGroupDescriptor("Plugin", ShopwareToolBoxIcons.SHOPWARE).let { pluginGroup ->
@@ -53,6 +61,13 @@ class ShopwareTemplates: FileTemplateGroupDescriptorFactory {
         const val SHOPWARE_ADMIN_VUE_COMPONENT = "Shopware Vue Component.js"
         const val SHOPWARE_ADMIN_VUE_COMPONENT_SCSS = "Shopware Vue Component SCSS.scss"
         const val SHOPWARE_ADMIN_VUE_COMPONENT_TWIG = "Shopware Vue Component Twig.html.twig"
+        const val SHOPWARE_ADMIN_CMS_BLOCK_INDEX = "Shopware Block Index.js"
+        const val SHOPWARE_ADMIN_CMS_BLOCK_COMPONENT_INDEX = "Shopware Block Component Index.js"
+        const val SHOPWARE_ADMIN_CMS_BLOCK_COMPONENT_TEMPLATE = "Shopware Block Component Template.twig"
+        const val SHOPWARE_ADMIN_CMS_BLOCK_COMPONENT_PREVIEW_INDEX = "Shopware Block Preview Index.js"
+        const val SHOPWARE_ADMIN_CMS_BLOCK_COMPONENT_PREVIEW_TEMPLATE = "Shopware Block Preview Template.twig"
+        const val SHOPWARE_ADMIN_CMS_BLOCK_COMPONENT_PREVIEW_SCSS = "Shopware Block Preview SCSS.scss"
+        const val SHOPWARE_ADMIN_CMS_BLOCK_COMPONENT_STOREFRONT_TEMPLATE = "Shopware Block Storefront.twig"
         const val SHOPWARE_CONTRIBUTION_CHANGELOG_TEMPLATE = "Shopware CHANGELOG.md"
         const val SHOPWARE_PLUGIN_CONFIG_TEMPLATE = "Shopware Plugin config.xml"
         const val SHOPWARE_PHP_SCHEDULED_TASK = "Shopware PHP Scheduled Task.php"
@@ -112,6 +127,55 @@ class ShopwareTemplates: FileTemplateGroupDescriptorFactory {
                 SHOPWARE_ADMIN_VUE_MODULE_SNIPPET_JSON, mapOf(
                     "NAME" to name
                 )
+            );
+        }
+
+        fun applyShopwareAdminVueCmsBlockIndex(project: Project, config: NewCmsBlockConfig): String {
+            return project.applyTemplate(
+                SHOPWARE_ADMIN_CMS_BLOCK_INDEX,
+                config.toMap()
+            );
+        }
+
+        fun applyShopwareAdminVueCmsBlockComponentIndex(project: Project, config: NewCmsBlockConfig): String {
+            return project.applyTemplate(
+                SHOPWARE_ADMIN_CMS_BLOCK_COMPONENT_INDEX,
+                config.toMap()
+            );
+        }
+
+        fun applyShopwareAdminVueCmsBlockComponentTemplate(project: Project, config: NewCmsBlockConfig): String {
+            return project.applyTemplate(
+                SHOPWARE_ADMIN_CMS_BLOCK_COMPONENT_TEMPLATE,
+                config.toMap()
+            );
+        }
+
+        fun applyShopwareAdminVueCmsBlockPreviewIndex(project: Project, config: NewCmsBlockConfig): String {
+            return project.applyTemplate(
+                SHOPWARE_ADMIN_CMS_BLOCK_COMPONENT_PREVIEW_INDEX,
+                config.toMap()
+            );
+        }
+
+        fun applyShopwareAdminVueCmsBlockPreviewTemplate(project: Project, config: NewCmsBlockConfig): String {
+            return project.applyTemplate(
+                SHOPWARE_ADMIN_CMS_BLOCK_COMPONENT_PREVIEW_TEMPLATE,
+                config.toMap()
+            );
+        }
+
+        fun applyShopwareAdminVueCmsBlockPreviewScss(project: Project, config: NewCmsBlockConfig): String {
+            return project.applyTemplate(
+                SHOPWARE_ADMIN_CMS_BLOCK_COMPONENT_PREVIEW_SCSS,
+                config.toMap()
+            );
+        }
+
+        fun applyShopwareAdminVueCmsBlockStorefront(project: Project, config: NewCmsBlockConfig): String {
+            return project.applyTemplate(
+                SHOPWARE_ADMIN_CMS_BLOCK_COMPONENT_STOREFRONT_TEMPLATE,
+                config.toMap()
             );
         }
 

@@ -1,0 +1,5 @@
+{% block sw_cms_block_${NAME_NORMALIZED}_preview %}
+<div class="sw-cms-preview-${NAME}">
+    ${NAME}
+</div>
+{% endblock %}

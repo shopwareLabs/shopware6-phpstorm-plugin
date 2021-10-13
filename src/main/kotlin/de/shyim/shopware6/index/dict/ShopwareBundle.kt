@@ -21,4 +21,8 @@ class ShopwareBundle(val name: String, val path: String, val viewPath: String, v
                 Objects.equals(other.rootFolder, this.rootFolder) &&
                 Objects.equals(other.viewPath, this.viewPath)
     }
+
+    override fun toString(): String {
+        return this.name
+    }
 }

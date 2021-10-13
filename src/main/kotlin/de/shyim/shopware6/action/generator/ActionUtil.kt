@@ -61,7 +61,12 @@ class ActionUtil {
             name: String,
             content: String,
             directory: PsiDirectory
-        ): PsiFile {
+        ): PsiFile? {
+            if (directory.findFile(name) != null) {
+                Messages.showInfoMessage("File $name already exists", "Error")
+                return null
+            }
+
             val factory = PsiFileFactory.getInstance(project)
             val file = factory.createFileFromText(name, type, content)
 
@@ -70,7 +75,7 @@ class ActionUtil {
                 directory.add(file)
             }
 
-            return file
+            return directory.findFile(name)
         }
 
         fun createDirectory(dir: PsiDirectory, name: String): PsiDirectory? {
