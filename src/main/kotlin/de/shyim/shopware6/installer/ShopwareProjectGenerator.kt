@@ -13,7 +13,6 @@ import com.intellij.openapi.util.io.FileUtil
 import com.intellij.openapi.vfs.VfsUtil
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.platform.ProjectGeneratorPeer
-import com.intellij.util.PlatformUtils
 import com.intellij.util.io.Decompressor
 import com.jetbrains.php.util.PhpConfigurationUtil
 import fr.adrienbrault.idea.symfony2plugin.installer.SymfonyInstallerUtil
@@ -82,7 +81,7 @@ class ShopwareProjectGenerator : WebProjectTemplate<ShopwareProjectSettings>() {
     }
 
     override fun isPrimaryGenerator(): Boolean {
-        return PlatformUtils.isPhpStorm()
+        return true
     }
 
     private fun showErrorNotification(project: Project, content: String) {
