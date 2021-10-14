@@ -4,6 +4,9 @@
 
 ## [Unreleased]
 
+## [0.0.18]
+- Improve compatibility with newest EAP
+
 ## [0.0.17]
 - Added new action to create a CMS block
 - Fixed a bug in SynchronizeNamespaceAction where it doesn't get applied
