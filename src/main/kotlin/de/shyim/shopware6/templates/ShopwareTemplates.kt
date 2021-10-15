@@ -42,6 +42,17 @@ class ShopwareTemplates: FileTemplateGroupDescriptorFactory {
             pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_ADMIN_CMS_BLOCK_COMPONENT_PREVIEW_TEMPLATE))
             pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_ADMIN_CMS_BLOCK_COMPONENT_PREVIEW_SCSS))
             pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_ADMIN_CMS_BLOCK_COMPONENT_STOREFRONT_TEMPLATE))
+            pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_ADMIN_CMS_ELEMENT_INDEX))
+            pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_ADMIN_CMS_ELEMENT_COMPONENT_INDEX))
+            pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_ADMIN_CMS_ELEMENT_COMPONENT_TEMPLATE))
+            pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_ADMIN_CMS_ELEMENT_COMPONENT_SCSS))
+            pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_ADMIN_CMS_ELEMENT_CONFIG_INDEX))
+            pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_ADMIN_CMS_ELEMENT_CONFIG_TEMPLATE))
+            pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_ADMIN_CMS_ELEMENT_CONFIG_SCSS))
+            pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_ADMIN_CMS_ELEMENT_PREVIEW_INDEX))
+            pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_ADMIN_CMS_ELEMENT_PREVIEW_TEMPLATE))
+            pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_ADMIN_CMS_ELEMENT_PREVIEW_SCSS))
+            pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_ADMIN_CMS_ELEMENT_STOREFRONT))
         }
 
         FileTemplateGroupDescriptor("Plugin", ShopwareToolBoxIcons.SHOPWARE).let { pluginGroup ->
@@ -68,6 +79,17 @@ class ShopwareTemplates: FileTemplateGroupDescriptorFactory {
         const val SHOPWARE_ADMIN_CMS_BLOCK_COMPONENT_PREVIEW_TEMPLATE = "Shopware Block Preview Template.twig"
         const val SHOPWARE_ADMIN_CMS_BLOCK_COMPONENT_PREVIEW_SCSS = "Shopware Block Preview SCSS.scss"
         const val SHOPWARE_ADMIN_CMS_BLOCK_COMPONENT_STOREFRONT_TEMPLATE = "Shopware Block Storefront.twig"
+        const val SHOPWARE_ADMIN_CMS_ELEMENT_INDEX = "Shopware Element Index.js"
+        const val SHOPWARE_ADMIN_CMS_ELEMENT_COMPONENT_INDEX = "Shopware Element Component Index.js"
+        const val SHOPWARE_ADMIN_CMS_ELEMENT_COMPONENT_TEMPLATE = "Shopware Element Component Template.twig"
+        const val SHOPWARE_ADMIN_CMS_ELEMENT_COMPONENT_SCSS = "Shopware Element Component SCSS.scss"
+        const val SHOPWARE_ADMIN_CMS_ELEMENT_CONFIG_INDEX = "Shopware Element Config Index.js"
+        const val SHOPWARE_ADMIN_CMS_ELEMENT_CONFIG_TEMPLATE = "Shopware Element Config Template.twig"
+        const val SHOPWARE_ADMIN_CMS_ELEMENT_CONFIG_SCSS = "Shopware Element Config SCSS.scss"
+        const val SHOPWARE_ADMIN_CMS_ELEMENT_PREVIEW_INDEX = "Shopware Element Preview Index.js"
+        const val SHOPWARE_ADMIN_CMS_ELEMENT_PREVIEW_TEMPLATE = "Shopware Element Preview Template.twig"
+        const val SHOPWARE_ADMIN_CMS_ELEMENT_PREVIEW_SCSS = "Shopware Element Preview SCSS.scss"
+        const val SHOPWARE_ADMIN_CMS_ELEMENT_STOREFRONT = "Shopware Element Storefront.twig"
         const val SHOPWARE_CONTRIBUTION_CHANGELOG_TEMPLATE = "Shopware CHANGELOG.md"
         const val SHOPWARE_PLUGIN_CONFIG_TEMPLATE = "Shopware Plugin config.xml"
         const val SHOPWARE_PHP_SCHEDULED_TASK = "Shopware PHP Scheduled Task.php"
@@ -89,6 +111,10 @@ class ShopwareTemplates: FileTemplateGroupDescriptorFactory {
             properties?.let { prop -> allProperties.putAll(prop) }
 
             return template.getText(allProperties)
+        }
+
+        fun renderTemplate(project: Project, templateName: String, properties: Map<String, String>?): String {
+            return project.applyTemplate(templateName, properties)
         }
 
         fun applyChangelogTemplate(project: Project, config: NewChangelogConfig): String {
@@ -231,8 +257,6 @@ class ShopwareTemplates: FileTemplateGroupDescriptorFactory {
             )
         }
     }
-
-    private fun template(fileName: String, displayName: String? = null) = CustomDescriptor(fileName, displayName)
 
     private class CustomDescriptor(fileName: String, val visibleName: String?) : FileTemplateDescriptor(fileName) {
         override fun getDisplayName(): String = visibleName ?: fileName

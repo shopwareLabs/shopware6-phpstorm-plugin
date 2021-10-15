@@ -1,0 +1,7 @@
+{% block element_${NAME_NORMALIZED} %}
+{% set config = element.fieldConfig.elements %}
+
+<div class="cms-element-{{ element.type }}">
+    <h1>${NAME}</h1>
+</div>
+{% endblock %}

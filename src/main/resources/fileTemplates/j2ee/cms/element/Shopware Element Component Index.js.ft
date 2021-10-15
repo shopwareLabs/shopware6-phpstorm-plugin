@@ -1,0 +1,23 @@
+import template from './sw-cms-el-component-${NAME}.html.twig';
+import './sw-cms-el-component-${NAME}.scss';
+
+const {Component, Mixin} = Shopware;
+
+Component.register('sw-cms-el-${NAME}', {
+    template,
+
+    mixins: [
+        Mixin.getByName('cms-element')
+    ],
+
+    created() {
+        this.createdComponent();
+    },
+
+    methods: {
+        createdComponent() {
+            this.initElementConfig('${NAME}');
+            this.initElementData('${NAME}');
+        },
+    },
+});

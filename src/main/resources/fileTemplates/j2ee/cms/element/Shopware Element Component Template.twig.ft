@@ -1,0 +1,5 @@
+{% block sw_cms_el_component_${NAME_NORMALIZED} %}
+<div class="sw-cms-el-component-${NAME}">
+    ${NAME}
+</div>
+{% endblock %}
