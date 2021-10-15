@@ -93,7 +93,16 @@
     </extensions>
 
     <actions>
-        <action class="de.shyim.shopware6.action.project.SynchronizeNamespaceAction"/>
+        <action class="de.shyim.shopware6.action.project.SynchronizeNamespaceAction">
+            <add-to-group group-id="ToolsMenu"/>
+        </action>
+
+        <action class="de.shyim.shopware6.action.copy.CopySnippet">
+            <add-to-group group-id="CutCopyPasteGroup" anchor="after" relative-to-action="CopyReference"/>
+            <add-to-group group-id="EditorTabPopupMenu" anchor="after" relative-to-action="CopyReference"/>
+            <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="Copy.Paste.Special"/>
+        </action>
+
         <group id="ShopwareToolboxGroupPlugin" class="com.intellij.ide.actions.NonTrivialActionGroup"
                text="Shopware Platform" icon="ShopwareToolBoxIcons.SHOPWARE"
                popup="true">
