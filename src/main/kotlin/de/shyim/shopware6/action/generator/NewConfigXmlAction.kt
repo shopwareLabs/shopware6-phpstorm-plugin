@@ -20,7 +20,7 @@ class NewConfigXmlAction() : DumbAwareAction("Create a config.xml", "Create a ne
         ActionUtil.buildFile(
             e,
             project,
-            ShopwareTemplates.applyShopwarePluginConfig(project),
+            ShopwareTemplates.renderTemplate(project, ShopwareTemplates.SHOPWARE_PLUGIN_CONFIG_TEMPLATE, null),
             "config.xml",
             XmlFileType.INSTANCE
         );

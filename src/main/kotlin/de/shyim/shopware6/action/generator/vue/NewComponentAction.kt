@@ -52,10 +52,10 @@ class NewComponentAction: DumbAwareAction("Create a component", "Create a new Vu
         }
 
         // Create index.js
-        val content = ShopwareTemplates.applyShopwareAdminVueComponent(
+        val content = ShopwareTemplates.renderTemplate(
             project,
             ShopwareTemplates.SHOPWARE_ADMIN_VUE_COMPONENT,
-            config
+            config.toMap()
         )
 
         val factory = PsiFileFactory.getInstance(project)
@@ -71,10 +71,10 @@ class NewComponentAction: DumbAwareAction("Create a component", "Create a new Vu
             val htmlFile = factory.createFileFromText(
                 "${config.name}.html.twig",
                 HtmlFileType.INSTANCE,
-                ShopwareTemplates.applyShopwareAdminVueComponent(
+                ShopwareTemplates.renderTemplate(
                     project,
                     ShopwareTemplates.SHOPWARE_ADMIN_VUE_COMPONENT_TWIG,
-                    config
+                    config.toMap()
                 )
             )
 
@@ -90,10 +90,10 @@ class NewComponentAction: DumbAwareAction("Create a component", "Create a new Vu
             val cssFile = factory.createFileFromText(
                 "${config.name}.scss",
                 HtmlFileType.INSTANCE,
-                ShopwareTemplates.applyShopwareAdminVueComponent(
+                ShopwareTemplates.renderTemplate(
                     project,
                     ShopwareTemplates.SHOPWARE_ADMIN_VUE_COMPONENT_SCSS,
-                    config
+                    config.toMap()
                 )
             )
 

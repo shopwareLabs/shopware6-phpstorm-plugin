@@ -38,9 +38,10 @@ class NewModuleAction: DumbAwareAction("Create a module", "Create a new Shopware
 
         // Create module root file
 
-        val content = ShopwareTemplates.applyShopwareAdminVueModule(
+        val content = ShopwareTemplates.renderTemplate(
             project,
-            config
+            ShopwareTemplates.SHOPWARE_ADMIN_VUE_MODULE,
+            config.toMap()
         )
 
         ActionUtil.createFile(
@@ -78,9 +79,12 @@ class NewModuleAction: DumbAwareAction("Create a module", "Create a new Shopware
     }
 
     private fun createSnippet(project: Project, directory: PsiDirectory, name: String, language: String) {
-        val content = ShopwareTemplates.applyShopwareAdminVueModuleSnippet(
+        val content = ShopwareTemplates.renderTemplate(
             project,
-            name
+            ShopwareTemplates.SHOPWARE_ADMIN_VUE_MODULE_SNIPPET_JSON,
+            mapOf(
+                "NAME" to name
+            )
         )
 
         val factory = PsiFileFactory.getInstance(project)

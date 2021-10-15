@@ -113,8 +113,10 @@ class CreateEventListenerIntention : PsiElementBaseIntentionAction() {
             return
         }
 
-        val content = ShopwareTemplates.applyShopwarePHPEventListener(
-            project, mapOf(
+        val content = ShopwareTemplates.renderTemplate(
+            project,
+            ShopwareTemplates.SHOPWARE_PHP_EVENT_LISTENER,
+            mapOf(
                 "NAMESPACE" to getNamespaceOfFolder(expectedFolder).replace("\\\\", "\\"),
                 "EVENT" to eventClassName.substring(1),
                 "EVENT_SHORT" to eventShort,

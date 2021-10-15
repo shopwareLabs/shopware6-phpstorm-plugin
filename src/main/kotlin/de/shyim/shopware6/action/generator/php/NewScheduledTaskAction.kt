@@ -6,6 +6,8 @@ import com.jetbrains.php.lang.PhpFileType
 import com.jetbrains.php.roots.PhpNamespaceByFilesProvider
 import de.shyim.shopware6.action.generator.ActionUtil
 import de.shyim.shopware6.templates.ShopwareTemplates
+import de.shyim.shopware6.templates.ShopwareTemplates.Companion.SHOPWARE_PHP_SCHEDULED_TASK
+import de.shyim.shopware6.templates.ShopwareTemplates.Companion.SHOPWARE_PHP_SCHEDULED_TASK_HANDLER
 import icons.ShopwareToolBoxIcons
 
 class NewScheduledTaskAction :
@@ -22,7 +24,7 @@ class NewScheduledTaskAction :
         ActionUtil.buildFile(
             e,
             e.project!!,
-            ShopwareTemplates.applyShopwarePHPScheduledTask(e.project!!, config),
+            ShopwareTemplates.renderTemplate(e.project!!, SHOPWARE_PHP_SCHEDULED_TASK, config.toMap()),
             config.name + "Task.php",
             PhpFileType.INSTANCE
         )
@@ -30,7 +32,7 @@ class NewScheduledTaskAction :
         ActionUtil.buildFile(
             e,
             e.project!!,
-            ShopwareTemplates.applyShopwarePHPScheduledTaskHandler(e.project!!, config),
+            ShopwareTemplates.renderTemplate(e.project!!, SHOPWARE_PHP_SCHEDULED_TASK_HANDLER, config.toMap()),
             config.name + "TaskHandler.php",
             PhpFileType.INSTANCE
         )

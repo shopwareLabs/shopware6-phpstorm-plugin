@@ -5,12 +5,6 @@ import com.intellij.ide.fileTemplates.FileTemplateGroupDescriptor
 import com.intellij.ide.fileTemplates.FileTemplateGroupDescriptorFactory
 import com.intellij.ide.fileTemplates.FileTemplateManager
 import com.intellij.openapi.project.Project
-import de.shyim.shopware6.action.generator.cms.NewCmsBlockConfig
-import de.shyim.shopware6.action.generator.php.NewPluginConfig
-import de.shyim.shopware6.action.generator.php.NewScheduledTaskConfig
-import de.shyim.shopware6.action.generator.ui.NewChangelogConfig
-import de.shyim.shopware6.action.generator.vue.NewComponentConfig
-import de.shyim.shopware6.action.generator.vue.NewModuleConfig
 import icons.ShopwareToolBoxIcons
 
 class ShopwareTemplates: FileTemplateGroupDescriptorFactory {
@@ -100,7 +94,7 @@ class ShopwareTemplates: FileTemplateGroupDescriptorFactory {
         const val SHOPWARE_PLUGIN_COMPOSER_JSON = "Shopware Plugin composer.json"
         const val SHOPWARE_PLUGIN_SERVICES_XML = "Shopware Plugin services.xml"
 
-        protected fun Project.applyTemplate(
+        private fun Project.applyTemplate(
             templateName: String,
             properties: Map<String, String>? = null
         ): String {
@@ -116,149 +110,5 @@ class ShopwareTemplates: FileTemplateGroupDescriptorFactory {
         fun renderTemplate(project: Project, templateName: String, properties: Map<String, String>?): String {
             return project.applyTemplate(templateName, properties)
         }
-
-        fun applyChangelogTemplate(project: Project, config: NewChangelogConfig): String {
-            return project.applyTemplate(SHOPWARE_CONTRIBUTION_CHANGELOG_TEMPLATE, config.toMap())
-        }
-
-        fun applyShopwareAdminVueComponent(project: Project, name: String, config: NewComponentConfig): String {
-            val props = mapOf(
-                "NAME" to config.name,
-                "GENERATE_SCSS" to config.generateCss.toString(),
-                "GENERATE_TWIG" to config.generateTwig.toString(),
-            )
-
-            return project.applyTemplate(name, props)
-        }
-
-        fun applyShopwareAdminVueModule(project: Project, config: NewModuleConfig): String {
-            val props = mapOf(
-                "NAME" to config.name,
-                "TYPE" to config.type,
-                "COLOR" to config.color,
-                "ICON" to config.icon,
-                "PARENT_MODULE" to config.parentModule,
-                "VISIBLE_IN_SETTINGS" to config.showInSettings.toString(),
-            )
-
-            return project.applyTemplate(SHOPWARE_ADMIN_VUE_MODULE, props)
-        }
-
-        fun applyShopwarePluginConfig(project: Project): String {
-            return project.applyTemplate(SHOPWARE_PLUGIN_CONFIG_TEMPLATE)
-        }
-
-        fun applyShopwareAdminVueModuleSnippet(project: Project, name: String): String {
-            return project.applyTemplate(
-                SHOPWARE_ADMIN_VUE_MODULE_SNIPPET_JSON, mapOf(
-                    "NAME" to name
-                )
-            );
-        }
-
-        fun applyShopwareAdminVueCmsBlockIndex(project: Project, config: NewCmsBlockConfig): String {
-            return project.applyTemplate(
-                SHOPWARE_ADMIN_CMS_BLOCK_INDEX,
-                config.toMap()
-            );
-        }
-
-        fun applyShopwareAdminVueCmsBlockComponentIndex(project: Project, config: NewCmsBlockConfig): String {
-            return project.applyTemplate(
-                SHOPWARE_ADMIN_CMS_BLOCK_COMPONENT_INDEX,
-                config.toMap()
-            );
-        }
-
-        fun applyShopwareAdminVueCmsBlockComponentTemplate(project: Project, config: NewCmsBlockConfig): String {
-            return project.applyTemplate(
-                SHOPWARE_ADMIN_CMS_BLOCK_COMPONENT_TEMPLATE,
-                config.toMap()
-            );
-        }
-
-        fun applyShopwareAdminVueCmsBlockPreviewIndex(project: Project, config: NewCmsBlockConfig): String {
-            return project.applyTemplate(
-                SHOPWARE_ADMIN_CMS_BLOCK_COMPONENT_PREVIEW_INDEX,
-                config.toMap()
-            );
-        }
-
-        fun applyShopwareAdminVueCmsBlockPreviewTemplate(project: Project, config: NewCmsBlockConfig): String {
-            return project.applyTemplate(
-                SHOPWARE_ADMIN_CMS_BLOCK_COMPONENT_PREVIEW_TEMPLATE,
-                config.toMap()
-            );
-        }
-
-        fun applyShopwareAdminVueCmsBlockPreviewScss(project: Project, config: NewCmsBlockConfig): String {
-            return project.applyTemplate(
-                SHOPWARE_ADMIN_CMS_BLOCK_COMPONENT_PREVIEW_SCSS,
-                config.toMap()
-            );
-        }
-
-        fun applyShopwareAdminVueCmsBlockStorefront(project: Project, config: NewCmsBlockConfig): String {
-            return project.applyTemplate(
-                SHOPWARE_ADMIN_CMS_BLOCK_COMPONENT_STOREFRONT_TEMPLATE,
-                config.toMap()
-            );
-        }
-
-        fun applyShopwarePHPScheduledTask(project: Project, config: NewScheduledTaskConfig): String {
-            return project.applyTemplate(
-                SHOPWARE_PHP_SCHEDULED_TASK, mapOf(
-                    "NAME" to config.name,
-                    "TASKNAME" to config.taskName,
-                    "INTERVAL" to config.interval,
-                    "NAMESPACE" to config.namespace
-                )
-            );
-        }
-
-        fun applyShopwarePHPScheduledTaskHandler(project: Project, config: NewScheduledTaskConfig): String {
-            return project.applyTemplate(
-                SHOPWARE_PHP_SCHEDULED_TASK_HANDLER, mapOf(
-                    "NAME" to config.name,
-                    "TASKNAME" to config.taskName,
-                    "INTERVAL" to config.interval,
-                    "NAMESPACE" to config.namespace
-                )
-            );
-        }
-
-        fun applyShopwarePluginComposerJson(project: Project, config: NewPluginConfig): String {
-            return project.applyTemplate(
-                SHOPWARE_PLUGIN_COMPOSER_JSON, config.toMap()
-            );
-        }
-
-        fun applyShopwarePluginChangelog(project: Project, config: NewPluginConfig): String {
-            return project.applyTemplate(
-                SHOPWARE_PLUGIN_CHANGELOG, config.toMap()
-            );
-        }
-
-        fun applyShopwarePluginBootstrap(project: Project, config: NewPluginConfig): String {
-            return project.applyTemplate(
-                SHOPWARE_PLUGIN_BOOTSTRAP, config.toMap()
-            );
-        }
-
-        fun applyShopwarePluginServicesXml(project: Project, config: NewPluginConfig): String {
-            return project.applyTemplate(
-                SHOPWARE_PLUGIN_SERVICES_XML, config.toMap()
-            )
-        }
-
-        fun applyShopwarePHPEventListener(project: Project, config: Map<String, String>): String {
-            return project.applyTemplate(
-                SHOPWARE_PHP_EVENT_LISTENER, config
-            )
-        }
-    }
-
-    private class CustomDescriptor(fileName: String, val visibleName: String?) : FileTemplateDescriptor(fileName) {
-        override fun getDisplayName(): String = visibleName ?: fileName
     }
 }

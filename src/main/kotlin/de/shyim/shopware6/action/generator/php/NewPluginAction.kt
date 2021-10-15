@@ -31,9 +31,10 @@ class NewPluginAction : DumbAwareAction("Create a Plugin", "Create a new Plugin"
         val pluginFolder = ActionUtil.createDirectory(rootDirectory, config.name) ?: return
 
         // Create composer.json
-        val content = ShopwareTemplates.applyShopwarePluginComposerJson(
+        val content = ShopwareTemplates.renderTemplate(
             e.project!!,
-            config
+            ShopwareTemplates.SHOPWARE_PLUGIN_COMPOSER_JSON,
+            config.toMap()
         )
 
         ActionUtil.createFile(
@@ -53,9 +54,10 @@ class NewPluginAction : DumbAwareAction("Create a Plugin", "Create a new Plugin"
 
         val srcFolder = ActionUtil.createDirectory(pluginFolder, "src") ?: return
 
-        val pluginContent = ShopwareTemplates.applyShopwarePluginBootstrap(
+        val pluginContent = ShopwareTemplates.renderTemplate(
             e.project!!,
-            config
+            ShopwareTemplates.SHOPWARE_PLUGIN_BOOTSTRAP,
+            config.toMap()
         )
 
         val pluginBootstrapFile = ActionUtil.createFile(
@@ -75,7 +77,7 @@ class NewPluginAction : DumbAwareAction("Create a Plugin", "Create a new Plugin"
             e.project!!,
             XmlFileType.INSTANCE,
             "config.xml",
-            ShopwareTemplates.applyShopwarePluginConfig(e.project!!),
+            ShopwareTemplates.renderTemplate(e.project!!, ShopwareTemplates.SHOPWARE_PLUGIN_CONFIG_TEMPLATE, null),
             configFolder
         )
 
@@ -83,7 +85,11 @@ class NewPluginAction : DumbAwareAction("Create a Plugin", "Create a new Plugin"
             e.project!!,
             XmlFileType.INSTANCE,
             "services.xml",
-            ShopwareTemplates.applyShopwarePluginServicesXml(e.project!!, config),
+            ShopwareTemplates.renderTemplate(
+                e.project!!,
+                ShopwareTemplates.SHOPWARE_PLUGIN_SERVICES_XML,
+                config.toMap()
+            ),
             configFolder
         )
 
@@ -92,9 +98,10 @@ class NewPluginAction : DumbAwareAction("Create a Plugin", "Create a new Plugin"
     }
 
     private fun createChangelog(project: Project, directory: PsiDirectory, name: String, config: NewPluginConfig) {
-        val content = ShopwareTemplates.applyShopwarePluginChangelog(
+        val content = ShopwareTemplates.renderTemplate(
             project,
-            config
+            ShopwareTemplates.SHOPWARE_PLUGIN_CHANGELOG,
+            config.toMap()
         )
 
         ActionUtil.createFile(

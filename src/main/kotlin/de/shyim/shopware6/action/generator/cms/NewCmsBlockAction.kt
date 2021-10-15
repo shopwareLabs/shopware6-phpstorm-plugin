@@ -39,7 +39,11 @@ class NewCmsBlockAction :
             e.project!!,
             JavaScriptFileType.INSTANCE,
             "index.js",
-            ShopwareTemplates.applyShopwareAdminVueCmsBlockIndex(e.project!!, result),
+            ShopwareTemplates.renderTemplate(
+                e.project!!,
+                ShopwareTemplates.SHOPWARE_ADMIN_CMS_BLOCK_INDEX,
+                result.toMap()
+            ),
             blockFolder
         ) ?: return
 
@@ -49,7 +53,11 @@ class NewCmsBlockAction :
             e.project!!,
             JavaScriptFileType.INSTANCE,
             "index.js",
-            ShopwareTemplates.applyShopwareAdminVueCmsBlockComponentIndex(e.project!!, result),
+            ShopwareTemplates.renderTemplate(
+                e.project!!,
+                ShopwareTemplates.SHOPWARE_ADMIN_CMS_BLOCK_COMPONENT_INDEX,
+                result.toMap()
+            ),
             componentFolder
         ) ?: return
 
@@ -57,7 +65,11 @@ class NewCmsBlockAction :
             e.project!!,
             TwigFileType.INSTANCE,
             "sw-cms-block-${result.name}.html.twig",
-            ShopwareTemplates.applyShopwareAdminVueCmsBlockComponentTemplate(e.project!!, result),
+            ShopwareTemplates.renderTemplate(
+                e.project!!,
+                ShopwareTemplates.SHOPWARE_ADMIN_CMS_BLOCK_COMPONENT_TEMPLATE,
+                result.toMap()
+            ),
             componentFolder
         ) ?: return
 
@@ -67,7 +79,11 @@ class NewCmsBlockAction :
             e.project!!,
             JavaScriptFileType.INSTANCE,
             "index.js",
-            ShopwareTemplates.applyShopwareAdminVueCmsBlockPreviewIndex(e.project!!, result),
+            ShopwareTemplates.renderTemplate(
+                e.project!!,
+                ShopwareTemplates.SHOPWARE_ADMIN_CMS_BLOCK_COMPONENT_PREVIEW_INDEX,
+                result.toMap()
+            ),
             previewFolder
         ) ?: return
 
@@ -75,7 +91,11 @@ class NewCmsBlockAction :
             e.project!!,
             TwigFileType.INSTANCE,
             "sw-cms-preview-${result.name}.html.twig",
-            ShopwareTemplates.applyShopwareAdminVueCmsBlockPreviewTemplate(e.project!!, result),
+            ShopwareTemplates.renderTemplate(
+                e.project!!,
+                ShopwareTemplates.SHOPWARE_ADMIN_CMS_BLOCK_COMPONENT_PREVIEW_TEMPLATE,
+                result.toMap()
+            ),
             previewFolder
         ) ?: return
 
@@ -83,7 +103,11 @@ class NewCmsBlockAction :
             e.project!!,
             CssFileType.INSTANCE,
             "sw-cms-preview-${result.name}.scss",
-            ShopwareTemplates.applyShopwareAdminVueCmsBlockPreviewTemplate(e.project!!, result),
+            ShopwareTemplates.renderTemplate(
+                e.project!!,
+                ShopwareTemplates.SHOPWARE_ADMIN_CMS_BLOCK_COMPONENT_PREVIEW_TEMPLATE,
+                result.toMap()
+            ),
             previewFolder
         ) ?: return
 
@@ -93,7 +117,11 @@ class NewCmsBlockAction :
             e.project!!,
             TwigFileType.INSTANCE,
             "cms-block-${result.name}.html.twig",
-            ShopwareTemplates.applyShopwareAdminVueCmsBlockStorefront(e.project!!, result),
+            ShopwareTemplates.renderTemplate(
+                e.project!!,
+                ShopwareTemplates.SHOPWARE_ADMIN_CMS_BLOCK_COMPONENT_STOREFRONT_TEMPLATE,
+                result.toMap()
+            ),
             storefrontFolder
         ) ?: return
 

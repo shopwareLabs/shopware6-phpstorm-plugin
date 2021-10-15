@@ -6,6 +6,7 @@ import com.intellij.openapi.fileTypes.PlainTextFileType
 import com.intellij.openapi.project.DumbAwareAction
 import de.shyim.shopware6.action.generator.ui.NewChangelogDialogWrapper
 import de.shyim.shopware6.templates.ShopwareTemplates
+import de.shyim.shopware6.templates.ShopwareTemplates.Companion.SHOPWARE_CONTRIBUTION_CHANGELOG_TEMPLATE
 import git4idea.GitUserRegistry
 import git4idea.branch.GitBranchUtil
 import org.apache.commons.lang.StringUtils
@@ -52,7 +53,11 @@ class NewChangelogAction: DumbAwareAction("Create a Changelog", "Create a new Ch
         ActionUtil.buildFile(
             e,
             e.project!!,
-            ShopwareTemplates.applyChangelogTemplate(e.project!!, dialogResult),
+            ShopwareTemplates.renderTemplate(
+                e.project!!,
+                SHOPWARE_CONTRIBUTION_CHANGELOG_TEMPLATE,
+                dialogResult.toMap()
+            ),
             fileName,
             PlainTextFileType.INSTANCE
         )
