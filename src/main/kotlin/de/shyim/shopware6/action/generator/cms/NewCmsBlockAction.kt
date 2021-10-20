@@ -105,7 +105,7 @@ class NewCmsBlockAction :
             "sw-cms-preview-${result.name}.scss",
             ShopwareTemplates.renderTemplate(
                 e.project!!,
-                ShopwareTemplates.SHOPWARE_ADMIN_CMS_BLOCK_COMPONENT_PREVIEW_TEMPLATE,
+                ShopwareTemplates.SHOPWARE_ADMIN_CMS_BLOCK_COMPONENT_PREVIEW_SCSS,
                 result.toMap()
             ),
             previewFolder
