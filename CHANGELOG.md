@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.0.19]
+- Added cms element action
+- Added copy snippet as code in JSON file
+- Fixed cms block preview scss file
+
 ## [0.0.18]
 - Improve compatibility with newest EAP
 
