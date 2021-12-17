@@ -3,7 +3,7 @@ import './sw-cms-el-component-${NAME}.scss';
 
 const {Component, Mixin} = Shopware;
 
-Component.register('sw-cms-el-${NAME}', {
+Component.register('sw-cms-el-component-${NAME}', {
     template,
 
     mixins: [
