@@ -80,8 +80,4 @@ class CopySnippet : DumbAwareAction("Copy Snippet Code", "Copy the snippet code"
             cur = cur.parent
         }
     }
-
-    override fun startInTransaction(): Boolean {
-        return false
-    }
 }
