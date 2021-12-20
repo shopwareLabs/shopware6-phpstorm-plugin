@@ -12,10 +12,10 @@ object PsiFolderUtil {
             paths.forEach {
                 val subFolder = folder.findSubdirectory(it)
 
-                if (subFolder == null) {
-                    folder = folder.createSubdirectory(it)
+                folder = if (subFolder == null) {
+                    folder.createSubdirectory(it)
                 } else {
-                    folder = subFolder
+                    subFolder
                 }
             }
         }

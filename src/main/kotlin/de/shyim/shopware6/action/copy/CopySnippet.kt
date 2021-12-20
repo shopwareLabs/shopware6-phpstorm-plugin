@@ -13,11 +13,11 @@ import icons.ShopwareToolBoxIcons
 import java.awt.Toolkit
 import java.awt.datatransfer.StringSelection
 
-class CopySnippet : DumbAwareAction("Copy snippet code", "Copy the snippet code", ShopwareToolBoxIcons.SHOPWARE) {
+class CopySnippet : DumbAwareAction("Copy Snippet Code", "Copy the snippet code", ShopwareToolBoxIcons.SHOPWARE) {
     override fun actionPerformed(e: AnActionEvent) {
         val pf: PsiFile = LangDataKeys.PSI_FILE.getData(e.dataContext) ?: return
         val editor = LangDataKeys.EDITOR.getData(e.dataContext) ?: return
-        val pe = pf.findElementAt(editor.getCaretModel().getOffset()) ?: return
+        val pe = pf.findElementAt(editor.caretModel.offset) ?: return
 
         val key = resolveKey(pe)
         val collectionList: MutableCollection<String> = mutableListOf()
@@ -39,11 +39,11 @@ class CopySnippet : DumbAwareAction("Copy snippet code", "Copy the snippet code"
                 }
 
                 Toolkit.getDefaultToolkit()
-                    .getSystemClipboard()
+                    .systemClipboard
                     .setContents(
                         StringSelection(code),
                         null
-                    );
+                    )
             }
             .createPopup()
             .showInBestPositionFor(editor)
@@ -70,10 +70,10 @@ class CopySnippet : DumbAwareAction("Copy snippet code", "Copy the snippet code"
             }
 
             if (cur is JsonProperty) {
-                if (text == "") {
-                    text = cur.name
+                text = if (text == "") {
+                    cur.name
                 } else {
-                    text = "${cur.name}.${text}"
+                    "${cur.name}.${text}"
                 }
             }
 

@@ -88,7 +88,7 @@ class NewModuleAction: DumbAwareAction("Create a module", "Create a new Shopware
         )
 
         val factory = PsiFileFactory.getInstance(project)
-        val file = factory.createFileFromText(language + ".json", JavaScriptFileType.INSTANCE, content)
+        val file = factory.createFileFromText("$language.json", JavaScriptFileType.INSTANCE, content)
 
         ApplicationManager.getApplication().runWriteAction {
             CodeStyleManager.getInstance(project).reformat(file)

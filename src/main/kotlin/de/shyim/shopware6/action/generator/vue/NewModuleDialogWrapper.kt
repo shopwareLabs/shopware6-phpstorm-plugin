@@ -2,7 +2,6 @@ package de.shyim.shopware6.action.generator.vue
 
 import com.intellij.openapi.ui.DialogWrapper
 import de.shyim.shopware6.ui.vue.NewModule
-import javax.swing.DefaultComboBoxModel
 import javax.swing.JComponent
 
 class NewModuleDialogWrapper: DialogWrapper(true) {
@@ -36,7 +35,7 @@ class NewModuleDialogWrapper: DialogWrapper(true) {
 
         return NewModuleConfig(
             this.panel.nameField.getText(),
-            selectedItem.toString(),
+            selectedItem,
             this.panel.colorField.getText(),
             this.panel.iconField.getText(),
             this.panel.parentModuleField.getText(),

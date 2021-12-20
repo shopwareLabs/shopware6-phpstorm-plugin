@@ -43,7 +43,7 @@ class ThemeConfigIndex : FileBasedIndexExtension<String, ThemeConfig>() {
                                     if (element.lastChild is JsonObject) {
                                         element.lastChild.children.forEach { fieldElement ->
                                             if (fieldElement is JsonProperty) {
-                                                var name = fieldElement.firstChild.text.replace("\"", "")
+                                                val name = fieldElement.firstChild.text.replace("\"", "")
                                                 var label = ""
                                                 var value = ""
 

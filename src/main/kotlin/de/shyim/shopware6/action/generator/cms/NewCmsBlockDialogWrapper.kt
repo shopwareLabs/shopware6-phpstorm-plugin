@@ -17,11 +17,11 @@ class NewCmsBlockDialogWrapper(bundles: List<ShopwareBundle>) : DialogWrapper(tr
     }
 
     override fun createCenterPanel(): JComponent? {
-        return this.panel.panel;
+        return this.panel.panel
     }
 
     override fun getPreferredFocusedComponent(): JComponent? {
-        return this.panel.extensionField;
+        return this.panel.extensionField
     }
 
     init {

@@ -92,7 +92,7 @@ class TwigCompletionProvider() : CompletionContributor() {
                         return
                     }
 
-                    result.addAllElements(TwigUtil.getTwigLookupElements(parameters.getPosition().getProject()));
+                    result.addAllElements(TwigUtil.getTwigLookupElements(parameters.getPosition().getProject()))
                 }
             }
         )
@@ -112,10 +112,10 @@ class TwigCompletionProvider() : CompletionContributor() {
 
                     result.addElement(
                         LookupElementBuilder.create("sw_include").withIcon(ShopwareToolBoxIcons.SHOPWARE)
-                    );
+                    )
                     result.addElement(
                         LookupElementBuilder.create("sw_extends").withIcon(ShopwareToolBoxIcons.SHOPWARE)
-                    );
+                    )
                 }
             }
         )

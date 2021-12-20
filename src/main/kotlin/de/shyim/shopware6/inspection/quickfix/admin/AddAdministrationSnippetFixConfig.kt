@@ -1,4 +1,3 @@
 package de.shyim.shopware6.inspection.quickfix.admin
 
-class AddAdministrationSnippetFixConfig(public val key: String, public val translations: Map<String, String>) {
-}
+class AddAdministrationSnippetFixConfig(val key: String, val translations: Map<String, String>)

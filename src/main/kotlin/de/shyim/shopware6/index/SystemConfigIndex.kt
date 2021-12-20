@@ -66,7 +66,7 @@ class SystemConfigIndex : FileBasedIndexExtension<String, SystemConfig>() {
 
     private fun getNamespaceFromInput(inputData: FileContent): String? {
         val project = inputData.project
-        var parent = inputData.file.parent;
+        var parent = inputData.file.parent
 
         while (parent.findChild("composer.json") == null && parent.findChild("manifest.xml") == null) {
             if (parent.parent == null) {

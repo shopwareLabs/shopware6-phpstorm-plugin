@@ -34,7 +34,7 @@ class AddAdministrationSnippetFix : LocalQuickFix {
                 ApplicationManager.getApplication().runWriteAction {
                     createSnippets(cfg, snippets, project)
                 }
-            }, "Add snippet", null)
+            }, "Add Snippet", null)
         }
     }
 

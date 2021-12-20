@@ -13,7 +13,7 @@ import java.net.URLConnection
 
 object ShopwareApiUtil {
     fun getAllVersions(): List<ShopwareVersion> {
-        val versions: MutableList<ShopwareVersion> = ArrayList<ShopwareVersion>()
+        val versions: MutableList<ShopwareVersion> = ArrayList()
 
         val jsonContent = getAllVersionsRaw() ?: return versions
 

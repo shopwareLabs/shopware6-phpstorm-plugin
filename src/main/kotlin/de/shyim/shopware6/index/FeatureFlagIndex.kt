@@ -16,7 +16,7 @@ class FeatureFlagIndex : FileBasedIndexExtension<String, FeatureFlag>() {
     private val EXTERNALIZER = ObjectStreamDataExternalizer<FeatureFlag>()
 
     override fun getName(): ID<String, FeatureFlag> {
-        return FeatureFlagIndex.key
+        return key
     }
 
     override fun getVersion(): Int {

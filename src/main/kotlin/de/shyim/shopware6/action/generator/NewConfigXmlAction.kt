@@ -8,10 +8,10 @@ import com.intellij.openapi.project.DumbAwareAction
 import com.intellij.openapi.project.Project
 import de.shyim.shopware6.templates.ShopwareTemplates
 
-class NewConfigXmlAction() : DumbAwareAction("Create a config.xml", "Create a new config.xml", AllIcons.FileTypes.Xml) {
+class NewConfigXmlAction : DumbAwareAction("Create a config.xml", "Create a new config.xml", AllIcons.FileTypes.Xml) {
 
     override fun actionPerformed(e: AnActionEvent) {
-        val project : Project? = e.getData(PlatformDataKeys.PROJECT);
+        val project : Project? = e.getData(PlatformDataKeys.PROJECT)
 
         if (project === null) {
             return
@@ -23,7 +23,7 @@ class NewConfigXmlAction() : DumbAwareAction("Create a config.xml", "Create a ne
             ShopwareTemplates.renderTemplate(project, ShopwareTemplates.SHOPWARE_PLUGIN_CONFIG_TEMPLATE, null),
             "config.xml",
             XmlFileType.INSTANCE
-        );
+        )
     }
 
 }

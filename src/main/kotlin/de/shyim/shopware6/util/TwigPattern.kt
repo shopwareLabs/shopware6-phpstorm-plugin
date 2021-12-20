@@ -54,7 +54,7 @@ object TwigPattern {
             .withLanguage(TwigLanguage.INSTANCE)
     }
 
-    private fun getFunctionCallScopePattern(): ElementPattern<PsiElement?>? {
+    private fun getFunctionCallScopePattern(): ElementPattern<PsiElement?> {
         return PlatformPatterns.or( // old and inconsistently implementations of FUNCTION_CALL:
             // eg {% if asset('') %} does not provide a FUNCTION_CALL whereas a print block does
             PlatformPatterns.psiElement(TwigElementTypes.PRINT_BLOCK),

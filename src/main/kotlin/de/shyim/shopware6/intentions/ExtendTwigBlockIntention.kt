@@ -41,7 +41,7 @@ class ExtendTwigBlockIntention : PsiElementBaseIntentionAction() {
         val currentBundle = TwigUtil.getBundleByFilePath(editor.virtualFile.path, project)
 
         if (templatePath == null) {
-            HintManager.getInstance().showErrorHint(editor, "Cannot determine view folder of currently opened file");
+            HintManager.getInstance().showErrorHint(editor, "Cannot determine view folder of currently opened file")
             return
         }
 
@@ -75,7 +75,7 @@ class ExtendTwigBlockIntention : PsiElementBaseIntentionAction() {
         }
 
         PopupChooserBuilder(jbBundleList)
-            .setTitle("Shopware: Select bundle")
+            .setTitle("Shopware: Select Bundle")
             .setItemChoosenCallback {
                 CommandProcessor.getInstance().executeCommand(project, {
                     ApplicationManager.getApplication().runWriteAction {
@@ -86,7 +86,7 @@ class ExtendTwigBlockIntention : PsiElementBaseIntentionAction() {
                             project
                         )
                     }
-                }, "Extend Twig block", null)
+                }, "Extend Twig Block", null)
             }
             .createPopup()
             .showInBestPositionFor(editor)
@@ -104,10 +104,10 @@ class ExtendTwigBlockIntention : PsiElementBaseIntentionAction() {
         val localFolder = LocalFileSystem.getInstance().findFileByPath(bundle.viewPath)
 
         var currentFolder: PsiDirectory?
-        if (localFolder == null) {
-            currentFolder = createMissingViewFolder(bundle, project)
+        currentFolder = if (localFolder == null) {
+            createMissingViewFolder(bundle, project)
         } else {
-            currentFolder = PsiManager.getInstance(project).findDirectory(localFolder) as PsiDirectory
+            PsiManager.getInstance(project).findDirectory(localFolder) as PsiDirectory
         }
 
         var fileName: String? = null
@@ -127,7 +127,7 @@ class ExtendTwigBlockIntention : PsiElementBaseIntentionAction() {
         }
 
         val blockCode = """
-{% block ${blockName} %}
+{% block $blockName %}
 
 {% endblock %}
         """.trimIndent()

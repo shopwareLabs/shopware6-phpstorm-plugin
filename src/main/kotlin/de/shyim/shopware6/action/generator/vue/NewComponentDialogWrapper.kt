@@ -26,7 +26,7 @@ class NewComponentDialogWrapper : DialogWrapper(true) {
     }
 
     fun showAndGetName(): NewComponentConfig? {
-        show();
+        show()
 
         if (!isOK) {
             return null

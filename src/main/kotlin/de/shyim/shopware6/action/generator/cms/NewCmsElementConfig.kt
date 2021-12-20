@@ -2,7 +2,7 @@ package de.shyim.shopware6.action.generator.cms
 
 import de.shyim.shopware6.index.dict.ShopwareBundle
 
-class NewCmsElementConfig(public val name: String, public val extension: ShopwareBundle) {
+class NewCmsElementConfig(val name: String, val extension: ShopwareBundle) {
     fun normalizeName(): String {
         return this.name.replace("-", "_")
     }
