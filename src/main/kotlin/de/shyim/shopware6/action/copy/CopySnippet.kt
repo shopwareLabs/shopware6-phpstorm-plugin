@@ -44,14 +44,18 @@ class CopySnippet : DumbAwareAction("Copy snippet code", "Copy the snippet code"
                         StringSelection(code),
                         null
                     );
-                println(jbBundleList.selectedValue!!)
             }
             .createPopup()
             .showInBestPositionFor(editor)
     }
 
     override fun update(e: AnActionEvent) {
-        val pf: PsiFile = LangDataKeys.PSI_FILE.getData(e.dataContext) ?: return
+        val pf: PsiFile? = LangDataKeys.PSI_FILE.getData(e.dataContext)
+
+        if (pf == null) {
+            e.presentation.isEnabledAndVisible = false
+            return
+        }
 
         e.presentation.isEnabledAndVisible = pf is JsonFile
     }
