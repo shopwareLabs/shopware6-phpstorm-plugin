@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.0.20]
+- Fixed issue with cms element naming thanks to @breaker92 
+- Add Create an App dialog
+- Fixed deprecations
+
 ## [0.0.19]
 - Added cms element action
 - Added copy snippet as code in JSON file
