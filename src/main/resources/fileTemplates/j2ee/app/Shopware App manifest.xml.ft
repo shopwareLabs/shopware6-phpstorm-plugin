@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/trunk/src/Core/Framework/App/Manifest/Schema/manifest-1.0.xsd">
+    <meta>
+        <name>${NAME}</name>
+        <label>${LABEL}</label>
+        <label lang="de-DE">${LABEL}</label>
+        <description></description>
+        <description lang="de-DE"></description>
+        <author>${AUTHOR}</author>
+        <copyright>(c) by ${AUTHOR}</copyright>
+        <version>1.0.0</version>
+        <icon>Resources/config/plugin.png</icon>
+        <license>${LICENSE}</license>
+    </meta>
+</manifest>

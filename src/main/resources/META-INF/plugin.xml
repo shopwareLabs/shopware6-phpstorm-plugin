@@ -127,6 +127,12 @@
                         class="de.shyim.shopware6.action.generator.php.NewScheduledTaskAction"/>
             </group>
 
+            <group id="ShopwareToolboxApp" class="com.intellij.ide.actions.NonTrivialActionGroup" text="App"
+                   icon="ShopwareToolBoxIcons.SHOPWARE" popup="true">
+                <action id="ShopwareToolboxNewApp"
+                        class="de.shyim.shopware6.action.generator.app.NewAppAction"/>
+            </group>
+
             <group id="ShopwareToolboxAdminGroup" class="com.intellij.ide.actions.NonTrivialActionGroup"
                    text="Administration" icon="ShopwareToolBoxIcons.SHOPWARE" popup="true">
                 <action id="ShopwareToolboxNewComponent"
