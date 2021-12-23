@@ -16,7 +16,7 @@ import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiFileFactory
 import de.shyim.shopware6.util.StringUtil
-import org.json.simple.JSONValue
+import net.minidev.json.JSONValue
 
 class AddAdministrationSnippetFix : LocalQuickFix {
     override fun getFamilyName() = "Add missing administration snippet"
