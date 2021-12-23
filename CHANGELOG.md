@@ -4,6 +4,9 @@
 
 ## [Unreleased]
 
+## [0.0.21]
+- Fix compatibility issue with 2021.3
+
 ## [0.0.20]
 - Fixed issue with cms element naming thanks to @breaker92 
 - Add Create an App dialog
