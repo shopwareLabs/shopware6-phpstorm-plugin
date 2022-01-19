@@ -75,7 +75,7 @@ class FeatureFlagIndex : FileBasedIndexExtension<String, FeatureFlag>() {
                                             }
 
                                             flags[map.get("name")] = FeatureFlag(
-                                                map.getOrDefault("name", ""),
+                                                map.getOrDefault("name", "").replace("\"", "").replace("'", ""),
                                                 default,
                                                 major,
                                                 map.getOrDefault("description", ""),
