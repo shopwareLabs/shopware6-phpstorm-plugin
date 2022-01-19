@@ -4,6 +4,9 @@
 
 ## [Unreleased]
 
+## [0.0.22]
+Use feature flags from feature.yaml if the file exists
+
 ## [0.0.21]
 - Fix compatibility issue with 2021.3
 
