@@ -29,6 +29,8 @@
         <fileBasedIndex implementation="de.shyim.shopware6.index.EntityDefinitionIndex"/>
         <fileBasedIndex implementation="de.shyim.shopware6.index.AdminMixinIndex"/>
         <fileBasedIndex implementation="de.shyim.shopware6.index.ShopwareAppIndex"/>
+        <fileBasedIndex implementation="de.shyim.shopware6.index.ScriptHookIndex"/>
+        <fileBasedIndex implementation="de.shyim.shopware6.index.ScriptHookFacadeIndex"/>
 
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.FeatureFlagGoToDeclareHandler"/>
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.AdminComponentGoToDeclareHandler"/>
@@ -76,6 +78,16 @@
                 enabledByDefault="true"
                 level="WARNING"
                 implementationClass="de.shyim.shopware6.inspection.AdministrationSnippetMissing"
+        />
+
+        <localInspection
+                groupPath="Shopware 6"
+                shortName="Shopware6AppScriptServiceNotAvailable"
+                displayName="Requested service is not available in this scope"
+                groupName="Script"
+                enabledByDefault="true"
+                level="WARNING"
+                implementationClass="de.shyim.shopware6.inspection.ScriptHookServiceNotAvailable"
         />
 
         <intentionAction>
