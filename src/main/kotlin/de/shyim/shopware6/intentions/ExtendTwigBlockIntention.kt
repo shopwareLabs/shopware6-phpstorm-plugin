@@ -16,7 +16,8 @@ import com.intellij.ui.components.JBList
 import com.jetbrains.twig.TwigFileType
 import com.jetbrains.twig.elements.TwigBlockTag
 import de.shyim.shopware6.index.dict.ShopwareBundle
-import de.shyim.shopware6.util.ShopwareBundleUtil
+import de.shyim.shopware6.index.dict.ShopwareExtension
+import de.shyim.shopware6.util.ShopwareExtensionUtil
 import de.shyim.shopware6.util.TwigUtil
 import java.awt.Component
 import javax.swing.JLabel
@@ -45,14 +46,14 @@ class ExtendTwigBlockIntention : PsiElementBaseIntentionAction() {
             return
         }
 
-        val bundleList = ShopwareBundleUtil.getAllBundlesRelatedToViews(project).filter { bundle ->
-            return@filter bundle.name != currentBundle
+        val bundleList = ShopwareExtensionUtil.getAllExtensions(project).filter { bundle ->
+            return@filter bundle.getExtensionName() != currentBundle
         }.filter {
-            val virtualFile = LocalFileSystem.getInstance().findFileByPath(it.path)!!
-            val psiFile = PsiManager.getInstance(project).findFile(virtualFile)!!
+            val virtualFile = LocalFileSystem.getInstance().findFileByPath(it.getExtensionPath())!!
+            val psiFile = PsiManager.getInstance(project).findDirectory(virtualFile)!!
 
             return@filter psiFile.manager.isInProject(psiFile)
-        }.sortedBy { shopwareBundle -> shopwareBundle.name }
+        }.sortedBy { shopwareBundle -> shopwareBundle.getExtensionName() }
 
         val jbBundleList = JBList(bundleList)
 
@@ -75,7 +76,7 @@ class ExtendTwigBlockIntention : PsiElementBaseIntentionAction() {
         }
 
         PopupChooserBuilder(jbBundleList)
-            .setTitle("Shopware: Select Bundle")
+            .setTitle("Shopware: Select Extension")
             .setItemChoosenCallback {
                 CommandProcessor.getInstance().executeCommand(project, {
                     ApplicationManager.getApplication().runWriteAction {
@@ -100,8 +101,13 @@ class ExtendTwigBlockIntention : PsiElementBaseIntentionAction() {
         }
     }
 
-    private fun extendBlockInBundle(bundle: ShopwareBundle, templatePath: String, blockName: String, project: Project) {
-        val localFolder = LocalFileSystem.getInstance().findFileByPath(bundle.viewPath)
+    private fun extendBlockInBundle(
+        bundle: ShopwareExtension,
+        templatePath: String,
+        blockName: String,
+        project: Project
+    ) {
+        val localFolder = LocalFileSystem.getInstance().findFileByPath(bundle.getStorefrontViewFolder())
 
         var currentFolder: PsiDirectory?
         currentFolder = if (localFolder == null) {
@@ -158,8 +164,8 @@ class ExtendTwigBlockIntention : PsiElementBaseIntentionAction() {
         }
     }
 
-    private fun createMissingViewFolder(bundle: ShopwareBundle, project: Project): PsiDirectory {
-        val bundleFile = LocalFileSystem.getInstance().findFileByPath(bundle.path)!!
+    private fun createMissingViewFolder(bundle: ShopwareExtension, project: Project): PsiDirectory {
+        val bundleFile = LocalFileSystem.getInstance().findFileByPath(bundle.getExtensionPath())!!
         val bundleFolder = PsiManager.getInstance(project).findFile(bundleFile)!!.containingDirectory
 
         if (bundleFolder.findSubdirectory("Resources") == null) {

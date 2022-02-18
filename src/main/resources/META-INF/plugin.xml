@@ -28,6 +28,7 @@
         <fileBasedIndex implementation="de.shyim.shopware6.index.ShopwareBundleIndex"/>
         <fileBasedIndex implementation="de.shyim.shopware6.index.EntityDefinitionIndex"/>
         <fileBasedIndex implementation="de.shyim.shopware6.index.AdminMixinIndex"/>
+        <fileBasedIndex implementation="de.shyim.shopware6.index.ShopwareAppIndex"/>
 
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.FeatureFlagGoToDeclareHandler"/>
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.AdminComponentGoToDeclareHandler"/>

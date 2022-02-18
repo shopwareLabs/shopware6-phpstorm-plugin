@@ -123,7 +123,8 @@ class ShopwareBundleIndex: FileBasedIndexExtension<String, ShopwareBundle>() {
             filePath.contains("core/system/test/systemconfig/_fixtures/") ||
             filePath.contains("core/framework/test/plugin/requirement/_fixture/") ||
             filePath.contains("core/framework/test/adapter/twig/fixtures") ||
-            filePath.contains("storefront/test/theme/fixtures/")
+            filePath.contains("storefront/test/theme/fixtures/") ||
+            filePath.contains("core/framework/test/api/controller/fixtures")
         ) {
             return false
         }
