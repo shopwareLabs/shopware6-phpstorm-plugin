@@ -26,7 +26,7 @@ class ShopwareApp(val name: String, val rootFolder: String, val viewPath: String
     }
 
     override fun equals(other: Any?): Boolean {
-        return other is ShopwareBundle &&
+        return other is ShopwareApp &&
                 Objects.equals(other.name, this.name) &&
                 Objects.equals(other.rootFolder, this.rootFolder) &&
                 Objects.equals(other.viewPath, this.viewPath)
