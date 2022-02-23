@@ -47,26 +47,41 @@ class ShopwareAppIndex : FileBasedIndexExtension<String, ShopwareApp>() {
 
             val apps = THashMap<String, ShopwareApp>()
 
+            var name = ""
+            val permissions: MutableList<String> = mutableListOf()
+
             inputData.psiFile.acceptChildren(object : PsiRecursiveElementWalkingVisitor() {
                 override fun visitElement(element: PsiElement) {
                     if (element is XmlDocument || (element is XmlTag && (element.name == "manifest" || element.name == "meta"))) {
                         super.visitElement(element)
-                        return;
+                        return
                     }
 
                     if (element is XmlTag && element.name == "name") {
-                        val appDir = Paths.get(inputData.file.path).parent
-                        val expectedStorefrontViewFolder =
-                            FilenameUtils.separatorsToUnix("${appDir}/Resources/views/storefront/")
+                        name = element.value.text
+                    }
 
-                        apps[element.value.text] = ShopwareApp(
-                            element.value.text,
-                            FilenameUtils.separatorsToUnix(appDir.pathString),
-                            expectedStorefrontViewFolder,
-                        )
+                    if (element is XmlTag && element.name == "permissions") {
+                        super.visitElement(element)
+                        return
+                    }
+
+                    if (element is XmlTag && element.parent is XmlTag && (element.parent as XmlTag).name == "permissions" && (element.name == "read" || element.name == "create" || element.name == "update" || element.name == "delete")) {
+                        permissions.add("${element.value.text}:${element.name}")
                     }
                 }
             })
+
+            val appDir = Paths.get(inputData.file.path).parent
+            val expectedStorefrontViewFolder =
+                FilenameUtils.separatorsToUnix("${appDir}/Resources/views/storefront/")
+
+            apps[name] = ShopwareApp(
+                name,
+                FilenameUtils.separatorsToUnix(appDir.pathString),
+                expectedStorefrontViewFolder,
+                permissions
+            )
 
             return@DataIndexer apps
         }
