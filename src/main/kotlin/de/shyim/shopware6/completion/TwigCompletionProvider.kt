@@ -151,5 +151,22 @@ class TwigCompletionProvider() : CompletionContributor() {
                 }
             }
         )
+
+        extend(
+            CompletionType.BASIC,
+            TwigPattern.getScriptRepositorySearchPattern(),
+            object : CompletionProvider<CompletionParameters>() {
+                override fun addCompletions(
+                    parameters: CompletionParameters,
+                    context: ProcessingContext,
+                    result: CompletionResultSet
+                ) {
+                    val project: Project = parameters.position.project
+
+                    result.addAllElements(EntityDefinitionUtil.getAllLookupItems(project))
+                    result.stopHere()
+                }
+            }
+        )
     }
 }

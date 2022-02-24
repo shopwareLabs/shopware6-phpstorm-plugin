@@ -5,11 +5,10 @@ import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
-import com.intellij.psi.PsiReference
 import com.jetbrains.twig.TwigFile
-import com.jetbrains.twig.elements.TwigFieldReference
-import com.jetbrains.twig.elements.TwigVariableReference
-import de.shyim.shopware6.util.ScriptHookUtil
+import de.shyim.shopware6.index.dict.ShopwareApp
+import de.shyim.shopware6.util.ShopwareAppUtil
+import de.shyim.shopware6.util.TwigPattern
 
 class ScriptHookPermissionMissing : LocalInspectionTool() {
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
@@ -19,32 +18,26 @@ class ScriptHookPermissionMissing : LocalInspectionTool() {
             return super.buildVisitor(holder, isOnTheFly)
         }
 
-        val hook = ScriptHookUtil.getHookByName(file.project, file.parent!!.name)
-            ?: return super.buildVisitor(holder, isOnTheFly)
-
-        val availableServices: MutableList<String> = mutableListOf()
-        val allFacades = ScriptHookUtil.getAllFacades(file.project)
-
-        for (service in hook.services) {
-            if (allFacades[service] != null) {
-                availableServices.add(allFacades[service]!!.name)
-            }
-        }
+        val app = getAppByTwigFile(file) ?: return super.buildVisitor(holder, isOnTheFly)
 
         return object : PsiElementVisitor() {
             override fun visitElement(element: PsiElement) {
-                if (element is TwigFieldReference && element.firstChild is TwigVariableReference && element.firstChild.text == "services") {
-                    val serviceName = element.nameIdentifier?.text
-
-                    if (!availableServices.contains(serviceName)) {
+                if (TwigPattern.getScriptRepositorySearchPattern().accepts(element)) {
+                    if (!app.permissions.contains("${element.text}:read")) {
                         holder.registerProblem(
-                            element as PsiReference,
-                            "The service $serviceName is not available in context of ${hook.name}",
+                            element,
+                            "This app doesn't have access to entity ${element.text}. Add the permission to your manifest.xml",
                             ProblemHighlightType.GENERIC_ERROR
                         )
                     }
                 }
             }
         }
+    }
+
+    private fun getAppByTwigFile(file: TwigFile): ShopwareApp? {
+        val appFolderName = file.parent?.parent?.parent?.parent?.name ?: return null
+
+        return ShopwareAppUtil.getAppByFolderName(appFolderName, file.project)
     }
 }

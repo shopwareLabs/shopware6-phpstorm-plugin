@@ -94,11 +94,47 @@ object TwigPattern {
                     PlatformPatterns.psiElement(PsiWhiteSpace::class.java),
                     PlatformPatterns.psiElement(TwigTokenTypes.SINGLE_QUOTE),
                     PlatformPatterns.psiElement(TwigTokenTypes.DOUBLE_QUOTE),
+                    PlatformPatterns.psiElement(TwigTokenTypes.LBRACE)
                 ),
-                PlatformPatterns.or(
-                    PlatformPatterns.psiElement(TwigTokenTypes.TAG_NAME).withText("sw_include"),
-                    PlatformPatterns.psiElement(TwigTokenTypes.TAG_NAME).withText("sw_extends")
-                )
+                PlatformPatterns.psiElement(TwigTokenTypes.IDENTIFIER).withText("search")
+            )
+            .withParent(
+                PlatformPatterns.psiElement(TwigElementTypes.METHOD_CALL)
+                    .withFirstChild(
+                        PlatformPatterns.psiElement(TwigElementTypes.FIELD_REFERENCE)
+                            .withFirstChild(
+                                PlatformPatterns.psiElement(TwigElementTypes.VARIABLE_REFERENCE).withText("services")
+                                    .beforeLeafSkipping(
+                                        PlatformPatterns.or(
+                                            PlatformPatterns.psiElement(PsiWhiteSpace::class.java),
+                                            PlatformPatterns.psiElement(TwigTokenTypes.DOT)
+                                        ),
+                                        PlatformPatterns.psiElement(TwigTokenTypes.IDENTIFIER).withText("repository")
+                                    )
+                            )
+                    )
+            )
+            .withLanguage(TwigLanguage.INSTANCE)
+    }
+
+    fun getScriptRepositorySearchPattern(): PsiElementPattern.Capture<PsiElement> {
+        return PlatformPatterns.psiElement(TwigTokenTypes.STRING_TEXT)
+            .withParent(
+                PlatformPatterns.psiElement(TwigElementTypes.METHOD_CALL)
+                    .withFirstChild(
+                        PlatformPatterns.psiElement(TwigElementTypes.FIELD_REFERENCE)
+                            .beforeLeafSkipping(
+                                PlatformPatterns.or(PlatformPatterns.psiElement(TwigTokenTypes.DOT)),
+                                PlatformPatterns.psiElement(TwigTokenTypes.IDENTIFIER).withText("search")
+                            )
+                            .withFirstChild(
+                                PlatformPatterns.psiElement(TwigElementTypes.VARIABLE_REFERENCE).withText("services")
+                                    .beforeLeafSkipping(
+                                        PlatformPatterns.or(PlatformPatterns.psiElement(TwigTokenTypes.DOT)),
+                                        PlatformPatterns.psiElement(TwigTokenTypes.IDENTIFIER).withText("repository")
+                                    )
+                            )
+                    )
             )
             .withLanguage(TwigLanguage.INSTANCE)
     }

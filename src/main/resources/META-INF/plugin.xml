@@ -90,6 +90,16 @@
                 implementationClass="de.shyim.shopware6.inspection.ScriptHookServiceNotAvailable"
         />
 
+        <localInspection
+                groupPath="Shopware 6"
+                shortName="Shopware6AppScriptPermissionMissing"
+                displayName="Permission is missing in manifest.xml"
+                groupName="Script"
+                enabledByDefault="true"
+                level="WARNING"
+                implementationClass="de.shyim.shopware6.inspection.ScriptHookPermissionMissing"
+        />
+
         <intentionAction>
             <className>de.shyim.shopware6.intentions.ExtendTwigBlockIntention</className>
             <category>Shopware</category>
@@ -99,6 +109,8 @@
             <className>de.shyim.shopware6.intentions.CreateEventListenerIntention</className>
             <category>Shopware</category>
         </intentionAction>
+
+        <vcs.commitMessageProvider implementation="de.shyim.shopware6.vcs.GitlabCommitMessageProvider"/>
     </extensions>
 
     <extensions defaultExtensionNs="fr.adrienbrault.idea.symfony2plugin.extension">
