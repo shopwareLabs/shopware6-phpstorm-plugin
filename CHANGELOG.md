@@ -4,6 +4,9 @@
 
 ## [Unreleased]
 
+## [0.0.24]
+- Apps works now also on Extend this twig blockservices.Xservices.repository.searchnext-xxx/some-name
+
 ## [0.0.23]
 - Support EAP 2022
 
