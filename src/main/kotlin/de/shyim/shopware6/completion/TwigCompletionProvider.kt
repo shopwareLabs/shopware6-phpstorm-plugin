@@ -9,6 +9,7 @@ import fr.adrienbrault.idea.symfony2plugin.Symfony2ProjectComponent
 import fr.adrienbrault.idea.symfony2plugin.routing.RouteHelper
 import fr.adrienbrault.idea.symfony2plugin.templating.util.TwigUtil
 import icons.ShopwareToolBoxIcons
+import java.util.*
 
 
 class TwigCompletionProvider() : CompletionContributor() {
@@ -92,7 +93,7 @@ class TwigCompletionProvider() : CompletionContributor() {
                         return
                     }
 
-                    result.addAllElements(TwigUtil.getTwigLookupElements(parameters.getPosition().getProject()))
+                    result.addAllElements(TwigUtil.getTwigLookupElements(parameters.position.project, Collections.emptyList()))
                 }
             }
         )
