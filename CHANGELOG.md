@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.0.25]
+- Added criteria id misused inspection
+- Fixed ExtendTwigBlock when template folder is not existing
+- Fixed compatibility with symfony plugin 0.23.215
+
 ## [0.0.24]
 - Apps works now also on Extend this twig blockservices.Xservices.repository.searchnext-xxx/some-name
 
