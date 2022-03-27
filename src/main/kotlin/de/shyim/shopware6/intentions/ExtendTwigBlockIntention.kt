@@ -22,6 +22,7 @@ import de.shyim.shopware6.util.TwigUtil
 import java.awt.Component
 import javax.swing.JLabel
 import javax.swing.JList
+import kotlin.test.fail
 
 
 class ExtendTwigBlockIntention : PsiElementBaseIntentionAction() {
@@ -166,7 +167,11 @@ class ExtendTwigBlockIntention : PsiElementBaseIntentionAction() {
 
     private fun createMissingViewFolder(bundle: ShopwareExtension, project: Project): PsiDirectory {
         val bundleFile = LocalFileSystem.getInstance().findFileByPath(bundle.getExtensionPath())!!
-        val bundleFolder = PsiManager.getInstance(project).findFile(bundleFile)!!.containingDirectory
+        val bundleFolder = PsiManager.getInstance(project).findDirectory(bundleFile)
+
+        if (bundleFolder === null) {
+            fail("plugin / app index is out of sync")
+        }
 
         if (bundleFolder.findSubdirectory("Resources") == null) {
             bundleFolder.createSubdirectory("Resources")
