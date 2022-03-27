@@ -100,6 +100,16 @@
                 implementationClass="de.shyim.shopware6.inspection.ScriptHookPermissionMissing"
         />
 
+        <localInspection
+                groupPath="Shopware 6"
+                shortName="Shopware6CriteriaIdMisused"
+                displayName="Criteria IDs set by filter instead of constructor"
+                groupName="PHP"
+                enabledByDefault="true"
+                level="WARNING"
+                implementationClass="de.shyim.shopware6.inspection.php.CriteriaIdMisused"
+        />
+
         <intentionAction>
             <className>de.shyim.shopware6.intentions.ExtendTwigBlockIntention</className>
             <category>Shopware</category>
