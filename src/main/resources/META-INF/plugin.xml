@@ -110,6 +110,56 @@
                 implementationClass="de.shyim.shopware6.inspection.php.CriteriaIdMisused"
         />
 
+        <localInspection
+                groupPath="Shopware 6"
+                shortName="Shopware6PluginStoreMissingExtraLabel"
+                displayName="Composer.json: missing extra.label"
+                groupName="Store check"
+                enabledByDefault="true"
+                level="WARNING"
+                implementationClass="de.shyim.shopware6.inspection.store.composer.MissingComposerExtraLabel"
+        />
+
+        <localInspection
+                groupPath="Shopware 6"
+                shortName="Shopware6PluginStoreMissingExtraDescription"
+                displayName="Composer.json: missing extra.description"
+                groupName="Store check"
+                enabledByDefault="true"
+                level="WARNING"
+                implementationClass="de.shyim.shopware6.inspection.store.composer.MissingComposerExtraDescription"
+        />
+
+        <localInspection
+                groupPath="Shopware 6"
+                shortName="Shopware6PluginStoreMissingManufacturerLink"
+                displayName="Composer.json: missing extra.manufacturerLink"
+                groupName="Store check"
+                enabledByDefault="true"
+                level="WARNING"
+                implementationClass="de.shyim.shopware6.inspection.store.composer.MissingComposerExtraManufacturerLink"
+        />
+
+        <localInspection
+                groupPath="Shopware 6"
+                shortName="Shopware6PluginStoreMissingSupportLink"
+                displayName="Composer.json: missing extra.supportLink"
+                groupName="Store check"
+                enabledByDefault="true"
+                level="WARNING"
+                implementationClass="de.shyim.shopware6.inspection.store.composer.MissingComposerExtraSupportLink"
+        />
+
+        <localInspection
+                groupPath="Shopware 6"
+                shortName="Shopware6PluginStoreMissingRequire"
+                displayName="Composer.json: missing require.shopware/core"
+                groupName="Store check"
+                enabledByDefault="true"
+                level="WARNING"
+                implementationClass="de.shyim.shopware6.inspection.store.composer.MissingComposerRequire"
+        />
+
         <intentionAction>
             <className>de.shyim.shopware6.intentions.ExtendTwigBlockIntention</className>
             <category>Shopware</category>
