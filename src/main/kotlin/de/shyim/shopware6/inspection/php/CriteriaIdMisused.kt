@@ -36,6 +36,10 @@ class CriteriaIdMisused: LocalInspectionTool() {
                         return
                     }
 
+                    if (firstArgument.parameters.isEmpty()) {
+                        return
+                    }
+
                     if (firstArgument.parameters.first() !is StringLiteralExpression) {
                         return
                     }
