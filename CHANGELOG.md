@@ -4,6 +4,9 @@
 
 ## [Unreleased]
 
+## [0.0.26]
+- Added composer.json missing extra.labelextra.descriptionextra.manufacturerLinkextra.supportLinkextra.require.shopware/core
+
 ## [0.0.25]
 - Added criteria id misused inspection
 - Fixed ExtendTwigBlock when template folder is not existing
