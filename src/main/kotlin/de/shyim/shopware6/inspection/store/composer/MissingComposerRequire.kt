@@ -20,11 +20,11 @@ class MissingComposerRequire : ExtensionComposerInspection() {
                     val require = root.findProperty("require")
 
                     if (require == null) {
-                        holder.registerProblem(root, "Store: An composer require to shopware/core is required")
+                        holder.registerProblem(root, "Store: Composer require to shopware/core is required")
                     } else if (require.lastChild !is JsonObject) {
-                        holder.registerProblem(require, "Store: The require in composer.json needs to be an object")
+                        holder.registerProblem(require, "Store: Require in composer.json needs to be an object")
                     } else if ((require.lastChild as JsonObject).findProperty("shopware/core") == null) {
-                        holder.registerProblem(require, "Store: An composer require to shopware/core is required")
+                        holder.registerProblem(require, "Store: Composer require to shopware/core is required")
                     }
                 }
 

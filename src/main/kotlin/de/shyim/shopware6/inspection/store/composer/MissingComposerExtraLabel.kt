@@ -20,7 +20,7 @@ class MissingComposerExtraLabel : ExtensionComposerInspection() {
                     val label = extraPart.findProperty("label")
 
                     if (label == null) {
-                        holder.registerProblem(extraPart, "Store: An label is required for an extension to work")
+                        holder.registerProblem(extraPart, "Store: Label is required for an extension to work")
                         return
                     }
 
@@ -31,16 +31,16 @@ class MissingComposerExtraLabel : ExtensionComposerInspection() {
                         val enLabel = labelObject.findProperty("en-GB")
 
                         if (deLabel == null) {
-                            holder.registerProblem(labelObject, "Store: An label in language de-DE is required")
+                            holder.registerProblem(labelObject, "Store: Label in language de-DE is required")
                         }
 
                         if (enLabel == null) {
-                            holder.registerProblem(labelObject, "Store: An label in language en-GB is required")
+                            holder.registerProblem(labelObject, "Store: Label in language en-GB is required")
                         }
                     } else {
                         holder.registerProblem(
                             label,
-                            "Store: The label property should be an object of language code to label"
+                            "Store: Label property should be an object of language code to label"
                         )
                     }
                 }

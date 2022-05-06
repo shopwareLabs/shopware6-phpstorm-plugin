@@ -22,7 +22,7 @@ class MissingComposerExtraManufacturerLink : ExtensionComposerInspection() {
                     if (manufacturerLink == null) {
                         holder.registerProblem(
                             extraPart,
-                            "Store: An manufacturerLink is required for an extension to work"
+                            "Store: ManufacturerLink is required for an extension to work"
                         )
                         return
                     }
@@ -36,20 +36,20 @@ class MissingComposerExtraManufacturerLink : ExtensionComposerInspection() {
                         if (deLabel == null) {
                             holder.registerProblem(
                                 manufacturerObject,
-                                "Store: An manufacturerLink in language de-DE is required"
+                                "Store: ManufacturerLink in language de-DE is required"
                             )
                         }
 
                         if (enLabel == null) {
                             holder.registerProblem(
                                 manufacturerObject,
-                                "Store: An manufacturerLink in language en-GB is required"
+                                "Store: ManufacturerLink in language en-GB is required"
                             )
                         }
                     } else {
                         holder.registerProblem(
                             manufacturerLink,
-                            "Store: The manufacturerLink property should be an object of language code to url"
+                            "Store: ManufacturerLink property should be an object of language code to url"
                         )
                     }
                 }

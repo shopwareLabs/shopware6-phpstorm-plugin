@@ -22,7 +22,7 @@ class MissingComposerExtraDescription : ExtensionComposerInspection() {
                     val description = extraPart.findProperty("description")
 
                     if (description == null) {
-                        holder.registerProblem(extraPart, "Store: An description is required for the Shopware Store")
+                        holder.registerProblem(extraPart, "Store: Description is required for the Shopware Store")
                         return
                     }
 
@@ -35,7 +35,7 @@ class MissingComposerExtraDescription : ExtensionComposerInspection() {
                         if (deLabel == null) {
                             holder.registerProblem(
                                 descriptionObject,
-                                "Store: An description in language de-DE is required"
+                                "Store: Description in language de-DE is required"
                             )
                         } else if (deLabel.value is JsonStringLiteral) {
                             val text = StringUtil.stripQuotes((deLabel.value as JsonStringLiteral).text)
@@ -43,7 +43,7 @@ class MissingComposerExtraDescription : ExtensionComposerInspection() {
                             if (text.length < 150 || text.length > 185) {
                                 holder.registerProblem(
                                     deLabel,
-                                    "Store: The description should have a length from 150 up to 185 characters"
+                                    "Store: Description should have a length from 150 up to 185 characters"
                                 )
                             }
                         }

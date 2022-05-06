@@ -22,7 +22,6 @@ import de.shyim.shopware6.util.TwigUtil
 import java.awt.Component
 import javax.swing.JLabel
 import javax.swing.JList
-import kotlin.test.fail
 
 
 class ExtendTwigBlockIntention : PsiElementBaseIntentionAction() {
@@ -170,7 +169,7 @@ class ExtendTwigBlockIntention : PsiElementBaseIntentionAction() {
         val bundleFolder = PsiManager.getInstance(project).findDirectory(bundleFile)
 
         if (bundleFolder === null) {
-            fail("plugin / app index is out of sync")
+            throw Exception("plugin / app index is out of sync")
         }
 
         if (bundleFolder.findSubdirectory("Resources") == null) {

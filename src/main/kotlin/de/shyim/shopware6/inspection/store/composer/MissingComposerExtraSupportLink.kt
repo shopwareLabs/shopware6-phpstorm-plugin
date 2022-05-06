@@ -20,7 +20,7 @@ class MissingComposerExtraSupportLink : ExtensionComposerInspection() {
                     val supportLink = extraPart.findProperty("supportLink")
 
                     if (supportLink == null) {
-                        holder.registerProblem(extraPart, "Store: An supportLink is required for an extension to work")
+                        holder.registerProblem(extraPart, "Store: SupportLink is required for an extension to work")
                         return
                     }
 
@@ -31,16 +31,16 @@ class MissingComposerExtraSupportLink : ExtensionComposerInspection() {
                         val enLabel = supportObject.findProperty("en-GB")
 
                         if (deLabel == null) {
-                            holder.registerProblem(supportObject, "Store: An supportLink in language de-DE is required")
+                            holder.registerProblem(supportObject, "Store: SupportLink in language de-DE is required")
                         }
 
                         if (enLabel == null) {
-                            holder.registerProblem(supportObject, "Store: An supportLink in language en-GB is required")
+                            holder.registerProblem(supportObject, "Store: SupportLink in language en-GB is required")
                         }
                     } else {
                         holder.registerProblem(
                             supportLink,
-                            "Store: The supportLink property should be an object of language code to url"
+                            "Store: SupportLink property should be an object of language code to url"
                         )
                     }
                 }
