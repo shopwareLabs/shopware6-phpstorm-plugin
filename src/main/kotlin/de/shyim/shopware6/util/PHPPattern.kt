@@ -13,6 +13,7 @@ object PHPPattern {
         MethodMatcher.CallToSignature("\\Shopware\\Core\\Framework\\Feature", "triggerDeprecated"),
         MethodMatcher.CallToSignature("\\Shopware\\Core\\Framework\\Feature", "throwException"),
         MethodMatcher.CallToSignature("\\Shopware\\Core\\Framework\\Feature", "has"),
+        MethodMatcher.CallToSignature("\\Shopware\\Core\\Framework\\Feature", "triggerDeprecationOrThrow"),
     )
 
     private val SHOPWARE_STOREFRONT_CONTROLLER_TRANS_SIGNATURES: Array<MethodMatcher.CallToSignature> = arrayOf(
@@ -32,7 +33,7 @@ object PHPPattern {
     )
 
     fun isFeatureFlagFunction(element: PsiElement): Boolean {
-        return MethodMatcher.getMatchedSignatureWithDepth(element.getContext(), FEATURE_FLAG_SIGNATURES) != null
+        return MethodMatcher.getMatchedSignatureWithDepth(element.context, FEATURE_FLAG_SIGNATURES) != null
     }
 
     fun isShopwareStorefrontControllerTrans(element: PsiElement): Boolean {
