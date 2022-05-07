@@ -38,21 +38,21 @@ object PHPPattern {
 
     fun isShopwareStorefrontControllerTrans(element: PsiElement): Boolean {
         return MethodMatcher.getMatchedSignatureWithDepth(
-            element.getContext(),
+            element.context,
             SHOPWARE_STOREFRONT_CONTROLLER_TRANS_SIGNATURES
         ) != null
     }
 
     fun isShopwareCoreSystemConfigServiceGetSingle(element: PsiElement): Boolean {
         return MethodMatcher.getMatchedSignatureWithDepth(
-            element.getContext(),
+            element.context,
             SHOPWARE_CORE_SYSTEM_CONFIG_SERVICE_GET_SINGLE
         ) != null
     }
 
     fun isShopwareCoreSystemConfigServiceGetDomain(element: PsiElement): Boolean {
         return MethodMatcher.getMatchedSignatureWithDepth(
-            element.getContext(),
+            element.context,
             SHOPWARE_CORE_SYSTEM_CONFIG_SERVICE_GET_DOMAIN
         ) != null
     }
