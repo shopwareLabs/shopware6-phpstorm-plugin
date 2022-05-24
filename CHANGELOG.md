@@ -4,6 +4,9 @@
 
 ## [Unreleased]
 
+## [0.0.27]
+- Mark next EAP version as compatible
+
 ## [0.0.26]
 - Added composer.json missing extra.labelextra.descriptionextra.manufacturerLinkextra.supportLinkextra.require.shopware/core
 
