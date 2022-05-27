@@ -94,6 +94,7 @@ class ShopwareTemplates: FileTemplateGroupDescriptorFactory {
         const val SHOPWARE_PLUGIN_COMPOSER_JSON = "Shopware Plugin composer.json"
         const val SHOPWARE_PLUGIN_SERVICES_XML = "Shopware Plugin services.xml"
         const val SHOPWARE_APP_MANIFEST = "Shopware App manifest.xml"
+        const val SHOPWARE_APP_CUSTOM_ENTITIES = "Shopware App custom entities.xml"
 
         private fun Project.applyTemplate(
             templateName: String,
