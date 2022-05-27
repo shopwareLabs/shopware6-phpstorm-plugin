@@ -72,10 +72,10 @@ abstract class AddConfigFileAction(private val configFile: String,
                             configFileDirectory = psiDirectory.createSubdirectory(configFilePath)
                         }
 
-                        // Create entities.xml
+                        // Create config file from template
                         val content = ShopwareTemplates.renderTemplate(
                             project,
-                            shopwareTemplate.toString(),
+                            shopwareTemplate,
                             null
                         )
 
