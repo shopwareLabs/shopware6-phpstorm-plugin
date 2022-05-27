@@ -139,7 +139,7 @@ class ExtendTwigBlockIntention : PsiElementBaseIntentionAction() {
         """.trimIndent()
 
         val blockHeader = """
-{% sw_extends "@Storefront/storefront/${templatePath}" %}
+{% sw_extends "@Storefront/${templatePath}" %}
         """.trimIndent()
 
         if (currentFolder!!.findFile(fileName!!) != null) {
@@ -182,13 +182,7 @@ class ExtendTwigBlockIntention : PsiElementBaseIntentionAction() {
             resourcesFolder.createSubdirectory("views")
         }
 
-        val viewFolder = resourcesFolder.findSubdirectory("views")!!
-
-        if (viewFolder.findSubdirectory("storefront") != null) {
-            return viewFolder.findSubdirectory("storefront")!!
-        }
-
-        return viewFolder.createSubdirectory("storefront")
+        return resourcesFolder.findSubdirectory("views")!!
     }
 
     override fun checkFile(file: PsiFile?): Boolean {

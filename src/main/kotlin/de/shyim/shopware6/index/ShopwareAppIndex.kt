@@ -74,7 +74,7 @@ class ShopwareAppIndex : FileBasedIndexExtension<String, ShopwareApp>() {
 
             val appDir = Paths.get(inputData.file.path).parent
             val expectedStorefrontViewFolder =
-                FilenameUtils.separatorsToUnix("${appDir}/Resources/views/storefront/")
+                FilenameUtils.separatorsToUnix("${appDir}/Resources/views/")
 
             apps[name] = ShopwareApp(
                 name,
