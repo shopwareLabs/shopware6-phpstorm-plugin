@@ -1,0 +1,8 @@
+{# @var services \Shopware\Core\Framework\Script\ServiceStubs #}
+
+#if ("${HOOK_PAGE}" != "")
+{% set page = hook.page %}
+{# @var page ${HOOK_PAGE} #}
+#end
+
+{# Your Script Code #}

@@ -9,6 +9,19 @@ import de.shyim.shopware6.index.dict.ScriptHook
 import de.shyim.shopware6.index.dict.ScriptHookFacade
 
 object ScriptHookUtil {
+    fun getAllHooks(project: Project): MutableCollection<ScriptHook> {
+        val hooks: MutableCollection<ScriptHook> = mutableListOf()
+
+        for (key in FileBasedIndex.getInstance().getAllKeys(ScriptHookIndex.key, project)) {
+            val facade = FileBasedIndex.getInstance()
+                .getValues(ScriptHookIndex.key, key, GlobalSearchScope.allScope(project)).first()
+
+            hooks.add(facade)
+        }
+
+        return hooks
+    }
+
     fun getHookByName(project: Project, name: String): ScriptHook? {
         return FileBasedIndex.getInstance()
             .getValues(ScriptHookIndex.key, name, GlobalSearchScope.allScope(project)).first()

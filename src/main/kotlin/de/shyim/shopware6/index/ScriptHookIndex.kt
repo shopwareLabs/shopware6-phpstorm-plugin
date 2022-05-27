@@ -39,6 +39,7 @@ class ScriptHookIndex : FileBasedIndexExtension<String, ScriptHook>() {
                 override fun visitElement(element: PsiElement) {
                     if (element is PhpClass && element.extendsList.referenceElements.isNotEmpty() && isHookClass(element)) {
                         var hookName = ""
+                        var hookPage = ""
                         var services: MutableList<String> = arrayListOf()
 
                         element.acceptChildren(object : PsiRecursiveElementWalkingVisitor() {
@@ -61,6 +62,18 @@ class ScriptHookIndex : FileBasedIndexExtension<String, ScriptHook>() {
                                     })
                                 }
 
+                                if (element is Method && element.name == "getPage") {
+                                    element.acceptChildren(object : PsiRecursiveElementWalkingVisitor() {
+                                        override fun visitElement(element: PsiElement) {
+                                            if (element is ClassReferenceImpl) {
+                                                hookPage = element.fqn!!
+                                            }
+
+                                            super.visitElement(element)
+                                        }
+                                    })
+                                }
+
                                 super.visitElement(element)
                             }
                         })
@@ -69,7 +82,8 @@ class ScriptHookIndex : FileBasedIndexExtension<String, ScriptHook>() {
                             hooks[hookName] = ScriptHook(
                                 hookName,
                                 element.fqn,
-                                services
+                                services,
+                                hookPage
                             )
                         }
 
@@ -86,7 +100,7 @@ class ScriptHookIndex : FileBasedIndexExtension<String, ScriptHook>() {
 
     fun isHookClass(pClass: PhpClass): Boolean {
         for (reference in pClass.extendsList.referenceElements) {
-            if (reference.fqn == "\\Shopware\\Core\\Framework\\Script\\Execution\\Hook") {
+            if (reference.fqn == "\\Shopware\\Core\\Framework\\Script\\Execution\\Hook" || reference.fqn == "\\Shopware\\Storefront\\Page\\PageLoadedHook") {
                 return true
             }
         }
