@@ -21,70 +21,11 @@ import java.awt.Component
 import javax.swing.JLabel
 import javax.swing.JList
 
-class AddCustomEntitiesAction: DumbAwareAction("Add Custom Entities", "Add custom entities to an app", ShopwareToolBoxIcons.SHOPWARE) {
-    override fun actionPerformed(e: AnActionEvent) {
-        if (e.project == null) {
-            return
-        }
-
-        // Let the user choose the app
-        this.chooseApp(e.project!!)
-    }
-
-    private fun chooseApp(project: Project) {
-        val apps = ShopwareAppUtil.getAllApps(project)
-        val jbAppList = JBList(apps)
-
-        jbAppList.cellRenderer = object : JBList.StripedListCellRenderer() {
-            override fun getListCellRendererComponent(
-                    list: JList<*>?,
-                    value: Any?,
-                    index: Int,
-                    isSelected: Boolean,
-                    cellHasFocus: Boolean
-            ): Component {
-                val renderer = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus)
-
-                if (renderer is JLabel && value is ShopwareApp) {
-                    renderer.text = value.name
-                }
-
-                return renderer
-            }
-        }
-
-        PopupChooserBuilder(jbAppList)
-                .setTitle("Shopware: Select App")
-                .setItemChoosenCallback {
-                    CommandProcessor.getInstance().executeCommand(project, {
-                        val localFolder = LocalFileSystem.getInstance().findFileByPath(jbAppList.selectedValue.rootFolder)
-                        val psiDirectory = PsiManager.getInstance(project).findDirectory(localFolder!!) as PsiDirectory
-                        var resourcesDirectory = psiDirectory.findSubdirectory("Resources")
-
-                        if (resourcesDirectory == null) {
-                            resourcesDirectory = psiDirectory.createSubdirectory("Resources")
-                        }
-
-                        // Create entities.xml
-                        val content = ShopwareTemplates.renderTemplate(
-                            project,
-                            ShopwareTemplates.SHOPWARE_APP_CUSTOM_ENTITIES,
-                            null
-                        )
-
-                        val customEntitiesDefinition = ActionUtil.createFile(
-                            project,
-                            XmlFileType.INSTANCE,
-                            "entities.xml",
-                            content,
-                            resourcesDirectory
-                        ) ?: return@executeCommand
-
-                        FileEditorManager.getInstance(project)
-                            .openTextEditor(OpenFileDescriptor(project, customEntitiesDefinition.virtualFile), true)
-                    }, "Create Custom Entities", null)
-                }
-                .createPopup()
-                .showInFocusCenter()
-    }
-}
+class AddCustomEntitiesAction: AddConfigFileAction(
+        "entities.xml",
+        "Resources",
+        ShopwareTemplates.SHOPWARE_APP_CUSTOM_ENTITIES,
+        "Add Custom Entities",
+        "Add custom entities to an app",
+        ShopwareToolBoxIcons.SHOPWARE
+)
