@@ -16,29 +16,29 @@ import de.shyim.shopware6.action.generator.ActionUtil
 import de.shyim.shopware6.index.dict.ShopwareApp
 import de.shyim.shopware6.templates.ShopwareTemplates
 import de.shyim.shopware6.util.ShopwareAppUtil
-import icons.ShopwareToolBoxIcons
 import java.awt.Component
+import javax.swing.Icon
 import javax.swing.JLabel
 import javax.swing.JList
 
-class AddCustomEntitiesAction: AddConfigFileAction(
-        "entities.xml",
-        "Resources",
-        ShopwareTemplates.SHOPWARE_APP_CUSTOM_ENTITIES,
-        "Add Custom Entities",
-        "Add custom entities to an app",
-        ShopwareToolBoxIcons.SHOPWARE
-) {
+abstract class AddConfigFileAction(private val configFile: String,
+                                   private val configFilePath: String,
+                                   private val shopwareTemplate: String,
+                                   text: String,
+                                   description: String,
+                                   icon: Icon)
+    : DumbAwareAction(text, description, icon) {
+
     override fun actionPerformed(e: AnActionEvent) {
         if (e.project == null) {
             return
         }
 
         // Let the user choose the app
-        this.chooseApp(e.project!!)
+        this.chooseAppAndCreateConfigFile(e.project!!, this.configFile, this.configFilePath, this.shopwareTemplate)
     }
 
-    private fun chooseApp(project: Project) {
+    private fun chooseAppAndCreateConfigFile(project: Project, configFile: String, configFilePath: String, shopwareTemplate: String) {
         val apps = ShopwareAppUtil.getAllApps(project)
         val jbAppList = JBList(apps)
 
@@ -66,30 +66,30 @@ class AddCustomEntitiesAction: AddConfigFileAction(
                     CommandProcessor.getInstance().executeCommand(project, {
                         val localFolder = LocalFileSystem.getInstance().findFileByPath(jbAppList.selectedValue.rootFolder)
                         val psiDirectory = PsiManager.getInstance(project).findDirectory(localFolder!!) as PsiDirectory
-                        var resourcesDirectory = psiDirectory.findSubdirectory("Resources")
+                        var configFileDirectory = psiDirectory.findSubdirectory(configFilePath)
 
-                        if (resourcesDirectory == null) {
-                            resourcesDirectory = psiDirectory.createSubdirectory("Resources")
+                        if (configFileDirectory == null) {
+                            configFileDirectory = psiDirectory.createSubdirectory(configFilePath)
                         }
 
                         // Create entities.xml
                         val content = ShopwareTemplates.renderTemplate(
                             project,
-                            ShopwareTemplates.SHOPWARE_APP_CUSTOM_ENTITIES,
+                            shopwareTemplate.toString(),
                             null
                         )
 
                         val customEntitiesDefinition = ActionUtil.createFile(
                             project,
                             XmlFileType.INSTANCE,
-                            "entities.xml",
+                            configFile,
                             content,
-                            resourcesDirectory
+                            configFileDirectory
                         ) ?: return@executeCommand
 
                         FileEditorManager.getInstance(project)
                             .openTextEditor(OpenFileDescriptor(project, customEntitiesDefinition.virtualFile), true)
-                    }, "Create Custom Entities", null)
+                    }, "Creating Config File", null)
                 }
                 .createPopup()
                 .showInFocusCenter()
