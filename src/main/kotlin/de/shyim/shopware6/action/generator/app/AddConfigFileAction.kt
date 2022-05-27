@@ -21,7 +21,7 @@ import javax.swing.Icon
 import javax.swing.JLabel
 import javax.swing.JList
 
-abstract class AddConfigFileAction(private val configFile: String,
+abstract class AddConfigFileAction(private val configFileName: String,
                                    private val configFilePath: String,
                                    private val shopwareTemplate: String,
                                    text: String,
@@ -35,10 +35,10 @@ abstract class AddConfigFileAction(private val configFile: String,
         }
 
         // Let the user choose the app
-        this.chooseAppAndCreateConfigFile(e.project!!, this.configFile, this.configFilePath, this.shopwareTemplate)
+        this.chooseAppAndCreateConfigFileFromTemplate(e.project!!, this.configFileName, this.configFilePath, this.shopwareTemplate)
     }
 
-    private fun chooseAppAndCreateConfigFile(project: Project, configFile: String, configFilePath: String, shopwareTemplate: String) {
+    private fun chooseAppAndCreateConfigFileFromTemplate(project: Project, configFile: String, configFilePath: String, shopwareTemplate: String) {
         val apps = ShopwareAppUtil.getAllApps(project)
         val jbAppList = JBList(apps)
 
@@ -79,7 +79,7 @@ abstract class AddConfigFileAction(private val configFile: String,
                             null
                         )
 
-                        val customEntitiesDefinition = ActionUtil.createFile(
+                        val configFile = ActionUtil.createFile(
                             project,
                             XmlFileType.INSTANCE,
                             configFile,
@@ -88,7 +88,7 @@ abstract class AddConfigFileAction(private val configFile: String,
                         ) ?: return@executeCommand
 
                         FileEditorManager.getInstance(project)
-                            .openTextEditor(OpenFileDescriptor(project, customEntitiesDefinition.virtualFile), true)
+                            .openTextEditor(OpenFileDescriptor(project, configFile.virtualFile), true)
                     }, "Creating Config File", null)
                 }
                 .createPopup()
