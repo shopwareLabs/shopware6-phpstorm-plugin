@@ -216,6 +216,9 @@
                    icon="ShopwareToolBoxIcons.SHOPWARE" popup="true">
                 <action id="ShopwareToolboxNewApp"
                         class="de.shyim.shopware6.action.generator.app.NewAppAction"/>
+
+                <action id="de.shyim.shopware6.action.generator.app.AddCustomEntitiesAction"
+                        class="de.shyim.shopware6.action.generator.app.AddCustomEntitiesAction"/>
             </group>
 
             <group id="ShopwareToolboxAdminGroup" class="com.intellij.ide.actions.NonTrivialActionGroup"
