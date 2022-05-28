@@ -10,14 +10,14 @@ import de.shyim.shopware6.index.dict.SnippetFile
 import icons.ShopwareToolBoxIcons
 
 object AdminSnippetUtil {
-    fun getAllSnippets(project: Project): MutableList<SnippetFile> {
+    private fun getAllSnippets(project: Project): MutableList<SnippetFile> {
         val snippets: MutableList<SnippetFile> = ArrayList()
 
         for (key in FileBasedIndex.getInstance().getAllKeys(AdminSnippetIndex.key, project)) {
-            val vals = FileBasedIndex.getInstance()
+            val values = FileBasedIndex.getInstance()
                 .getValues(AdminSnippetIndex.key, key, GlobalSearchScope.allScope(project))
 
-            snippets.addAll(vals)
+            snippets.addAll(values)
         }
 
         return snippets

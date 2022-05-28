@@ -13,14 +13,14 @@ import de.shyim.shopware6.index.dict.AdminMixin
 import icons.ShopwareToolBoxIcons
 
 object AdminMixinUtil {
-    fun getAllMixins(project: Project): MutableList<AdminMixin> {
+    private fun getAllMixins(project: Project): MutableList<AdminMixin> {
         val definitions: MutableList<AdminMixin> = ArrayList()
 
         for (key in FileBasedIndex.getInstance().getAllKeys(AdminMixinIndex.key, project)) {
-            val vals = FileBasedIndex.getInstance()
+            val values = FileBasedIndex.getInstance()
                 .getValues(AdminMixinIndex.key, key, GlobalSearchScope.allScope(project))
 
-            definitions.addAll(vals)
+            definitions.addAll(values)
         }
 
         return definitions

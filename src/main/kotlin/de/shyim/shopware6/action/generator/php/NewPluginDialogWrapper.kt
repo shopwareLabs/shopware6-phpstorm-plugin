@@ -20,7 +20,7 @@ class NewPluginDialogWrapper : DialogWrapper(true) {
     }
 
     init {
-        title = "Create a new Plugin"
+        title = "Create a New Plugin"
         init()
     }
 

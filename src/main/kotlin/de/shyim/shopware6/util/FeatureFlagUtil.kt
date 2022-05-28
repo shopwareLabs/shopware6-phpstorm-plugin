@@ -10,14 +10,14 @@ import de.shyim.shopware6.index.dict.FeatureFlag
 import icons.ShopwareToolBoxIcons
 
 object FeatureFlagUtil {
-    fun getAllFlags(project: Project): MutableList<FeatureFlag> {
+    private fun getAllFlags(project: Project): MutableList<FeatureFlag> {
         val flags: MutableList<FeatureFlag> = ArrayList()
 
         for (key in FileBasedIndex.getInstance().getAllKeys(FeatureFlagIndex.key, project)) {
-            val vals = FileBasedIndex.getInstance()
+            val values = FileBasedIndex.getInstance()
                 .getValues(FeatureFlagIndex.key, key, GlobalSearchScope.allScope(project))
 
-            flags.addAll(vals)
+            flags.addAll(values)
         }
 
         return flags

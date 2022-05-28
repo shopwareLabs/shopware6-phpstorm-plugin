@@ -14,10 +14,10 @@ object EntityDefinitionUtil {
         val definitions: MutableList<EntityDefinition> = ArrayList()
 
         for (key in FileBasedIndex.getInstance().getAllKeys(EntityDefinitionIndex.key, project)) {
-            val vals = FileBasedIndex.getInstance()
+            val values = FileBasedIndex.getInstance()
                 .getValues(EntityDefinitionIndex.key, key, GlobalSearchScope.allScope(project))
 
-            definitions.addAll(vals)
+            definitions.addAll(values)
         }
 
         return definitions
@@ -36,7 +36,7 @@ object EntityDefinitionUtil {
         return list
     }
 
-    fun findByFqn(fqn: String, project: Project): EntityDefinition? {
+    private fun findByFqn(fqn: String, project: Project): EntityDefinition? {
         return FileBasedIndex.getInstance()
             .getValues(EntityDefinitionIndex.key, fqn, GlobalSearchScope.allScope(project)).firstOrNull()
     }

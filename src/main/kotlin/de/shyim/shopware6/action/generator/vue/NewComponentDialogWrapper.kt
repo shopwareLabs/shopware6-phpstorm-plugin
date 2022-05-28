@@ -17,7 +17,7 @@ class NewComponentDialogWrapper : DialogWrapper(true) {
     }
 
     init {
-        title = "Create a new Component"
+        title = "Create a New Component"
         init()
     }
 

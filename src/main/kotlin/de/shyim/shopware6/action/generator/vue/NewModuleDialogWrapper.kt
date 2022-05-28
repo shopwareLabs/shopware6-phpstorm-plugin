@@ -16,7 +16,7 @@ class NewModuleDialogWrapper: DialogWrapper(true) {
     }
 
     init {
-        title = "Create a new Module"
+        title = "Create a New Module"
         init()
     }
 

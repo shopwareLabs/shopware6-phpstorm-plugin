@@ -30,7 +30,7 @@ class NewChangelogDialogWrapper(
     }
 
     init {
-        title = "Create a new Changelog"
+        title = "Create a New Changelog"
         init()
     }
 

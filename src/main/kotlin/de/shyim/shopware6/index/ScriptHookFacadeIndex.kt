@@ -38,7 +38,7 @@ class ScriptHookFacadeIndex : FileBasedIndexExtension<String, ScriptHookFacade>(
                 override fun visitElement(element: PsiElement) {
                     if (element is PhpClass && element.extendsList.referenceElements.isNotEmpty() && isFacade(element)) {
                         var facadeName = ""
-                        var fqcn = ""
+                        var fqn = ""
 
                         element.acceptChildren(object : PsiRecursiveElementWalkingVisitor() {
                             override fun visitElement(element: PsiElement) {
@@ -60,7 +60,7 @@ class ScriptHookFacadeIndex : FileBasedIndexExtension<String, ScriptHookFacade>(
                                 if (element is Method && element.name == "factory") {
                                     for (child in element.children) {
                                         if (child is PhpReturnType) {
-                                            fqcn = (child.firstChild as ClassReferenceImpl).fqn!!
+                                            fqn = (child.firstChild as ClassReferenceImpl).fqn!!
                                         }
                                     }
                                 }
@@ -72,7 +72,7 @@ class ScriptHookFacadeIndex : FileBasedIndexExtension<String, ScriptHookFacade>(
                         if (facadeName.isNotEmpty()) {
                             facades[element.fqn] = ScriptHookFacade(
                                 facadeName,
-                                fqcn,
+                                fqn,
                             )
                         }
 

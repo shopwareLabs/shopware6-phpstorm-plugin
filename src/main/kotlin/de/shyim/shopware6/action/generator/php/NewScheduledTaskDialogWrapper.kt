@@ -21,7 +21,7 @@ class NewScheduledTaskDialogWrapper(namespace: String) : DialogWrapper(true) {
     }
 
     init {
-        title = "Create a new scheduled task"
+        title = "Create a New Scheduled Task"
         init()
     }
 

@@ -2,11 +2,11 @@ package de.shyim.shopware6.action.generator.ui
 
 class NewChangelogConfig(
     var title: String,
-    var ticket: String,
-    var flag: String,
-    var user: String,
-    var email: String,
-    var github: String
+    private var ticket: String,
+    private var flag: String,
+    private var user: String,
+    private var email: String,
+    private var github: String
 ) {
     fun toMap(): Map<String, String> {
         return mapOf(

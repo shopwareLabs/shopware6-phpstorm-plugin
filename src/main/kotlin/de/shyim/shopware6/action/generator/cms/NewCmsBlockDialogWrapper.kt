@@ -25,7 +25,7 @@ class NewCmsBlockDialogWrapper(bundles: List<ShopwareBundle>) : DialogWrapper(tr
     }
 
     init {
-        title = "Create a new CMS block"
+        title = "Create a New CMS Block"
         init()
     }
 

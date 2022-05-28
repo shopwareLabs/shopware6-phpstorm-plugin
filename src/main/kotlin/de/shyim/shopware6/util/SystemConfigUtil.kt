@@ -18,10 +18,10 @@ object SystemConfigUtil {
         val configs: MutableList<SystemConfig> = ArrayList()
 
         for (key in FileBasedIndex.getInstance().getAllKeys(SystemConfigIndex.key, project)) {
-            val vals = FileBasedIndex.getInstance()
+            val values = FileBasedIndex.getInstance()
                 .getValues(SystemConfigIndex.key, key, GlobalSearchScope.allScope(project))
 
-            configs.addAll(vals)
+            configs.addAll(values)
         }
 
         return configs

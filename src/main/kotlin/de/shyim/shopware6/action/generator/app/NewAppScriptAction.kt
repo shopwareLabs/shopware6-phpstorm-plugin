@@ -23,7 +23,7 @@ import javax.swing.JLabel
 import javax.swing.JList
 
 class NewAppScriptAction :
-    DumbAwareAction("Create an App script", "Create an new App scripts", ShopwareToolBoxIcons.SHOPWARE) {
+    DumbAwareAction("Create an App Script", "Create an new App scripts", ShopwareToolBoxIcons.SHOPWARE) {
     override fun actionPerformed(e: AnActionEvent) {
         if (e.project == null) {
             return

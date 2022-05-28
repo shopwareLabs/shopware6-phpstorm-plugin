@@ -22,10 +22,10 @@ class AdminComponentProvider : XmlTagNameProvider, XmlElementDescriptorProvider 
         }
 
         for (key in FileBasedIndex.getInstance().getAllKeys(AdminComponentIndex.key, tag.project)) {
-            val vals = FileBasedIndex.getInstance()
+            val values = FileBasedIndex.getInstance()
                 .getValues(AdminComponentIndex.key, key, GlobalSearchScope.allScope(tag.project))
 
-            vals.forEach {
+            values.forEach {
                 elements.add(
                     LookupElementBuilder.create(it.name)
                         .withIcon(ShopwareToolBoxIcons.SHOPWARE)
@@ -39,10 +39,10 @@ class AdminComponentProvider : XmlTagNameProvider, XmlElementDescriptorProvider 
         val adminComponents = THashMap<String, AdminComponent>()
 
         for (key in FileBasedIndex.getInstance().getAllKeys(AdminComponentIndex.key, tag.project)) {
-            val vals = FileBasedIndex.getInstance()
+            val values = FileBasedIndex.getInstance()
                 .getValues(AdminComponentIndex.key, key, GlobalSearchScope.allScope(tag.project))
 
-            vals.forEach {
+            values.forEach {
                 adminComponents[it.name] = it
             }
         }

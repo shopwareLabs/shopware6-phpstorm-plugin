@@ -16,7 +16,7 @@ import org.codehaus.jettison.json.JSONObject
 import java.io.File
 
 class SynchronizeNamespaceAction : DumbAwareAction(
-    "Synchronize extension namespaces with IDE",
+    "Synchronize Extension Namespaces with IDE",
     "Configures PHP-Namespaces with IDE",
     ShopwareToolBoxIcons.SHOPWARE
 ) {
@@ -55,7 +55,7 @@ class SynchronizeNamespaceAction : DumbAwareAction(
                     model.commit()
                 }
             },
-            "Updating project settings", null
+            "Updating Project Settings", null
         )
     }
 

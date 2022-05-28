@@ -77,7 +77,7 @@ object JavaScriptPattern {
         )
     }
 
-    fun getTcPattern(): ElementPattern<out PsiElement> {
+    private fun getTcPattern(): ElementPattern<out PsiElement> {
         return PlatformPatterns.psiElement()
             .withParent(
                 PlatformPatterns.psiElement(JSLiteralExpression::class.java)
@@ -104,7 +104,7 @@ object JavaScriptPattern {
             .withLanguage(JavascriptLanguage.INSTANCE)
     }
 
-    fun getModuleSnippetPattern(): PsiElementPattern.Capture<PsiElement> {
+    private fun getModuleSnippetPattern(): PsiElementPattern.Capture<PsiElement> {
         return PlatformPatterns.psiElement()
             .withParent(
                 PlatformPatterns.psiElement(JSLiteralExpression::class.java)
@@ -118,7 +118,7 @@ object JavaScriptPattern {
             )
     }
 
-    fun getModuleNavigationSnippetPattern(): PsiElementPattern.Capture<PsiElement> {
+    private fun getModuleNavigationSnippetPattern(): PsiElementPattern.Capture<PsiElement> {
         return PlatformPatterns.psiElement()
             .withParent(
                 PlatformPatterns.psiElement(JSLiteralExpression::class.java)
@@ -141,7 +141,7 @@ object JavaScriptPattern {
             )
     }
 
-    fun getModuleBodyPattern(): PsiElementPattern.Capture<JSObjectLiteralExpression> {
+    private fun getModuleBodyPattern(): PsiElementPattern.Capture<JSObjectLiteralExpression> {
         return PlatformPatterns.psiElement(JSObjectLiteralExpression::class.java)
             .withParent(
                 PlatformPatterns.psiElement(JSArgumentList::class.java)

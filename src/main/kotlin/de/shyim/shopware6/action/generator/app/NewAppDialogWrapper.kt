@@ -16,7 +16,7 @@ class NewAppDialogWrapper : DialogWrapper(true) {
     }
 
     init {
-        title = "Create a new Shopware App"
+        title = "Create a New Shopware App"
         init()
     }
 

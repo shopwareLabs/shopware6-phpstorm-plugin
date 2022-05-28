@@ -3,9 +3,9 @@ package de.shyim.shopware6.action.generator.php
 class NewPluginConfig(
     val name: String,
     val namespace: String,
-    val composerName: String,
-    val license: String,
-    val author: String,
+    private val composerName: String,
+    private val license: String,
+    private val author: String,
     val description: String
 ) {
     fun toMap(): Map<String, String> {

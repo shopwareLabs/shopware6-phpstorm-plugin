@@ -37,10 +37,10 @@ class FeatureFlagGoToDeclareHandler : GotoDeclarationHandler {
         ) {
             val text = element.text.replace("\"", "").replace("'", "")
 
-            val vals = FileBasedIndex.getInstance()
+            val values = FileBasedIndex.getInstance()
                 .getValues(FeatureFlagIndex.key, text, GlobalSearchScope.allScope(project))
 
-            vals.forEach {
+            values.forEach {
                 lookupPsiElementFromFile(psiElements, it, project)
             }
         }

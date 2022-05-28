@@ -58,6 +58,6 @@ class CriteriaIdMisusedFix: LocalQuickFix {
             }
 
             descriptor.psiElement.parent.delete()
-        }, "Changing constructor", null)
+        }, "Changing Constructor", null)
     }
 }

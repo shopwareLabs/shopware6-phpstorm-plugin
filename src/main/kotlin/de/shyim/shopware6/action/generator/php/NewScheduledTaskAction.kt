@@ -11,7 +11,7 @@ import de.shyim.shopware6.templates.ShopwareTemplates.Companion.SHOPWARE_PHP_SCH
 import icons.ShopwareToolBoxIcons
 
 class NewScheduledTaskAction :
-    DumbAwareAction("Create scheduled task", "Create a new ScheduledTask ", ShopwareToolBoxIcons.SHOPWARE) {
+    DumbAwareAction("Create Scheduled Task", "Create a new ScheduledTask ", ShopwareToolBoxIcons.SHOPWARE) {
     override fun actionPerformed(e: AnActionEvent) {
         val directory = ActionUtil.getViewDirectory(e.dataContext) ?: return
 

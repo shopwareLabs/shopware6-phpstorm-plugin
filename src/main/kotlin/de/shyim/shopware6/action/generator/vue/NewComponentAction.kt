@@ -14,7 +14,8 @@ import com.intellij.psi.PsiFileFactory
 import de.shyim.shopware6.action.generator.ActionUtil
 import de.shyim.shopware6.templates.ShopwareTemplates
 
-class NewComponentAction: DumbAwareAction("Create a component", "Create a new Vue component", AllIcons.FileTypes.JavaScript) {
+class NewComponentAction :
+    DumbAwareAction("Create a Component", "Create a new Vue component", AllIcons.FileTypes.JavaScript) {
     override fun actionPerformed(e: AnActionEvent) {
         if (e.project == null) {
             return

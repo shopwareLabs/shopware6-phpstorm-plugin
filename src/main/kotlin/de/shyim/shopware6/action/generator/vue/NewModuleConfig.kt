@@ -1,6 +1,13 @@
 package de.shyim.shopware6.action.generator.vue
 
-class NewModuleConfig(var name: String, var type: String, var color: String, var icon: String, var parentModule: String, var showInSettings: Boolean) {
+class NewModuleConfig(
+    var name: String,
+    var type: String,
+    private var color: String,
+    private var icon: String,
+    private var parentModule: String,
+    private var showInSettings: Boolean
+) {
     fun toMap(): Map<String, String> {
         return mapOf(
             "NAME" to this.name,

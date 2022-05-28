@@ -31,10 +31,10 @@ class AdminComponentGoToDeclareHandler : GotoDeclarationHandler {
         ) {
             val text = element.text.replace("\"", "").replace("'", "")
 
-            val vals = FileBasedIndex.getInstance()
+            val values = FileBasedIndex.getInstance()
                 .getValues(AdminComponentIndex.key, text, GlobalSearchScope.allScope(project))
 
-            vals.forEach {
+            values.forEach {
                 val file = LocalFileSystem.getInstance().findFileByPath(it.file)
 
                 if (file != null) {

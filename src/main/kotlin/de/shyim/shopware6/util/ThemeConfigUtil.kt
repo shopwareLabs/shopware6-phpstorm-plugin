@@ -18,10 +18,10 @@ object ThemeConfigUtil {
         val flags: MutableList<ThemeConfig> = ArrayList()
 
         for (key in FileBasedIndex.getInstance().getAllKeys(ThemeConfigIndex.key, project)) {
-            val vals = FileBasedIndex.getInstance()
+            val values = FileBasedIndex.getInstance()
                 .getValues(ThemeConfigIndex.key, key, GlobalSearchScope.allScope(project))
 
-            flags.addAll(vals)
+            flags.addAll(values)
         }
 
         return flags

@@ -17,7 +17,7 @@ import org.apache.commons.io.FilenameUtils
 import java.nio.file.Paths
 
 class NewCmsBlockAction :
-    DumbAwareAction("Create a new CMS block", "Create a new CMS Block in Extension", ShopwareToolBoxIcons.SHOPWARE) {
+    DumbAwareAction("Create a New CMS Block", "Create a new CMS Block in Extension", ShopwareToolBoxIcons.SHOPWARE) {
     override fun actionPerformed(e: AnActionEvent) {
         if (e.project == null) {
             return

@@ -13,10 +13,10 @@ object ShopwareAppUtil {
         val apps: MutableList<ShopwareApp> = ArrayList()
 
         for (key in FileBasedIndex.getInstance().getAllKeys(ShopwareAppIndex.key, project)) {
-            val vals = FileBasedIndex.getInstance()
+            val values = FileBasedIndex.getInstance()
                 .getValues(ShopwareAppIndex.key, key, GlobalSearchScope.allScope(project))
 
-            apps.addAll(vals)
+            apps.addAll(values)
         }
 
         return apps
@@ -24,10 +24,10 @@ object ShopwareAppUtil {
 
     fun getAppByFolderName(name: String, project: Project): ShopwareApp? {
         for (key in FileBasedIndex.getInstance().getAllKeys(ShopwareAppIndex.key, project)) {
-            val vals = FileBasedIndex.getInstance()
+            val values = FileBasedIndex.getInstance()
                 .getValues(ShopwareAppIndex.key, key, GlobalSearchScope.allScope(project))
 
-            vals.forEach {
+            values.forEach {
                 if (Paths.get(it.rootFolder).name == name) {
                     return it
                 }

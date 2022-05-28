@@ -25,7 +25,7 @@ class NewCmsElementDialogWrapper(bundles: List<ShopwareBundle>) : DialogWrapper(
     }
 
     init {
-        title = "Create a new CMS element"
+        title = "Create a New CMS Element"
         init()
     }
 

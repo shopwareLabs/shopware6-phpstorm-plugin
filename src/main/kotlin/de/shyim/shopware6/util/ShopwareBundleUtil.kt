@@ -14,10 +14,10 @@ object ShopwareBundleUtil {
         val bundles: MutableList<ShopwareBundle> = ArrayList()
 
         for (key in FileBasedIndex.getInstance().getAllKeys(ShopwareBundleIndex.key, project)) {
-            val vals = FileBasedIndex.getInstance()
+            val values = FileBasedIndex.getInstance()
                 .getValues(ShopwareBundleIndex.key, key, GlobalSearchScope.allScope(project))
 
-            bundles.addAll(vals)
+            bundles.addAll(values)
         }
 
         return bundles

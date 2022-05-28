@@ -14,7 +14,8 @@ import com.intellij.psi.codeStyle.CodeStyleManager
 import de.shyim.shopware6.action.generator.ActionUtil
 import de.shyim.shopware6.templates.ShopwareTemplates
 
-class NewModuleAction: DumbAwareAction("Create a module", "Create a new Shopware Admin Module", AllIcons.FileTypes.JavaScript) {
+class NewModuleAction :
+    DumbAwareAction("Create a Module", "Create a new Shopware admin module", AllIcons.FileTypes.JavaScript) {
     override fun actionPerformed(e: AnActionEvent) {
         if (e.project == null) {
             return

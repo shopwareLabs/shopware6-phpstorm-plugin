@@ -107,7 +107,7 @@ class ShopwareBundleIndex: FileBasedIndexExtension<String, ShopwareBundle>() {
         return found
     }
 
-    fun isValidForIndex(inputData: FileContent): Boolean {
+    private fun isValidForIndex(inputData: FileContent): Boolean {
         val fileName = inputData.psiFile.name
         val filePath = inputData.file.path.lowercase()
 

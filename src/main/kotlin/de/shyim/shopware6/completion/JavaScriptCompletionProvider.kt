@@ -25,10 +25,10 @@ class JavaScriptCompletionProvider : CompletionContributor() {
                     val project = element.project
 
                     for (key in FileBasedIndex.getInstance().getAllKeys(AdminComponentIndex.key, project)) {
-                        val vals = FileBasedIndex.getInstance()
+                        val values = FileBasedIndex.getInstance()
                             .getValues(AdminComponentIndex.key, key, GlobalSearchScope.allScope(project))
 
-                        vals.forEach {
+                        values.forEach {
                             result.addElement(
                                 LookupElementBuilder.create(it.name)
                                     .withIcon(ShopwareToolBoxIcons.SHOPWARE)

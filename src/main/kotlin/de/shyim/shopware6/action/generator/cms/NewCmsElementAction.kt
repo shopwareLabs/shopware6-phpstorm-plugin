@@ -18,7 +18,7 @@ import java.nio.file.Paths
 
 class NewCmsElementAction :
     DumbAwareAction(
-        "Create a new CMS element",
+        "Create a New CMS Element",
         "Create a new CMS element in Extension",
         ShopwareToolBoxIcons.SHOPWARE
     ) {

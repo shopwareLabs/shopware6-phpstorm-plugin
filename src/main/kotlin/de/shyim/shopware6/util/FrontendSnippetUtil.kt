@@ -14,10 +14,10 @@ object FrontendSnippetUtil {
         val snippets: MutableList<SnippetFile> = ArrayList()
 
         for (key in FileBasedIndex.getInstance().getAllKeys(FrontendSnippetIndex.key, project)) {
-            val vals = FileBasedIndex.getInstance()
+            val values = FileBasedIndex.getInstance()
                 .getValues(FrontendSnippetIndex.key, key, GlobalSearchScope.allScope(project))
 
-            snippets.addAll(vals)
+            snippets.addAll(values)
         }
 
         return snippets
