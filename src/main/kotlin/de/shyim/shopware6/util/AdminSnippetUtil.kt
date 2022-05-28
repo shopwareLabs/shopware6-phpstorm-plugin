@@ -46,14 +46,8 @@ object AdminSnippetUtil {
     }
 
     fun hasSnippet(key: String, project: Project): Boolean {
-        getAllSnippets(project).forEach { snippetFile ->
-            snippetFile.snippets.forEach {
-                if (it.key == key) {
-                    return@hasSnippet true
-                }
-            }
+        return getAllSnippets(project).any { snippetFile ->
+            snippetFile.snippets.containsKey(key)
         }
-
-        return false
     }
 }
