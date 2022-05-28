@@ -79,7 +79,7 @@ abstract class AddConfigFileAction(private val configFileName: String,
                             null
                         )
 
-                        val configFile = ActionUtil.createFile(
+                        val createdConfigFile = ActionUtil.createFile(
                             project,
                             XmlFileType.INSTANCE,
                             configFile,
@@ -88,7 +88,7 @@ abstract class AddConfigFileAction(private val configFileName: String,
                         ) ?: return@executeCommand
 
                         FileEditorManager.getInstance(project)
-                            .openTextEditor(OpenFileDescriptor(project, configFile.virtualFile), true)
+                            .openTextEditor(OpenFileDescriptor(project, createdConfigFile.virtualFile), true)
                     }, "Creating Config File", null)
                 }
                 .createPopup()

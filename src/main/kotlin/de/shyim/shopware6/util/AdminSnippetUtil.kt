@@ -28,9 +28,9 @@ object AdminSnippetUtil {
         val usedKeys: MutableList<String> = ArrayList()
 
         getAllSnippets(project).forEach { file ->
-            file.snippets.forEach { snippets ->
+            file.snippets.forEach snippetLoop@{ snippets ->
                 if (usedKeys.contains(snippets.key)) {
-                    return@forEach
+                    return@snippetLoop
                 }
 
                 list.add(
@@ -49,7 +49,7 @@ object AdminSnippetUtil {
         getAllSnippets(project).forEach { snippetFile ->
             snippetFile.snippets.forEach {
                 if (it.key == key) {
-                    return true
+                    return@hasSnippet true
                 }
             }
         }

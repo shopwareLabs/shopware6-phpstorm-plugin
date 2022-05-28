@@ -152,7 +152,7 @@ object EntityDefinitionUtil {
             return definition
         }
 
-        parts.forEachIndexed { index, part ->
+        parts.forEach { part ->
             val nextAssociation = definition.fields.firstOrNull { it.name == part } ?: return definition
             definition = findByFqn(nextAssociation.associationTarget, project) ?: return definition
         }

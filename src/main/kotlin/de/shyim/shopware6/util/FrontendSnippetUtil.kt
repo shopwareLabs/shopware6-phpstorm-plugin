@@ -28,9 +28,9 @@ object FrontendSnippetUtil {
         val usedKeys: MutableList<String> = ArrayList()
 
         getAllSnippets(project).forEach { file ->
-            file.snippets.forEach { snippet ->
+            file.snippets.forEach snippetLoop@{ snippet ->
                 if (usedKeys.contains(snippet.key)) {
-                    return@forEach
+                    return@snippetLoop
                 }
 
                 list.add(

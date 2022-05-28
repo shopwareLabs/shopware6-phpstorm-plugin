@@ -3,6 +3,7 @@ package de.shyim.shopware6.index.externalizer
 import com.intellij.util.io.DataExternalizer
 import java.io.*
 
+@Suppress("UNCHECKED_CAST")
 class ObjectStreamDataExternalizer<T : Serializable?> : DataExternalizer<T?> {
     @Throws(IOException::class)
     override fun save(out: DataOutput, value: T?) {
