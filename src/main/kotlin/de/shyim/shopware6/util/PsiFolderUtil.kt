@@ -10,13 +10,7 @@ object PsiFolderUtil {
 
         ApplicationManager.getApplication().runWriteAction {
             paths.forEach {
-                val subFolder = folder.findSubdirectory(it)
-
-                folder = if (subFolder == null) {
-                    folder.createSubdirectory(it)
-                } else {
-                    subFolder
-                }
+                folder = folder.findSubdirectory(it) ?: folder.createSubdirectory(it)
             }
         }
 

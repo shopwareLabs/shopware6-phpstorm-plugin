@@ -5,10 +5,9 @@ import de.shyim.shopware6.ui.php.NewScheduledTaskDialog
 import javax.swing.JComponent
 
 class NewScheduledTaskDialogWrapper(namespace: String) : DialogWrapper(true) {
-    private var dialog: NewScheduledTaskDialog
+    private var dialog: NewScheduledTaskDialog = NewScheduledTaskDialog()
 
     init {
-        this.dialog = NewScheduledTaskDialog()
         this.dialog.namespaceField.text = namespace
         setSize(400, 200)
     }
@@ -34,10 +33,10 @@ class NewScheduledTaskDialogWrapper(namespace: String) : DialogWrapper(true) {
         }
 
         return NewScheduledTaskConfig(
-            dialog.nameField.getText(),
-            dialog.taskField.getText(),
-            dialog.intervalField.getText(),
-            dialog.namespaceField.getText()
+            dialog.nameField.text,
+            dialog.taskField.text,
+            dialog.intervalField.text,
+            dialog.namespaceField.text
         )
     }
 }

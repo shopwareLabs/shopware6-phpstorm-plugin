@@ -5,11 +5,7 @@ import de.shyim.shopware6.ui.app.NewAppDialog
 import javax.swing.JComponent
 
 class NewAppDialogWrapper : DialogWrapper(true) {
-    private var dialog: NewAppDialog
-
-    init {
-        this.dialog = NewAppDialog()
-    }
+    private var dialog: NewAppDialog = NewAppDialog()
 
     override fun createCenterPanel(): JComponent {
         return this.dialog.dialog
@@ -32,10 +28,10 @@ class NewAppDialogWrapper : DialogWrapper(true) {
         }
 
         return NewAppConfig(
-            dialog.nameField.getText(),
-            dialog.labelField.getText(),
-            dialog.authorField.getText(),
-            dialog.licenseField.getText(),
+            dialog.nameField.text,
+            dialog.labelField.text,
+            dialog.authorField.text,
+            dialog.licenseField.text,
         )
     }
 }

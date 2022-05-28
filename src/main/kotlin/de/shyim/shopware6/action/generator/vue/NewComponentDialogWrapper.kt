@@ -6,11 +6,7 @@ import javax.swing.JComponent
 
 
 class NewComponentDialogWrapper : DialogWrapper(true) {
-    private var dialog: NewComponentDialog
-
-    init {
-        this.dialog = NewComponentDialog()
-    }
+    private var dialog: NewComponentDialog = NewComponentDialog()
 
     override fun createCenterPanel(): JComponent {
         return dialog.panel
@@ -33,8 +29,8 @@ class NewComponentDialogWrapper : DialogWrapper(true) {
         }
 
         return NewComponentConfig(
-            dialog.componentName.getText(),
-            dialog.createSCSSFile.isSelected(),
+            dialog.componentName.text,
+            dialog.createSCSSFile.isSelected,
             dialog.createTwigFileCheckBox.isSelected
         )
     }

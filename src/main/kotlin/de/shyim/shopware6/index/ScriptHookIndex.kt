@@ -40,7 +40,7 @@ class ScriptHookIndex : FileBasedIndexExtension<String, ScriptHook>() {
                     if (element is PhpClass && element.extendsList.referenceElements.isNotEmpty() && isHookClass(element)) {
                         var hookName = ""
                         var hookPage = ""
-                        var services: MutableList<String> = arrayListOf()
+                        val services: MutableList<String> = arrayListOf()
 
                         element.acceptChildren(object : PsiRecursiveElementWalkingVisitor() {
                             override fun visitElement(element: PsiElement) {

@@ -53,7 +53,7 @@ class AdminComponentProvider : XmlTagNameProvider, XmlElementDescriptorProvider 
             return null
         }
 
-        val component = adminComponents.get(tag.name)
+        val component = adminComponents[tag.name]
         props.addAll(component!!.props)
 
         if (component.extends != null) {
@@ -76,7 +76,7 @@ class AdminComponentProvider : XmlTagNameProvider, XmlElementDescriptorProvider 
             return
         }
 
-        val innerComp = adminComponents.get(extends)
+        val innerComp = adminComponents[extends]
 
         innerComp!!.props.forEach {
             if (!props.contains(it)) {

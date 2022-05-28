@@ -5,11 +5,7 @@ import de.shyim.shopware6.ui.vue.NewModule
 import javax.swing.JComponent
 
 class NewModuleDialogWrapper: DialogWrapper(true) {
-    private var panel: NewModule
-
-    init {
-        this.panel = NewModule()
-    }
+    private var panel: NewModule = NewModule()
 
     override fun createCenterPanel(): JComponent? {
         return this.panel.dialog
@@ -34,11 +30,11 @@ class NewModuleDialogWrapper: DialogWrapper(true) {
         val selectedItem = this.panel.typeField.selectedItem as String
 
         return NewModuleConfig(
-            this.panel.nameField.getText(),
+            this.panel.nameField.text,
             selectedItem,
-            this.panel.colorField.getText(),
-            this.panel.iconField.getText(),
-            this.panel.parentModuleField.getText(),
+            this.panel.colorField.text,
+            this.panel.iconField.text,
+            this.panel.parentModuleField.text,
             this.panel.visibleInSettingsModuleCheckBox.isSelected
         )
     }

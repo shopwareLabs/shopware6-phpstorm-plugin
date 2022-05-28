@@ -55,7 +55,7 @@ class FeatureFlagIndex : FileBasedIndexExtension<String, FeatureFlag>() {
                                         element.acceptChildren(object : PsiRecursiveElementWalkingVisitor() {
                                             override fun visitElement(element: PsiElement) {
                                                 if (element is YAMLKeyValue) {
-                                                    map.set(element.firstChild.text, element.lastChild.firstChild.text)
+                                                    map[element.firstChild.text] = element.lastChild.firstChild.text
                                                 }
 
                                                 super.visitElement(element)
@@ -66,15 +66,15 @@ class FeatureFlagIndex : FileBasedIndexExtension<String, FeatureFlag>() {
                                             var default = false
                                             var major = false
 
-                                            if (map.containsKey("default") && map.get("default") == "true") {
+                                            if (map.containsKey("default") && map["default"] == "true") {
                                                 default = true
                                             }
 
-                                            if (map.containsKey("major") && map.get("major") == "true") {
+                                            if (map.containsKey("major") && map["major"] == "true") {
                                                 major = true
                                             }
 
-                                            flags[map.get("name")] = FeatureFlag(
+                                            flags[map["name"]] = FeatureFlag(
                                                 map.getOrDefault("name", "").replace("\"", "").replace("'", ""),
                                                 default,
                                                 major,

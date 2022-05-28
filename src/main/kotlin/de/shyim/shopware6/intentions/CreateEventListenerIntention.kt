@@ -96,7 +96,7 @@ class CreateEventListenerIntention : PsiElementBaseIntentionAction() {
 
     private fun createEventListener(bundle: ShopwareBundle, eventClassName: String, project: Project) {
         val classParts = eventClassName.split("\\")
-        val eventShort = classParts.get(classParts.size - 1)
+        val eventShort = classParts[classParts.size - 1]
         val className = "${eventShort}Listener"
         val classFileName = "${eventShort}Listener.php"
 
@@ -137,13 +137,13 @@ class CreateEventListenerIntention : PsiElementBaseIntentionAction() {
         val namespaces = PhpNamespaceByFilesProvider.INSTANCE.suggestNamespaces(folder)
 
         if (namespaces != null && namespaces.size > 0) {
-            return namespaces.get(0)
+            return namespaces[0]
         }
 
         val superNamespaces = PhpNamespaceByFilesProvider.INSTANCE.suggestNamespaces(folder.parent!!)
 
         if (superNamespaces != null && superNamespaces.size > 0) {
-            return superNamespaces.get(0) + "\\\\" + folder.name
+            return superNamespaces[0] + "\\\\" + folder.name
         }
 
         return ""

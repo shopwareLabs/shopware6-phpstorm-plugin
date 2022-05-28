@@ -101,12 +101,12 @@ class SystemConfigIndex : FileBasedIndexExtension<String, SystemConfig>() {
             }
 
             if (pluginClass.isEmpty()) { // Core case
-                return packageName.split("/").get(1) + "." + inputData.fileName.replace(".xml", "")
+                return packageName.split("/")[1] + "." + inputData.fileName.replace(".xml", "")
             }
 
             val pluginSplit = pluginClass.split("\\")
 
-            return pluginSplit.get(pluginSplit.size - 1) + ".config"
+            return pluginSplit[pluginSplit.size - 1] + ".config"
         }
 
         if (manifestXml != null) {

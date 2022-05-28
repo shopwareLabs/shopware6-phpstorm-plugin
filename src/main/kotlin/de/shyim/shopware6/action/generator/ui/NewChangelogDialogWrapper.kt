@@ -10,10 +10,9 @@ class NewChangelogDialogWrapper(
     defaultUser: String,
     defaultEmail: String
 ) : DialogWrapper(true) {
-    private var dialog: NewChangelogDialog
+    private var dialog: NewChangelogDialog = NewChangelogDialog()
 
     init {
-        this.dialog = NewChangelogDialog()
         this.dialog.ticketField.text = defaultTicket
         this.dialog.titleField.text = defaultTitle
         this.dialog.nameField.text = defaultUser
@@ -43,12 +42,12 @@ class NewChangelogDialogWrapper(
         }
 
         return NewChangelogConfig(
-            this.dialog.titleField.getText(),
-            this.dialog.ticketField.getText(),
-            this.dialog.flagField.getText(),
-            this.dialog.nameField.getText(),
-            this.dialog.emailField.getText(),
-            this.dialog.githubField.getText(),
+            this.dialog.titleField.text,
+            this.dialog.ticketField.text,
+            this.dialog.flagField.text,
+            this.dialog.nameField.text,
+            this.dialog.emailField.text,
+            this.dialog.githubField.text,
         )
     }
 }

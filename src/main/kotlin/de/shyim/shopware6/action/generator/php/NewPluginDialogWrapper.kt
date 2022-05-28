@@ -5,10 +5,9 @@ import de.shyim.shopware6.ui.php.NewPluginDialog
 import javax.swing.JComponent
 
 class NewPluginDialogWrapper : DialogWrapper(true) {
-    private var dialog: NewPluginDialog
+    private var dialog: NewPluginDialog = NewPluginDialog()
 
     init {
-        this.dialog = NewPluginDialog()
         setSize(400, 200)
     }
 

@@ -56,10 +56,9 @@ class FeatureFlagGoToDeclareHandler : GotoDeclarationHandler {
         val file = LocalFileSystem.getInstance().findFileByPath(featureFlag.file)
 
         if (file != null) {
-            val psi = PsiManager.getInstance(project).findFile(file)
 
-            if (psi != null) {
-                psi.acceptChildren(object : PsiRecursiveElementWalkingVisitor() {
+            PsiManager.getInstance(project).findFile(file)
+                ?.acceptChildren(object : PsiRecursiveElementWalkingVisitor() {
                     override fun visitElement(element: PsiElement) {
                         if (element is YAMLPlainTextImpl) {
                             if (element.text == featureFlag.name) {
@@ -71,7 +70,6 @@ class FeatureFlagGoToDeclareHandler : GotoDeclarationHandler {
                         super.visitElement(element)
                     }
                 })
-            }
         }
     }
 }

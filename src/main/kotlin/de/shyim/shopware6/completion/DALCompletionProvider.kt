@@ -124,7 +124,7 @@ class DALCompletionProvider : CompletionContributor() {
     }
 
     companion object {
-        private val regex = "<(?<generic>.*)>"
+        private const val regex = "<(?<generic>.*)>"
 
         private val pattern: Pattern = Pattern.compile(regex, Pattern.MULTILINE)
 

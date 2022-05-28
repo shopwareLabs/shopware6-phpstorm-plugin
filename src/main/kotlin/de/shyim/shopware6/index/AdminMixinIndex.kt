@@ -47,7 +47,7 @@ class AdminMixinIndex : FileBasedIndexExtension<String, AdminMixin>() {
                             if (element.methodExpression!!.lastChild is LeafPsiElement && element.methodExpression!!.lastChild.text == "register") {
                                 val arguments = element.argumentList!!.arguments
 
-                                val mixingName = arguments.get(0).firstChild
+                                val mixingName = arguments[0].firstChild
 
                                 if (!stringLiteral.accepts(mixingName)) {
                                     return

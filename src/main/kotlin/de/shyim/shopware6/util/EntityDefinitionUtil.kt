@@ -51,7 +51,7 @@ object EntityDefinitionUtil {
 
         val definition = findByFqn(criteriaDefinition, project) ?: return list
         val definitionFields = definition.getAllAssociations()
-        val foundAssociation = definitionFields.filter { it.name == parts.first() }.firstOrNull()
+        val foundAssociation = definitionFields.firstOrNull { it.name == parts.first() }
         val fixedUserInput = fixUserInput(userInput)
 
         if (parts.first().isEmpty() || foundAssociation == null) {
@@ -75,7 +75,7 @@ object EntityDefinitionUtil {
                     }
                 } else {
                     val nextAssociation =
-                        targetAssociation.getAllAssociations().filter { it.name == part }.firstOrNull() ?: return list
+                        targetAssociation.getAllAssociations().firstOrNull { it.name == part } ?: return list
                     targetAssociation = findByFqn(nextAssociation.associationTarget, project) ?: return list
                 }
             }
@@ -95,7 +95,7 @@ object EntityDefinitionUtil {
 
         val definition = findByFqn(criteriaDefinition, project) ?: return list
         val definitionFields = definition.fields
-        val foundAssociation = definitionFields.filter { it.name == parts.first() }.firstOrNull()
+        val foundAssociation = definitionFields.firstOrNull { it.name == parts.first() }
 
         if (parts.first().isEmpty() || foundAssociation == null) {
             definitionFields.forEach {
@@ -118,7 +118,7 @@ object EntityDefinitionUtil {
                     }
                 } else {
                     val nextAssociation =
-                        targetAssociation.fields.filter { it.name == part }.firstOrNull() ?: return list
+                        targetAssociation.fields.firstOrNull { it.name == part } ?: return list
                     targetAssociation = findByFqn(nextAssociation.associationTarget, project) ?: return list
                 }
             }
@@ -153,7 +153,7 @@ object EntityDefinitionUtil {
         }
 
         parts.forEachIndexed { index, part ->
-            val nextAssociation = definition.fields.filter { it.name == part }.firstOrNull() ?: return definition
+            val nextAssociation = definition.fields.firstOrNull { it.name == part } ?: return definition
             definition = findByFqn(nextAssociation.associationTarget, project) ?: return definition
         }
 
