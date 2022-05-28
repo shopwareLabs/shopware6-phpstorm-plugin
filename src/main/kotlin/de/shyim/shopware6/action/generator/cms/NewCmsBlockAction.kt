@@ -10,7 +10,7 @@ import com.intellij.psi.css.CssFileType
 import com.jetbrains.twig.TwigFileType
 import de.shyim.shopware6.action.generator.ActionUtil
 import de.shyim.shopware6.templates.ShopwareTemplates
-import de.shyim.shopware6.util.PsiFolderUtil
+import de.shyim.shopware6.util.PsiUtil
 import de.shyim.shopware6.util.ShopwareBundleUtil
 import icons.ShopwareToolBoxIcons
 import org.apache.commons.io.FilenameUtils
@@ -30,7 +30,7 @@ class NewCmsBlockAction :
             .findFileByPath(FilenameUtils.separatorsToUnix(Paths.get(result.extension.path).parent.toString()))
         val psiFolder = PsiManager.getInstance(e.project!!).findDirectory(virtualFolder!!)
 
-        val blockFolder = PsiFolderUtil.createFolderRecursive(
+        val blockFolder = PsiUtil.createFolderRecursive(
             psiFolder!!,
             "Resources/app/administration/src/module/sw-cms/blocks/${result.group}/${result.name}"
         )
@@ -47,7 +47,7 @@ class NewCmsBlockAction :
             blockFolder
         ) ?: return
 
-        val componentFolder = PsiFolderUtil.createFolderRecursive(blockFolder, "component")
+        val componentFolder = PsiUtil.createFolderRecursive(blockFolder, "component")
 
         ActionUtil.createFile(
             e.project!!,
@@ -73,7 +73,7 @@ class NewCmsBlockAction :
             componentFolder
         ) ?: return
 
-        val previewFolder = PsiFolderUtil.createFolderRecursive(blockFolder, "preview")
+        val previewFolder = PsiUtil.createFolderRecursive(blockFolder, "preview")
 
         ActionUtil.createFile(
             e.project!!,
@@ -111,7 +111,7 @@ class NewCmsBlockAction :
             previewFolder
         ) ?: return
 
-        val storefrontFolder = PsiFolderUtil.createFolderRecursive(psiFolder, "Resources/views/storefront/block")
+        val storefrontFolder = PsiUtil.createFolderRecursive(psiFolder, "Resources/views/storefront/block")
 
         ActionUtil.createFile(
             e.project!!,

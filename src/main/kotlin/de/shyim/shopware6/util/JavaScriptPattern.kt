@@ -37,6 +37,13 @@ object JavaScriptPattern {
             .withLanguage(JavascriptLanguage.INSTANCE)
     }
 
+    fun getComponentPattern(): ElementPattern<PsiElement> {
+        return PlatformPatterns.or(
+            getComponentExtend(),
+            getModuleRouteComponent()
+        )
+    }
+
     fun getComponentExtend(): PsiElementPattern.Capture<PsiElement> {
         return PlatformPatterns.psiElement()
             .withParent(
@@ -63,6 +70,35 @@ object JavaScriptPattern {
                                         )
                                         .withLastChild(PlatformPatterns.psiElement().withText("extend"))
                                 )
+                            )
+                    )
+            )
+            .withLanguage(JavascriptLanguage.INSTANCE)
+    }
+
+    fun getModuleRouteComponent(): PsiElementPattern.Capture<PsiElement> {
+        return PlatformPatterns.psiElement()
+            .withParent(
+                PlatformPatterns.psiElement(JSLiteralExpression::class.java)
+                    .withParent(
+                        PlatformPatterns.psiElement(JSProperty::class.java)
+                            .withName("component")
+                            .withParent(
+                                PlatformPatterns.psiElement(JSObjectLiteralExpression::class.java)
+                                    .withParent(
+                                        PlatformPatterns.psiElement(JSProperty::class.java)
+                                            .withParent(
+                                                PlatformPatterns.psiElement(JSObjectLiteralExpression::class.java)
+                                                    .withParent(
+                                                        PlatformPatterns.or(
+                                                            PlatformPatterns.psiElement(JSProperty::class.java)
+                                                                .withName("children"),
+                                                            PlatformPatterns.psiElement(JSProperty::class.java)
+                                                                .withName("routes")
+                                                        )
+                                                    )
+                                            )
+                                    )
                             )
                     )
             )
@@ -141,7 +177,7 @@ object JavaScriptPattern {
             )
     }
 
-    private fun getModuleBodyPattern(): PsiElementPattern.Capture<JSObjectLiteralExpression> {
+    fun getModuleBodyPattern(): PsiElementPattern.Capture<JSObjectLiteralExpression> {
         return PlatformPatterns.psiElement(JSObjectLiteralExpression::class.java)
             .withParent(
                 PlatformPatterns.psiElement(JSArgumentList::class.java)
@@ -215,4 +251,111 @@ object JavaScriptPattern {
             )
             .withLanguage(JavascriptLanguage.INSTANCE)
     }
+
+    fun getRouteCompletion(): ElementPattern<PsiElement> {
+        return PlatformPatterns.or(
+            getModuleMetaParentRoute(),
+            getModuleRedirectRoute(),
+            getModuleNavigationRoute(),
+            getModuleRouterPush()
+        )
+    }
+
+    private fun getModuleMetaParentRoute(): PsiElementPattern.Capture<PsiElement> {
+        return PlatformPatterns.psiElement()
+            .withParent(
+                PlatformPatterns.psiElement(JSLiteralExpression::class.java)
+                    .withParent(
+                        PlatformPatterns.psiElement(JSProperty::class.java)
+                            .withName("parentPath")
+                            .withParent(
+                                PlatformPatterns.psiElement(JSObjectLiteralExpression::class.java)
+                                    .withParent(PlatformPatterns.psiElement(JSProperty::class.java).withName("meta"))
+                            )
+                    )
+            )
+            .withLanguage(JavascriptLanguage.INSTANCE)
+    }
+
+    private fun getModuleRedirectRoute(): PsiElementPattern.Capture<PsiElement> {
+        return PlatformPatterns.psiElement()
+            .withParent(
+                PlatformPatterns.psiElement(JSLiteralExpression::class.java)
+                    .withParent(
+                        PlatformPatterns.psiElement(JSProperty::class.java)
+                            .withName("name")
+                            .withParent(
+                                PlatformPatterns.psiElement(JSObjectLiteralExpression::class.java)
+                                    .withParent(
+                                        PlatformPatterns.psiElement(JSProperty::class.java).withName("redirect")
+                                    )
+                            )
+                    )
+            )
+            .withLanguage(JavascriptLanguage.INSTANCE)
+    }
+
+    private fun getModuleNavigationRoute(): PsiElementPattern.Capture<PsiElement> {
+        return PlatformPatterns.psiElement()
+            .withParent(
+                PlatformPatterns.psiElement(JSLiteralExpression::class.java)
+                    .withParent(
+                        PlatformPatterns.psiElement(JSProperty::class.java)
+                            .withName("path")
+                            .withParent(
+                                PlatformPatterns.psiElement(JSObjectLiteralExpression::class.java)
+                                    .withParent(
+                                        PlatformPatterns.psiElement(JSArrayLiteralExpression::class.java)
+                                            .withParent(
+                                                PlatformPatterns.psiElement(JSProperty::class.java)
+                                                    .withName("navigation")
+                                            )
+                                    )
+                            )
+                    )
+            )
+            .withLanguage(JavascriptLanguage.INSTANCE)
+    }
+
+    private fun getModuleRouterPush(): PsiElementPattern.Capture<PsiElement> {
+        return PlatformPatterns.psiElement()
+            .withParent(
+                PlatformPatterns.psiElement(JSLiteralExpression::class.java)
+                    .withParent(
+                        PlatformPatterns.psiElement(JSProperty::class.java)
+                            .withName("name")
+                            .withParent(
+                                PlatformPatterns.psiElement(JSObjectLiteralExpression::class.java)
+                                    .withParent(
+                                        PlatformPatterns.psiElement(JSArgumentList::class.java)
+                                            .withParent(
+                                                PlatformPatterns.psiElement(JSCallExpression::class.java)
+                                                    .withFirstChild(
+                                                        PlatformPatterns.psiElement(JSReferenceExpression::class.java)
+                                                            .withFirstChild(
+                                                                PlatformPatterns.psiElement(JSReferenceExpression::class.java)
+                                                                    .withFirstChild(
+                                                                        PlatformPatterns.psiElement(
+                                                                            JSThisExpression::class.java
+                                                                        )
+                                                                    )
+                                                                    .withLastChild(
+                                                                        PlatformPatterns.psiElement(
+                                                                            JSTokenTypes.IDENTIFIER
+                                                                        ).withText("\$router")
+                                                                    )
+                                                            )
+                                                            .withLastChild(
+                                                                PlatformPatterns.psiElement(JSTokenTypes.IDENTIFIER)
+                                                                    .withText("push")
+                                                            )
+                                                    )
+                                            )
+                                    )
+                            )
+                    )
+            )
+            .withLanguage(JavascriptLanguage.INSTANCE)
+    }
+
 }

@@ -14,7 +14,7 @@ import de.shyim.shopware6.action.generator.ActionUtil
 import de.shyim.shopware6.index.dict.ScriptHook
 import de.shyim.shopware6.index.dict.ShopwareApp
 import de.shyim.shopware6.templates.ShopwareTemplates
-import de.shyim.shopware6.util.PsiFolderUtil
+import de.shyim.shopware6.util.PsiUtil
 import de.shyim.shopware6.util.ScriptHookUtil
 import de.shyim.shopware6.util.ShopwareAppUtil
 import icons.ShopwareToolBoxIcons
@@ -98,7 +98,7 @@ class NewAppScriptAction :
         val localFolder = LocalFileSystem.getInstance().findFileByPath(app.rootFolder)
         val psiDir = PsiManager.getInstance(project).findDirectory(localFolder!!) as PsiDirectory
 
-        val scriptsDir = PsiFolderUtil.createFolderRecursive(psiDir, "Resources/scripts/${scriptHook.name}")
+        val scriptsDir = PsiUtil.createFolderRecursive(psiDir, "Resources/scripts/${scriptHook.name}")
 
         ActionUtil.createFile(
             project,

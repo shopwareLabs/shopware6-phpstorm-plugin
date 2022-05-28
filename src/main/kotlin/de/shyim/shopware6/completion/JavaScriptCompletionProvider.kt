@@ -14,7 +14,7 @@ class JavaScriptCompletionProvider : CompletionContributor() {
     init {
         extend(
             CompletionType.BASIC,
-            JavaScriptPattern.getComponentExtend(),
+            JavaScriptPattern.getComponentPattern(),
             object : CompletionProvider<CompletionParameters>() {
                 override fun addCompletions(
                     parameters: CompletionParameters,
@@ -100,6 +100,22 @@ class JavaScriptCompletionProvider : CompletionContributor() {
                     val project: Project = parameters.position.project
 
                     result.addAllElements(AdminMixinUtil.getAllLookupItems(project))
+                }
+            }
+        )
+
+        extend(
+            CompletionType.BASIC,
+            JavaScriptPattern.getRouteCompletion(),
+            object : CompletionProvider<CompletionParameters>() {
+                override fun addCompletions(
+                    parameters: CompletionParameters,
+                    context: ProcessingContext,
+                    result: CompletionResultSet
+                ) {
+                    val project: Project = parameters.position.project
+
+                    result.addAllElements(AdminModuleUtil.getAllRouteLookupItems(project))
                 }
             }
         )

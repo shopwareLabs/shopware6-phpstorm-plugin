@@ -10,7 +10,7 @@ import com.intellij.psi.css.CssFileType
 import com.jetbrains.twig.TwigFileType
 import de.shyim.shopware6.action.generator.ActionUtil
 import de.shyim.shopware6.templates.ShopwareTemplates
-import de.shyim.shopware6.util.PsiFolderUtil
+import de.shyim.shopware6.util.PsiUtil
 import de.shyim.shopware6.util.ShopwareBundleUtil
 import icons.ShopwareToolBoxIcons
 import org.apache.commons.io.FilenameUtils
@@ -34,7 +34,7 @@ class NewCmsElementAction :
             .findFileByPath(FilenameUtils.separatorsToUnix(Paths.get(result.extension.path).parent.toString()))
         val psiFolder = PsiManager.getInstance(e.project!!).findDirectory(virtualFolder!!)
 
-        val blockFolder = PsiFolderUtil.createFolderRecursive(
+        val blockFolder = PsiUtil.createFolderRecursive(
             psiFolder!!,
             "Resources/app/administration/src/module/sw-cms/elements/${result.name}"
         )
@@ -51,7 +51,7 @@ class NewCmsElementAction :
             blockFolder
         ) ?: return
 
-        val componentFolder = PsiFolderUtil.createFolderRecursive(blockFolder, "component")
+        val componentFolder = PsiUtil.createFolderRecursive(blockFolder, "component")
 
         ActionUtil.createFile(
             e.project!!,
@@ -89,7 +89,7 @@ class NewCmsElementAction :
             componentFolder
         ) ?: return
 
-        val previewFolder = PsiFolderUtil.createFolderRecursive(blockFolder, "preview")
+        val previewFolder = PsiUtil.createFolderRecursive(blockFolder, "preview")
 
         ActionUtil.createFile(
             e.project!!,
@@ -127,7 +127,7 @@ class NewCmsElementAction :
             previewFolder
         ) ?: return
 
-        val configFolder = PsiFolderUtil.createFolderRecursive(blockFolder, "config")
+        val configFolder = PsiUtil.createFolderRecursive(blockFolder, "config")
 
         ActionUtil.createFile(
             e.project!!,
@@ -165,7 +165,7 @@ class NewCmsElementAction :
             configFolder
         ) ?: return
 
-        val storefrontFolder = PsiFolderUtil.createFolderRecursive(psiFolder, "Resources/views/storefront/element")
+        val storefrontFolder = PsiUtil.createFolderRecursive(psiFolder, "Resources/views/storefront/element")
 
         ActionUtil.createFile(
             e.project!!,

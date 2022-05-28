@@ -31,6 +31,7 @@
         <fileBasedIndex implementation="de.shyim.shopware6.index.ShopwareAppIndex"/>
         <fileBasedIndex implementation="de.shyim.shopware6.index.ScriptHookIndex"/>
         <fileBasedIndex implementation="de.shyim.shopware6.index.ScriptHookFacadeIndex"/>
+        <fileBasedIndex implementation="de.shyim.shopware6.index.AdminModuleIndex"/>
 
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.FeatureFlagGoToDeclareHandler"/>
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.AdminComponentGoToDeclareHandler"/>
@@ -42,6 +43,7 @@
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.EntityDefinitionGoToDeclareHandler"/>
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.AdminMixinGoToDeclareHandler"/>
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.DALCriteriaGoToDeclareHandler"/>
+        <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.AdminModuleGoToDeclareHandler"/>
 
         <completion.contributor language="PHP"
                                 implementationClass="de.shyim.shopware6.completion.PhpCompletionProvider"
