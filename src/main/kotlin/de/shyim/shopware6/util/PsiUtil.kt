@@ -26,10 +26,10 @@ object PsiUtil {
         project: Project,
         psiElements: MutableList<PsiElement>
     ) {
-        val file = LocalFileSystem.getInstance().findFileByPath(file)
+        val psiFile = LocalFileSystem.getInstance().findFileByPath(file)
 
-        if (file != null) {
-            val psi = PsiManager.getInstance(project).findFile(file)
+        if (psiFile != null) {
+            val psi = PsiManager.getInstance(project).findFile(psiFile)
 
             if (psi != null) {
                 psiElements.add(psi)
