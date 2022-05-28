@@ -41,6 +41,7 @@
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.SystemConfigGoToDeclareHandler"/>
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.EntityDefinitionGoToDeclareHandler"/>
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.AdminMixinGoToDeclareHandler"/>
+        <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.DALCriteriaGoToDeclareHandler"/>
 
         <completion.contributor language="PHP"
                                 implementationClass="de.shyim.shopware6.completion.PhpCompletionProvider"
@@ -52,6 +53,10 @@
 
         <completion.contributor language="JavaScript"
                                 implementationClass="de.shyim.shopware6.completion.JavaScriptCompletionProvider"
+                                order="first"/>
+
+        <completion.contributor language="PHP"
+                                implementationClass="de.shyim.shopware6.completion.DALCompletionProvider"
                                 order="first"/>
 
         <xml.tagNameProvider implementation="de.shyim.shopware6.xml.AdminComponentProvider"/>

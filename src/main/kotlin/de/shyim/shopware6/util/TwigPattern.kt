@@ -38,7 +38,7 @@ object TwigPattern {
         return PlatformPatterns
             .psiElement(TwigTokenTypes.STRING_TEXT)
             .withParent(
-                getFunctionCallScopePattern()!!
+                getFunctionCallScopePattern()
             )
             .afterLeafSkipping(
                 PlatformPatterns.or(
