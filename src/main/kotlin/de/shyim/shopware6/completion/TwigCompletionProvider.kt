@@ -64,7 +64,7 @@ class TwigCompletionProvider() : CompletionContributor() {
 
         extend(
             CompletionType.BASIC,
-            TwigPattern.getPrintBlockOrTagFunctionPattern("seoUrl"),
+            TwigPattern.getPrintBlockOrTagFunctionPattern("seoUrl", "sw_csrf"),
             object : CompletionProvider<CompletionParameters>() {
                 override fun addCompletions(
                     parameters: CompletionParameters,
