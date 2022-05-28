@@ -16,10 +16,10 @@ import java.nio.file.Paths
 import kotlin.io.path.pathString
 
 class ShopwareAppIndex : FileBasedIndexExtension<String, ShopwareApp>() {
-    private val EXTERNALIZER = ObjectStreamDataExternalizer<ShopwareApp>()
+    private val _externalizer = ObjectStreamDataExternalizer<ShopwareApp>()
 
     override fun getName(): ID<String, ShopwareApp> {
-        return ShopwareAppIndex.key
+        return key
     }
 
     override fun getVersion(): Int {
@@ -92,7 +92,7 @@ class ShopwareAppIndex : FileBasedIndexExtension<String, ShopwareApp>() {
     }
 
     override fun getValueExternalizer(): ObjectStreamDataExternalizer<ShopwareApp> {
-        return EXTERNALIZER
+        return _externalizer
     }
 
     companion object {

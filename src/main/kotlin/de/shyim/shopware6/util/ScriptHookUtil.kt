@@ -42,8 +42,4 @@ object ScriptHookUtil {
         return facades
     }
 
-    fun getFacadeByFqn(project: Project, name: String): ScriptHookFacade? {
-        return FileBasedIndex.getInstance()
-            .getValues(ScriptHookFacadeIndex.key, name, GlobalSearchScope.allScope(project)).first()
-    }
 }

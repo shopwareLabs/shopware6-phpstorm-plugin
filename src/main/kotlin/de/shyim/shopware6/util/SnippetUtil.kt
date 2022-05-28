@@ -20,7 +20,7 @@ object SnippetUtil {
                 val key = it.next().toString()
                 flatten(snippetList, jsonObject, key, key)
             }
-        } catch (e: JSONException) {
+        } catch (_: JSONException) {
 
         }
 

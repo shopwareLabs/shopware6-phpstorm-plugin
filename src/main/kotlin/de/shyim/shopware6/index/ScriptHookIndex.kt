@@ -17,7 +17,7 @@ import de.shyim.shopware6.index.externalizer.ObjectStreamDataExternalizer
 import gnu.trove.THashMap
 
 class ScriptHookIndex : FileBasedIndexExtension<String, ScriptHook>() {
-    private val EXTERNALIZER = ObjectStreamDataExternalizer<ScriptHook>()
+    private val _externalizer = ObjectStreamDataExternalizer<ScriptHook>()
 
     override fun getName(): ID<String, ScriptHook> {
         return key
@@ -113,7 +113,7 @@ class ScriptHookIndex : FileBasedIndexExtension<String, ScriptHook>() {
     }
 
     override fun getValueExternalizer(): ObjectStreamDataExternalizer<ScriptHook> {
-        return EXTERNALIZER
+        return _externalizer
     }
 
     companion object {

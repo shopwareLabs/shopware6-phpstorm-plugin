@@ -14,7 +14,7 @@ import de.shyim.shopware6.index.externalizer.ObjectStreamDataExternalizer
 import gnu.trove.THashMap
 
 class ThemeConfigIndex : FileBasedIndexExtension<String, ThemeConfig>() {
-    private val EXTERNALIZER = ObjectStreamDataExternalizer<ThemeConfig>()
+    private val _externalizer = ObjectStreamDataExternalizer<ThemeConfig>()
 
     override fun getIndexer(): DataIndexer<String, ThemeConfig, FileContent> {
         return DataIndexer { inputData ->
@@ -109,7 +109,7 @@ class ThemeConfigIndex : FileBasedIndexExtension<String, ThemeConfig>() {
     }
 
     override fun getValueExternalizer(): ObjectStreamDataExternalizer<ThemeConfig> {
-        return EXTERNALIZER
+        return _externalizer
     }
 
     companion object {

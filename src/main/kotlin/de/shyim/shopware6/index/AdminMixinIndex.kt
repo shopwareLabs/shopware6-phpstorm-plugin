@@ -16,7 +16,7 @@ import de.shyim.shopware6.index.externalizer.ObjectStreamDataExternalizer
 import gnu.trove.THashMap
 
 class AdminMixinIndex : FileBasedIndexExtension<String, AdminMixin>() {
-    private val EXTERNALIZER = ObjectStreamDataExternalizer<AdminMixin>()
+    private val _externalizer = ObjectStreamDataExternalizer<AdminMixin>()
 
     override fun getName(): ID<String, AdminMixin> {
         return key
@@ -78,7 +78,7 @@ class AdminMixinIndex : FileBasedIndexExtension<String, AdminMixin>() {
     }
 
     override fun getValueExternalizer(): ObjectStreamDataExternalizer<AdminMixin> {
-        return EXTERNALIZER
+        return _externalizer
     }
 
     companion object {

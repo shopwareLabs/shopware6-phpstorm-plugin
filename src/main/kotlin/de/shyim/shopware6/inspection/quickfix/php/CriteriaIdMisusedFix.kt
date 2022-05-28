@@ -48,7 +48,8 @@ class CriteriaIdMisusedFix: LocalQuickFix {
             val filterArgument: PsiElement = (methodRef.parameters.first() as NewExpressionImpl).parameters[1]
 
             if ((methodRef.parameters.first() as NewExpressionImpl).classReference?.type.toString() == "\\Shopware\\Core\\Framework\\DataAbstractionLayer\\Search\\Filter\\EqualsFilter") {
-                val newFile = PsiFileFactory.getInstance(project).createFileFromText("test.php", PhpFileType.INSTANCE, "<?php return [1];");
+                val newFile = PsiFileFactory.getInstance(project)
+                    .createFileFromText("test.php", PhpFileType.INSTANCE, "<?php return [1];")
                 newFile.firstChild.children[0].children[0].children[0].children[0].replace(filterArgument)
 
                 criteriaConstructors.first().parameterList?.add(newFile.firstChild.children[0].children[0])

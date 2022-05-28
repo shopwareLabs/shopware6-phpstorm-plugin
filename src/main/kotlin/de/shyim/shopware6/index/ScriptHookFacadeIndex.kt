@@ -16,7 +16,7 @@ import de.shyim.shopware6.index.externalizer.ObjectStreamDataExternalizer
 import gnu.trove.THashMap
 
 class ScriptHookFacadeIndex : FileBasedIndexExtension<String, ScriptHookFacade>() {
-    private val EXTERNALIZER = ObjectStreamDataExternalizer<ScriptHookFacade>()
+    private val _externalizer = ObjectStreamDataExternalizer<ScriptHookFacade>()
 
     override fun getName(): ID<String, ScriptHookFacade> {
         return key
@@ -102,7 +102,7 @@ class ScriptHookFacadeIndex : FileBasedIndexExtension<String, ScriptHookFacade>(
     }
 
     override fun getValueExternalizer(): ObjectStreamDataExternalizer<ScriptHookFacade> {
-        return EXTERNALIZER
+        return _externalizer
     }
 
     companion object {

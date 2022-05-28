@@ -23,7 +23,7 @@ import java.io.IOException
 import javax.swing.Icon
 
 /**
- * @see https://github.com/Haehnchen/idea-php-shopware-plugin/blob/master/src/main/java/de/espend/idea/shopware/installer/project/ShopwareInstallerProjectGenerator.java
+ * @link https://github.com/Haehnchen/idea-php-shopware-plugin/blob/master/src/main/java/de/espend/idea/shopware/installer/project/ShopwareInstallerProjectGenerator.java
  */
 class ShopwareProjectGenerator : WebProjectTemplate<ShopwareProjectSettings>() {
     override fun getDescription(): String {

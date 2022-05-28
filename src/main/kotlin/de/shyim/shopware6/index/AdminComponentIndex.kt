@@ -18,7 +18,7 @@ import de.shyim.shopware6.index.externalizer.ObjectStreamDataExternalizer
 import gnu.trove.THashMap
 
 class AdminComponentIndex : FileBasedIndexExtension<String, AdminComponent>() {
-    private val EXTERNALIZER = ObjectStreamDataExternalizer<AdminComponent>()
+    private val _externalizer = ObjectStreamDataExternalizer<AdminComponent>()
 
     override fun getName(): ID<String, AdminComponent> {
         return key
@@ -126,7 +126,7 @@ class AdminComponentIndex : FileBasedIndexExtension<String, AdminComponent>() {
     }
 
     override fun getValueExternalizer(): ObjectStreamDataExternalizer<AdminComponent> {
-        return EXTERNALIZER
+        return _externalizer
     }
 
     companion object {

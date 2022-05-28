@@ -17,7 +17,7 @@ import java.nio.file.Paths
 import kotlin.io.path.pathString
 
 class ShopwareBundleIndex: FileBasedIndexExtension<String, ShopwareBundle>() {
-    private val EXTERNALIZER = ObjectStreamDataExternalizer<ShopwareBundle>()
+    private val _externalizer = ObjectStreamDataExternalizer<ShopwareBundle>()
 
     override fun getName(): ID<String, ShopwareBundle> {
         return key
@@ -79,7 +79,7 @@ class ShopwareBundleIndex: FileBasedIndexExtension<String, ShopwareBundle>() {
     }
 
     override fun getValueExternalizer(): ObjectStreamDataExternalizer<ShopwareBundle> {
-        return EXTERNALIZER
+        return _externalizer
     }
 
     companion object {

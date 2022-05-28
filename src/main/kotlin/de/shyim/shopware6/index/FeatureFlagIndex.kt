@@ -13,7 +13,7 @@ import org.jetbrains.yaml.psi.YAMLKeyValue
 import org.jetbrains.yaml.psi.impl.YAMLSequenceItemImpl
 
 class FeatureFlagIndex : FileBasedIndexExtension<String, FeatureFlag>() {
-    private val EXTERNALIZER = ObjectStreamDataExternalizer<FeatureFlag>()
+    private val _externalizer = ObjectStreamDataExternalizer<FeatureFlag>()
 
     override fun getName(): ID<String, FeatureFlag> {
         return key
@@ -107,7 +107,7 @@ class FeatureFlagIndex : FileBasedIndexExtension<String, FeatureFlag>() {
     }
 
     override fun getValueExternalizer(): ObjectStreamDataExternalizer<FeatureFlag> {
-        return EXTERNALIZER
+        return _externalizer
     }
 
     companion object {

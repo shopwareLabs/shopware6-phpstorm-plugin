@@ -16,7 +16,7 @@ import de.shyim.shopware6.util.StringUtil
 import gnu.trove.THashMap
 
 class EntityDefinitionIndex : FileBasedIndexExtension<String, EntityDefinition>() {
-    private val EXTERNALIZER = ObjectStreamDataExternalizer<EntityDefinition>()
+    private val _externalizer = ObjectStreamDataExternalizer<EntityDefinition>()
 
     override fun getName(): ID<String, EntityDefinition> {
         return key
@@ -201,7 +201,7 @@ class EntityDefinitionIndex : FileBasedIndexExtension<String, EntityDefinition>(
     }
 
     override fun getValueExternalizer(): ObjectStreamDataExternalizer<EntityDefinition> {
-        return EXTERNALIZER
+        return _externalizer
     }
 
     companion object {

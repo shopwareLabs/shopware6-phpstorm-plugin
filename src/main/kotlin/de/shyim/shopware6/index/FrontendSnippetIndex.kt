@@ -11,7 +11,7 @@ import gnu.trove.THashMap
 
 
 open class FrontendSnippetIndex : FileBasedIndexExtension<String, SnippetFile>() {
-    private val EXTERNALIZER = ObjectStreamDataExternalizer<SnippetFile>()
+    private val _externalizer = ObjectStreamDataExternalizer<SnippetFile>()
 
     override fun getName(): ID<String, SnippetFile> {
         return key
@@ -43,7 +43,7 @@ open class FrontendSnippetIndex : FileBasedIndexExtension<String, SnippetFile>()
     }
 
     override fun getValueExternalizer(): ObjectStreamDataExternalizer<SnippetFile> {
-        return EXTERNALIZER
+        return _externalizer
     }
 
     companion object {

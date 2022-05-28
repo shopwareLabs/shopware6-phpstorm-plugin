@@ -12,7 +12,7 @@ import icons.ShopwareToolBoxIcons
 import java.util.*
 
 
-class TwigCompletionProvider() : CompletionContributor() {
+class TwigCompletionProvider : CompletionContributor() {
     init {
         extend(
             CompletionType.BASIC,

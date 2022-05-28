@@ -15,7 +15,7 @@ import de.shyim.shopware6.index.externalizer.ObjectStreamDataExternalizer
 import gnu.trove.THashMap
 
 class SystemConfigIndex : FileBasedIndexExtension<String, SystemConfig>() {
-    private val EXTERNALIZER = ObjectStreamDataExternalizer<SystemConfig>()
+    private val _externalizer = ObjectStreamDataExternalizer<SystemConfig>()
 
     override fun getName(): ID<String, SystemConfig> {
         return key
@@ -142,7 +142,7 @@ class SystemConfigIndex : FileBasedIndexExtension<String, SystemConfig>() {
     }
 
     override fun getValueExternalizer(): ObjectStreamDataExternalizer<SystemConfig> {
-        return EXTERNALIZER
+        return _externalizer
     }
 
     companion object {
