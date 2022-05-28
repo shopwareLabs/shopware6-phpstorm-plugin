@@ -24,7 +24,7 @@ class ScriptHookIndex : FileBasedIndexExtension<String, ScriptHook>() {
     }
 
     override fun getVersion(): Int {
-        return 1
+        return 2
     }
 
     override fun dependsOnFileContent(): Boolean {

@@ -109,7 +109,7 @@ class NewAppScriptAction :
                 ShopwareTemplates.SHOPWARE_APP_HOOK,
                 mapOf(
                     "HOOK_NAME" to scriptHook.name,
-                    "HOOK_FQN" to scriptHook.fqcn,
+                    "HOOK_FQN" to scriptHook.fqn,
                     "HOOK_PAGE" to scriptHook.page
                 )
             ),
