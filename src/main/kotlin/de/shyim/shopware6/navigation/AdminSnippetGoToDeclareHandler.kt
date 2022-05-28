@@ -31,13 +31,13 @@ class AdminSnippetGoToDeclareHandler : GotoDeclarationHandler {
 
             val keys = FileBasedIndex.getInstance().getAllKeys(AdminSnippetIndex.key, project)
 
-            keys.forEach {
-                val vals = FileBasedIndex.getInstance()
-                    .getValues(AdminSnippetIndex.key, it, GlobalSearchScope.allScope(project))
+            keys.forEach { key ->
+                val values = FileBasedIndex.getInstance()
+                    .getValues(AdminSnippetIndex.key, key, GlobalSearchScope.allScope(project))
 
-                vals.forEach {
-                    if (it.snippets.containsKey(text)) {
-                        val file = LocalFileSystem.getInstance().findFileByPath(it.file)
+                values.forEach { snippetFile ->
+                    if (snippetFile.snippets.containsKey(text)) {
+                        val file = LocalFileSystem.getInstance().findFileByPath(snippetFile.file)
 
                         if (file != null) {
                             val psi = PsiManager.getInstance(project).findFile(file)

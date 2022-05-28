@@ -27,18 +27,18 @@ object AdminSnippetUtil {
         val list: MutableList<LookupElement> = ArrayList()
         val usedKeys: MutableList<String> = ArrayList()
 
-        getAllSnippets(project).forEach {
-            it.snippets.forEach {
-                if (usedKeys.contains(it.key)) {
+        getAllSnippets(project).forEach { file ->
+            file.snippets.forEach { snippets ->
+                if (usedKeys.contains(snippets.key)) {
                     return@forEach
                 }
 
                 list.add(
-                    LookupElementBuilder.create(it.key).withTypeText(it.value)
+                    LookupElementBuilder.create(snippets.key).withTypeText(snippets.value)
                         .withIcon(ShopwareToolBoxIcons.SHOPWARE)
                 )
 
-                usedKeys.add(it.key)
+                usedKeys.add(snippets.key)
             }
         }
 

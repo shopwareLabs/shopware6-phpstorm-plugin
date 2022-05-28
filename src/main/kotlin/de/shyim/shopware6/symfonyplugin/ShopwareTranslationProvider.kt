@@ -33,9 +33,9 @@ class ShopwareTranslationProvider : TranslatorProvider {
     override fun getTranslationTargets(project: Project, transKey: String, p2: String): MutableCollection<PsiElement> {
         val psiElements: MutableList<PsiElement> = ArrayList()
 
-        FrontendSnippetUtil.getAllSnippets(project).forEach {
-            if (it.snippets.filterKeys { it == transKey }.isNotEmpty()) {
-                val file = LocalFileSystem.getInstance().findFileByPath(it.file)
+        FrontendSnippetUtil.getAllSnippets(project).forEach { snippetFile ->
+            if (snippetFile.snippets.filterKeys { it == transKey }.isNotEmpty()) {
+                val file = LocalFileSystem.getInstance().findFileByPath(snippetFile.file)
 
                 if (file != null) {
                     val psi = PsiManager.getInstance(project).findFile(file)

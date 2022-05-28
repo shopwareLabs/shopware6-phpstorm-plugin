@@ -27,18 +27,18 @@ object FrontendSnippetUtil {
         val list: MutableList<LookupElement> = ArrayList()
         val usedKeys: MutableList<String> = ArrayList()
 
-        getAllSnippets(project).forEach {
-            it.snippets.forEach {
-                if (usedKeys.contains(it.key)) {
+        getAllSnippets(project).forEach { file ->
+            file.snippets.forEach { snippet ->
+                if (usedKeys.contains(snippet.key)) {
                     return@forEach
                 }
 
                 list.add(
-                    LookupElementBuilder.create(it.key).withTypeText(it.value)
+                    LookupElementBuilder.create(snippet.key).withTypeText(snippet.value)
                         .withIcon(ShopwareToolBoxIcons.SHOPWARE)
                 )
 
-                usedKeys.add(it.key)
+                usedKeys.add(snippet.key)
             }
         }
 
