@@ -23,7 +23,7 @@ class EntityDefinitionIndex : FileBasedIndexExtension<String, EntityDefinition>(
     }
 
     override fun getVersion(): Int {
-        return 1
+        return 2
     }
 
     override fun dependsOnFileContent(): Boolean {
