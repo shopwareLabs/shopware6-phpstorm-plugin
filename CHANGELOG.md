@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [0.0.28]
+- Added new Create action for App Scripts and Entities.xml
+- Added DAL Autocomplete To Criteria when it has a generic Typehint like /** @var Criteria<ProductDefinition> */
+
 ## [0.0.27]
 - Mark next EAP version as compatible
 
