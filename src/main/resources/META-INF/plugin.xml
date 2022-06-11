@@ -224,11 +224,15 @@
                    icon="ShopwareToolBoxIcons.SHOPWARE" popup="true">
                 <action id="ShopwareToolboxNewApp"
                         class="de.shyim.shopware6.action.generator.app.NewAppAction"/>
-
-                <action id="de.shyim.shopware6.action.generator.app.AddCustomEntitiesAction"
+e
+                <action id="ShopwareToolboxAppAddCustomEntites"
                         class="de.shyim.shopware6.action.generator.app.AddCustomEntitiesAction"/>
+
                 <action id="ShopwareToolboxNewAppScript"
                         class="de.shyim.shopware6.action.generator.app.NewAppScriptAction"/>
+
+                <action id="ShopwareToolboxAppAddCms"
+                        class="de.shyim.shopware6.action.generator.app.AddCmsActions"/>
             </group>
 
             <group id="ShopwareToolboxAdminGroup" class="com.intellij.ide.actions.NonTrivialActionGroup"
