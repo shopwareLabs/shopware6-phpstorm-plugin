@@ -102,6 +102,7 @@ class ShopwareTemplates: FileTemplateGroupDescriptorFactory {
         const val SHOPWARE_APP_HOOK = "Shopware App script.twig"
         const val SHOPWARE_APP_MANIFEST = "Shopware App manifest.xml"
         const val SHOPWARE_APP_CUSTOM_ENTITIES = "Shopware App custom entities.xml"
+        const val SHOPWARE_APP_CMS = "Shopware App CMS.xml"
 
         private fun Project.applyTemplate(
             templateName: String,
