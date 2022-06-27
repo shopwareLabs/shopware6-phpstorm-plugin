@@ -10,7 +10,7 @@ import de.shyim.shopware6.index.dict.SnippetFile
 import icons.ShopwareToolBoxIcons
 
 object AdminSnippetUtil {
-    private fun getAllSnippets(project: Project): MutableList<SnippetFile> {
+    private fun getAllSnippetFiles(project: Project): MutableList<SnippetFile> {
         val snippets: MutableList<SnippetFile> = ArrayList()
 
         for (key in FileBasedIndex.getInstance().getAllKeys(AdminSnippetIndex.key, project)) {
@@ -25,28 +25,35 @@ object AdminSnippetUtil {
 
     fun getAllLookupItems(project: Project): MutableList<LookupElement> {
         val list: MutableList<LookupElement> = ArrayList()
-        val usedKeys: MutableList<String> = ArrayList()
 
-        getAllSnippets(project).forEach { file ->
-            file.snippets.forEach snippetLoop@{ snippets ->
-                if (usedKeys.contains(snippets.key)) {
-                    return@snippetLoop
-                }
-
-                list.add(
-                    LookupElementBuilder.create(snippets.key).withTypeText(snippets.value)
-                        .withIcon(ShopwareToolBoxIcons.SHOPWARE)
-                )
-
-                usedKeys.add(snippets.key)
-            }
+        getAllSnippetValues(project).forEach {
+            list.add(
+                LookupElementBuilder.create(it.key).withTypeText(it.value)
+                    .withIcon(ShopwareToolBoxIcons.SHOPWARE)
+            )
         }
 
         return list
     }
 
+    fun getAllSnippetValues(project: Project): MutableMap<String, String> {
+        val keys: MutableMap<String, String> = mutableMapOf()
+
+        getAllSnippetFiles(project).forEach { file ->
+            file.snippets.forEach snippetLoop@{ snippets ->
+                if (keys.contains(snippets.key)) {
+                    return@snippetLoop
+                }
+
+                keys[snippets.key] = snippets.value
+            }
+        }
+
+        return keys
+    }
+
     fun hasSnippet(key: String, project: Project): Boolean {
-        return getAllSnippets(project).any { snippetFile ->
+        return getAllSnippetFiles(project).any { snippetFile ->
             snippetFile.snippets.containsKey(key)
         }
     }

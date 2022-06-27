@@ -61,6 +61,9 @@
                                 implementationClass="de.shyim.shopware6.completion.DALCompletionProvider"
                                 order="first"/>
 
+        <lang.foldingBuilder language="JavaScript"
+                             implementationClass="de.shyim.shopware6.folding.AdminSnippetFolding"/>
+
         <xml.tagNameProvider implementation="de.shyim.shopware6.xml.AdminComponentProvider"/>
         <xml.elementDescriptorProvider implementation="de.shyim.shopware6.xml.AdminComponentProvider"/>
 
