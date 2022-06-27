@@ -64,6 +64,9 @@
         <lang.foldingBuilder language="JavaScript"
                              implementationClass="de.shyim.shopware6.folding.AdminSnippetFolding"/>
 
+        <codeInsight.inlayProvider language="PHP"
+                                   implementationClass="de.shyim.shopware6.hints.PHPUnitInlineParameterHints"/>
+
         <xml.tagNameProvider implementation="de.shyim.shopware6.xml.AdminComponentProvider"/>
         <xml.elementDescriptorProvider implementation="de.shyim.shopware6.xml.AdminComponentProvider"/>
 

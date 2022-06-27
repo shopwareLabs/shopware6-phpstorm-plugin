@@ -133,3 +133,12 @@ tasks {
         }
     }
 }
+
+tasks.withType(KotlinCompile::class).all {
+    kotlinOptions {
+        jvmTarget = "11"
+
+        // For creation of default methods in interfaces
+        freeCompilerArgs = listOf("-Xjvm-default=all")
+    }
+}
