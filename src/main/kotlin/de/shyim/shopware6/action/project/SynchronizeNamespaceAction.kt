@@ -26,8 +26,13 @@ class SynchronizeNamespaceAction : DumbAwareAction(
         }
 
         val model = ModuleRootManager.getInstance(ModuleManager.getInstance(e.project!!).modules[0]).modifiableModel
+        val basePath = e.project!!.basePath + "/src"
 
         ShopwareBundleUtil.getAllBundles(e.project!!).forEach { shopwareBundle ->
+            if (shopwareBundle.path.startsWith(basePath)) {
+                return@forEach
+            }
+
             var foundContentEntry: ContentEntry? = null
 
             model.contentEntries.forEach { contentEntry ->
