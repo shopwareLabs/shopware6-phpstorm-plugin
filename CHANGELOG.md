@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.0.30]
+- Added autocomplete for vue routes
+- Added missing length for composer.json check
+- Improved extension namespace sync
+
 ## [0.0.29]
 - Added autocomplete to sw_csrf
 
