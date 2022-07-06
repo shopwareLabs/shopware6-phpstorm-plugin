@@ -43,7 +43,7 @@ class MissingComposerExtraDescription : ExtensionComposerInspection() {
                             if (text.length < 150 || text.length > 185) {
                                 holder.registerProblem(
                                     deLabel,
-                                    "Store: Description should have a length from 150 up to 185 characters"
+                                    "Store: Description should have a length from 150 up to 185 characters, " + text.length + " given."
                                 )
                             }
                         }
@@ -59,7 +59,7 @@ class MissingComposerExtraDescription : ExtensionComposerInspection() {
                             if (text.length < 150 || text.length > 185) {
                                 holder.registerProblem(
                                     enLabel,
-                                    "Store: The description should have a length from 150 up to 185 characters"
+                                    "Store: Description should have a length from 150 up to 185 characters, " + text.length + " given."
                                 )
                             }
                         }
