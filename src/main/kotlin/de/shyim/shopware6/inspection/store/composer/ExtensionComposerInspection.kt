@@ -14,6 +14,14 @@ abstract class ExtensionComposerInspection : LocalInspectionTool() {
             return false
         }
 
+        if (!isInsideCustomPlugins(holder)) {
+            return false
+        }
+
         return holder.file.text!!.contains("shopware-platform-plugin")
+    }
+
+    private fun isInsideCustomPlugins(holder: ProblemsHolder): Boolean {
+        return holder.file.virtualFile.path.startsWith("${holder.project.basePath}/custom/plugins");
     }
 }
