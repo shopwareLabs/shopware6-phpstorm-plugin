@@ -36,22 +36,22 @@ class SynchronizeNamespaceAction : DumbAwareAction(
             var foundContentEntry: ContentEntry? = null
 
             model.contentEntries.forEach { contentEntry ->
-                if (contentEntry.url == shopwareBundle.rootFolder) {
+                if (contentEntry.url == shopwareBundle.composerFolder) {
                     foundContentEntry = contentEntry
                 }
             }
 
             if (foundContentEntry == null) {
                 foundContentEntry =
-                    model.addContentEntry(LocalFileSystem.getInstance().findFileByPath(shopwareBundle.rootFolder)!!)
+                    model.addContentEntry(LocalFileSystem.getInstance().findFileByPath(shopwareBundle.composerFolder)!!)
             }
 
             val composerJsonBody =
-                FileUtils.readFileToString(File("${shopwareBundle.rootFolder}/composer.json"), "UTF-8")
+                FileUtils.readFileToString(File("${shopwareBundle.composerFolder}/composer.json"), "UTF-8")
             val jsonObject = JSONObject(composerJsonBody)
 
-            addSourceFolders("autoload", jsonObject, foundContentEntry!!, shopwareBundle.rootFolder)
-            addSourceFolders("autoload-dev", jsonObject, foundContentEntry!!, shopwareBundle.rootFolder)
+            addSourceFolders("autoload", jsonObject, foundContentEntry!!, shopwareBundle.composerFolder)
+            addSourceFolders("autoload-dev", jsonObject, foundContentEntry!!, shopwareBundle.composerFolder)
         }
 
         CommandProcessor.getInstance().executeCommand(

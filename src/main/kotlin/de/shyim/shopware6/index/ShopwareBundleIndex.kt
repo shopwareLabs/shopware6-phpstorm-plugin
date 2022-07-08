@@ -24,7 +24,7 @@ class ShopwareBundleIndex: FileBasedIndexExtension<String, ShopwareBundle>() {
     }
 
     override fun getVersion(): Int {
-        return 4
+        return 5
     }
 
     override fun dependsOnFileContent(): Boolean {
@@ -54,7 +54,8 @@ class ShopwareBundleIndex: FileBasedIndexExtension<String, ShopwareBundle>() {
                                 element.name,
                                 inputData.file.path,
                                 expectedStorefrontViewFolder,
-                                getRootFolder(bundleDir)
+                                getRootFolder(bundleDir),
+                                inputData.file.parent.path,
                             )
                     }
 

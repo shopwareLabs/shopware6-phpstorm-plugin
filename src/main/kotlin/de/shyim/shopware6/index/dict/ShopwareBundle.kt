@@ -4,13 +4,20 @@ import org.apache.commons.lang.builder.HashCodeBuilder
 import java.io.Serializable
 import java.util.*
 
-class ShopwareBundle(val name: String, val path: String, val viewPath: String, val rootFolder: String) : Serializable,
+class ShopwareBundle(
+    val name: String,
+    val path: String,
+    val viewPath: String,
+    val composerFolder: String,
+    val rootFolder: String
+) : Serializable,
     ShopwareExtension {
     override fun hashCode(): Int {
         return HashCodeBuilder()
             .append(this.name)
             .append(this.path)
             .append(this.viewPath)
+            .append(this.composerFolder)
             .append(this.rootFolder)
             .toHashCode()
     }
@@ -31,8 +38,9 @@ class ShopwareBundle(val name: String, val path: String, val viewPath: String, v
         return other is ShopwareBundle &&
                 Objects.equals(other.name, this.name) &&
                 Objects.equals(other.path, this.path) &&
-                Objects.equals(other.rootFolder, this.rootFolder) &&
-                Objects.equals(other.viewPath, this.viewPath)
+                Objects.equals(other.composerFolder, this.composerFolder) &&
+                Objects.equals(other.viewPath, this.viewPath) &&
+                Objects.equals(other.rootFolder, this.rootFolder)
     }
 
     override fun toString(): String {
