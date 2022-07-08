@@ -16,7 +16,7 @@ class NewScheduledTaskAction :
         val directory = ActionUtil.getViewDirectory(e.dataContext) ?: return
 
         val namespaces = PhpNamespaceByFilesProvider.INSTANCE.suggestNamespaces(directory)
-        val namespace = namespaces.getOrNull(0).toString()
+        val namespace = namespaces.getOrNull(0) ?: ""
 
         val ui = NewScheduledTaskDialogWrapper(namespace)
         val config = ui.showAndGetConfig() ?: return
