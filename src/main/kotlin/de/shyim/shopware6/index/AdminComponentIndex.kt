@@ -1,5 +1,7 @@
 package de.shyim.shopware6.index
 
+import com.intellij.lang.ecmascript6.psi.ES6ImportDeclaration
+import com.intellij.lang.ecmascript6.psi.ES6Property
 import com.intellij.lang.javascript.JSTokenTypes
 import com.intellij.lang.javascript.JavaScriptFileType
 import com.intellij.lang.javascript.psi.JSCallExpression
@@ -15,6 +17,7 @@ import com.intellij.util.io.EnumeratorStringDescriptor
 import com.intellij.util.io.KeyDescriptor
 import de.shyim.shopware6.index.dict.AdminComponent
 import de.shyim.shopware6.index.externalizer.ObjectStreamDataExternalizer
+import de.shyim.shopware6.util.StringUtil
 import gnu.trove.THashMap
 
 class AdminComponentIndex : FileBasedIndexExtension<String, AdminComponent>() {
@@ -25,7 +28,7 @@ class AdminComponentIndex : FileBasedIndexExtension<String, AdminComponent>() {
     }
 
     override fun getVersion(): Int {
-        return 1
+        return 2
     }
 
     override fun dependsOnFileContent(): Boolean {
@@ -49,6 +52,7 @@ class AdminComponentIndex : FileBasedIndexExtension<String, AdminComponent>() {
                             if (element.methodExpression!!.lastChild is LeafPsiElement && (element.methodExpression!!.lastChild.text == "register" || element.methodExpression!!.lastChild.text == "extend")) {
                                 val arguments = element.argumentList!!.arguments
                                 var extendsFrom: String? = null
+                                var templatePath: String? = null
 
                                 val componentName = arguments[0].firstChild
 
@@ -76,6 +80,7 @@ class AdminComponentIndex : FileBasedIndexExtension<String, AdminComponent>() {
 
                                 if (visitObject != null) {
                                     val props = visitObject.findProperty("props")
+                                    val template = visitObject.findProperty("template")
 
                                     if (props is JSProperty && props.value is JSObjectLiteralExpression) {
                                         val properties = (props.value as JSObjectLiteralExpression).properties
@@ -86,11 +91,25 @@ class AdminComponentIndex : FileBasedIndexExtension<String, AdminComponent>() {
                                             }
                                         }
                                     }
+
+                                    if (template is ES6Property) {
+                                        inputData.psiFile.children.forEach {
+                                            if (it is ES6ImportDeclaration && it.importedBindings.size == 1 && it.importedBindings[0].name == "template" && it.fromClause?.referenceText != null) {
+                                                templatePath = StringUtil.stripQuotes(it.fromClause!!.referenceText.toString())
+
+                                                if (templatePath!!.startsWith("./")) {
+                                                    val path = templatePath!!.substring(2)
+                                                    templatePath = "${inputData.file.parent.path}/${path}"
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
 
                                 val component = AdminComponent(
                                     componentName.text.replace("'", "").replace("\"", ""),
                                     extendsFrom,
+                                    templatePath,
                                     propsSet,
                                     inputData.file.path
                                 )

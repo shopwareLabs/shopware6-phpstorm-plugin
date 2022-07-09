@@ -26,6 +26,8 @@ class AdminComponentIndexTest: BasePlatformTestCase() {
 
         TestCase.assertEquals("sw-button", button.name)
         TestCase.assertEquals(null, button.extends)
+        TestCase.assertEquals("/src/button.js", button.file)
+        TestCase.assertEquals("/src/sw-button.html.twig", button.templatePath)
         TestCase.assertEquals(3, button.props.size)
 
         val sorted = button.props.sortedDescending()
@@ -39,6 +41,7 @@ class AdminComponentIndexTest: BasePlatformTestCase() {
 
         TestCase.assertEquals("sw-extended-button", extendedButton.name)
         TestCase.assertEquals("sw-button", extendedButton.extends)
+        TestCase.assertEquals(null, extendedButton.templatePath)
         TestCase.assertEquals(0, extendedButton.props.size)
     }
 }

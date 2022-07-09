@@ -7,6 +7,7 @@ import java.util.*
 class AdminComponent(
     var name: String,
     var extends: String?,
+    var templatePath: String?,
     var props: Set<String>,
     val file: String
 ) : Serializable {
@@ -23,6 +24,7 @@ class AdminComponent(
         return other is AdminComponent &&
                 Objects.equals(other.name, this.name) &&
                 Objects.equals(other.extends, this.extends) &&
+                Objects.equals(other.templatePath, this.templatePath) &&
                 Objects.equals(other.props, this.props) &&
                 Objects.equals(other.file, this.file)
     }
