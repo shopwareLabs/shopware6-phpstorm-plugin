@@ -66,36 +66,27 @@ class AdminComponentIndex : FileBasedIndexExtension<String, AdminComponent>() {
 
                                 val propsSet = HashSet<String>()
 
-                                var visitObject: PsiElement? = null
+                                var visitObject: JSObjectLiteralExpression? = null
 
-                                if (element.methodExpression!!.lastChild.text == "register" && element.argumentList!!.arguments.size >= 2) {
-                                    visitObject = element.argumentList!!.arguments[1]
-                                } else if (element.methodExpression!!.lastChild.text == "extend" && element.argumentList!!.arguments.size >= 3) {
-                                    visitObject = element.argumentList!!.arguments[2]
+                                if (element.methodExpression!!.lastChild.text == "register" && element.argumentList!!.arguments.size >= 2 && element.argumentList!!.arguments[1] is JSObjectLiteralExpression) {
+                                    visitObject = element.argumentList!!.arguments[1] as JSObjectLiteralExpression
+                                } else if (element.methodExpression!!.lastChild.text == "extend" && element.argumentList!!.arguments.size >= 3 && element.argumentList!!.arguments[2] is JSObjectLiteralExpression) {
+                                    visitObject = element.argumentList!!.arguments[2] as JSObjectLiteralExpression
                                 }
 
-                                visitObject?.acceptChildren(object : PsiRecursiveElementWalkingVisitor() {
-                                    override fun visitElement(element: PsiElement) {
-                                        if (element is JSProperty) {
-                                            if (element.firstChild.text != "props") {
-                                                return
+                                if (visitObject != null) {
+                                    val props = visitObject.findProperty("props")
+
+                                    if (props is JSProperty && props.value is JSObjectLiteralExpression) {
+                                        val properties = (props.value as JSObjectLiteralExpression).properties
+
+                                        properties.forEach {
+                                            if (it.name != null) {
+                                                propsSet.add(it.name!!)
                                             }
-
-                                            element.acceptChildren(object : PsiRecursiveElementWalkingVisitor() {
-                                                override fun visitElement(element: PsiElement) {
-                                                    if (element is JSObjectLiteralExpression) {
-                                                        super.visitElement(element)
-                                                        return
-                                                    }
-
-                                                    if (element is JSProperty) {
-                                                        propsSet.add(element.firstChild.text)
-                                                    }
-                                                }
-                                            })
                                         }
                                     }
-                                })
+                                }
 
                                 val component = AdminComponent(
                                     componentName.text.replace("'", "").replace("\"", ""),
