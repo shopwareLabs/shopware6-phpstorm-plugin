@@ -11,6 +11,7 @@ import com.intellij.openapi.fileEditor.OpenFileDescriptor
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.popup.PopupChooserBuilder
 import com.intellij.openapi.vfs.LocalFileSystem
+import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.*
 import com.intellij.ui.components.JBList
 import com.jetbrains.twig.TwigFileType
@@ -38,154 +39,169 @@ class ExtendTwigBlockIntention : PsiElementBaseIntentionAction() {
             return
         }
 
-        val templatePath = TwigUtil.getTemplatePathByFilePath(editor.virtualFile.path, project)
-        val currentBundle = TwigUtil.getBundleByFilePath(editor.virtualFile.path, project)
+        extendSelectedTwigBlock(editor, editor.virtualFile, project, element)
+    }
 
-        if (templatePath == null) {
-            HintManager.getInstance().showErrorHint(editor, "Cannot determine view folder of currently opened file")
-            return
-        }
+    override fun checkFile(file: PsiFile?): Boolean {
+        return true
+    }
 
-        val bundleList = ShopwareExtensionUtil.getAllExtensions(project).filter { bundle ->
-            return@filter bundle.getExtensionName() != currentBundle
-        }.filter {
-            val virtualFile = LocalFileSystem.getInstance().findFileByPath(it.getExtensionPath())!!
-            val psiFile = PsiManager.getInstance(project).findDirectory(virtualFile)!!
+    companion object {
+        fun extendSelectedTwigBlock(
+            editor: Editor,
+            virtualFile: VirtualFile,
+            project: Project,
+            element: PsiElement
+        ) {
+            val templatePath = TwigUtil.getTemplatePathByFilePath(virtualFile.path, project)
+            val currentBundle = TwigUtil.getBundleByFilePath(virtualFile.path, project)
 
-            return@filter psiFile.manager.isInProject(psiFile)
-        }.sortedBy { shopwareBundle -> shopwareBundle.getExtensionName() }
-
-        val jbBundleList = JBList(bundleList)
-
-        jbBundleList.cellRenderer = object : JBList.StripedListCellRenderer() {
-            override fun getListCellRendererComponent(
-                list: JList<*>?,
-                value: Any?,
-                index: Int,
-                isSelected: Boolean,
-                cellHasFocus: Boolean
-            ): Component {
-                val renderer = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus)
-
-                if (renderer is JLabel && value is ShopwareBundle) {
-                    renderer.text = value.name
-                }
-
-                return renderer
+            if (templatePath == null) {
+                HintManager.getInstance().showErrorHint(editor, "Cannot determine view folder of currently opened file")
+                return
             }
-        }
 
-        PopupChooserBuilder(jbBundleList)
-            .setTitle("Shopware: Select Extension")
-            .setItemChoosenCallback {
-                CommandProcessor.getInstance().executeCommand(project, {
-                    ApplicationManager.getApplication().runWriteAction {
-                        this.extendBlockInBundle(
-                            jbBundleList.selectedValue!!,
-                            templatePath,
-                            getBlockName(element),
-                            project
-                        )
+            val bundleList = ShopwareExtensionUtil.getAllExtensions(project).filter { bundle ->
+                return@filter bundle.getExtensionName() != currentBundle
+            }.filter {
+                val virtualFile = LocalFileSystem.getInstance().findFileByPath(it.getExtensionPath())!!
+                val psiFile = PsiManager.getInstance(project).findDirectory(virtualFile)!!
+
+                return@filter psiFile.manager.isInProject(psiFile)
+            }.sortedBy { shopwareBundle -> shopwareBundle.getExtensionName() }
+
+            val jbBundleList = JBList(bundleList)
+
+            jbBundleList.cellRenderer = object : JBList.StripedListCellRenderer() {
+                override fun getListCellRendererComponent(
+                    list: JList<*>?,
+                    value: Any?,
+                    index: Int,
+                    isSelected: Boolean,
+                    cellHasFocus: Boolean
+                ): Component {
+                    val renderer = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus)
+
+                    if (renderer is JLabel && value is ShopwareBundle) {
+                        renderer.text = value.name
                     }
-                }, "Extend Twig Block", null)
-            }
-            .createPopup()
-            .showInBestPositionFor(editor)
-    }
 
-    private fun getBlockName(element: PsiElement): String {
-        return if (element is TwigBlockTag) {
-            element.name!!
-        } else {
-            (element.parent as TwigBlockTag).name!!
-        }
-    }
-
-    private fun extendBlockInBundle(
-        bundle: ShopwareExtension,
-        templatePath: String,
-        blockName: String,
-        project: Project
-    ) {
-        val localFolder = LocalFileSystem.getInstance().findFileByPath(bundle.getStorefrontViewFolder())
-
-        var currentFolder: PsiDirectory?
-        currentFolder = if (localFolder == null) {
-            createMissingViewFolder(bundle, project)
-        } else {
-            PsiManager.getInstance(project).findDirectory(localFolder) as PsiDirectory
-        }
-
-        var fileName: String? = null
-
-        val templateParts = templatePath.split("/")
-
-        templateParts.forEach { part ->
-            if (!part.endsWith(".twig")) {
-                currentFolder = if (currentFolder!!.findSubdirectory(part) != null) {
-                    currentFolder!!.findSubdirectory(part)!!
-                } else {
-                    currentFolder!!.createSubdirectory(part)
+                    return renderer
                 }
+            }
+
+            PopupChooserBuilder(jbBundleList)
+                .setTitle("Shopware: Select Extension")
+                .setItemChoosenCallback {
+                    if (jbBundleList.selectedValue == null) {
+                        return@setItemChoosenCallback
+                    }
+
+                    CommandProcessor.getInstance().executeCommand(project, {
+                        ApplicationManager.getApplication().runWriteAction {
+                            extendBlockInBundle(
+                                jbBundleList.selectedValue!!,
+                                templatePath,
+                                getBlockName(element),
+                                project
+                            )
+                        }
+                    }, "Extend Twig Block", null)
+                }
+                .createPopup()
+                .showInBestPositionFor(editor)
+        }
+
+        private fun getBlockName(element: PsiElement): String {
+            return if (element is TwigBlockTag) {
+                element.name!!
             } else {
-                fileName = part
+                (element.parent as TwigBlockTag).name!!
             }
         }
 
-        val blockCode = """
+        private fun extendBlockInBundle(
+            bundle: ShopwareExtension,
+            templatePath: String,
+            blockName: String,
+            project: Project
+        ) {
+            val localFolder = LocalFileSystem.getInstance().findFileByPath(bundle.getStorefrontViewFolder())
+
+            var currentFolder: PsiDirectory?
+            currentFolder = if (localFolder == null) {
+                createMissingViewFolder(bundle, project)
+            } else {
+                PsiManager.getInstance(project).findDirectory(localFolder) as PsiDirectory
+            }
+
+            var fileName: String? = null
+
+            val templateParts = templatePath.split("/")
+
+            templateParts.forEach { part ->
+                if (!part.endsWith(".twig")) {
+                    currentFolder = if (currentFolder!!.findSubdirectory(part) != null) {
+                        currentFolder!!.findSubdirectory(part)!!
+                    } else {
+                        currentFolder!!.createSubdirectory(part)
+                    }
+                } else {
+                    fileName = part
+                }
+            }
+
+            val blockCode = """
 {% block $blockName %}
 
 {% endblock %}
         """.trimIndent()
 
-        val blockHeader = """
+            val blockHeader = """
 {% sw_extends "@Storefront/${templatePath}" %}
         """.trimIndent()
 
-        if (currentFolder!!.findFile(fileName!!) != null) {
-            val file = currentFolder!!.findFile(fileName!!)!!
+            if (currentFolder!!.findFile(fileName!!) != null) {
+                val file = currentFolder!!.findFile(fileName!!)!!
 
-            val editor = FileEditorManager.getInstance(project)
-                .openTextEditor(OpenFileDescriptor(project, file.containingFile.virtualFile), true) ?: return
+                val editor = FileEditorManager.getInstance(project)
+                    .openTextEditor(OpenFileDescriptor(project, file.containingFile.virtualFile), true) ?: return
 
-            PsiDocumentManager.getInstance(project).doPostponedOperationsAndUnblockDocument(editor.document)
-            PsiDocumentManager.getInstance(project).commitDocument(editor.document)
+                PsiDocumentManager.getInstance(project).doPostponedOperationsAndUnblockDocument(editor.document)
+                PsiDocumentManager.getInstance(project).commitDocument(editor.document)
 
-            editor.document.insertString(editor.document.textLength, "\n" + blockCode)
-            PsiDocumentManager.getInstance(project).commitDocument(editor.document)
-        } else {
-            val factory = PsiFileFactory.getInstance(project)
-            val file = factory.createFileFromText(fileName!!, TwigFileType.INSTANCE, blockHeader + "\n\n" + blockCode)
-            currentFolder!!.add(file)
+                editor.document.insertString(editor.document.textLength, "\n" + blockCode)
+                PsiDocumentManager.getInstance(project).commitDocument(editor.document)
+            } else {
+                val factory = PsiFileFactory.getInstance(project)
+                val file = factory.createFileFromText(fileName!!, TwigFileType.INSTANCE, blockHeader + "\n\n" + blockCode)
+                currentFolder!!.add(file)
 
-            FileEditorManager.getInstance(project)
-                .openTextEditor(OpenFileDescriptor(project, currentFolder!!.findFile(fileName!!)!!.virtualFile), true)
-                ?: return
-        }
-    }
-
-    private fun createMissingViewFolder(bundle: ShopwareExtension, project: Project): PsiDirectory {
-        val bundleFile = LocalFileSystem.getInstance().findFileByPath(bundle.getExtensionPath())!!
-        val bundleFolder = PsiManager.getInstance(project).findDirectory(bundleFile)
-
-        if (bundleFolder === null) {
-            throw Exception("plugin / app index is out of sync")
+                FileEditorManager.getInstance(project)
+                    .openTextEditor(OpenFileDescriptor(project, currentFolder!!.findFile(fileName!!)!!.virtualFile), true)
+                    ?: return
+            }
         }
 
-        if (bundleFolder.findSubdirectory("Resources") == null) {
-            bundleFolder.createSubdirectory("Resources")
+        private fun createMissingViewFolder(bundle: ShopwareExtension, project: Project): PsiDirectory {
+            val bundleFile = LocalFileSystem.getInstance().findFileByPath(bundle.getExtensionPath())!!
+            val bundleFolder = PsiManager.getInstance(project).findDirectory(bundleFile)
+
+            if (bundleFolder === null) {
+                throw Exception("plugin / app index is out of sync")
+            }
+
+            if (bundleFolder.findSubdirectory("Resources") == null) {
+                bundleFolder.createSubdirectory("Resources")
+            }
+
+            val resourcesFolder = bundleFolder.findSubdirectory("Resources")!!
+
+            if (resourcesFolder.findSubdirectory("views") == null) {
+                resourcesFolder.createSubdirectory("views")
+            }
+
+            return resourcesFolder.findSubdirectory("views")!!
         }
-
-        val resourcesFolder = bundleFolder.findSubdirectory("Resources")!!
-
-        if (resourcesFolder.findSubdirectory("views") == null) {
-            resourcesFolder.createSubdirectory("views")
-        }
-
-        return resourcesFolder.findSubdirectory("views")!!
-    }
-
-    override fun checkFile(file: PsiFile?): Boolean {
-        return true
     }
 }

@@ -192,6 +192,10 @@
     </extensions>
 
     <actions>
+        <action class="de.shyim.shopware6.action.context.ExtendTwigBlockAction">
+            <add-to-group group-id="EditorPopupMenu"/>
+        </action>
+        
         <action class="de.shyim.shopware6.action.project.SynchronizeNamespaceAction">
             <add-to-group group-id="ToolsMenu"/>
         </action>
