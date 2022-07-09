@@ -183,6 +183,11 @@
             <category>Shopware</category>
         </intentionAction>
 
+        <intentionAction>
+            <className>de.shyim.shopware6.intentions.ExtendAdminComponentIntention</className>
+            <category>Shopware</category>
+        </intentionAction>
+
         <vcs.commitMessageProvider implementation="de.shyim.shopware6.vcs.GitlabCommitMessageProvider"/>
     </extensions>
 
@@ -192,6 +197,10 @@
     </extensions>
 
     <actions>
+        <action class="de.shyim.shopware6.action.context.admin.ExtendAdminComponentAction">
+            <add-to-group group-id="EditorPopupMenu"/>
+        </action>
+
         <action class="de.shyim.shopware6.action.context.InsertSnippetAction">
             <add-to-group group-id="GenerateGroup"/>
         </action>

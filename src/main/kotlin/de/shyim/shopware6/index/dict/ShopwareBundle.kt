@@ -30,6 +30,14 @@ class ShopwareBundle(
         return this.rootFolder
     }
 
+    fun getAdministrationEntrypoint(): String {
+        return "${this.getAdministrationRoot()}/main.js"
+    }
+
+    fun getAdministrationRoot(): String {
+        return "${this.rootFolder}/Resources/app/administration/src"
+    }
+
     override fun getStorefrontViewFolder(): String {
         return this.viewPath
     }

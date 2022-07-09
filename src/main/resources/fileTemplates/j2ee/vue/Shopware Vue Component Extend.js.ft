@@ -1,0 +1,4 @@
+const { Component } = Shopware;
+
+Component.extend('${NAME}', '${EXTEND}', {
+});

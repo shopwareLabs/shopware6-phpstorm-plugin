@@ -76,6 +76,29 @@ object JavaScriptPattern {
             .withLanguage(JavascriptLanguage.INSTANCE)
     }
 
+    fun getComponentRegisterFirstParameter(): PsiElementPattern.Capture<PsiElement> {
+        return PlatformPatterns.psiElement()
+            .withParent(
+                PlatformPatterns.psiElement(JSLiteralExpression::class.java)
+                    .withParent(
+                        PlatformPatterns.psiElement(JSArgumentList::class.java)
+                            .withParent(
+                                PlatformPatterns.psiElement(JSCallExpression::class.java)
+                                    .withFirstChild(
+                                        PlatformPatterns.psiElement(JSReferenceExpression::class.java)
+                                            .withFirstChild(
+                                                PlatformPatterns.psiElement(JSReferenceExpression::class.java)
+                                                    .withFirstChild(
+                                                        PlatformPatterns.psiElement().withText("Component")
+                                                    )
+                                            )
+                                            .withLastChild(PlatformPatterns.or(PlatformPatterns.psiElement().withText("register"), PlatformPatterns.psiElement().withText("extend")))
+                                    )
+                            )
+                    )
+            )
+    }
+
     fun getModuleRouteComponent(): PsiElementPattern.Capture<PsiElement> {
         return PlatformPatterns.psiElement()
             .withParent(

@@ -27,6 +27,8 @@ class ShopwareTemplates: FileTemplateGroupDescriptorFactory {
             group.addTemplate(pluginGroup)
             pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_ADMIN_VUE_MODULE))
             pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_ADMIN_VUE_COMPONENT))
+            pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_ADMIN_VUE_COMPONENT_OVERRIDE))
+            pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_ADMIN_VUE_COMPONENT_EXTEND))
             pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_ADMIN_VUE_COMPONENT_SCSS))
             pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_ADMIN_VUE_COMPONENT_TWIG))
             pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_ADMIN_CMS_BLOCK_INDEX))
@@ -70,6 +72,8 @@ class ShopwareTemplates: FileTemplateGroupDescriptorFactory {
         const val SHOPWARE_ADMIN_VUE_MODULE = "Shopware Vue Module.js"
         const val SHOPWARE_ADMIN_VUE_MODULE_SNIPPET_JSON = "Shopware Vue Module Snippet.json"
         const val SHOPWARE_ADMIN_VUE_COMPONENT = "Shopware Vue Component.js"
+        const val SHOPWARE_ADMIN_VUE_COMPONENT_EXTEND = "Shopware Vue Component Extend.js"
+        const val SHOPWARE_ADMIN_VUE_COMPONENT_OVERRIDE = "Shopware Vue Component Override.js"
         const val SHOPWARE_ADMIN_VUE_COMPONENT_SCSS = "Shopware Vue Component SCSS.scss"
         const val SHOPWARE_ADMIN_VUE_COMPONENT_TWIG = "Shopware Vue Component Twig.html.twig"
         const val SHOPWARE_ADMIN_CMS_BLOCK_INDEX = "Shopware Block Index.js"
