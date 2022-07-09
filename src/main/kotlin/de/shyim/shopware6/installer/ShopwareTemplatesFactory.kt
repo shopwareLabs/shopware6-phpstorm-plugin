@@ -9,7 +9,7 @@ class ShopwareTemplatesFactory : ProjectTemplatesFactory() {
         return arrayOf("PHP", "Shopware")
     }
 
-    override fun createTemplates(group: String?, context: WizardContext?): Array<ProjectTemplate> {
+    override fun createTemplates(group: String?, context: WizardContext): Array<ProjectTemplate> {
         return arrayOf(ShopwareProjectGenerator())
     }
 }
