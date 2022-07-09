@@ -5,6 +5,7 @@ import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.openapi.project.Project
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.util.indexing.FileBasedIndex
+import de.shyim.shopware6.completion.SnippetCompletionElement
 import de.shyim.shopware6.index.FrontendSnippetIndex
 import de.shyim.shopware6.index.dict.SnippetFile
 import icons.ShopwareToolBoxIcons
@@ -43,5 +44,21 @@ object FrontendSnippetUtil {
         }
 
         return list
+    }
+
+    fun getAllEnglishKeys(project: Project): MutableList<SnippetCompletionElement> {
+        val keys = mutableListOf<SnippetCompletionElement>()
+
+        getAllSnippets(project).forEach { file ->
+            if (!file.file.endsWith("en-GB.json")) {
+                return@forEach
+            }
+
+            file.snippets.forEach snippetLoop@{ snippet ->
+                keys.add(SnippetCompletionElement(snippet.key, snippet.value))
+            }
+        }
+
+        return keys
     }
 }

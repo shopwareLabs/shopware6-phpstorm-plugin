@@ -192,6 +192,10 @@
     </extensions>
 
     <actions>
+        <action class="de.shyim.shopware6.action.context.InsertSnippetAction">
+            <add-to-group group-id="GenerateGroup"/>
+        </action>
+
         <action class="de.shyim.shopware6.action.context.ExtendTwigBlockAction">
             <add-to-group group-id="EditorPopupMenu"/>
         </action>

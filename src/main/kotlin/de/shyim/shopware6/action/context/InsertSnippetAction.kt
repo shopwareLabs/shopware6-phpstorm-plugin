@@ -1,0 +1,111 @@
+package de.shyim.shopware6.action.context
+
+import com.intellij.lang.javascript.psi.JSFile
+import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.actionSystem.LangDataKeys
+import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.command.CommandProcessor
+import com.intellij.openapi.project.DumbAwareAction
+import com.intellij.openapi.ui.popup.PopupChooserBuilder
+import com.intellij.psi.PsiFile
+import com.intellij.ui.components.JBList
+import com.jetbrains.php.lang.psi.PhpFile
+import com.jetbrains.twig.TwigFile
+import de.shyim.shopware6.completion.SnippetCompletionElement
+import de.shyim.shopware6.util.AdminSnippetUtil
+import de.shyim.shopware6.util.FrontendSnippetUtil
+import icons.ShopwareToolBoxIcons
+import java.awt.Component
+import javax.swing.JLabel
+import javax.swing.JList
+
+class InsertSnippetAction: DumbAwareAction("Insert snippet", "Insert snippet code", ShopwareToolBoxIcons.SHOPWARE) {
+    override fun actionPerformed(e: AnActionEvent) {
+        val pf: PsiFile = LangDataKeys.PSI_FILE.getData(e.dataContext) ?: return
+        val editor = LangDataKeys.EDITOR.getData(e.dataContext) ?: return
+
+        var items: MutableList<SnippetCompletionElement>
+
+        if (pf.virtualFile.path.contains("app/administration")) {
+            items = AdminSnippetUtil.getAllEnglishKeys(pf.project)
+        } else {
+            items = FrontendSnippetUtil.getAllEnglishKeys(pf.project)
+        }
+
+        val snippetList = JBList(items)
+        snippetList.cellRenderer = object : JBList.StripedListCellRenderer() {
+            override fun getListCellRendererComponent(
+                list: JList<*>?,
+                value: Any?,
+                index: Int,
+                isSelected: Boolean,
+                cellHasFocus: Boolean
+            ): Component {
+                val renderer = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus)
+
+                if (renderer is JLabel && value is SnippetCompletionElement) {
+                    var text = value.value
+
+                    if (text.length > 10) {
+                        text = text.substring(0, 10)
+                    }
+
+                    renderer.text = String.format("%s (%s)", text, value.key)
+                }
+
+                return renderer
+            }
+        }
+
+        PopupChooserBuilder(snippetList)
+            .setTitle("Shopware: Select Snippet")
+            .setFilteringEnabled {
+                return@setFilteringEnabled (it as SnippetCompletionElement).key + " " + it.value
+            }
+            .setItemChoosenCallback {
+                if (snippetList.selectedValue == null) {
+                    return@setItemChoosenCallback
+                }
+
+                ApplicationManager.getApplication().runWriteAction {
+                    CommandProcessor.getInstance().executeCommand(pf.project, {
+                        editor
+                            .document
+                            .insertString(
+                                editor.caretModel.offset,
+                                createFileBasedSnippet(pf, snippetList.selectedValue!!.key)
+                            )
+                    }, "Insert snippet", null)
+                }
+            }
+            .createPopup()
+            .showInBestPositionFor(e.dataContext)
+    }
+
+    private fun createFileBasedSnippet(pf: PsiFile, key: String): String {
+        if (pf is TwigFile && pf.virtualFile.path.contains("app/administration")) {
+            return String.format("{{ \$tc('%s') }}", key)
+        }
+
+        if (pf is TwigFile) {
+            return String.format("{{ \"%s\"|trans }}", key)
+        }
+
+        if (pf is JSFile) {
+            return String.format("this.\$tc('%s')", key)
+        }
+
+        return String.format("\$this->trans('%s');", key)
+    }
+
+    override fun update(e: AnActionEvent) {
+        val pf: PsiFile? = LangDataKeys.PSI_FILE.getData(e.dataContext)
+
+        if (pf == null) {
+            e.presentation.isEnabledAndVisible = false
+            return
+        }
+
+        e.presentation.isEnabledAndVisible = pf is TwigFile || pf is PhpFile || pf is JSFile
+    }
+}

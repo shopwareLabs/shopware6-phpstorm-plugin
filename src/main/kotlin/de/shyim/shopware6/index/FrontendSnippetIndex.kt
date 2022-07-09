@@ -27,7 +27,7 @@ open class FrontendSnippetIndex : FileBasedIndexExtension<String, SnippetFile>()
 
     override fun getIndexer(): DataIndexer<String, SnippetFile, FileContent> {
         return DataIndexer { inputData ->
-            if (!inputData.file.path.contains("/Resources/snippet/")) {
+            if (!inputData.file.path.contains("/Resources/snippet/") || inputData.file.path.contains("/_fixtures/")) {
                 return@DataIndexer mapOf()
             }
 
