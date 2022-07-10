@@ -3,7 +3,10 @@ package de.shyim.shopware6.intentions
 import com.intellij.codeInsight.intention.PsiElementBaseIntentionAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.impl.EditorImpl
+import com.intellij.openapi.fileEditor.FileEditorManager
+import com.intellij.openapi.fileEditor.OpenFileDescriptor
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.vfs.LocalFileSystem
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import de.shyim.shopware6.action.context.admin.ExtendAdminComponentAction
@@ -23,7 +26,13 @@ class ExtendAdminComponentIntention: PsiElementBaseIntentionAction() {
             return
         }
 
-        ExtendAdminComponentAction.createComponent(StringUtil.stripQuotes(element.text), element.project, editor, null) {}
+        ExtendAdminComponentAction.createComponent(StringUtil.stripQuotes(element.text), element.project, editor, null) {
+            val file = LocalFileSystem.getInstance().findFileByPath(it)
+
+            if (file != null) {
+                FileEditorManager.getInstance(element.project).openTextEditor(OpenFileDescriptor(element.project, file), true)
+            }
+        }
     }
 
     override fun checkFile(file: PsiFile?): Boolean {

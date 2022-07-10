@@ -9,6 +9,8 @@ import com.intellij.openapi.actionSystem.LangDataKeys
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.command.CommandProcessor
 import com.intellij.openapi.editor.Editor
+import com.intellij.openapi.fileEditor.FileEditorManager
+import com.intellij.openapi.fileEditor.OpenFileDescriptor
 import com.intellij.openapi.project.DumbAwareAction
 import com.intellij.openapi.ui.popup.PopupChooserBuilder
 import com.intellij.openapi.vfs.LocalFileSystem
@@ -130,7 +132,11 @@ class ExtendAdminComponentMethodAction: DumbAwareAction("Extend this method", "E
         }
 
         private fun addMethodToComponent(baseElement: PsiElement, path: String) {
-            val psiFile = PsiManager.getInstance(baseElement.project).findFile(LocalFileSystem.getInstance().findFileByPath(path)!!)!!
+            val virtualFile = LocalFileSystem.getInstance().findFileByPath(path)!!
+
+            FileEditorManager.getInstance(baseElement.project).openTextEditor(OpenFileDescriptor(baseElement.project, virtualFile), true)
+
+            val psiFile = PsiManager.getInstance(baseElement.project).findFile(virtualFile)!!
 
             val methodName = baseElement.text
             val propertyName = if (baseElement.parent.parent.parent is JSArgumentList) {

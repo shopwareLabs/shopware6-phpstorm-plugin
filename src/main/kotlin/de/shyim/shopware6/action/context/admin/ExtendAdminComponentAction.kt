@@ -77,7 +77,13 @@ class ExtendAdminComponentAction : DumbAwareAction(
         val editor = LangDataKeys.EDITOR.getData(e.dataContext) ?: return
         val pe = pf.findElementAt(editor.caretModel.offset) ?: return
 
-        createComponent(StringUtil.stripQuotes(pe.text), pe.project, editor, null) {}
+        createComponent(StringUtil.stripQuotes(pe.text), pe.project, editor, null) {
+            val file = LocalFileSystem.getInstance().findFileByPath(it)
+
+            if (file != null) {
+                FileEditorManager.getInstance(pe.project).openTextEditor(OpenFileDescriptor(pe.project, file), true)
+            }
+        }
     }
 
     companion object {
