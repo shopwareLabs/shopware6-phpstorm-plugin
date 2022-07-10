@@ -20,16 +20,8 @@ object ShopwareBundleUtil {
         arrayOf("Administration", "DevOps", "Checkout", "Profiling", "Elasticsearch", "Content", "System", "Framework")
 
     fun getAllBundles(project: Project): MutableList<ShopwareBundle> {
-        val bundles: MutableList<ShopwareBundle> = ArrayList()
-
-        for (key in FileBasedIndex.getInstance().getAllKeys(ShopwareBundleIndex.key, project)) {
-            val values = FileBasedIndex.getInstance()
-                .getValues(ShopwareBundleIndex.key, key, GlobalSearchScope.allScope(project))
-
-            bundles.addAll(values)
-        }
-
-        return bundles
+        return FileBasedIndex.getInstance()
+            .getValues(ShopwareBundleIndex.key, "all", GlobalSearchScope.allScope(project))
     }
 
     fun getAllBundlesRelatedToViews(project: Project): List<ShopwareBundle> {

@@ -107,7 +107,7 @@ class AdminComponentIndex : FileBasedIndexExtension<String, AdminComponent>() {
                                 }
 
                                 val component = AdminComponent(
-                                    componentName.text.replace("'", "").replace("\"", ""),
+                                    StringUtil.stripQuotes(componentName.text),
                                     extendsFrom,
                                     templatePath,
                                     propsSet,

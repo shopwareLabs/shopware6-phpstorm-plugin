@@ -24,7 +24,7 @@ class ShopwareBundleIndex: FileBasedIndexExtension<String, ShopwareBundle>() {
     }
 
     override fun getVersion(): Int {
-        return 5
+        return 6
     }
 
     override fun dependsOnFileContent(): Boolean {
@@ -49,7 +49,7 @@ class ShopwareBundleIndex: FileBasedIndexExtension<String, ShopwareBundle>() {
                         val bundleDir = Paths.get(inputData.file.path).parent
                         val expectedStorefrontViewFolder =
                             FilenameUtils.separatorsToUnix("${bundleDir}/Resources/views/")
-                        bundles[element.name] =
+                        bundles["all"] =
                             ShopwareBundle(
                                 element.name,
                                 inputData.file.path,
