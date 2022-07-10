@@ -23,6 +23,7 @@
         <fileBasedIndex implementation="de.shyim.shopware6.index.AdminSnippetIndex"/>
         <fileBasedIndex implementation="de.shyim.shopware6.index.FeatureFlagIndex"/>
         <fileBasedIndex implementation="de.shyim.shopware6.index.AdminComponentIndex"/>
+        <fileBasedIndex implementation="de.shyim.shopware6.index.AdminComponentOverrideIndex"/>
         <fileBasedIndex implementation="de.shyim.shopware6.index.ThemeConfigIndex"/>
         <fileBasedIndex implementation="de.shyim.shopware6.index.SystemConfigIndex"/>
         <fileBasedIndex implementation="de.shyim.shopware6.index.ShopwareBundleIndex"/>
