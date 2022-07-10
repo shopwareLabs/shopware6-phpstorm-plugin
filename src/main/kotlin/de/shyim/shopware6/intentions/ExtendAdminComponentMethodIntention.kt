@@ -6,16 +6,14 @@ import com.intellij.openapi.editor.impl.EditorImpl
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
-import de.shyim.shopware6.action.context.admin.ExtendAdminComponentAction
-import de.shyim.shopware6.util.JavaScriptPattern
-import de.shyim.shopware6.util.StringUtil
+import de.shyim.shopware6.action.context.admin.ExtendAdminComponentMethodAction
 
-class ExtendAdminComponentIntention: PsiElementBaseIntentionAction() {
-    override fun getFamilyName() = "Extend/override this component"
-    override fun getText() = "Extend/override this component"
+class ExtendAdminComponentMethodIntention: PsiElementBaseIntentionAction() {
+    override fun getFamilyName() = "Override this method"
+    override fun getText() = "Override this method"
 
     override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean {
-        return JavaScriptPattern.getComponentRegisterFirstParameter().accepts(element)
+        return ExtendAdminComponentMethodAction.getPattern().accepts(element)
     }
 
     override fun invoke(project: Project, editor: Editor?, element: PsiElement) {
@@ -23,7 +21,7 @@ class ExtendAdminComponentIntention: PsiElementBaseIntentionAction() {
             return
         }
 
-        ExtendAdminComponentAction.createComponent(StringUtil.stripQuotes(element.text), element.project, editor, null) {}
+        ExtendAdminComponentMethodAction.extendMethod(element, editor)
     }
 
     override fun checkFile(file: PsiFile?): Boolean {

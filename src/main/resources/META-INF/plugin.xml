@@ -189,6 +189,11 @@
             <category>Shopware</category>
         </intentionAction>
 
+        <intentionAction>
+            <className>de.shyim.shopware6.intentions.ExtendAdminComponentMethodIntention</className>
+            <category>Shopware</category>
+        </intentionAction>
+
         <vcs.commitMessageProvider implementation="de.shyim.shopware6.vcs.GitlabCommitMessageProvider"/>
 
         <codeInsight.lineMarkerProvider implementationClass="de.shyim.shopware6.marker.js.AdminComponentMarker" language="JavaScript"/>
@@ -221,6 +226,10 @@
             <add-to-group group-id="CutCopyPasteGroup" anchor="after" relative-to-action="CopyReference"/>
             <add-to-group group-id="EditorTabPopupMenu" anchor="after" relative-to-action="CopyReference"/>
             <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="Copy.Paste.Special"/>
+        </action>
+
+        <action class="de.shyim.shopware6.action.context.admin.ExtendAdminComponentMethodAction">
+            <add-to-group group-id="EditorPopupMenu"/>
         </action>
 
         <group id="ShopwareToolboxGroupPlugin" class="com.intellij.ide.actions.NonTrivialActionGroup"

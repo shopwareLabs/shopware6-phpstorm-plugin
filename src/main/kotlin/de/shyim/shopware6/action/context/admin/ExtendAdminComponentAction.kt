@@ -77,13 +77,11 @@ class ExtendAdminComponentAction : DumbAwareAction(
         val editor = LangDataKeys.EDITOR.getData(e.dataContext) ?: return
         val pe = pf.findElementAt(editor.caretModel.offset) ?: return
 
-        createComponent(pe, editor)
+        createComponent(StringUtil.stripQuotes(pe.text), pe.project, editor, null) {}
     }
 
     companion object {
-        fun createComponent(element: PsiElement, editor: Editor) {
-            val componentName = StringUtil.stripQuotes(element.text)
-
+        fun createComponent(componentName: String, project: Project, editor: Editor, bundle: ShopwareBundle?, runnable: (String) -> Unit) {
             JBPopupFactory
                 .getInstance()
                 .createConfirmation(
@@ -91,17 +89,24 @@ class ExtendAdminComponentAction : DumbAwareAction(
                     "Override",
                     "Extend",
                     {
-                        createComponentCallback("override", componentName, editor, element.project)
+                        createComponentCallback("override", componentName, editor, project, runnable, bundle)
                     },
                     {
-                        createComponentCallback("extend", componentName, editor, element.project)
+                        createComponentCallback("extend", componentName, editor, project, runnable, bundle)
                     },
                     0
                 )
                 .showInBestPositionFor(editor)
         }
 
-        private fun createComponentCallback(type: String, componentName: String, editor: Editor, project: Project) {
+        private fun createComponentCallback(type: String, componentName: String, editor: Editor, project: Project, runnable: (String) -> Unit, bundle: ShopwareBundle?) {
+            if (bundle != null) {
+                ensureAdminEntrypointExists(bundle, project)
+                createComponentExtend(type, componentName, editor, bundle, project, runnable)
+
+                return
+            }
+
             val popup = ShopwareBundleUtil.getBundleSelectionPopup(project)
             popup
                 .setItemChoosenCallback {
@@ -109,7 +114,7 @@ class ExtendAdminComponentAction : DumbAwareAction(
                         (popup.chooserComponent as JBList<ShopwareBundle>).selectedValue ?: return@setItemChoosenCallback
 
                     ensureAdminEntrypointExists(bundle, project)
-                    createComponentExtend(type, componentName, editor, bundle, project)
+                    createComponentExtend(type, componentName, editor, bundle, project, runnable)
 
                 }
                 .createPopup()
@@ -121,7 +126,8 @@ class ExtendAdminComponentAction : DumbAwareAction(
             componentName: String,
             editor: Editor,
             bundle: ShopwareBundle,
-            project: Project
+            project: Project,
+            runnable: (String) -> Unit
         ) {
             val newComponentName: String
             val defaultFilePath = if (type == "override") {
@@ -160,13 +166,17 @@ class ExtendAdminComponentAction : DumbAwareAction(
                 )
             }
 
-            ActionUtil.createFile(
+            val file = ActionUtil.createFile(
                 project,
                 JavaScriptFileType.INSTANCE,
                 "index.js",
                 content,
                 componentFolder
             )
+
+            if (file != null) {
+                runnable(file.virtualFile.path)
+            }
 
             val entryPoint = LocalFileSystem.getInstance().findFileByPath(bundle.getAdministrationEntrypoint())!!
 

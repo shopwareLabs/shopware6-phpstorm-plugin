@@ -9,7 +9,10 @@ import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.ui.components.JBList
 import com.intellij.util.indexing.FileBasedIndex
 import de.shyim.shopware6.completion.SnippetCompletionElement
+import de.shyim.shopware6.index.AdminComponentIndex
+import de.shyim.shopware6.index.AdminComponentOverrideIndex
 import de.shyim.shopware6.index.ShopwareBundleIndex
+import de.shyim.shopware6.index.dict.AdminComponent
 import de.shyim.shopware6.index.dict.ShopwareBundle
 import java.awt.Component
 import javax.swing.JLabel
@@ -56,5 +59,33 @@ object ShopwareBundleUtil {
             .setFilteringEnabled {
                 return@setFilteringEnabled (it as ShopwareBundle).name
             }
+    }
+
+    fun getAllComponentsInBundle(bundle: ShopwareBundle, project: Project): MutableList<AdminComponent> {
+        val components = mutableListOf<AdminComponent>()
+
+        FileBasedIndex.getInstance().getAllKeys(AdminComponentIndex.key, project).forEach { key ->
+            FileBasedIndex.getInstance().getValues(AdminComponentIndex.key, key, GlobalSearchScope.projectScope(project)).forEach { component ->
+                if (component.file.startsWith(bundle.rootFolder)) {
+                    components.add(component)
+                }
+            }
+        }
+
+        return components
+    }
+
+    fun getAllComponentsWithOverridesInBundle(bundle: ShopwareBundle, project: Project): MutableList<AdminComponent> {
+        val components = getAllComponentsInBundle(bundle, project)
+
+        FileBasedIndex.getInstance().getAllKeys(AdminComponentOverrideIndex.key, project).forEach { key ->
+            FileBasedIndex.getInstance().getValues(AdminComponentOverrideIndex.key, key, GlobalSearchScope.projectScope(project)).forEach { component ->
+                if (component.file.startsWith(bundle.rootFolder)) {
+                    components.add(AdminComponent("override: ${component.name}", component.name, "override", HashSet(), component.file))
+                }
+            }
+        }
+
+        return components
     }
 }
