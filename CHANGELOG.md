@@ -4,6 +4,16 @@
 
 ## [Unreleased]
 
+## [0.0.31]
+- Catch error on scheduled task creation when namespace cannot be determined
+- extend twig block intention creates wrong folder structure on bundles
+- Ignore plugins outside custom/plugins for store inspections
+- Added extend block editor popup to avoid getting loss of read only mode
+- Added insert snippet code action using ALT+Insert
+- Added intent to override/extend an admin component
+- Added admin component line markers, to find all extends/overrides, or navigate to base component
+- Added admin component symbol contributor to find in symbol search
+
 ## [0.0.30]
 - Added autocomplete for vue routes
 - Added missing length for composer.json check
