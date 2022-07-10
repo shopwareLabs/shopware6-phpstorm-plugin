@@ -190,6 +190,8 @@
         </intentionAction>
 
         <vcs.commitMessageProvider implementation="de.shyim.shopware6.vcs.GitlabCommitMessageProvider"/>
+
+        <codeInsight.lineMarkerProvider implementationClass="de.shyim.shopware6.marker.js.AdminComponentMarker" language="JavaScript"/>
     </extensions>
 
     <extensions defaultExtensionNs="fr.adrienbrault.idea.symfony2plugin.extension">
