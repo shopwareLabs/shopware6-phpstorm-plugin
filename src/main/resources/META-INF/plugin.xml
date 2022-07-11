@@ -197,7 +197,7 @@
         <vcs.commitMessageProvider implementation="de.shyim.shopware6.vcs.GitlabCommitMessageProvider"/>
 
         <codeInsight.lineMarkerProvider implementationClass="de.shyim.shopware6.marker.js.AdminComponentMarker" language="JavaScript"/>
-        <gotoSymbolContributor implementation="de.shyim.shopware6.navigation.symbol.AdminComponentSymbolContributor" order="first"/>
+        <gotoSymbolContributor implementation="de.shyim.shopware6.navigation.symbol.AdminComponentSymbolContributor"/>
     </extensions>
 
     <extensions defaultExtensionNs="fr.adrienbrault.idea.symfony2plugin.extension">

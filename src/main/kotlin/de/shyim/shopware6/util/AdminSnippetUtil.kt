@@ -62,7 +62,7 @@ object AdminSnippetUtil {
     fun getAllEnglishKeys(project: Project): MutableList<SnippetCompletionElement> {
         val keys = mutableListOf<SnippetCompletionElement>()
 
-        FrontendSnippetUtil.getAllSnippets(project).forEach { file ->
+        getAllSnippetFiles(project).forEach { file ->
             if (!file.file.endsWith("en-GB.json")) {
                 return@forEach
             }
