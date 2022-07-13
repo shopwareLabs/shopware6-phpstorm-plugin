@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [0.0.32]
+- Fixed snippet source of insert snippet in admin
+- Added an override method action in admin
+
 ## [0.0.31]
 - Catch error on scheduled task creation when namespace cannot be determined
 - extend twig block intention creates wrong folder structure on bundles
