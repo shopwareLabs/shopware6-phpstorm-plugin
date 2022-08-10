@@ -7,6 +7,7 @@
     <depends>com.intellij.modules.platform</depends>
     <depends>com.jetbrains.php</depends>
     <depends>com.jetbrains.twig</depends>
+    <depends>org.jetbrains.plugins.sass</depends>
     <depends>org.jetbrains.plugins.yaml</depends>
     <depends>JavaScript</depends>
     <depends>Git4Idea</depends>

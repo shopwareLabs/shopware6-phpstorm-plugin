@@ -94,6 +94,10 @@ tasks {
         systemProperty("jb.consents.confirmation.enabled", "false")
     }
 
+    runIde {
+        jvmArgs("-Xmx4000m")
+    }
+
     signPlugin {
         certificateChain.set(System.getenv("CERTIFICATE_CHAIN"))
         privateKey.set(System.getenv("PRIVATE_KEY"))
@@ -107,5 +111,14 @@ tasks {
         // Specify pre-release label to publish the plugin in a custom Release Channel automatically. Read more:
         // https://plugins.jetbrains.com/docs/intellij/deployment.html#specifying-a-release-channel
         channels.set(listOf(properties("pluginVersion").split('-').getOrElse(1) { "default" }.split('.').first()))
+    }
+
+    processResources {
+        exclude("fileTemplates/j2ee/**")
+        from(fileTree("src/main/resources/fileTemplates/j2ee").files) {
+            eachFile {
+                relativePath = RelativePath(true, "fileTemplates", "j2ee", this.name)
+            }
+        }
     }
 }

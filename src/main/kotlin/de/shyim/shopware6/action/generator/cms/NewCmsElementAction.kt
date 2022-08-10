@@ -6,7 +6,6 @@ import com.intellij.openapi.actionSystem.LangDataKeys
 import com.intellij.openapi.project.DumbAwareAction
 import com.intellij.openapi.vfs.LocalFileSystem
 import com.intellij.psi.PsiManager
-import com.intellij.psi.css.CssFileType
 import com.jetbrains.twig.TwigFileType
 import de.shyim.shopware6.action.generator.ActionUtil
 import de.shyim.shopware6.templates.ShopwareTemplates
@@ -14,6 +13,7 @@ import de.shyim.shopware6.util.PsiUtil
 import de.shyim.shopware6.util.ShopwareBundleUtil
 import icons.ShopwareToolBoxIcons
 import org.apache.commons.io.FilenameUtils
+import org.jetbrains.plugins.scss.SCSSFileType
 import java.nio.file.Paths
 
 class NewCmsElementAction :
@@ -79,7 +79,7 @@ class NewCmsElementAction :
 
         ActionUtil.createFile(
             e.project!!,
-            CssFileType.INSTANCE,
+            SCSSFileType.SCSS,
             "sw-cms-el-component-${result.name}.scss",
             ShopwareTemplates.renderTemplate(
                 e.project!!,
@@ -117,7 +117,7 @@ class NewCmsElementAction :
 
         ActionUtil.createFile(
             e.project!!,
-            CssFileType.INSTANCE,
+            SCSSFileType.SCSS,
             "sw-cms-el-preview-${result.name}.scss",
             ShopwareTemplates.renderTemplate(
                 e.project!!,
@@ -155,7 +155,7 @@ class NewCmsElementAction :
 
         ActionUtil.createFile(
             e.project!!,
-            CssFileType.INSTANCE,
+            SCSSFileType.SCSS,
             "sw-cms-el-config-${result.name}.scss",
             ShopwareTemplates.renderTemplate(
                 e.project!!,
