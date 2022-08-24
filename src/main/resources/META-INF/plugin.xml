@@ -34,6 +34,7 @@
         <fileBasedIndex implementation="de.shyim.shopware6.index.ScriptHookIndex"/>
         <fileBasedIndex implementation="de.shyim.shopware6.index.ScriptHookFacadeIndex"/>
         <fileBasedIndex implementation="de.shyim.shopware6.index.AdminModuleIndex"/>
+        <fileBasedIndex implementation="de.shyim.shopware6.index.PhpstanIgnoreIndex"/>
 
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.FeatureFlagGoToDeclareHandler"/>
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.AdminComponentGoToDeclareHandler"/>
