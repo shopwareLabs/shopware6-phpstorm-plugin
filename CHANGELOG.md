@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.0.33]
+- Added new required extension scss
+- Fixed scss formatting of cms modules
+- Support latest EAP releases
+
 ## [0.0.32]
 - Fixed snippet source of insert snippet in admin
 - Added an override method action in admin
