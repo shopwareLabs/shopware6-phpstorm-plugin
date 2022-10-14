@@ -48,7 +48,12 @@ class NewChangelogAction: DumbAwareAction("Create a Changelog", "Create a new Ch
         val date = Date()
         val modifiedDate: String = SimpleDateFormat("yyyy-MM-dd").format(date)
 
-        val fileName = modifiedDate + "-" + dialogResult.title.lowercase().replace(" ", "-") + ".md"
+        var fileName = modifiedDate + "-" + dialogResult.title.lowercase()
+
+        fileName = "[^a-z_\\-0-9]".toRegex().replace(fileName, "-")
+        fileName = "[-]{2,}".toRegex().replace(fileName, "-")
+        fileName = "[-_]+\$".toRegex().replace(fileName, "")
+        fileName = "^[-_]+".toRegex().replace(fileName, "")
 
         ActionUtil.buildFile(
             e,
@@ -58,7 +63,7 @@ class NewChangelogAction: DumbAwareAction("Create a Changelog", "Create a new Ch
                 SHOPWARE_CONTRIBUTION_CHANGELOG_TEMPLATE,
                 dialogResult.toMap()
             ),
-            fileName,
+            "$fileName.md",
             PlainTextFileType.INSTANCE
         )
     }
