@@ -1,0 +1,6 @@
+{
+  "name": "foo/foo",
+  "extra": {
+    "shopware-plugin-class": "Foo\\Bar\\SwagFooBar"
+  }
+}

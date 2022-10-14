@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/master/src/Core/System/SystemConfig/Schema/config.xsd"
+>
+    <card>
+        <title>Sender address</title>
+        <title lang="de-DE">Absenderadresse</title>
+        <input-field type="text">
+            <name>senderAddressFirstName</name>
+            <label>First name</label>
+            <label lang="de-DE">Vorname</label>
+            <required>false</required>
+        </input-field>
+        <input-field type="text">
+            <name>senderAddressLastName</name>
+            <label>Last name</label>
+            <label lang="de-DE">Nachname</label>
+            <required>false</required>
+        </input-field>
+        <input-field type="text">
+            <name>senderAddressCompany</name>
+            <label>Company</label>
+            <label lang="de-DE">Firma</label>
+            <required>false</required>
+        </input-field>
+        <input-field type="text">
+            <name>senderAddressDepartment</name>
+            <label>Department</label>
+            <label lang="de-DE">Abteilung</label>
+            <required>false</required>
+        </input-field>
+        <input-field type="text">
+            <name>senderAddressPhone</name>
+            <label>Phone</label>
+            <label lang="de-DE">Telefonnummer</label>
+            <required>false</required>
+        </input-field>
+        <input-field type="text">
+            <name>senderAddressEmail</name>
+            <label>Email address</label>
+            <label lang="de-DE">E-Mail-Adresse</label>
+            <required>false</required>
+        </input-field>
+        <input-field type="text">
+            <name>senderAddressAddressAddition</name>
+            <label>Address addition</label>
+            <label lang="de-DE">Adresszusatz</label>
+            <required>false</required>
+        </input-field>
+        <input-field type="text">
+            <name>senderAddressStreet</name>
+            <label>Street</label>
+            <label lang="de-DE">Straße</label>
+            <required>false</required>
+        </input-field>
+        <input-field type="text">
+            <name>senderAddressHouseNumber</name>
+            <label>House number</label>
+            <label lang="de-DE">Hausnummer</label>
+            <required>false</required>
+        </input-field>
+        <input-field type="text">
+            <name>senderAddressZipCode</name>
+            <label>Zip code</label>
+            <label lang="de-DE">Postleitzahl</label>
+            <required>false</required>
+        </input-field>
+        <input-field type="text">
+            <name>senderAddressCity</name>
+            <label>City</label>
+            <label lang="de-DE">Ort</label>
+            <required>false</required>
+        </input-field>
+        <input-field type="text">
+            <name>senderAddressStateIso</name>
+            <label>State (short code)</label>
+            <label lang="de-DE">Bundesstaat/-land (Kürzel)</label>
+            <required>false</required>
+        </input-field>
+        <input-field type="single-select">
+            <name>senderAddressCountryIso</name>
+            <label>Country</label>
+            <label lang="de-DE">Land</label>
+            <required>false</required>
+            <options>
+                <option>
+                    <id>DE</id>
+                    <name>Germany</name>
+                    <name lang="de-DE">Germany</name>
+                </option>
+                <option>
+                    <id>AT</id>
+                    <name>Austria</name>
+                    <name lang="de-DE">Österreich</name>
+                </option>
+                <option>
+                    <id>BE</id>
+                    <name>Belgium</name>
+                    <name lang="de-DE">Belgien</name>
+                </option>
+                <option>
+                    <id>DK</id>
+                    <name>Denmark</name>
+                    <name lang="de-DE">Dänemark</name>
+                </option>
+                <option>
+                    <id>FI</id>
+                    <name>Finland</name>
+                    <name lang="de-DE">Finnland</name>
+                </option>
+                <option>
+                    <id>FR</id>
+                    <name>France</name>
+                    <name lang="de-DE">Frankreich</name>
+                </option>
+                <option>
+                    <id>IE</id>
+                    <name>Ireland</name>
+                    <name lang="de-DE">Irland</name>
+                </option>
+                <option>
+                    <id>LU</id>
+                    <name>Luxembourg</name>
+                    <name lang="de-DE">Luxemburg</name>
+                </option>
+                <option>
+                    <id>PL</id>
+                    <name>Poland</name>
+                    <name lang="de-DE">Polen</name>
+                </option>
+                <option>
+                    <id>PT</id>
+                    <name>Portugal</name>
+                    <name lang="de-DE">Portugal</name>
+                </option>
+                <option>
+                    <id>ES</id>
+                    <name>Spain</name>
+                    <name lang="de-DE">Spanien</name>
+                </option>
+            </options>
+        </input-field>
+    </card>
+    <card>
+        <title>Customs information for export (CN22 &amp; CN23)</title>
+        <title lang="de-DE">Zollinformationen für Export</title>
+        <input-field type="single-select">
+            <name>customsInformationTypeOfShipment</name>
+            <label>Type of shipment</label>
+            <label lang="de-DE">Art der Sendung</label>
+            <helpText lang="de-DE">
+                Für Online-Shops wird "Handelsware" empfohlen. Entspricht Feld (10) auf der Zollinhaltserklärung CN 23.
+            </helpText>
+            <helpText>
+                For online shops, "Sale of goods" is recommended. Corresponds to field (10) of the customs declaration
+                CN 23.
+            </helpText>
+            <options>
+                <option>
+                    <id>gift</id>
+                    <name>Gift</name>
+                    <name lang="de-DE">Geschenk</name>
+                </option>
+                <option>
+                    <id>documents</id>
+                    <name>Documents</name>
+                    <name lang="de-DE">Dokumente</name>
+                </option>
+                <option>
+                    <id>commercial-sample</id>
+                    <name>Commercial sample</name>
+                    <name lang="de-DE">Warenmuster</name>
+                </option>
+                <option>
+                    <id>sale-of-goods</id>
+                    <name>Sale of goods</name>
+                    <name lang="de-DE">Handelsware</name>
+                </option>
+                <option>
+                    <id>returned-goods</id>
+                    <name>Returned goods</name>
+                    <name lang="de-DE">Warenrücksendung</name>
+                </option>
+                <option>
+                    <id>other</id>
+                    <name>Other</name>
+                    <name lang="de-DE">Sonstiges</name>
+                </option>
+            </options>
+        </input-field>
+        <input-field type="text">
+            <name>customsInformationExplanation</name>
+            <label>Explanation of shipment (if type of shipment is "Other")</label>
+            <label lang="de-DE">Beschreibung der Sendung (wenn Art der Sendung "Sonstiges" ist)</label>
+            <helpText lang="de-DE">
+                Muss angegeben werden, wenn die Art der Sendung "Sonstiges" ist. Entspricht Feld (10) auf der
+                Zollinhaltserklärung CN 23. Muss in englischer oder französischer Sprache angegeben werden.
+            </helpText>
+            <helpText>
+                Must be specified if the type of shipment is "Other". Corresponds to field (10) of the customs
+                declaration CN 23. Must be provided in English or French.
+            </helpText>
+        </input-field>
+        <input-field>
+            <name>senderAddressCustomsReference</name>
+            <label>Customs Reference</label>
+            <label lang="de-DE">Kennnummer für Zollzwecke</label>
+            <helpText>
+                Whether the field must be filled in depends on the regulations of the country of origin and destination.
+                Possible values are for example your importer code (customs/EORI number), tax code or VAT no.
+            </helpText>
+            <helpText lang="de-DE">
+                Ob das Feld ausgefüllt werden muss, hängt von den Bestimmungen des Herkunfts- und Ziellandes ab.
+                Mögliche Werte sind beispiele deine Zollnummer (EORI-Nummer), Steuernummer oder Umsatzsteuer-ID-Nr.
+            </helpText>
+        </input-field>
+        <input-field type="text">
+            <name>customsInformationOfficeOfOrigin</name>
+            <label>Office of origin</label>
+            <label lang="de-DE">Einlieferungsstelle</label>
+            <helpText lang="de-DE">Name der Postfiliale, in die die Pakete eingeliefert werden.</helpText>
+            <helpText>Name of the post office where the parcels are committed.</helpText>
+        </input-field>
+        <input-field type="text">
+            <name>customsInformationComment</name>
+            <label>Comment</label>
+            <label lang="de-DE">Bemerkung</label>
+            <helpText lang="de-DE">
+                Gib hier an, wenn deine Waren bestimmten Bedingungen unterliegen, z.B. Quarantänebestimmungen,
+                Gesundheitskontrollen, Bestimmungen für Pflanzenschutzmittel usw. Entspricht dem Feld (11) auf der
+                Zollinhaltserklärung CN 23. Muss in englischer oder französischer Sprache angegeben werden.
+            </helpText>
+            <helpText>
+                Specify here if your goods are subject to certain restrictions, e.g. quarantine regulations,
+                health checks, provisions for plant protection products, etc. Corresponds to the field (11) on
+                customs declaration CN 23. Must be provided in English or French.
+            </helpText>
+        </input-field>
+        <input-field type="textarea">
+            <name>customsInformationPermitNumbers</name>
+            <label>Numbers of Permits or Licences</label>
+            <label lang="de-DE">Nummern der Genehmigungen oder Lizenzen</label>
+            <helpText lang="de-DE">
+                Diese Angabe ist nur in Ausnahmefällen nötig und kann im Allgemeinen ignoriert werden.
+                Entspricht dem Feld (12) auf der Zollinhaltserklärung CN 23.
+            </helpText>
+            <helpText>
+                This specification is only necessary in exceptional cases and can usually be ignored. Corresponds to the
+                field (12) on customs declaration CN 23.
+            </helpText>
+        </input-field>
+        <input-field type="textarea">
+            <name>customsInformationCertificateNumbers</name>
+            <label>Numbers of certificates</label>
+            <label lang="de-DE">Nummern der Bescheinigungen</label>
+            <helpText lang="de-DE">
+                Diese Angabe ist nur in Ausnahmefällen nötig und kann im Allgemeinen ignoriert werden.
+                Entspricht dem Feld (13) auf der Zollinhaltserklärung CN 23.
+            </helpText>
+            <helpText>
+                This specification is only necessary in exceptional cases and can usually be ignored. Corresponds to the
+                field (13) on customs declaration CN 23.
+            </helpText>
+        </input-field>
+    </card>
+</config>
