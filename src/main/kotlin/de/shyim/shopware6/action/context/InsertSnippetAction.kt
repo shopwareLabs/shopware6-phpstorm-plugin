@@ -88,7 +88,7 @@ class InsertSnippetAction: DumbAwareAction("Insert snippet", "Insert snippet cod
         }
 
         if (pf is TwigFile) {
-            return String.format("{{ \"%s\"|trans }}", key)
+            return String.format("{{ \"%s\"|trans|sw_sanitize }}", key)
         }
 
         if (pf is JSFile) {
