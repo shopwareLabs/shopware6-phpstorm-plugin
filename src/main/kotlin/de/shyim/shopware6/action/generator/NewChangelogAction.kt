@@ -22,7 +22,7 @@ class NewChangelogAction: DumbAwareAction("Create a Changelog", "Create a new Ch
         val viewDirectory = ActionUtil.getViewDirectory(e.dataContext) ?: return
 
         val info = GitUserRegistry.getInstance(e.project!!).getOrReadUser(viewDirectory.virtualFile)
-        val currentBranch = GitBranchUtil.getCurrentRepository(e.project!!)?.currentBranch
+        val currentBranch = GitBranchUtil.guessRepositoryForOperation(e.project!!, e.dataContext)?.currentBranch
         var defaultTitle = ""
         var defaultTicket = ""
         var defaultUser = ""

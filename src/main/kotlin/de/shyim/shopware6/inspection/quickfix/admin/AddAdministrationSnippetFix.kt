@@ -78,7 +78,7 @@ class AddAdministrationSnippetFix : LocalQuickFix {
                             }
 
                             jsonProp = if (foundChild != null) {
-                                foundChild
+                                foundChild!!
                             } else {
                                 val element = psiFileFactory.createFileFromText(
                                     "dummy." + JsonFileType.INSTANCE.defaultExtension,
