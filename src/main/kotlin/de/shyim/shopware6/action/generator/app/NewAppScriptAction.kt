@@ -31,7 +31,7 @@ class NewAppScriptAction :
 
         val hooks = ScriptHookUtil.getAllHooks(e.project!!)
 
-        val jbHookList = JBList(hooks)
+        val jbHookList = JBList(hooks.sortedBy { it.name })
 
         jbHookList.cellRenderer = object : JBList.StripedListCellRenderer() {
             override fun getListCellRendererComponent(
@@ -53,6 +53,9 @@ class NewAppScriptAction :
 
         PopupChooserBuilder(jbHookList)
             .setTitle("Shopware: Select Hook")
+            .setFilteringEnabled {
+                return@setFilteringEnabled (it as ScriptHook).name
+            }
             .setItemChoosenCallback {
                 this.chooseApp(jbHookList.selectedValue!!, e.project!!)
             }
