@@ -14,9 +14,11 @@ object ScriptHookUtil {
 
         for (key in FileBasedIndex.getInstance().getAllKeys(ScriptHookIndex.key, project)) {
             val facade = FileBasedIndex.getInstance()
-                .getValues(ScriptHookIndex.key, key, GlobalSearchScope.allScope(project)).first()
+                .getValues(ScriptHookIndex.key, key, GlobalSearchScope.allScope(project)).firstOrNull()
 
-            hooks.add(facade)
+            if (facade != null) {
+                hooks.add(facade)
+            }
         }
 
         return hooks
@@ -32,7 +34,7 @@ object ScriptHookUtil {
 
         for (key in FileBasedIndex.getInstance().getAllKeys(ScriptHookFacadeIndex.key, project)) {
             val facade = FileBasedIndex.getInstance()
-                .getValues(ScriptHookFacadeIndex.key, key, GlobalSearchScope.allScope(project)).first()
+                .getValues(ScriptHookFacadeIndex.key, key, GlobalSearchScope.allScope(project)).firstOrNull()
 
             if (facade != null) {
                 facades[key] = facade
