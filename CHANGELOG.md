@@ -4,6 +4,10 @@
 
 ## Unreleased
 
+## 0.0.35 - 2023-05-19
+- Support newest EAP
+- Fixed errors with empty hook factory
+
 ## 0.0.34 - 2023-01-25
 - Allow latest EAP
 
