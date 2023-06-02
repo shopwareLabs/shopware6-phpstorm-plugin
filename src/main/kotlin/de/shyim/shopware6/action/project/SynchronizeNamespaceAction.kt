@@ -28,6 +28,11 @@ class SynchronizeNamespaceAction : DumbAwareAction(
         val model = ModuleRootManager.getInstance(ModuleManager.getInstance(e.project!!).modules[0]).modifiableModel
         val basePath = e.project!!.basePath + "/src"
 
+        val entry = model.contentEntries.firstOrNull()
+        if (entry != null) {
+            addShopwareExcludes(entry)
+        }
+
         ShopwareBundleUtil.getAllBundles(e.project!!).forEach { shopwareBundle ->
             if (shopwareBundle.path.startsWith(basePath)) {
                 return@forEach
@@ -64,6 +69,48 @@ class SynchronizeNamespaceAction : DumbAwareAction(
         )
     }
 
+    private fun addShopwareExcludes(model: ContentEntry) {
+        val excludes = arrayOf(
+            "var/cache",
+            "var/log",
+            ".direnv",
+            ".devenv",
+            "files",
+            "public/bundles",
+            "public/media",
+            "public/recovery",
+            "public/theme",
+            "public/thumbnail",
+            "vendor-bin",
+
+            // Platform specific
+            "src/Administration/Resources/public",
+            "src/Administration/Resources/app/administration/.jestcache",
+            "src/Administration/Resources/app/administration/build",
+            "src/Storefront/Resources/public",
+            "src/Storefront/Resources/app/storefront/dist",
+            "src/Storefront/Resources/app/storefront/vendor/bootstrap/dist",
+            "src/Storefront/Resources/app/storefront/vendor/flatpickr/dist",
+            "src/Storefront/Resources/app/storefront/vendor/tiny-slider/dist",
+
+            // Template specific
+            "vendor/shopware/administration/Resources/public",
+            "vendor/shopware/administration/app/administration/.jestcache",
+            "vendor/shopware/administration/app/administration/build",
+            "vendor/shopware/storefront/Resources/public",
+            "vendor/shopware/storefront/Resources/app/storefront/dist",
+            "vendor/shopware/storefront/Resources/app/storefront/vendor/bootstrap/dist",
+            "vendor/shopware/storefront/Resources/app/storefront/vendor/flatpickr/dist",
+            "vendor/shopware/storefront/Resources/app/storefront/vendor/tiny-slider/dist",
+        )
+
+        excludes.forEach { exclude ->
+            if (LocalFileSystem.getInstance().findFileByPath("${model.file!!.path}/${exclude}") != null) {
+                model.addExcludeFolder("file://${model.file!!.path}/${exclude}")
+            }
+        }
+    }
+
     private fun addSourceFolders(
         type: String,
         jsonObject: JSONObject,
@@ -83,8 +130,13 @@ class SynchronizeNamespaceAction : DumbAwareAction(
         val it = namespaces.keys()
         while (it.hasNext()) {
             val key = it.next().toString()
+
+            if (!namespaces.has(key)) {
+                continue
+            }
+
             val bundleFolder =
-                LocalFileSystem.getInstance().findFileByPath("${basePath}/${namespaces.getString(key)}")!!
+                LocalFileSystem.getInstance().findFileByPath("${basePath}/${namespaces.getString(key)}") ?: continue
 
             var alreadyRegistered = false
 
