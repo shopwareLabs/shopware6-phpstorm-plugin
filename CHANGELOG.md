@@ -4,6 +4,12 @@
 
 ## Unreleased
 
+## 0.0.36 - 2023-06-04
+- Renamed Extension Sync to Configure Shopware Project
+  - Add exclude directories for Shopware
+  - Cleanup namespaces when platform is open
+- Fixed some deprecations
+
 ## 0.0.35 - 2023-05-19
 - Support newest EAP
 - Fixed errors with empty hook factory
