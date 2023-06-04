@@ -9,14 +9,13 @@ import com.jetbrains.php.lang.PhpFileType
 import com.jetbrains.php.lang.psi.elements.PhpClass
 import de.shyim.shopware6.index.dict.ShopwareBundle
 import de.shyim.shopware6.index.externalizer.ObjectStreamDataExternalizer
-import gnu.trove.THashMap
 import org.apache.commons.io.FilenameUtils
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 import kotlin.io.path.pathString
 
-class ShopwareBundleIndex: FileBasedIndexExtension<String, ShopwareBundle>() {
+class ShopwareBundleIndex : FileBasedIndexExtension<String, ShopwareBundle>() {
     private val _externalizer = ObjectStreamDataExternalizer<ShopwareBundle>()
 
     override fun getName(): ID<String, ShopwareBundle> {
@@ -24,7 +23,7 @@ class ShopwareBundleIndex: FileBasedIndexExtension<String, ShopwareBundle>() {
     }
 
     override fun getVersion(): Int {
-        return 6
+        return 7
     }
 
     override fun dependsOnFileContent(): Boolean {
@@ -37,7 +36,7 @@ class ShopwareBundleIndex: FileBasedIndexExtension<String, ShopwareBundle>() {
                 return@DataIndexer mapOf()
             }
 
-            val bundles = THashMap<String, ShopwareBundle>()
+            val bundles = HashMap<String, ShopwareBundle>()
 
             inputData.psiFile.acceptChildren(object : PsiRecursiveElementWalkingVisitor() {
                 override fun visitElement(element: PsiElement) {
@@ -116,20 +115,13 @@ class ShopwareBundleIndex: FileBasedIndexExtension<String, ShopwareBundle>() {
             return false
         }
 
-        if (
-            filePath.contains("core/framework/test/plugin/_fixture/plugins/") ||
-            filePath.contains("core/framework/test/store/_fixtures") ||
-            filePath.contains("core/content/test/") ||
-            filePath.contains("core/system/test/snippet/files/_fixtures") ||
-            filePath.contains("core/system/test/systemconfig/_fixtures/") ||
-            filePath.contains("core/framework/test/plugin/requirement/_fixture/") ||
-            filePath.contains("core/framework/test/adapter/twig/fixtures") ||
-            filePath.contains("storefront/test/theme/fixtures/") ||
-            filePath.contains("core/framework/test/api/controller/fixtures")
-        ) {
-            return false
-        }
-
-        return true
+        return !(
+                        filePath.contains("/tests/") ||
+                        filePath.contains("/test/") ||
+                        filePath.contains("/fixtures/") ||
+                        filePath.contains("/_fixture/") ||
+                        filePath.contains("/_fixtures/") ||
+                        filePath.contains("tests/integration/php/")
+                )
     }
 }

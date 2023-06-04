@@ -10,7 +10,6 @@ import com.intellij.util.io.EnumeratorStringDescriptor
 import com.intellij.util.io.KeyDescriptor
 import de.shyim.shopware6.index.dict.ShopwareApp
 import de.shyim.shopware6.index.externalizer.ObjectStreamDataExternalizer
-import gnu.trove.THashMap
 import org.apache.commons.io.FilenameUtils
 import java.nio.file.Paths
 import kotlin.io.path.pathString
@@ -23,7 +22,7 @@ class ShopwareAppIndex : FileBasedIndexExtension<String, ShopwareApp>() {
     }
 
     override fun getVersion(): Int {
-        return 3
+        return 4
     }
 
     override fun dependsOnFileContent(): Boolean {
@@ -45,7 +44,7 @@ class ShopwareAppIndex : FileBasedIndexExtension<String, ShopwareApp>() {
                 return@DataIndexer mapOf()
             }
 
-            val apps = THashMap<String, ShopwareApp>()
+            val apps = HashMap<String, ShopwareApp>()
 
             var name = ""
             val permissions: MutableList<String> = mutableListOf()

@@ -7,7 +7,6 @@ import com.intellij.util.io.KeyDescriptor
 import de.shyim.shopware6.index.dict.SnippetFile
 import de.shyim.shopware6.index.externalizer.ObjectStreamDataExternalizer
 import de.shyim.shopware6.util.SnippetUtil
-import gnu.trove.THashMap
 
 
 open class FrontendSnippetIndex : FileBasedIndexExtension<String, SnippetFile>() {
@@ -18,7 +17,7 @@ open class FrontendSnippetIndex : FileBasedIndexExtension<String, SnippetFile>()
     }
 
     override fun getVersion(): Int {
-        return 3
+        return 4
     }
 
     override fun dependsOnFileContent(): Boolean {
@@ -31,7 +30,7 @@ open class FrontendSnippetIndex : FileBasedIndexExtension<String, SnippetFile>()
                 return@DataIndexer mapOf()
             }
 
-            val snippets = THashMap<String, SnippetFile>()
+            val snippets = HashMap<String, SnippetFile>()
             snippets[inputData.file.path] = SnippetUtil.flatten(inputData.file.path, inputData.contentAsText.toString())
 
             return@DataIndexer snippets

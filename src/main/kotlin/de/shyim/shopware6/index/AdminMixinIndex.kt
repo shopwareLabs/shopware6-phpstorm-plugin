@@ -13,7 +13,6 @@ import com.intellij.util.io.EnumeratorStringDescriptor
 import com.intellij.util.io.KeyDescriptor
 import de.shyim.shopware6.index.dict.AdminMixin
 import de.shyim.shopware6.index.externalizer.ObjectStreamDataExternalizer
-import gnu.trove.THashMap
 
 class AdminMixinIndex : FileBasedIndexExtension<String, AdminMixin>() {
     private val _externalizer = ObjectStreamDataExternalizer<AdminMixin>()
@@ -23,7 +22,7 @@ class AdminMixinIndex : FileBasedIndexExtension<String, AdminMixin>() {
     }
 
     override fun getVersion(): Int {
-        return 1
+        return 2
     }
 
     override fun dependsOnFileContent(): Boolean {
@@ -32,7 +31,7 @@ class AdminMixinIndex : FileBasedIndexExtension<String, AdminMixin>() {
 
     override fun getIndexer(): DataIndexer<String, AdminMixin, FileContent> {
         return DataIndexer { inputData ->
-            val mixins = THashMap<String, AdminMixin>()
+            val mixins = HashMap<String, AdminMixin>()
 
             val stringLiteral = PlatformPatterns.psiElement(JSTokenTypes.STRING_LITERAL)
 

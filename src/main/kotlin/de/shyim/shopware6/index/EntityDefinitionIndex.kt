@@ -13,7 +13,6 @@ import de.shyim.shopware6.index.dict.EntityDefinition
 import de.shyim.shopware6.index.dict.EntityDefinitionField
 import de.shyim.shopware6.index.externalizer.ObjectStreamDataExternalizer
 import de.shyim.shopware6.util.StringUtil
-import gnu.trove.THashMap
 
 class EntityDefinitionIndex : FileBasedIndexExtension<String, EntityDefinition>() {
     private val _externalizer = ObjectStreamDataExternalizer<EntityDefinition>()
@@ -23,7 +22,7 @@ class EntityDefinitionIndex : FileBasedIndexExtension<String, EntityDefinition>(
     }
 
     override fun getVersion(): Int {
-        return 2
+        return 3
     }
 
     override fun dependsOnFileContent(): Boolean {
@@ -32,7 +31,7 @@ class EntityDefinitionIndex : FileBasedIndexExtension<String, EntityDefinition>(
 
     override fun getIndexer(): DataIndexer<String, EntityDefinition, FileContent> {
         return DataIndexer { inputData ->
-            val entities = THashMap<String, EntityDefinition>()
+            val entities = HashMap<String, EntityDefinition>()
 
             inputData.psiFile.acceptChildren(object : PsiRecursiveElementWalkingVisitor() {
                 override fun visitElement(phpClass: PsiElement) {

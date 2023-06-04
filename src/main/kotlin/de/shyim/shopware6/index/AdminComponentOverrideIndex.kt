@@ -14,7 +14,6 @@ import com.intellij.util.io.KeyDescriptor
 import de.shyim.shopware6.index.dict.AdminComponentOverride
 import de.shyim.shopware6.index.externalizer.ObjectStreamDataExternalizer
 import de.shyim.shopware6.util.StringUtil
-import gnu.trove.THashMap
 
 class AdminComponentOverrideIndex: FileBasedIndexExtension<String, AdminComponentOverride>() {
     private val _externalizer = ObjectStreamDataExternalizer<AdminComponentOverride>()
@@ -24,12 +23,12 @@ class AdminComponentOverrideIndex: FileBasedIndexExtension<String, AdminComponen
     }
 
     override fun getVersion(): Int {
-        return 1
+        return 2
     }
 
     override fun getIndexer(): DataIndexer<String, AdminComponentOverride, FileContent> {
         return DataIndexer { inputData ->
-            val components = THashMap<String, AdminComponentOverride>()
+            val components = HashMap<String, AdminComponentOverride>()
 
             val stringLiteral = PlatformPatterns.psiElement(JSTokenTypes.STRING_LITERAL)
 

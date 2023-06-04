@@ -13,7 +13,6 @@ import com.jetbrains.php.lang.psi.elements.impl.ClassReferenceImpl
 import com.jetbrains.php.lang.psi.elements.impl.StringLiteralExpressionImpl
 import de.shyim.shopware6.index.dict.ScriptHookFacade
 import de.shyim.shopware6.index.externalizer.ObjectStreamDataExternalizer
-import gnu.trove.THashMap
 
 class ScriptHookFacadeIndex : FileBasedIndexExtension<String, ScriptHookFacade>() {
     private val _externalizer = ObjectStreamDataExternalizer<ScriptHookFacade>()
@@ -23,7 +22,7 @@ class ScriptHookFacadeIndex : FileBasedIndexExtension<String, ScriptHookFacade>(
     }
 
     override fun getVersion(): Int {
-        return 1
+        return 2
     }
 
     override fun dependsOnFileContent(): Boolean {
@@ -32,7 +31,7 @@ class ScriptHookFacadeIndex : FileBasedIndexExtension<String, ScriptHookFacade>(
 
     override fun getIndexer(): DataIndexer<String, ScriptHookFacade, FileContent> {
         return DataIndexer { inputData ->
-            val facades = THashMap<String, ScriptHookFacade>()
+            val facades = HashMap<String, ScriptHookFacade>()
 
             inputData.psiFile.acceptChildren(object : PsiRecursiveElementWalkingVisitor() {
                 override fun visitElement(element: PsiElement) {

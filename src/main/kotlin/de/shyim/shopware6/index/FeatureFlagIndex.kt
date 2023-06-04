@@ -7,7 +7,6 @@ import com.intellij.util.io.EnumeratorStringDescriptor
 import com.intellij.util.io.KeyDescriptor
 import de.shyim.shopware6.index.dict.FeatureFlag
 import de.shyim.shopware6.index.externalizer.ObjectStreamDataExternalizer
-import gnu.trove.THashMap
 import org.jetbrains.yaml.YAMLFileType
 import org.jetbrains.yaml.psi.YAMLKeyValue
 import org.jetbrains.yaml.psi.impl.YAMLSequenceItemImpl
@@ -20,7 +19,7 @@ class FeatureFlagIndex : FileBasedIndexExtension<String, FeatureFlag>() {
     }
 
     override fun getVersion(): Int {
-        return 1
+        return 2
     }
 
     override fun dependsOnFileContent(): Boolean {
@@ -37,7 +36,7 @@ class FeatureFlagIndex : FileBasedIndexExtension<String, FeatureFlag>() {
                 return@DataIndexer mapOf()
             }
 
-            val flags = THashMap<String, FeatureFlag>()
+            val flags = HashMap<String, FeatureFlag>()
 
             inputData.psiFile.acceptChildren(object : PsiRecursiveElementWalkingVisitor() {
                 override fun visitElement(element: PsiElement) {
@@ -74,7 +73,7 @@ class FeatureFlagIndex : FileBasedIndexExtension<String, FeatureFlag>() {
                                                 major = true
                                             }
 
-                                            flags[map["name"]] = FeatureFlag(
+                                            flags[map["name"]!!] = FeatureFlag(
                                                 map.getOrDefault("name", "").replace("\"", "").replace("'", ""),
                                                 default,
                                                 major,

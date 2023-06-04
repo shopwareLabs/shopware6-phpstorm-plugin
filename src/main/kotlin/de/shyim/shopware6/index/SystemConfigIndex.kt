@@ -12,7 +12,6 @@ import com.intellij.util.io.EnumeratorStringDescriptor
 import com.intellij.util.io.KeyDescriptor
 import de.shyim.shopware6.index.dict.SystemConfig
 import de.shyim.shopware6.index.externalizer.ObjectStreamDataExternalizer
-import gnu.trove.THashMap
 
 class SystemConfigIndex : FileBasedIndexExtension<String, SystemConfig>() {
     private val _externalizer = ObjectStreamDataExternalizer<SystemConfig>()
@@ -22,7 +21,7 @@ class SystemConfigIndex : FileBasedIndexExtension<String, SystemConfig>() {
     }
 
     override fun getVersion(): Int {
-        return 4
+        return 5
     }
 
     override fun dependsOnFileContent(): Boolean {
@@ -36,7 +35,7 @@ class SystemConfigIndex : FileBasedIndexExtension<String, SystemConfig>() {
             }
 
             val namespace = getNamespaceFromInput(inputData) ?: return@DataIndexer mapOf()
-            val configs = THashMap<String, SystemConfig>()
+            val configs = HashMap<String, SystemConfig>()
 
             inputData.psiFile.acceptChildren(object : PsiRecursiveElementWalkingVisitor() {
                 override fun visitElement(element: PsiElement) {

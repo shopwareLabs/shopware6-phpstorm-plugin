@@ -14,7 +14,6 @@ import de.shyim.shopware6.index.dict.AdminModuleRoute
 import de.shyim.shopware6.index.externalizer.ObjectStreamDataExternalizer
 import de.shyim.shopware6.util.JavaScriptPattern
 import de.shyim.shopware6.util.StringUtil
-import gnu.trove.THashMap
 
 class AdminModuleIndex : FileBasedIndexExtension<String, AdminModule>() {
     private val _externalizer = ObjectStreamDataExternalizer<AdminModule>()
@@ -24,7 +23,7 @@ class AdminModuleIndex : FileBasedIndexExtension<String, AdminModule>() {
     }
 
     override fun getVersion(): Int {
-        return 2
+        return 3
     }
 
     override fun dependsOnFileContent(): Boolean {
@@ -33,7 +32,7 @@ class AdminModuleIndex : FileBasedIndexExtension<String, AdminModule>() {
 
     override fun getIndexer(): DataIndexer<String, AdminModule, FileContent> {
         return DataIndexer { inputData ->
-            val modules = THashMap<String, AdminModule>()
+            val modules = HashMap<String, AdminModule>()
 
             if (inputData.file.parent.parent.name != "module") {
                 return@DataIndexer modules

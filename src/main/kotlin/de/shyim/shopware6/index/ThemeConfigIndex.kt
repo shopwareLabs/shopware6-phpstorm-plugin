@@ -11,7 +11,6 @@ import com.intellij.util.io.EnumeratorStringDescriptor
 import com.intellij.util.io.KeyDescriptor
 import de.shyim.shopware6.index.dict.ThemeConfig
 import de.shyim.shopware6.index.externalizer.ObjectStreamDataExternalizer
-import gnu.trove.THashMap
 
 class ThemeConfigIndex : FileBasedIndexExtension<String, ThemeConfig>() {
     private val _externalizer = ObjectStreamDataExternalizer<ThemeConfig>()
@@ -22,7 +21,7 @@ class ThemeConfigIndex : FileBasedIndexExtension<String, ThemeConfig>() {
                 return@DataIndexer mapOf()
             }
 
-            val configs = THashMap<String, ThemeConfig>()
+            val configs = HashMap<String, ThemeConfig>()
 
             inputData.psiFile.accept(object : PsiRecursiveElementWalkingVisitor() {
                 override fun visitElement(element: PsiElement) {
@@ -97,7 +96,7 @@ class ThemeConfigIndex : FileBasedIndexExtension<String, ThemeConfig>() {
     }
 
     override fun getVersion(): Int {
-        return 1
+        return 2
     }
 
     override fun dependsOnFileContent(): Boolean {

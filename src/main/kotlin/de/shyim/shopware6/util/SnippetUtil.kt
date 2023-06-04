@@ -5,13 +5,12 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiRecursiveElementWalkingVisitor
 import de.shyim.shopware6.index.dict.SnippetFile
-import gnu.trove.THashMap
 import org.codehaus.jettison.json.JSONException
 import org.codehaus.jettison.json.JSONObject
 
 object SnippetUtil {
     fun flatten(fileName: String, fileContent: String?): SnippetFile {
-        val snippetList = THashMap<String, String>()
+        val snippetList = HashMap<String, String>()
 
         try {
             val jsonObject = JSONObject(fileContent)
@@ -27,7 +26,7 @@ object SnippetUtil {
         return SnippetFile(fileName, snippetList)
     }
 
-    private fun flatten(snippetList: THashMap<String, String>, json: JSONObject, key: String, prefix: String) {
+    private fun flatten(snippetList: HashMap<String, String>, json: JSONObject, key: String, prefix: String) {
         try {
             val jsonObject = json.getJSONObject(key)
             val it = jsonObject.keys()

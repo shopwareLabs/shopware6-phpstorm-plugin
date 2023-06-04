@@ -12,7 +12,6 @@ import com.intellij.xml.XmlElementDescriptor
 import com.intellij.xml.XmlTagNameProvider
 import de.shyim.shopware6.index.AdminComponentIndex
 import de.shyim.shopware6.index.dict.AdminComponent
-import gnu.trove.THashMap
 import icons.ShopwareToolBoxIcons
 
 class AdminComponentProvider : XmlTagNameProvider, XmlElementDescriptorProvider {
@@ -36,7 +35,7 @@ class AdminComponentProvider : XmlTagNameProvider, XmlElementDescriptorProvider 
     }
 
     override fun getDescriptor(tag: XmlTag): XmlElementDescriptor? {
-        val adminComponents = THashMap<String, AdminComponent>()
+        val adminComponents = HashMap<String, AdminComponent>()
 
         for (key in FileBasedIndex.getInstance().getAllKeys(AdminComponentIndex.key, tag.project)) {
             val values = FileBasedIndex.getInstance()
@@ -69,7 +68,7 @@ class AdminComponentProvider : XmlTagNameProvider, XmlElementDescriptorProvider 
 
     private fun addParentProps(
         props: HashSet<String>,
-        adminComponents: THashMap<String, AdminComponent>,
+        adminComponents: HashMap<String, AdminComponent>,
         extends: String
     ) {
         if (!adminComponents.containsKey(extends)) {

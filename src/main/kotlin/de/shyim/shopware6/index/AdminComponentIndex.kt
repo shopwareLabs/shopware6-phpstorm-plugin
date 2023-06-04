@@ -18,7 +18,6 @@ import com.intellij.util.io.KeyDescriptor
 import de.shyim.shopware6.index.dict.AdminComponent
 import de.shyim.shopware6.index.externalizer.ObjectStreamDataExternalizer
 import de.shyim.shopware6.util.StringUtil
-import gnu.trove.THashMap
 
 class AdminComponentIndex : FileBasedIndexExtension<String, AdminComponent>() {
     private val _externalizer = ObjectStreamDataExternalizer<AdminComponent>()
@@ -28,7 +27,7 @@ class AdminComponentIndex : FileBasedIndexExtension<String, AdminComponent>() {
     }
 
     override fun getVersion(): Int {
-        return 2
+        return 3
     }
 
     override fun dependsOnFileContent(): Boolean {
@@ -37,7 +36,7 @@ class AdminComponentIndex : FileBasedIndexExtension<String, AdminComponent>() {
 
     override fun getIndexer(): DataIndexer<String, AdminComponent, FileContent> {
         return DataIndexer { inputData ->
-            val components = THashMap<String, AdminComponent>()
+            val components = HashMap<String, AdminComponent>()
 
             val stringLiteral = PlatformPatterns.psiElement(JSTokenTypes.STRING_LITERAL)
 

@@ -14,7 +14,6 @@ import com.jetbrains.php.lang.psi.elements.impl.GroupStatementImpl
 import com.jetbrains.php.lang.psi.elements.impl.StringLiteralExpressionImpl
 import de.shyim.shopware6.index.dict.ScriptHook
 import de.shyim.shopware6.index.externalizer.ObjectStreamDataExternalizer
-import gnu.trove.THashMap
 
 class ScriptHookIndex : FileBasedIndexExtension<String, ScriptHook>() {
     private val _externalizer = ObjectStreamDataExternalizer<ScriptHook>()
@@ -24,7 +23,7 @@ class ScriptHookIndex : FileBasedIndexExtension<String, ScriptHook>() {
     }
 
     override fun getVersion(): Int {
-        return 2
+        return 3
     }
 
     override fun dependsOnFileContent(): Boolean {
@@ -33,7 +32,7 @@ class ScriptHookIndex : FileBasedIndexExtension<String, ScriptHook>() {
 
     override fun getIndexer(): DataIndexer<String, ScriptHook, FileContent> {
         return DataIndexer { inputData ->
-            val hooks = THashMap<String, ScriptHook>()
+            val hooks = HashMap<String, ScriptHook>()
 
             inputData.psiFile.acceptChildren(object : PsiRecursiveElementWalkingVisitor() {
                 override fun visitElement(element: PsiElement) {
