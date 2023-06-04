@@ -16,9 +16,9 @@ import org.apache.commons.lang.StringUtils
 import org.codehaus.jettison.json.JSONObject
 import java.io.File
 
-class SynchronizeNamespaceAction : DumbAwareAction(
-    "Synchronize Extension Namespaces with IDE",
-    "Configures PHP-Namespaces with IDE",
+class ConfigureShopwareProjectAction : DumbAwareAction(
+    "Configure Shopware Project",
+    "Configure Shopware Project with IDE",
     ShopwareToolBoxIcons.SHOPWARE
 ) {
     override fun actionPerformed(e: AnActionEvent) {
