@@ -5,6 +5,7 @@ import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.command.CommandProcessor
 import com.intellij.openapi.module.ModuleManager
 import com.intellij.openapi.project.DumbAwareAction
+import com.intellij.openapi.project.Project
 import com.intellij.openapi.roots.ContentEntry
 import com.intellij.openapi.roots.ModuleRootManager
 import com.intellij.openapi.vfs.LocalFileSystem
@@ -31,6 +32,7 @@ class SynchronizeNamespaceAction : DumbAwareAction(
         val entry = model.contentEntries.firstOrNull()
         if (entry != null) {
             addShopwareExcludes(entry)
+            adjustTestNamespaces(entry, e.project!!)
         }
 
         ShopwareBundleUtil.getAllBundles(e.project!!).forEach { shopwareBundle ->
@@ -156,6 +158,57 @@ class SynchronizeNamespaceAction : DumbAwareAction(
             }
 
             foundContentEntry.addSourceFolder(bundleFolder, type == "autoload-dev", key)
+        }
+    }
+
+    private fun adjustTestNamespaces(entry: ContentEntry, project: Project) {
+        val composerJsonPath = "${project.basePath}/composer.json"
+
+        if (!File(composerJsonPath).exists()) {
+            return
+        }
+
+        val composerJsonBody = FileUtils.readFileToString(File(composerJsonPath), "UTF-8")
+        val jsonObject = JSONObject(composerJsonBody)
+
+        if (jsonObject.getString("name") != "shopware/platform") {
+            return
+        }
+
+        val composerInvalidAutoDetections = arrayOf(
+            "src/Administration/Test",
+            "src/Core/Checkout/Test",
+            "src/Core/Content/Test",
+            "src/Core/DevOps/Test",
+            "src/Core/Framework/Test",
+            "src/Core/Maintenance/Test",
+            "src/Core/System/Test",
+            "src/Core/Promotion/Test",
+            "src/Core/Migration/Test",
+            "src/Core/Test",
+            "src/Storefront/Test",
+            "src/Elasticsearch/Test",
+            "src/WebInstaller/tests",
+            "tests",
+            "tests/performance/bench",
+            "spec",
+            "vendor-bin/roave-backward-compatibility-check/tests",
+        )
+
+        entry.sourceFolders.forEach {
+            val relative = it.url.replace("file://${project.basePath}/", "")
+
+            if (!it.isTestSource) {
+                if (it.url.contains("Framework/Test/") || relative.startsWith("tests/") || relative.startsWith("vendor-bin/") || relative.startsWith("src/Administration/Resources")) {
+                    entry.removeSourceFolder(it)
+                }
+                return@forEach
+            }
+
+
+            if (composerInvalidAutoDetections.contains(relative)) {
+                entry.removeSourceFolder(it)
+            }
         }
     }
 }
