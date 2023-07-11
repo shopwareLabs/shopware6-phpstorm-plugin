@@ -4,6 +4,9 @@
 
 ## Unreleased
 
+## 0.0.37 - 2023-07-11
+- Add migration generator as Action
+
 ## 0.0.36 - 2023-06-04
 - Renamed Extension Sync to Configure Shopware Project
   - Add exclude directories for Shopware
