@@ -1,0 +1,25 @@
+<?php
+
+declare(strict_types=1);
+
+namespace ${NAMESPACE};
+
+use Doctrine\DBAL\Connection;
+use Shopware\Core\Framework\Migration\MigrationStep;
+
+class ${CLASSNAME} extends MigrationStep
+{
+    public function getCreationTimestamp(): int
+    {
+        return ${TIMESTAMP};
+    }
+
+    public function update(Connection $connection): void
+    {
+        // implement update
+    }
+
+    public function updateDestructive(Connection $connection): void
+    {
+    }
+}

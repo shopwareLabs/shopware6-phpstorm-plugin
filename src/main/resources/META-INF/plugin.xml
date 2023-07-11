@@ -255,6 +255,8 @@
                    icon="ShopwareToolBoxIcons.SHOPWARE" popup="true">
                 <action id="ShopwareToolboxNewScheduledTask"
                         class="de.shyim.shopware6.action.generator.php.NewScheduledTaskAction"/>
+                <action id="ShopwareToolboxNewMigrationAction"
+                        class="de.shyim.shopware6.action.generator.php.NewMigrationAction"/>
             </group>
 
             <group id="ShopwareToolboxApp" class="com.intellij.ide.actions.NonTrivialActionGroup" text="App"

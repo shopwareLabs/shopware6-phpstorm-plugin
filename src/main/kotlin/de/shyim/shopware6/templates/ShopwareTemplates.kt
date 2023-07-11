@@ -21,6 +21,7 @@ class ShopwareTemplates: FileTemplateGroupDescriptorFactory {
             pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_PHP_SCHEDULED_TASK))
             pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_PHP_SCHEDULED_TASK_HANDLER))
             pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_PHP_EVENT_LISTENER))
+            pluginGroup.addTemplate(FileTemplateDescriptor(SHOPWARE_PHP_MIGRATION))
         }
 
         FileTemplateGroupDescriptor("Administration", ShopwareToolBoxIcons.SHOPWARE).let { pluginGroup ->
@@ -99,6 +100,7 @@ class ShopwareTemplates: FileTemplateGroupDescriptorFactory {
         const val SHOPWARE_PHP_SCHEDULED_TASK = "Shopware PHP Scheduled Task.php"
         const val SHOPWARE_PHP_SCHEDULED_TASK_HANDLER = "Shopware PHP Scheduled TaskHandler.php"
         const val SHOPWARE_PHP_EVENT_LISTENER = "Shopware PHP Event Listener.php"
+        const val SHOPWARE_PHP_MIGRATION = "Shopware PHP Migration.php"
         const val SHOPWARE_PLUGIN_BOOTSTRAP = "Shopware Plugin Bootstrap.php"
         const val SHOPWARE_PLUGIN_CHANGELOG = "Shopware Plugin Changelog.md"
         const val SHOPWARE_PLUGIN_COMPOSER_JSON = "Shopware Plugin composer.json"

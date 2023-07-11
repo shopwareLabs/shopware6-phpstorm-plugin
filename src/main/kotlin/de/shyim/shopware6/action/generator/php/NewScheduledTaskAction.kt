@@ -3,7 +3,7 @@ package de.shyim.shopware6.action.generator.php
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.project.DumbAwareAction
 import com.jetbrains.php.lang.PhpFileType
-import com.jetbrains.php.roots.PhpNamespaceByFilesProvider
+import com.jetbrains.php.roots.PhpNamespaceCompositeProvider
 import de.shyim.shopware6.action.generator.ActionUtil
 import de.shyim.shopware6.templates.ShopwareTemplates
 import de.shyim.shopware6.templates.ShopwareTemplates.Companion.SHOPWARE_PHP_SCHEDULED_TASK
@@ -15,7 +15,7 @@ class NewScheduledTaskAction :
     override fun actionPerformed(e: AnActionEvent) {
         val directory = ActionUtil.getViewDirectory(e.dataContext) ?: return
 
-        val namespaces = PhpNamespaceByFilesProvider.INSTANCE.suggestNamespaces(directory)
+        val namespaces = PhpNamespaceCompositeProvider.INSTANCE.suggestNamespaces(directory)
         val namespace = namespaces.getOrNull(0) ?: ""
 
         val ui = NewScheduledTaskDialogWrapper(namespace)
