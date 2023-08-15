@@ -45,10 +45,7 @@ class NewPluginAction : DumbAwareAction("Create a Plugin", "Create a new Plugin"
             pluginFolder
         )
 
-        // Changelogs
-
-        createChangelog(e.project!!, pluginFolder, "CHANGELOG_de-DE.md", config)
-        createChangelog(e.project!!, pluginFolder, "CHANGELOG_en-GB.md", config)
+        createChangelog(e.project!!, pluginFolder, "CHANGELOG.md", config)
 
         // Create bootstrap
 
