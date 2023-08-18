@@ -4,6 +4,9 @@
 
 ## Unreleased
 
+## 0.0.39 - 2023-08-18
+- Fix deprecations in IDEA 2023.3
+
 ## 0.0.37 - 2023-07-11
 - Add migration generator as Action
 
