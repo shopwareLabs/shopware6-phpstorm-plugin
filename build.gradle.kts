@@ -18,6 +18,10 @@ plugins {
 group = properties("pluginGroup")
 version = properties("pluginVersion")
 
+dependencies {
+    implementation("com.jayway.jsonpath:json-path:2.8.0")
+}
+
 // Configure project's dependencies
 repositories {
     mavenCentral()
