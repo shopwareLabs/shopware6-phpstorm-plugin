@@ -41,8 +41,7 @@ Current features:
   <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
 
 
-# No one aint time for user documentation, so here are a few tweets:
-Click the links, images included!
+# Showcase
 
 ## Components
 
