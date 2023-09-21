@@ -30,7 +30,7 @@ Current features:
 
 ## Installation
 
-- Using IDE built-in plugin system:
+- Using IDE built-in plugin system (**recommended**):
 
   <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "Shopware 6 Toolbox"</kbd> >
   <kbd>Install Plugin</kbd>
@@ -39,7 +39,6 @@ Current features:
 
   Download the [latest release](https://github.com/shyim/shopware6-phpstorm-plugin/releases/latest) and install it manually using
   <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
-
 
 ## Showcase
 
