@@ -44,6 +44,59 @@ Current features:
 # No one aint time for user documentation, so here are a few tweets:
 Click the links, images included!
 
+## Components
+
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Adding admin component completion to <a href="https://twitter.com/hashtag/Shopware?src=hash&amp;ref_src=twsrc%5Etfw">#Shopware</a> 6 Toolbox plugin. Autocomplete for component + props working. Jumping to the component works also using STRG + CLICK. Also added feature flag autocompletion + a quick plugin generator <a href="https://t.co/7KmlAyG5UD">pic.twitter.com/7KmlAyG5UD</a></p>&mdash; Shyim (@Shyim97) <a href="https://twitter.com/Shyim97/status/1441763329115103232?ref_src=twsrc%5Etfw">September 25, 2021</a></blockquote>
+
+### Component Extent Autocomplete
+
+![Component Extent Autocomplete](doc/images/component-extend.png)
+
+### Lookup in Twig
+
+![Lookup in Twig](doc/images/component-autocomplete.png)
+
+### Properties
+
+![Properties](doc/images/property-autocomplete.png)
+
+## Create Plugin
+
+![Create Plugin](doc/images/create-plugin.png)
+
+## Config Autocomplete
+
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">New day new <a href="https://twitter.com/hashtag/Shopware?src=hash&amp;ref_src=twsrc%5Etfw">#Shopware</a> plugin update prepared. This time theme_config and config autocomplete. Have a wish for the next feature? Create an issue with your idea :)<a href="https://t.co/Tmd66aVA5p">https://t.co/Tmd66aVA5p</a> <a href="https://t.co/bqM8jtylyt">pic.twitter.com/bqM8jtylyt</a></p>&mdash; Shyim (@Shyim97) <a href="https://twitter.com/Shyim97/status/1442952362792943617?ref_src=twsrc%5Etfw">September 28, 2021</a></blockquote>
+
+### Theme Config
+
+![Theme Config](doc/images/theme-config.png)
+
+### System Config
+
+![System Config](doc/images/system-config.png)
+
+### Config in Twig
+
+![Config in Twig](doc/images/config-in-twig.png)
+
+### Strings 
+
+![Strings](doc/images/config-in-twig.png)
+
+## Blocks
+
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">How to be lazier while creating <a href="https://twitter.com/hashtag/Shopware?src=hash&amp;ref_src=twsrc%5Etfw">#Shopware</a> 6 extensions. Alt+Enter on any Storefront twig block =&gt; Extend block. 😂. <a href="https://t.co/uf9hhi9Ugr">pic.twitter.com/uf9hhi9Ugr</a></p>&mdash; Shyim (@Shyim97) <a href="https://twitter.com/Shyim97/status/1443320004225687565?ref_src=twsrc%5Etfw">September 29, 2021</a></blockquote>
+
+### Step 1
+
+![Blocks - Step 1](doc/images/extend-block1.png)
+
+### Step 2
+
+![Blocks - Step 2](doc/images/extend-block2.png)
+
+### Step 3
+
+![Blocks - Step 3](doc/images/extend-block3.png)
+
