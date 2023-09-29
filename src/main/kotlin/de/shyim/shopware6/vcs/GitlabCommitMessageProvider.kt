@@ -5,7 +5,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.vcs.changes.LocalChangeList
 import com.intellij.openapi.vcs.changes.ui.CommitMessageProvider
 import git4idea.branch.GitBranchUtil
-import org.apache.commons.lang.StringUtils
+import org.apache.commons.lang3.StringUtils
 
 class GitlabCommitMessageProvider : CommitMessageProvider {
     override fun getCommitMessage(forChangelist: LocalChangeList, project: Project): String? {

@@ -12,7 +12,7 @@ import com.intellij.openapi.vfs.LocalFileSystem
 import de.shyim.shopware6.util.ShopwareBundleUtil
 import icons.ShopwareToolBoxIcons
 import org.apache.commons.io.FileUtils
-import org.apache.commons.lang.StringUtils
+import org.apache.commons.lang3.StringUtils
 import org.codehaus.jettison.json.JSONObject
 import java.io.File
 

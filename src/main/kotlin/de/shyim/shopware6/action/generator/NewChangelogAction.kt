@@ -9,7 +9,7 @@ import de.shyim.shopware6.templates.ShopwareTemplates
 import de.shyim.shopware6.templates.ShopwareTemplates.Companion.SHOPWARE_CONTRIBUTION_CHANGELOG_TEMPLATE
 import git4idea.GitUserRegistry
 import git4idea.branch.GitBranchUtil
-import org.apache.commons.lang.StringUtils
+import org.apache.commons.lang3.StringUtils
 import java.text.SimpleDateFormat
 import java.util.*
 
