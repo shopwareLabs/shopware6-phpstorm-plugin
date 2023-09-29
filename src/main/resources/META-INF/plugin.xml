@@ -199,6 +199,10 @@
 
         <codeInsight.lineMarkerProvider implementationClass="de.shyim.shopware6.marker.js.AdminComponentMarker" language="JavaScript"/>
         <gotoSymbolContributor implementation="de.shyim.shopware6.navigation.symbol.AdminComponentSymbolContributor"/>
+
+        <notificationGroup id="Shopware"
+                           displayType="BALLOON"
+                           key="notification.group.name"/>
     </extensions>
 
     <extensions defaultExtensionNs="fr.adrienbrault.idea.symfony2plugin.extension">

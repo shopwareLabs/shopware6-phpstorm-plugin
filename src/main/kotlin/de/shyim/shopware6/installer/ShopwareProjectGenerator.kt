@@ -87,7 +87,7 @@ class ShopwareProjectGenerator : WebProjectTemplate<ShopwareProjectSettings>() {
     private fun showErrorNotification(project: Project, content: String) {
         Notifications.Bus.notify(
             Notification(
-                SymfonyInstallerUtil.INSTALLER_GROUP_DISPLAY_ID,
+                "Shopware",
                 "Shopware-Installer",
                 content,
                 NotificationType.ERROR
