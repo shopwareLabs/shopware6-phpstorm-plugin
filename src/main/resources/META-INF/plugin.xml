@@ -34,6 +34,7 @@
         <fileBasedIndex implementation="de.shyim.shopware6.index.ScriptHookIndex"/>
         <fileBasedIndex implementation="de.shyim.shopware6.index.ScriptHookFacadeIndex"/>
         <fileBasedIndex implementation="de.shyim.shopware6.index.AdminModuleIndex"/>
+        <fileBasedIndex implementation="de.shyim.shopware6.index.TwigBlockDeprecationIndex"/>
 
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.FeatureFlagGoToDeclareHandler"/>
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.AdminComponentGoToDeclareHandler"/>
@@ -183,6 +184,16 @@
                 enabledByDefault="true"
                 level="WARNING"
                 implementationClass="de.shyim.shopware6.inspection.vue.VueTemplateSlotMigration"
+        />
+
+        <localInspection
+                groupPath="Shopware 6"
+                shortName="Shopware6TwigBlockDeprecated"
+                displayName="Twig block is deprecated and will be removed in future versions"
+                groupName="Twig"
+                enabledByDefault="true"
+                level="WARNING"
+                implementationClass="de.shyim.shopware6.inspection.twig.TwigBlockDeprecated"
         />
 
         <intentionAction>
