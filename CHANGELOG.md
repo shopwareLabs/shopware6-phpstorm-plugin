@@ -4,6 +4,11 @@
 
 ## Unreleased
 
+## 0.0.41 - 2023-11-25
+
+- Added inspection for template slot attribute to migrate to new Vue syntax
+- Added inspection to show which Twig blocks are deprecated in the template.
+
 ## 0.0.40 - 2023-09-29
 
 - Fix support for EAP 2023.3
