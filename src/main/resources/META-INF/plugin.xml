@@ -175,6 +175,16 @@
                 implementationClass="de.shyim.shopware6.inspection.store.composer.MissingComposerRequire"
         />
 
+        <localInspection
+                groupPath="Shopware 6"
+                shortName="Shopware6AdministrationVueTemplateSlotMigration"
+                displayName="Using vue template slots is deprecated"
+                groupName="Administration"
+                enabledByDefault="true"
+                level="WARNING"
+                implementationClass="de.shyim.shopware6.inspection.vue.VueTemplateSlotMigration"
+        />
+
         <intentionAction>
             <className>de.shyim.shopware6.intentions.ExtendTwigBlockIntention</className>
             <category>Shopware</category>
