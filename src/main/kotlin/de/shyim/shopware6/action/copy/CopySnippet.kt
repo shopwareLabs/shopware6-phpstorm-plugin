@@ -2,6 +2,7 @@ package de.shyim.shopware6.action.copy
 
 import com.intellij.json.psi.JsonFile
 import com.intellij.json.psi.JsonProperty
+import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.LangDataKeys
 import com.intellij.openapi.project.DumbAwareAction
@@ -58,6 +59,10 @@ class CopySnippet : DumbAwareAction("Copy Snippet Code", "Copy the snippet code"
         }
 
         e.presentation.isEnabledAndVisible = pf is JsonFile
+    }
+
+    override fun getActionUpdateThread(): ActionUpdateThread {
+        return ActionUpdateThread.BGT
     }
 
     private fun resolveKey(element: PsiElement): String {

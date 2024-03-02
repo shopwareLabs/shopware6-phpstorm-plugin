@@ -3,6 +3,7 @@ package de.shyim.shopware6.action.context.admin
 import com.intellij.codeInsight.hint.HintManager
 import com.intellij.lang.javascript.JavaScriptFileType
 import com.intellij.lang.javascript.psi.JSFile
+import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.LangDataKeys
 import com.intellij.openapi.application.ApplicationManager
@@ -84,6 +85,10 @@ class ExtendAdminComponentAction : DumbAwareAction(
                 FileEditorManager.getInstance(pe.project).openTextEditor(OpenFileDescriptor(pe.project, file), true)
             }
         }
+    }
+
+    override fun getActionUpdateThread(): ActionUpdateThread {
+        return ActionUpdateThread.BGT
     }
 
     companion object {

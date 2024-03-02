@@ -4,6 +4,7 @@ import com.intellij.lang.javascript.JSTokenTypes
 import com.intellij.lang.javascript.JavascriptLanguage
 import com.intellij.lang.javascript.psi.*
 import com.intellij.lang.javascript.psi.impl.JSPropertyImpl
+import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.LangDataKeys
 import com.intellij.openapi.application.ApplicationManager
@@ -71,6 +72,10 @@ class ExtendAdminComponentMethodAction: DumbAwareAction("Extend this method", "E
         }
 
         e.presentation.isEnabledAndVisible = true
+    }
+
+    override fun getActionUpdateThread(): ActionUpdateThread {
+        return ActionUpdateThread.BGT
     }
 
     companion object {

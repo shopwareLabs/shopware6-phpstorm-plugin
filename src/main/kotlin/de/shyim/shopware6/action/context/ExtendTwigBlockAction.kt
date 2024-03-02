@@ -1,5 +1,6 @@
 package de.shyim.shopware6.action.context
 
+import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.LangDataKeys
 import com.intellij.openapi.project.DumbAwareAction
@@ -51,5 +52,9 @@ class ExtendTwigBlockAction: DumbAwareAction("Extend Twig block",  "Extend this 
         }
 
         e.presentation.isEnabledAndVisible = element is TwigBlockTag || element.parent is TwigBlockTag
+    }
+
+    override fun getActionUpdateThread(): ActionUpdateThread {
+        return ActionUpdateThread.BGT
     }
 }

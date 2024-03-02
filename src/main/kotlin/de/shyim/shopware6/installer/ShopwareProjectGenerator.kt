@@ -15,7 +15,6 @@ import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.platform.ProjectGeneratorPeer
 import com.intellij.util.io.Decompressor
 import com.jetbrains.php.util.PhpConfigurationUtil
-import fr.adrienbrault.idea.symfony2plugin.installer.SymfonyInstallerUtil
 import fr.adrienbrault.idea.symfony2plugin.util.IdeHelper
 import icons.ShopwareToolBoxIcons
 import java.io.File

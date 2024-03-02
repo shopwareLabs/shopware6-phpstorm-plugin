@@ -1,6 +1,7 @@
 package de.shyim.shopware6.action.context
 
 import com.intellij.lang.javascript.psi.JSFile
+import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.LangDataKeys
 import com.intellij.openapi.application.ApplicationManager
@@ -19,12 +20,12 @@ import java.awt.Component
 import javax.swing.JLabel
 import javax.swing.JList
 
-class InsertSnippetAction: DumbAwareAction("Insert snippet", "Insert snippet code", ShopwareToolBoxIcons.SHOPWARE) {
+class InsertSnippetAction: DumbAwareAction("Insert Snippet", "Insert snippet code", ShopwareToolBoxIcons.SHOPWARE) {
     override fun actionPerformed(e: AnActionEvent) {
         val pf: PsiFile = LangDataKeys.PSI_FILE.getData(e.dataContext) ?: return
         val editor = LangDataKeys.EDITOR.getData(e.dataContext) ?: return
 
-        var items: MutableList<SnippetCompletionElement>
+        val items: MutableList<SnippetCompletionElement>
 
         if (pf.virtualFile.path.contains("app/administration")) {
             items = AdminSnippetUtil.getAllEnglishKeys(pf.project)
@@ -75,7 +76,7 @@ class InsertSnippetAction: DumbAwareAction("Insert snippet", "Insert snippet cod
                                 editor.caretModel.offset,
                                 createFileBasedSnippet(pf, snippetList.selectedValue!!.key)
                             )
-                    }, "Insert snippet", null)
+                    }, "Insert Snippet", null)
                 }
             }
             .createPopup()
@@ -107,5 +108,9 @@ class InsertSnippetAction: DumbAwareAction("Insert snippet", "Insert snippet cod
         }
 
         e.presentation.isEnabledAndVisible = pf is TwigFile || pf is PhpFile || pf is JSFile
+    }
+
+    override fun getActionUpdateThread(): ActionUpdateThread {
+        return ActionUpdateThread.BGT
     }
 }
