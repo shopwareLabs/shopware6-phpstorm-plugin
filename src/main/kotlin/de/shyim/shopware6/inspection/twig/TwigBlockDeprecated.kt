@@ -21,7 +21,7 @@ class TwigBlockDeprecated : LocalInspectionTool() {
 
         return object : PsiElementVisitor() {
             override fun visitElement(element: PsiElement) {
-                if (element is TwigBlockTag) {
+                if (element is TwigBlockTag && element.name !== null) {
                     FileBasedIndex.getInstance().getValues(
                         TwigBlockDeprecationIndex.key,
                         element.name!!,
