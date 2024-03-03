@@ -7,14 +7,15 @@ import junit.framework.TestCase
 class EntityDefinitionIndexTest : BasePlatformTestCase() {
     override fun setUp() {
         super.setUp()
-        myFixture.copyFileToProject("MailArchiveDefinition.php")
     }
 
     override fun getTestDataPath(): String {
         return "src/test/testData/index/EntityDefinitionIndexTest/"
     }
 
-    fun testEntityIsIndexed() {
+    fun testMailArchive() {
+        myFixture.copyFileToProject("MailArchiveDefinition.php")
+
         val definitions = EntityDefinitionUtil.getAllDefinitions(project)
         TestCase.assertSame(1, definitions.size)
         val definition = definitions.first()
@@ -115,5 +116,33 @@ class EntityDefinitionIndexTest : BasePlatformTestCase() {
             "\\Shopware\\Core\\Framework\\DataAbstractionLayer\\Field\\ManyToOneAssociationField",
             definition.fields[10].type
         )
+    }
+
+    fun testShippingMethod() {
+        myFixture.copyFileToProject("AppShippingMethodDefinition.php")
+
+        val definitions = EntityDefinitionUtil.getAllDefinitions(project)
+        TestCase.assertSame(1, definitions.size)
+        val definition = definitions.first()
+        TestCase.assertEquals("app_shipping_method", definition.name)
+        TestCase.assertEquals("\\Shopware\\Core\\Framework\\App\\Aggregate\\AppShippingMethod\\AppShippingMethodDefinition", definition.fqn)
+        TestCase.assertSame(9, definition.fields.size)
+
+        TestCase.assertEquals("id", definition.fields[0].name)
+        TestCase.assertFalse(definition.fields[0].association)
+        TestCase.assertEquals("", definition.fields[0].associationTarget)
+        TestCase.assertEquals(
+            "\\Shopware\\Core\\Framework\\DataAbstractionLayer\\Field\\IdField",
+            definition.fields[0].type
+        )
+
+        TestCase.assertEquals("appName", definition.fields[1].name)
+        TestCase.assertEquals("identifier", definition.fields[2].name)
+        TestCase.assertEquals("appId", definition.fields[3].name)
+        TestCase.assertEquals("app", definition.fields[4].name)
+        TestCase.assertEquals("shippingMethodId", definition.fields[5].name)
+        TestCase.assertEquals("shippingMethod", definition.fields[6].name)
+        TestCase.assertEquals("originalMediaId", definition.fields[7].name)
+        TestCase.assertEquals("originalMedia", definition.fields[8].name)
     }
 }
