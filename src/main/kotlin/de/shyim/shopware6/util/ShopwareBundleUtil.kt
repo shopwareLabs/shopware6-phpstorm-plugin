@@ -1,14 +1,10 @@
 package de.shyim.shopware6.util
 
-import com.intellij.openapi.application.ApplicationManager
-import com.intellij.openapi.command.CommandProcessor
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.ui.popup.JBPopup
 import com.intellij.openapi.ui.popup.PopupChooserBuilder
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.ui.components.JBList
 import com.intellij.util.indexing.FileBasedIndex
-import de.shyim.shopware6.completion.SnippetCompletionElement
 import de.shyim.shopware6.index.AdminComponentIndex
 import de.shyim.shopware6.index.AdminComponentOverrideIndex
 import de.shyim.shopware6.index.ShopwareBundleIndex
