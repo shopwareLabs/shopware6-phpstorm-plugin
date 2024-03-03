@@ -1,8 +1,8 @@
 package de.shyim.shopware6.installer
 
 import com.google.gson.JsonArray
-import com.google.gson.JsonObject
 import com.google.gson.JsonParser
+import com.google.gson.JsonPrimitive
 import com.intellij.openapi.application.ApplicationInfo
 import java.io.BufferedReader
 import java.io.IOException
@@ -13,17 +13,27 @@ import java.net.URLConnection
 
 object ShopwareApiUtil {
     fun getAllVersions(): List<ShopwareVersion> {
-        val versions: MutableList<ShopwareVersion> = ArrayList()
+        var versions: MutableList<ShopwareVersion> = ArrayList()
 
         val jsonContent = getAllVersionsRaw() ?: return versions
 
         val jsonObject: JsonArray = JsonParser.parseString(jsonContent).asJsonArray ?: return versions
 
         jsonObject.forEach {
-            val version = it as JsonObject
+            val version = it as JsonPrimitive
 
-            versions.add(ShopwareVersion(version.get("version").asString, version.get("uri").asString))
+            versions.add(ShopwareVersion(version.asString))
         }
+
+        versions = versions
+            .filter {
+                Integer.parseInt(it.name.split(".")[1]) >= 5
+            }
+            .sortedBy {
+                it.name.split(".").map { it.padStart(10, '0') }.joinToString(".")
+            }
+            .reversed()
+            .toMutableList()
 
         return versions
     }
@@ -36,7 +46,7 @@ object ShopwareApiUtil {
         )
 
         return try {
-            val url = URL("https://update-api.shopware.com/v1/releases/install?major=6")
+            val url = URL("https://releases.shopware.com/changelog/index.json")
             val conn: URLConnection = url.openConnection()
             conn.setRequestProperty("User-Agent", userAgent)
             conn.connect()

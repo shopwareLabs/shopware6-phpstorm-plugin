@@ -1,5 +1,7 @@
 package de.shyim.shopware6.installer
 
+import com.intellij.execution.configurations.GeneralCommandLine
+import com.intellij.execution.process.CapturingProcessHandler
 import com.intellij.ide.util.projectWizard.WebProjectTemplate
 import com.intellij.notification.Notification
 import com.intellij.notification.NotificationType
@@ -9,12 +11,8 @@ import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.progress.Task
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.util.io.FileUtil
-import com.intellij.openapi.vfs.VfsUtil
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.platform.ProjectGeneratorPeer
-import com.intellij.util.io.Decompressor
-import com.jetbrains.php.util.PhpConfigurationUtil
 import fr.adrienbrault.idea.symfony2plugin.util.IdeHelper
 import icons.ShopwareToolBoxIcons
 import java.io.File
@@ -45,24 +43,97 @@ class ShopwareProjectGenerator : WebProjectTemplate<ShopwareProjectSettings>() {
     ) {
         val toDir = baseDir.path
 
-        val zipFile = PhpConfigurationUtil.downloadFile(project, null, toDir, settings.version.link, "shopware.zip")
+        val envFile = File(toDir, ".env")
+        envFile.createNewFile()
 
-        if (zipFile == null) {
-            showErrorNotification(project, "Cannot download shopware.zip file")
-            return
+        val gitIgnoreFile = File(toDir, ".gitignore")
+        gitIgnoreFile.writeText(".idea\n/vendor\n")
+
+        val customPluginsDir = File(toDir, "custom/plugins")
+        customPluginsDir.mkdirs()
+
+        val customStaticPluginsDir = File(toDir, "custom/static-plugins")
+        customStaticPluginsDir.mkdirs()
+
+
+        val composerJson = """
+        {
+            "name": "shopware/production",
+            "license": "MIT",
+            "type": "project",
+            "require": {
+                "composer-runtime-api": "^2.0",
+                "shopware/administration": "*",
+                "shopware/core": "${settings.version.name}",
+                "shopware/elasticsearch": "*",
+                "shopware/storefront": "*",
+                "symfony/flex": "~2"
+            },
+            "repositories": [
+                {
+                    "type": "path",
+                    "url": "custom/plugins/*",
+                    "options": {
+                        "symlink": true
+                    }
+                },
+                {
+                    "type": "path",
+                    "url": "custom/plugins/*/packages/*",
+                    "options": {
+                        "symlink": true
+                    }
+                },
+                {
+                    "type": "path",
+                    "url": "custom/static-plugins/*",
+                    "options": {
+                        "symlink": true
+                    }
+                }
+            ],
+        	${settings.version.name.contains("RC").let { """"minimum-stability": "RC",""" }}
+            "prefer-stable": true,
+            "config": {
+                "allow-plugins": {
+                    "symfony/flex": true,
+                    "symfony/runtime": true
+                },
+                "optimize-autoloader": true,
+                "sort-packages": true
+            },
+            "scripts": {
+                "auto-scripts": [
+                ],
+                "post-install-cmd": [
+                    "@auto-scripts"
+                ],
+                "post-update-cmd": [
+                    "@auto-scripts"
+                ]
+            },
+            "extra": {
+                "symfony": {
+                    "allow-contrib": true,
+                    "endpoint": [
+                        "https://raw.githubusercontent.com/shopware/recipes/flex/main/index.json",
+                        "flex://defaults"
+                    ]
+                }
+            }
         }
+        """.trimIndent()
 
-        val zip: File = VfsUtil.virtualToIoFile(zipFile)
-        val base: File = VfsUtil.virtualToIoFile(baseDir)
+        val composerJsonFile = File(toDir, "composer.json")
+        composerJsonFile.writeText(composerJson)
 
-        val task: Task.Backgroundable = object : Task.Backgroundable(project, "Extracting", true) {
+            val task: Task.Backgroundable = object : Task.Backgroundable(project, "Installing dependencies", true) {
             override fun run(progressIndicator: ProgressIndicator) {
                 try {
-                    // unzip file
-                    Decompressor.Zip(zip).extract(base)
-
-                    // Delete TMP File
-                    FileUtil.delete(zip)
+                    // Run command
+                    val commandLine = GeneralCommandLine("composer", "install", "--no-interaction")
+                    commandLine.setWorkDirectory(toDir)
+                    CapturingProcessHandler(commandLine).runProcess()
 
                     // Activate Plugin
                     IdeHelper.enablePluginAndConfigure(project)
@@ -77,10 +148,6 @@ class ShopwareProjectGenerator : WebProjectTemplate<ShopwareProjectSettings>() {
 
     override fun createPeer(): ProjectGeneratorPeer<ShopwareProjectSettings> {
         return ShopwareProjectGeneratorPeer()
-    }
-
-    override fun isPrimaryGenerator(): Boolean {
-        return true
     }
 
     private fun showErrorNotification(project: Project, content: String) {
