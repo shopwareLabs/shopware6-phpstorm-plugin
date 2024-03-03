@@ -4,6 +4,11 @@
 
 ## Unreleased
 
+## 0.0.42 - 2024-03-03
+
+- Improved Compatibility with PhpStorm 2024.1
+- Fixed the Shopware Installer Project Wizard with newer Shopware versions
+
 ## 0.0.41 - 2023-11-25
 
 - Added inspection for template slot attribute to migrate to new Vue syntax
