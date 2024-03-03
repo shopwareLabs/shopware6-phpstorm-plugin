@@ -14,12 +14,12 @@ class SystemConfigIndexTest : BasePlatformTestCase() {
         return "src/test/testData/index/SystemConfigIndexTest/"
     }
 
-    fun testEntityIsIndexed() {
+    fun testConfigElementsAreThere() {
         val configs = SystemConfigUtil.getAllConfigs(project)
 
-        assertEquals(20, configs.size)
+        assertEquals(21, configs.size)
         assertEquals("SwagFooBar.config", configs[0].namespace)
         assertEquals("senderAddressFirstName", configs[0].name)
-        assertEquals("customsInformationComment", configs[19].name)
+        assertEquals("customsInformationComment", configs[20].name)
     }
 }

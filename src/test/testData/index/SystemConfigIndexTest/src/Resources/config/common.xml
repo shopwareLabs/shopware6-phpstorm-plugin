@@ -1,8 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <config
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/master/src/Core/System/SystemConfig/Schema/config.xsd"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/shopware/master/src/Core/System/SystemConfig/Schema/config.xsd"
 >
+    <card>
+        <component name="pw-shipping-entity-multi-select-by-id-field">
+            <name>cashOnDeliveryPaymentMethodIds</name>
+            <entity>payment_method</entity>
+            <label lang="de-DE">Nachnahme-Zahlungsarten:</label>
+            <label>Cash on delivery payment methods:</label>
+            <helpText lang="de-DE">
+                Wähle hier alle Zahlungsarten aus, die eine Nachnahme-Zahlungsmethode sind. Nachnahme wird dann beim
+                Erstellen eines Labels für Bestellungen mit diesen Zahlungsarten automatisch aktiviert. Voraussetzung
+                ist, dass die Bestellung nicht bezahlt ist, und nicht bereits ein Nachnahme-Label erstellt wurde.
+            </helpText>
+            <helpText>
+                Select all payment methods here that are a cash on delivery payment method. Cash on delivery is then
+                automatically activated when creating a label for orders with these payment methods. The prerequisite is
+                that the order is not paid and no cash on delivery label has already been created.
+            </helpText>
+        </component>
+    </card>
     <card>
         <title>Sender address</title>
         <title lang="de-DE">Absenderadresse</title>
@@ -10,137 +28,75 @@
             <name>senderAddressFirstName</name>
             <label>First name</label>
             <label lang="de-DE">Vorname</label>
-            <required>false</required>
         </input-field>
         <input-field type="text">
             <name>senderAddressLastName</name>
             <label>Last name</label>
             <label lang="de-DE">Nachname</label>
-            <required>false</required>
         </input-field>
         <input-field type="text">
             <name>senderAddressCompany</name>
             <label>Company</label>
             <label lang="de-DE">Firma</label>
-            <required>false</required>
         </input-field>
         <input-field type="text">
             <name>senderAddressDepartment</name>
             <label>Department</label>
             <label lang="de-DE">Abteilung</label>
-            <required>false</required>
         </input-field>
         <input-field type="text">
             <name>senderAddressPhone</name>
             <label>Phone</label>
             <label lang="de-DE">Telefonnummer</label>
-            <required>false</required>
         </input-field>
         <input-field type="text">
             <name>senderAddressEmail</name>
             <label>Email address</label>
             <label lang="de-DE">E-Mail-Adresse</label>
-            <required>false</required>
         </input-field>
         <input-field type="text">
             <name>senderAddressAddressAddition</name>
             <label>Address addition</label>
             <label lang="de-DE">Adresszusatz</label>
-            <required>false</required>
         </input-field>
         <input-field type="text">
             <name>senderAddressStreet</name>
             <label>Street</label>
             <label lang="de-DE">Straße</label>
-            <required>false</required>
         </input-field>
         <input-field type="text">
             <name>senderAddressHouseNumber</name>
             <label>House number</label>
             <label lang="de-DE">Hausnummer</label>
-            <required>false</required>
         </input-field>
         <input-field type="text">
             <name>senderAddressZipCode</name>
             <label>Zip code</label>
             <label lang="de-DE">Postleitzahl</label>
-            <required>false</required>
         </input-field>
         <input-field type="text">
             <name>senderAddressCity</name>
             <label>City</label>
             <label lang="de-DE">Ort</label>
-            <required>false</required>
         </input-field>
         <input-field type="text">
             <name>senderAddressStateIso</name>
             <label>State (short code)</label>
             <label lang="de-DE">Bundesstaat/-land (Kürzel)</label>
-            <required>false</required>
+            <helpText lang="de-DE">
+                Ein zweiteiliger ISO-Code bestehend aus dem ISO-Code des Landes und dem ISO-Code des Staats, durch einen
+                Bindestrich getrennt (z.B. DE-BE)
+            </helpText>
+            <helpText>
+                A two-part ISO code consisting of the country's ISO code and the state's ISO code separated by a hyphen
+                (e.g. US-NY)
+            </helpText>
         </input-field>
-        <input-field type="single-select">
+        <component name="pw-shipping-country-select-by-iso-code">
             <name>senderAddressCountryIso</name>
             <label>Country</label>
             <label lang="de-DE">Land</label>
-            <required>false</required>
-            <options>
-                <option>
-                    <id>DE</id>
-                    <name>Germany</name>
-                    <name lang="de-DE">Germany</name>
-                </option>
-                <option>
-                    <id>AT</id>
-                    <name>Austria</name>
-                    <name lang="de-DE">Österreich</name>
-                </option>
-                <option>
-                    <id>BE</id>
-                    <name>Belgium</name>
-                    <name lang="de-DE">Belgien</name>
-                </option>
-                <option>
-                    <id>DK</id>
-                    <name>Denmark</name>
-                    <name lang="de-DE">Dänemark</name>
-                </option>
-                <option>
-                    <id>FI</id>
-                    <name>Finland</name>
-                    <name lang="de-DE">Finnland</name>
-                </option>
-                <option>
-                    <id>FR</id>
-                    <name>France</name>
-                    <name lang="de-DE">Frankreich</name>
-                </option>
-                <option>
-                    <id>IE</id>
-                    <name>Ireland</name>
-                    <name lang="de-DE">Irland</name>
-                </option>
-                <option>
-                    <id>LU</id>
-                    <name>Luxembourg</name>
-                    <name lang="de-DE">Luxemburg</name>
-                </option>
-                <option>
-                    <id>PL</id>
-                    <name>Poland</name>
-                    <name lang="de-DE">Polen</name>
-                </option>
-                <option>
-                    <id>PT</id>
-                    <name>Portugal</name>
-                    <name lang="de-DE">Portugal</name>
-                </option>
-                <option>
-                    <id>ES</id>
-                    <name>Spain</name>
-                    <name lang="de-DE">Spanien</name>
-                </option>
-            </options>
-        </input-field>
+        </component>
     </card>
     <card>
         <title>Customs information for export (CN22 &amp; CN23)</title>
