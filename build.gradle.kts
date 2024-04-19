@@ -19,7 +19,7 @@ version = properties("pluginVersion")
 
 dependencies {
     implementation("com.jayway.jsonpath:json-path:2.9.0")
-    implementation("net.minidev:json-smart:2.5.0")
+    implementation("net.minidev:json-smart:2.5.1")
 }
 
 // Configure project's dependencies
