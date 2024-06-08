@@ -91,7 +91,7 @@ class NewPluginAction : DumbAwareAction("Create a Plugin", "Create a new Plugin"
         )
 
         val view = LangDataKeys.IDE_VIEW.getData(e.dataContext) ?: return
-        view.selectElement(pluginBootstrapFile)
+        view.selectElement(pluginBootstrapFile!!)
     }
 
     private fun createChangelog(project: Project, directory: PsiDirectory, name: String, config: NewPluginConfig) {
