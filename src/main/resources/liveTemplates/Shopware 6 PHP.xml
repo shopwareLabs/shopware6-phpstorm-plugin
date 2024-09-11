@@ -1,5 +1,5 @@
 <templateSet group="Shopware 6 PHP">
-    <template name="sw-php-deprecation" value="/**&#10; * @deprecated tag:v6.6.0 - $NAME$&#10; */" description="Add a deprecation to a function / method / class" toReformat="false" toShortenFQNames="true">
+    <template name="sw-php-deprecation" value="/**&#10; * @deprecated tag:v6.7.0 - $NAME$&#10; */" description="Add a deprecation to a function / method / class" toReformat="false" toShortenFQNames="true">
         <variable name="NAME" expression="" defaultValue="" alwaysStopAt="true" />
         <context>
             <option name="PHP" value="true" />

@@ -17,7 +17,6 @@
         <defaultLiveTemplates file="/liveTemplates/Shopware 6 Config_xml.xml"/>
         <defaultLiveTemplates file="/liveTemplates/Shopware 6 PHP.xml"/>
         <defaultLiveTemplates file="/liveTemplates/Shopware 6 General.xml"/>
-        <defaultLiveTemplates file="/liveTemplates/Shopware 6 PHPUnit.xml"/>
 
         <fileTemplateGroup implementation="de.shyim.shopware6.templates.ShopwareTemplates"/>
         <fileBasedIndex implementation="de.shyim.shopware6.index.FrontendSnippetIndex"/>
