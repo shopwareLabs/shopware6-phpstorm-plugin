@@ -100,6 +100,10 @@ class SystemConfigIndex : FileBasedIndexExtension<String, SystemConfig>() {
             }
 
             if (pluginClass.isEmpty()) { // Core case
+                if (pluginClass.split("/").size < 2) {
+                    return null
+                }
+
                 return packageName.split("/")[1] + "." + inputData.fileName.replace(".xml", "")
             }
 
