@@ -35,7 +35,7 @@ class CriteriaIdMisusedFix: LocalQuickFix {
                 }
             })
 
-            if (criteriaConstructors.size == 0) {
+            if (criteriaConstructors.isEmpty()) {
                 Messages.showInfoMessage("Cannot find Criteria constructor in current context", "Info")
                 return@executeCommand
             }
