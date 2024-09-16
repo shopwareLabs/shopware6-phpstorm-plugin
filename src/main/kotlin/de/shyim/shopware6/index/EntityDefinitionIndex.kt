@@ -49,7 +49,7 @@ class EntityDefinitionIndex : FileBasedIndexExtension<String, EntityDefinition>(
                                             val reference = element.lastChild.prevSibling as ClassConstantReferenceImpl
 
                                             val resolvedMembers = reference.resolveMember(phpClass, true)
-                                            if (resolvedMembers.size > 0) {
+                                            if (resolvedMembers.isNotEmpty()) {
                                                 name =
                                                     (resolvedMembers.first() as ClassConstImpl).defaultValue!!.text!!.replace(
                                                         "'",
@@ -213,7 +213,7 @@ class EntityDefinitionIndex : FileBasedIndexExtension<String, EntityDefinition>(
     }
 
     fun isShopwareDefinition(pClass: PhpClass): Boolean {
-        if (pClass.extendsList.referenceElements.size == 0) {
+        if (pClass.extendsList.referenceElements.isEmpty()) {
             return false
         }
 

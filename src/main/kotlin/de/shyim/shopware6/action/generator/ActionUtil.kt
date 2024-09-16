@@ -22,7 +22,7 @@ class ActionUtil {
             if (directories.isEmpty()) {
                 return null
             }
-            return directories[0] ?: return null
+            return directories[0]
         }
 
         fun buildFile(

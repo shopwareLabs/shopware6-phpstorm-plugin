@@ -136,7 +136,7 @@ object EntityDefinitionUtil {
 
         fixedUserInputParts.removeLast()
 
-        if (fixedUserInputParts.size == 0) {
+        if (fixedUserInputParts.isEmpty()) {
             return ""
         }
 

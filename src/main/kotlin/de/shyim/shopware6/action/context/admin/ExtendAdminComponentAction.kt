@@ -33,7 +33,7 @@ import org.apache.commons.io.FilenameUtils
 import java.nio.file.Paths
 
 class ExtendAdminComponentAction : DumbAwareAction(
-    "Extend admin component",
+    "Extend Admin Component",
     "Extend this admin component in my plugin",
     ShopwareToolBoxIcons.SHOPWARE
 ) {
@@ -101,7 +101,7 @@ class ExtendAdminComponentAction : DumbAwareAction(
             JBPopupFactory
                 .getInstance()
                 .createConfirmation(
-                    "What do you want?",
+                    "What Do You Want?",
                     "Override",
                     "Extend",
                     {
@@ -231,7 +231,7 @@ class ExtendAdminComponentAction : DumbAwareAction(
                         "\nimport \"./${chosenComponentFolder}\";"
                     )
                     PsiDocumentManager.getInstance(project).commitDocument(entrypointEditor.document)
-                }, "Inserting entrypoint", null)
+                }, "Inserting Entrypoint", null)
             }
         }
 

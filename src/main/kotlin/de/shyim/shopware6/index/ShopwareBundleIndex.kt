@@ -92,7 +92,7 @@ class ShopwareBundleIndex : FileBasedIndexExtension<String, ShopwareBundle>() {
     }
 
     fun isShopwareBundle(pClass: PhpClass): Boolean {
-        if (pClass.extendsList.referenceElements.size == 0) {
+        if (pClass.extendsList.referenceElements.isEmpty()) {
             return false
         }
 

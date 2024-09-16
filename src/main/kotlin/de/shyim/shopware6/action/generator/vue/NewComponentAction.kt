@@ -67,8 +67,6 @@ class NewComponentAction :
         }
 
         if (config.generateTwig) {
-            // Create html file
-
             val htmlFile = factory.createFileFromText(
                 "${config.name}.html.twig",
                 HtmlFileType.INSTANCE,
@@ -86,8 +84,6 @@ class NewComponentAction :
 
 
         if (config.generateCss) {
-            // Create css file
-
             val cssFile = factory.createFileFromText(
                 "${config.name}.scss",
                 HtmlFileType.INSTANCE,

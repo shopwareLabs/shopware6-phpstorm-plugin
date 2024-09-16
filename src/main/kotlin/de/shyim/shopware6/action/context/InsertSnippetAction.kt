@@ -25,12 +25,10 @@ class InsertSnippetAction : DumbAwareAction("Insert Snippet", "Insert snippet co
         val pf: PsiFile = LangDataKeys.PSI_FILE.getData(e.dataContext) ?: return
         val editor = LangDataKeys.EDITOR.getData(e.dataContext) ?: return
 
-        val items: MutableList<SnippetCompletionElement>
-
-        if (pf.virtualFile.path.contains("app/administration")) {
-            items = AdminSnippetUtil.getAllEnglishKeys(pf.project)
+        val items: MutableList<SnippetCompletionElement> = if (pf.virtualFile.path.contains("app/administration")) {
+            AdminSnippetUtil.getAllEnglishKeys(pf.project)
         } else {
-            items = FrontendSnippetUtil.getAllEnglishKeys(pf.project)
+            FrontendSnippetUtil.getAllEnglishKeys(pf.project)
         }
 
         val snippetList = JBList(items)

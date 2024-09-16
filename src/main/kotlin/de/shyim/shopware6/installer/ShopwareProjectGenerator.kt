@@ -138,7 +138,7 @@ class ShopwareProjectGenerator : WebProjectTemplate<ShopwareProjectSettings>() {
                     // Activate Plugin
                     IdeHelper.enablePluginAndConfigure(project)
                 } catch (e: IOException) {
-                    showErrorNotification(project, "There is a error occurred")
+                    showErrorNotification(project, "There is a error occurred: ${e.message}")
                 }
             }
         }

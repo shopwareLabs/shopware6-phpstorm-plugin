@@ -136,13 +136,13 @@ class CreateEventListenerIntention : PsiElementBaseIntentionAction() {
     private fun getNamespaceOfFolder(folder: PsiDirectory): String {
         val namespaces = PhpNamespaceByFilesProvider.INSTANCE.suggestNamespaces(folder)
 
-        if (namespaces != null && namespaces.size > 0) {
+        if (namespaces.isNotEmpty()) {
             return namespaces[0]
         }
 
         val superNamespaces = PhpNamespaceByFilesProvider.INSTANCE.suggestNamespaces(folder.parent!!)
 
-        if (superNamespaces != null && superNamespaces.size > 0) {
+        if (superNamespaces.isNotEmpty()) {
             return superNamespaces[0] + "\\\\" + folder.name
         }
 

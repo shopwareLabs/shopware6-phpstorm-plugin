@@ -45,7 +45,7 @@ class NewPluginAction : DumbAwareAction("Create a Plugin", "Create a new Plugin"
             pluginFolder
         )
 
-        createChangelog(e.project!!, pluginFolder, "CHANGELOG.md", config)
+        createChangelog(e.project!!, pluginFolder, config)
 
         // Create bootstrap
 
@@ -94,7 +94,7 @@ class NewPluginAction : DumbAwareAction("Create a Plugin", "Create a new Plugin"
         view.selectElement(pluginBootstrapFile!!)
     }
 
-    private fun createChangelog(project: Project, directory: PsiDirectory, name: String, config: NewPluginConfig) {
+    private fun createChangelog(project: Project, directory: PsiDirectory, config: NewPluginConfig) {
         val content = ShopwareTemplates.renderTemplate(
             project,
             ShopwareTemplates.SHOPWARE_PLUGIN_CHANGELOG,
@@ -104,7 +104,7 @@ class NewPluginAction : DumbAwareAction("Create a Plugin", "Create a new Plugin"
         ActionUtil.createFile(
             project,
             PlainTextFileType.INSTANCE,
-            name,
+            "CHANGELOG.md",
             content,
             directory
         )

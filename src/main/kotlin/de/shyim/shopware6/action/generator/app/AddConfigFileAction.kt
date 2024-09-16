@@ -83,7 +83,7 @@ abstract class AddConfigFileAction(
                         configFileDirectory = psiDirectory.createSubdirectory(configFilePath)
                     }
 
-                    // Create config file from template
+                    // Create a config file from template
                     val content = ShopwareTemplates.renderTemplate(
                         project,
                         shopwareTemplate,

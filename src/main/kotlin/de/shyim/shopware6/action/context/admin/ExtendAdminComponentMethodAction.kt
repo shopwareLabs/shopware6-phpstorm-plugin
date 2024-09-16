@@ -31,7 +31,7 @@ import javax.swing.JLabel
 import javax.swing.JList
 
 class ExtendAdminComponentMethodAction :
-    DumbAwareAction("Extend this method", "Extend this method in your component", ShopwareToolBoxIcons.SHOPWARE) {
+    DumbAwareAction("Extend This Method", "Extend this method in your component", ShopwareToolBoxIcons.SHOPWARE) {
     override fun actionPerformed(e: AnActionEvent) {
         val pf: PsiFile = LangDataKeys.PSI_FILE.getData(e.dataContext) ?: return
         val editor = LangDataKeys.EDITOR.getData(e.dataContext) ?: return
@@ -80,7 +80,7 @@ class ExtendAdminComponentMethodAction :
     }
 
     companion object {
-        private const val newComponent = "Create new component"
+        private const val NEW_COMPONENT = "Create new component"
 
         fun extendMethod(element: PsiElement, editor: Editor) {
             val componentName = getComponentName(element)
@@ -98,7 +98,7 @@ class ExtendAdminComponentMethodAction :
                                 return@filterSmartMutable component.extends == componentName || (component.extends == componentName && component.templatePath == "override")
                             }
 
-                    allExistingComponents.add(AdminComponent(newComponent, null, null, HashSet(), ""))
+                    allExistingComponents.add(AdminComponent(NEW_COMPONENT, null, null, HashSet(), ""))
 
                     val list = JList(allExistingComponents.toTypedArray())
                     list.cellRenderer = object : JBList.StripedListCellRenderer() {
@@ -126,7 +126,7 @@ class ExtendAdminComponentMethodAction :
                         .setItemChoosenCallback {
                             val component = list.selectedValue ?: return@setItemChoosenCallback
 
-                            if (component.name == newComponent) {
+                            if (component.name == NEW_COMPONENT) {
                                 ExtendAdminComponentAction.createComponent(
                                     componentName,
                                     element.project,
@@ -228,7 +228,7 @@ class ExtendAdminComponentMethodAction :
                                 }
 
                                 CodeStyleManager.getInstance(element.project).reformat(element)
-                            }, "Adding method", null)
+                            }, "Adding Method", null)
                         }
                         return
                     }

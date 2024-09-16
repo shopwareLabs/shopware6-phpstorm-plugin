@@ -124,9 +124,9 @@ class DALCompletionProvider : CompletionContributor() {
     }
 
     companion object {
-        private const val regex = "<(?<generic>.*)>"
+        private const val REGEX = "<(?<generic>.*)>"
 
-        private val pattern: Pattern = Pattern.compile(regex, Pattern.MULTILINE)
+        private val pattern: Pattern = Pattern.compile(REGEX, Pattern.MULTILINE)
 
         fun findDefinitionOfCriteria(element: PsiElement): String? {
             // Resolve the variable name
@@ -136,7 +136,7 @@ class DALCompletionProvider : CompletionContributor() {
                 methodReference = methodReference.parent
             }
 
-            // The first parameter of the addAssociation have to be a variable, otherwise we cannot know what it is
+            // The first parameter of the addAssociation has to be a variable; otherwise we cannot know what it is
             if (methodReference.firstChild !is Variable) {
                 return null
             }

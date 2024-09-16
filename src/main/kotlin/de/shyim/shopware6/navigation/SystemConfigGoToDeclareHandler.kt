@@ -47,7 +47,7 @@ class SystemConfigGoToDeclareHandler : GotoDeclarationHandler {
             val text = element.text.replace("\"", "").replace("'", "")
 
             SystemConfigUtil.getAllConfigs(project).forEach {
-                if (it.namespace == text && psiElements.size == 0) {
+                if (it.namespace == text && psiElements.isEmpty()) {
                     val file = LocalFileSystem.getInstance().findFileByPath(it.file)
 
                     if (file != null) {

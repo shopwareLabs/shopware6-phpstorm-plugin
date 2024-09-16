@@ -18,7 +18,7 @@ class PHPUnitInlineParameterHints : InlayHintsProvider<NoSettings> {
     override val key: SettingsKey<NoSettings>
         get() = SettingsKey("de.shyim.phpunit.provider")
     override val name: String
-        get() = "PHPUnit Provider"
+        get() = "PHPUnit provider"
     override val previewText: String?
         get() = "Test"
 
