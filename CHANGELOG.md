@@ -4,6 +4,11 @@
 
 ## Unreleased
 
+## 0.0.44 - 2024-09-16
+
+- Added Twig Block Versioning
+- Removed old PHPUnit live templates
+
 ## 0.0.43 - 2024-06-08
 
 - Improved Compatibility with PhpStorm 2024.2 (EAP)
