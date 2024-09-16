@@ -34,6 +34,7 @@
         <fileBasedIndex implementation="de.shyim.shopware6.index.ScriptHookFacadeIndex"/>
         <fileBasedIndex implementation="de.shyim.shopware6.index.AdminModuleIndex"/>
         <fileBasedIndex implementation="de.shyim.shopware6.index.TwigBlockDeprecationIndex"/>
+        <fileBasedIndex implementation="de.shyim.shopware6.index.TwigBlockHashIndex"/>
 
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.FeatureFlagGoToDeclareHandler"/>
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.AdminComponentGoToDeclareHandler"/>
@@ -193,10 +194,43 @@
                 enabledByDefault="true"
                 level="WARNING"
                 implementationClass="de.shyim.shopware6.inspection.twig.TwigBlockDeprecated"
+                language="Twig"
+        />
+
+        <localInspection
+                groupPath="Shopware 6"
+                shortName="Shopware6TwigHashDifference"
+                displayName="The upstream block has changed. Please check that your override is still correct"
+                groupName="Twig"
+                enabledByDefault="true"
+                level="WARNING"
+                implementationClass="de.shyim.shopware6.inspection.twig.TwigBlockHashChanged"
+                language="Twig"
+        />
+
+        <localInspection
+                groupPath="Shopware 6"
+                shortName="Shopware6TwigBlockCommentMissing"
+                displayName="Shopware versioning block comment is missing"
+                groupName="Twig"
+                enabledByDefault="false"
+                level="WARNING"
+                implementationClass="de.shyim.shopware6.inspection.twig.TwigBlockHashMissing"
+                language="Twig"
         />
 
         <intentionAction>
             <className>de.shyim.shopware6.intentions.ExtendTwigBlockIntention</className>
+            <category>Shopware</category>
+        </intentionAction>
+
+        <intentionAction>
+            <className>de.shyim.shopware6.intentions.AddTwigVersioningIntention</className>
+            <category>Shopware</category>
+        </intentionAction>
+
+        <intentionAction>
+            <className>de.shyim.shopware6.intentions.ShowTwigBlockDifference</className>
             <category>Shopware</category>
         </intentionAction>
 
@@ -237,10 +271,6 @@
 
         <action class="de.shyim.shopware6.action.context.InsertSnippetAction">
             <add-to-group group-id="GenerateGroup"/>
-        </action>
-
-        <action class="de.shyim.shopware6.action.context.ExtendTwigBlockAction">
-            <add-to-group group-id="EditorPopupMenu"/>
         </action>
         
         <action class="de.shyim.shopware6.action.project.ConfigureShopwareProjectAction">

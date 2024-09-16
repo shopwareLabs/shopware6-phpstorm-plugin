@@ -10,6 +10,7 @@ import com.intellij.util.indexing.FileBasedIndex
 import com.jetbrains.twig.TwigFile
 import com.jetbrains.twig.elements.TwigBlockTag
 import de.shyim.shopware6.index.TwigBlockDeprecationIndex
+import de.shyim.shopware6.util.TwigUtil
 
 class TwigBlockDeprecated : LocalInspectionTool() {
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
@@ -29,7 +30,7 @@ class TwigBlockDeprecated : LocalInspectionTool() {
                     ).forEach { deprecation ->
                         if (
                         // same relative path
-                            deprecation.relPath == TwigBlockDeprecationIndex.getRelativePath(element.containingFile.originalFile.virtualFile.path)
+                            deprecation.relPath == TwigUtil.getRelativePath(element.containingFile.originalFile.virtualFile.path)
                         ) {
                             holder.registerProblem(
                                 element,

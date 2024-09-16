@@ -9,6 +9,7 @@ import com.jetbrains.twig.elements.TwigBlockStatement
 import com.jetbrains.twig.elements.TwigBlockTag
 import de.shyim.shopware6.index.dict.TwigDeprecation
 import de.shyim.shopware6.index.externalizer.ObjectStreamDataExternalizer
+import de.shyim.shopware6.util.TwigUtil
 
 class TwigBlockDeprecationIndex : FileBasedIndexExtension<String, TwigDeprecation>() {
     private val _externalizer = ObjectStreamDataExternalizer<TwigDeprecation>()
@@ -38,7 +39,7 @@ class TwigBlockDeprecationIndex : FileBasedIndexExtension<String, TwigDeprecatio
                             }
 
                             deprecations[blockName] =
-                                TwigDeprecation(blockName, getRelativePath(inputData.file.path), message)
+                                TwigDeprecation(blockName, TwigUtil.getRelativePath(inputData.file.path), message)
                         }
 
                     }
@@ -77,10 +78,6 @@ class TwigBlockDeprecationIndex : FileBasedIndexExtension<String, TwigDeprecatio
     }
 
     companion object {
-        public fun getRelativePath(path: String): String {
-            return path.substringAfter("Resources/views/")
-        }
-
         val key = ID.create<String, TwigDeprecation>("de.shyim.shopware6.frontend.twig_blocks")
     }
 }

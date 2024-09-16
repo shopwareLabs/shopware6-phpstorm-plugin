@@ -1,0 +1,3 @@
+{% block base_noscript %}
+    my template overwrite
+{% endblock %}

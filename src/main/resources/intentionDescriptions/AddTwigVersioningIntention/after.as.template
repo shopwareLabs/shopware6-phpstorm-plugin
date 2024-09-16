@@ -1,0 +1,4 @@
+{# shopware-block: 98ee002332a21d270007a678dcd9e04a88ae3f703bb23b25623ef9e05913d6dd@v6.6.6.0 #}
+{% block base_noscript %}
+    my template overwrite
+{% endblock %}

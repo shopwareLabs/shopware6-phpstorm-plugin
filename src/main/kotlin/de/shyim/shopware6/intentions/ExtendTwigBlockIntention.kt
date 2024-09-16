@@ -1,7 +1,12 @@
 package de.shyim.shopware6.intentions
 
+import com.intellij.codeInsight.daemon.HighlightDisplayKey
 import com.intellij.codeInsight.hint.HintManager
 import com.intellij.codeInsight.intention.PsiElementBaseIntentionAction
+import com.intellij.codeInspection.InspectionManagerBase
+import com.intellij.codeInspection.InspectionProfile
+import com.intellij.codeInspection.InspectionProfileLoader
+import com.intellij.codeInspection.ex.InspectionProfileModifiableModel
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.command.CommandProcessor
 import com.intellij.openapi.editor.Editor
@@ -12,10 +17,15 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.popup.PopupChooserBuilder
 import com.intellij.openapi.vfs.LocalFileSystem
 import com.intellij.openapi.vfs.VirtualFile
+import com.intellij.profile.codeInspection.InspectionProfileLoadUtil
+import com.intellij.profile.codeInspection.InspectionProjectProfileManager
 import com.intellij.psi.*
+import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.ui.components.JBList
+import com.intellij.util.indexing.FileBasedIndex
 import com.jetbrains.twig.TwigFileType
 import com.jetbrains.twig.elements.TwigBlockTag
+import de.shyim.shopware6.index.TwigBlockHashIndex
 import de.shyim.shopware6.index.dict.ShopwareBundle
 import de.shyim.shopware6.index.dict.ShopwareExtension
 import de.shyim.shopware6.util.ShopwareExtensionUtil
@@ -151,7 +161,13 @@ class ExtendTwigBlockIntention : PsiElementBaseIntentionAction() {
                 }
             }
 
-            val blockCode = """
+            var blockComment = ""
+
+            if (InspectionProjectProfileManager.getInstance(project).currentProfile.isToolEnabled(HighlightDisplayKey.find("Shopware6TwigBlockCommentMissing"))) {
+                blockComment = TwigUtil.getVersioningComment(project, blockName, templatePath) ?: ""
+            }
+
+            val blockCode = blockComment + """
 {% block $blockName %}
 
 {% endblock %}
