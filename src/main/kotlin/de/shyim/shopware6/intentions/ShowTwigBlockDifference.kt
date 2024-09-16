@@ -50,7 +50,11 @@ class ShowTwigBlockDifference : PsiElementBaseIntentionAction() {
             TwigBlockHashIndex.key,
             blockTag.name!!,
             GlobalSearchScope.allScope(project)
-        ).any { it.hash != commentData.hash && it.absolutePath != element.containingFile.virtualFile.path && it.relativePath == TwigUtil.getRelativePath(element.containingFile.virtualFile.path) }
+        ).any {
+            it.hash != commentData.hash && it.absolutePath != element.containingFile.virtualFile.path && it.relativePath == TwigUtil.getRelativePath(
+                element.containingFile.virtualFile.path
+            )
+        }
     }
 
     override fun checkFile(file: PsiFile?): Boolean {

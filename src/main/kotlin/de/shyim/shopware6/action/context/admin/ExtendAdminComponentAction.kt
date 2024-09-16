@@ -91,7 +91,13 @@ class ExtendAdminComponentAction : DumbAwareAction(
     }
 
     companion object {
-        fun createComponent(componentName: String, project: Project, editor: Editor, bundle: ShopwareBundle?, runnable: (String) -> Unit) {
+        fun createComponent(
+            componentName: String,
+            project: Project,
+            editor: Editor,
+            bundle: ShopwareBundle?,
+            runnable: (String) -> Unit
+        ) {
             JBPopupFactory
                 .getInstance()
                 .createConfirmation(
@@ -109,7 +115,14 @@ class ExtendAdminComponentAction : DumbAwareAction(
                 .showInBestPositionFor(editor)
         }
 
-        private fun createComponentCallback(type: String, componentName: String, editor: Editor, project: Project, runnable: (String) -> Unit, bundle: ShopwareBundle?) {
+        private fun createComponentCallback(
+            type: String,
+            componentName: String,
+            editor: Editor,
+            project: Project,
+            runnable: (String) -> Unit,
+            bundle: ShopwareBundle?
+        ) {
             if (bundle != null) {
                 ensureAdminEntrypointExists(bundle, project)
                 createComponentExtend(type, componentName, editor, bundle, project, runnable)
@@ -121,7 +134,8 @@ class ExtendAdminComponentAction : DumbAwareAction(
             popup
                 .setItemChoosenCallback {
                     val bundle =
-                        (popup.chooserComponent as JBList<ShopwareBundle>).selectedValue ?: return@setItemChoosenCallback
+                        (popup.chooserComponent as JBList<ShopwareBundle>).selectedValue
+                            ?: return@setItemChoosenCallback
 
                     ensureAdminEntrypointExists(bundle, project)
                     createComponentExtend(type, componentName, editor, bundle, project, runnable)
@@ -144,12 +158,25 @@ class ExtendAdminComponentAction : DumbAwareAction(
                 newComponentName = componentName
                 "override/${componentName}/index.js"
             } else {
-                newComponentName = FilenameUtils.separatorsToUnix((GenericSimpleDialogWrapper("New component name", "Name:", "custom-${componentName}")).showAndGetConfig() ?: return)
+                newComponentName = FilenameUtils.separatorsToUnix(
+                    (GenericSimpleDialogWrapper(
+                        "New component name",
+                        "Name:",
+                        "custom-${componentName}"
+                    )).showAndGetConfig() ?: return
+                )
                 "component/${newComponentName}/index.js"
             }
 
-            val chosenComponentEntry = FilenameUtils.separatorsToUnix((GenericSimpleDialogWrapper("Component path", "Filename:", defaultFilePath)).showAndGetConfig() ?: return)
-            val chosenComponentFolder = FilenameUtils.separatorsToUnix(Paths.get(chosenComponentEntry).parent.toString())
+            val chosenComponentEntry = FilenameUtils.separatorsToUnix(
+                (GenericSimpleDialogWrapper(
+                    "Component path",
+                    "Filename:",
+                    defaultFilePath
+                )).showAndGetConfig() ?: return
+            )
+            val chosenComponentFolder =
+                FilenameUtils.separatorsToUnix(Paths.get(chosenComponentEntry).parent.toString())
 
             val adminRoot = PsiManager.getInstance(project)
                 .findDirectory(LocalFileSystem.getInstance().findFileByPath(bundle.getAdministrationRoot())!!)!!

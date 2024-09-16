@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import de.shyim.shopware6.action.context.admin.ExtendAdminComponentMethodAction
 
-class ExtendAdminComponentMethodIntention: PsiElementBaseIntentionAction() {
+class ExtendAdminComponentMethodIntention : PsiElementBaseIntentionAction() {
     override fun getFamilyName() = "Override this method"
     override fun getText() = "Override this method"
 

@@ -17,12 +17,13 @@ class TwigBlockHashMissing : LocalInspectionTool() {
         return object : PsiElementVisitor() {
             override fun visitElement(element: PsiElement) {
                 if (element is TwigBlockTag && element.name !== null && TwigUtil.getShopwareBlockComment(element) === null) {
-                    if (! FileBasedIndex.getInstance().getValues(
+                    if (!FileBasedIndex.getInstance().getValues(
                             TwigBlockHashIndex.key,
                             element.name!!,
                             GlobalSearchScope.allScope(element.project)
                         )
-                            .any { it.relativePath == TwigUtil.getRelativePath(element.containingFile.originalFile.virtualFile.path) }) {
+                            .any { it.relativePath == TwigUtil.getRelativePath(element.containingFile.originalFile.virtualFile.path) }
+                    ) {
                         return
                     }
 

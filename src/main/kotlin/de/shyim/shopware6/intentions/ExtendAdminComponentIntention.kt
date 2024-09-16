@@ -13,7 +13,7 @@ import de.shyim.shopware6.action.context.admin.ExtendAdminComponentAction
 import de.shyim.shopware6.util.JavaScriptPattern
 import de.shyim.shopware6.util.StringUtil
 
-class ExtendAdminComponentIntention: PsiElementBaseIntentionAction() {
+class ExtendAdminComponentIntention : PsiElementBaseIntentionAction() {
     override fun getFamilyName() = "Extend/override this component"
     override fun getText() = "Extend/override this component"
 
@@ -26,11 +26,17 @@ class ExtendAdminComponentIntention: PsiElementBaseIntentionAction() {
             return
         }
 
-        ExtendAdminComponentAction.createComponent(StringUtil.stripQuotes(element.text), element.project, editor, null) {
+        ExtendAdminComponentAction.createComponent(
+            StringUtil.stripQuotes(element.text),
+            element.project,
+            editor,
+            null
+        ) {
             val file = LocalFileSystem.getInstance().findFileByPath(it)
 
             if (file != null) {
-                FileEditorManager.getInstance(element.project).openTextEditor(OpenFileDescriptor(element.project, file), true)
+                FileEditorManager.getInstance(element.project)
+                    .openTextEditor(OpenFileDescriptor(element.project, file), true)
             }
         }
     }

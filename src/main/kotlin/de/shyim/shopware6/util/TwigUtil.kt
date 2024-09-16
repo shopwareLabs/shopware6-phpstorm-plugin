@@ -105,7 +105,7 @@ object TwigUtil {
         val shopwareVersion = ComposerInstalledPackagesService.getInstance(project, project.guessProjectDir())
             ?.getCurrentPackageVersion("shopware/storefront")
 
-        var commentText = hash;
+        var commentText = hash
 
         if (shopwareVersion != null) {
             commentText += "@${shopwareVersion}"
@@ -115,4 +115,4 @@ object TwigUtil {
     }
 }
 
-class ShopwareBlockData (val hash: String, val version: String)
+class ShopwareBlockData(val hash: String, val version: String)

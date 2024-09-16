@@ -199,7 +199,10 @@ class ConfigureShopwareProjectAction : DumbAwareAction(
             val relative = it.url.replace("file://${project.basePath}/", "")
 
             if (!it.isTestSource) {
-                if (it.url.contains("Framework/Test/") || relative.startsWith("tests/") || relative.startsWith("vendor-bin/") || relative.startsWith("src/Administration/Resources")) {
+                if (it.url.contains("Framework/Test/") || relative.startsWith("tests/") || relative.startsWith("vendor-bin/") || relative.startsWith(
+                        "src/Administration/Resources"
+                    )
+                ) {
                     entry.removeSourceFolder(it)
                 }
                 return@forEach

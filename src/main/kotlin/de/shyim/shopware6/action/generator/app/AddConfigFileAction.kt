@@ -21,13 +21,14 @@ import javax.swing.Icon
 import javax.swing.JLabel
 import javax.swing.JList
 
-abstract class AddConfigFileAction(private val configFileName: String,
-                                   private val configFilePath: String,
-                                   private val shopwareTemplate: String,
-                                   text: String,
-                                   description: String,
-                                   icon: Icon)
-    : DumbAwareAction(text, description, icon) {
+abstract class AddConfigFileAction(
+    private val configFileName: String,
+    private val configFilePath: String,
+    private val shopwareTemplate: String,
+    text: String,
+    description: String,
+    icon: Icon
+) : DumbAwareAction(text, description, icon) {
 
     override fun actionPerformed(e: AnActionEvent) {
         if (e.project == null) {
@@ -35,20 +36,30 @@ abstract class AddConfigFileAction(private val configFileName: String,
         }
 
         // Let the user choose the app
-        this.chooseAppAndCreateConfigFileFromTemplate(e.project!!, this.configFileName, this.configFilePath, this.shopwareTemplate)
+        this.chooseAppAndCreateConfigFileFromTemplate(
+            e.project!!,
+            this.configFileName,
+            this.configFilePath,
+            this.shopwareTemplate
+        )
     }
 
-    private fun chooseAppAndCreateConfigFileFromTemplate(project: Project, configFile: String, configFilePath: String, shopwareTemplate: String) {
+    private fun chooseAppAndCreateConfigFileFromTemplate(
+        project: Project,
+        configFile: String,
+        configFilePath: String,
+        shopwareTemplate: String
+    ) {
         val apps = ShopwareAppUtil.getAllApps(project)
         val jbAppList = JBList(apps)
 
         jbAppList.cellRenderer = object : JBList.StripedListCellRenderer() {
             override fun getListCellRendererComponent(
-                    list: JList<*>?,
-                    value: Any?,
-                    index: Int,
-                    isSelected: Boolean,
-                    cellHasFocus: Boolean
+                list: JList<*>?,
+                value: Any?,
+                index: Int,
+                isSelected: Boolean,
+                cellHasFocus: Boolean
             ): Component {
                 val renderer = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus)
 
@@ -61,37 +72,37 @@ abstract class AddConfigFileAction(private val configFileName: String,
         }
 
         PopupChooserBuilder(jbAppList)
-                .setTitle("Shopware: Select App")
-                .setItemChoosenCallback {
-                    CommandProcessor.getInstance().executeCommand(project, {
-                        val localFolder = LocalFileSystem.getInstance().findFileByPath(jbAppList.selectedValue.rootFolder)
-                        val psiDirectory = PsiManager.getInstance(project).findDirectory(localFolder!!) as PsiDirectory
-                        var configFileDirectory = psiDirectory.findSubdirectory(configFilePath)
+            .setTitle("Shopware: Select App")
+            .setItemChoosenCallback {
+                CommandProcessor.getInstance().executeCommand(project, {
+                    val localFolder = LocalFileSystem.getInstance().findFileByPath(jbAppList.selectedValue.rootFolder)
+                    val psiDirectory = PsiManager.getInstance(project).findDirectory(localFolder!!) as PsiDirectory
+                    var configFileDirectory = psiDirectory.findSubdirectory(configFilePath)
 
-                        if (configFileDirectory == null) {
-                            configFileDirectory = psiDirectory.createSubdirectory(configFilePath)
-                        }
+                    if (configFileDirectory == null) {
+                        configFileDirectory = psiDirectory.createSubdirectory(configFilePath)
+                    }
 
-                        // Create config file from template
-                        val content = ShopwareTemplates.renderTemplate(
-                            project,
-                            shopwareTemplate,
-                            null
-                        )
+                    // Create config file from template
+                    val content = ShopwareTemplates.renderTemplate(
+                        project,
+                        shopwareTemplate,
+                        null
+                    )
 
-                        val createdConfigFile = ActionUtil.createFile(
-                            project,
-                            XmlFileType.INSTANCE,
-                            configFile,
-                            content,
-                            configFileDirectory
-                        ) ?: return@executeCommand
+                    val createdConfigFile = ActionUtil.createFile(
+                        project,
+                        XmlFileType.INSTANCE,
+                        configFile,
+                        content,
+                        configFileDirectory
+                    ) ?: return@executeCommand
 
-                        FileEditorManager.getInstance(project)
-                            .openTextEditor(OpenFileDescriptor(project, createdConfigFile.virtualFile), true)
-                    }, "Creating Config File", null)
-                }
-                .createPopup()
-                .showInFocusCenter()
+                    FileEditorManager.getInstance(project)
+                        .openTextEditor(OpenFileDescriptor(project, createdConfigFile.virtualFile), true)
+                }, "Creating Config File", null)
+            }
+            .createPopup()
+            .showInFocusCenter()
     }
 }

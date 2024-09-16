@@ -20,7 +20,7 @@ import de.shyim.shopware6.util.JavaScriptPattern
 import de.shyim.shopware6.util.StringUtil
 import icons.ShopwareToolBoxIcons
 
-class AdminComponentMarker: RelatedItemLineMarkerProvider() {
+class AdminComponentMarker : RelatedItemLineMarkerProvider() {
     override fun collectNavigationMarkers(
         element: PsiElement,
         result: MutableCollection<in RelatedItemLineMarkerInfo<*>>
@@ -29,8 +29,10 @@ class AdminComponentMarker: RelatedItemLineMarkerProvider() {
             val targets = mutableListOf<PsiElement>()
 
             val targetComponent = StringUtil.stripQuotes(element.text)
-            val overrides = FileBasedIndex.getInstance().getValues(AdminComponentOverrideIndex.key,
-                targetComponent, GlobalSearchScope.projectScope(element.project))
+            val overrides = FileBasedIndex.getInstance().getValues(
+                AdminComponentOverrideIndex.key,
+                targetComponent, GlobalSearchScope.projectScope(element.project)
+            )
 
             overrides.forEach {
                 val file = LocalFileSystem.getInstance().findFileByPath(it.file)
@@ -64,9 +66,10 @@ class AdminComponentMarker: RelatedItemLineMarkerProvider() {
             }
 
             if (targets.isNotEmpty()) {
-                val builder: NavigationGutterIconBuilder<PsiElement> = NavigationGutterIconBuilder.create(ShopwareToolBoxIcons.SHOPWARE)
-                    .setTargets(targets)
-                    .setTooltipText("Overrides/Extends")
+                val builder: NavigationGutterIconBuilder<PsiElement> =
+                    NavigationGutterIconBuilder.create(ShopwareToolBoxIcons.SHOPWARE)
+                        .setTargets(targets)
+                        .setTooltipText("Overrides/Extends")
                 result.add(builder.createLineMarkerInfo(element))
             }
         }
@@ -92,9 +95,10 @@ class AdminComponentMarker: RelatedItemLineMarkerProvider() {
             }
 
             if (targets.isNotEmpty()) {
-                val builder: NavigationGutterIconBuilder<PsiElement> = NavigationGutterIconBuilder.create(ShopwareToolBoxIcons.SHOPWARE)
-                    .setTargets(targets)
-                    .setTooltipText("Base component")
+                val builder: NavigationGutterIconBuilder<PsiElement> =
+                    NavigationGutterIconBuilder.create(ShopwareToolBoxIcons.SHOPWARE)
+                        .setTargets(targets)
+                        .setTooltipText("Base component")
                 result.add(builder.createLineMarkerInfo(element))
             }
         }

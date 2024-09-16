@@ -116,7 +116,7 @@ class ShopwareBundleIndex : FileBasedIndexExtension<String, ShopwareBundle>() {
         }
 
         return !(
-                        filePath.contains("/tests/") ||
+                filePath.contains("/tests/") ||
                         filePath.contains("/test/") ||
                         filePath.contains("/fixtures/") ||
                         filePath.contains("/_fixture/") ||

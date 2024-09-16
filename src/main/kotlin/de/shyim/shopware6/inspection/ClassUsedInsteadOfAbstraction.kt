@@ -9,7 +9,7 @@ import com.jetbrains.php.PhpIndex
 import com.jetbrains.php.lang.psi.PhpFile
 import com.jetbrains.php.lang.psi.elements.Method
 
-class ClassUsedInsteadOfAbstraction: LocalInspectionTool() {
+class ClassUsedInsteadOfAbstraction : LocalInspectionTool() {
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
         val file = holder.file
 
@@ -17,7 +17,7 @@ class ClassUsedInsteadOfAbstraction: LocalInspectionTool() {
             return super.buildVisitor(holder, isOnTheFly)
         }
 
-        return object: PsiElementVisitor() {
+        return object : PsiElementVisitor() {
             override fun visitElement(element: PsiElement) {
                 if (element is Method && element.name == "__construct") {
                     element.parameters.forEach { parameter ->
@@ -32,7 +32,11 @@ class ClassUsedInsteadOfAbstraction: LocalInspectionTool() {
 
                                 superClass.ownMethods.forEach { method ->
                                     if (method.name == "getDecorated") {
-                                        holder.registerProblem(parameter, "The typehint should be ${superClass.fqn} to allow decoration", ProblemHighlightType.GENERIC_ERROR)
+                                        holder.registerProblem(
+                                            parameter,
+                                            "The typehint should be ${superClass.fqn} to allow decoration",
+                                            ProblemHighlightType.GENERIC_ERROR
+                                        )
                                     }
                                 }
                             }

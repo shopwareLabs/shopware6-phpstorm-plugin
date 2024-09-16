@@ -20,7 +20,7 @@ import java.awt.Component
 import javax.swing.JLabel
 import javax.swing.JList
 
-class InsertSnippetAction: DumbAwareAction("Insert Snippet", "Insert snippet code", ShopwareToolBoxIcons.SHOPWARE) {
+class InsertSnippetAction : DumbAwareAction("Insert Snippet", "Insert snippet code", ShopwareToolBoxIcons.SHOPWARE) {
     override fun actionPerformed(e: AnActionEvent) {
         val pf: PsiFile = LangDataKeys.PSI_FILE.getData(e.dataContext) ?: return
         val editor = LangDataKeys.EDITOR.getData(e.dataContext) ?: return

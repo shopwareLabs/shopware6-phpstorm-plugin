@@ -7,7 +7,7 @@ import com.intellij.ide.fileTemplates.FileTemplateManager
 import com.intellij.openapi.project.Project
 import icons.ShopwareToolBoxIcons
 
-class ShopwareTemplates: FileTemplateGroupDescriptorFactory {
+class ShopwareTemplates : FileTemplateGroupDescriptorFactory {
     override fun getFileTemplatesDescriptor(): FileTemplateGroupDescriptor {
         val group = FileTemplateGroupDescriptor("Shopware", ShopwareToolBoxIcons.SHOPWARE)
 

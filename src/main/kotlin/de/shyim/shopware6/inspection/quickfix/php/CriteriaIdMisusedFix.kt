@@ -12,7 +12,7 @@ import com.jetbrains.php.lang.PhpFileType
 import com.jetbrains.php.lang.psi.elements.MethodReference
 import com.jetbrains.php.lang.psi.elements.impl.NewExpressionImpl
 
-class CriteriaIdMisusedFix: LocalQuickFix {
+class CriteriaIdMisusedFix : LocalQuickFix {
     override fun getFamilyName() = "Move ID filter to Criteria constructor"
     override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
         if (descriptor.psiElement !is MethodReference) {

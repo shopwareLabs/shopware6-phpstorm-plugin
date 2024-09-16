@@ -6,10 +6,15 @@ import com.intellij.openapi.project.Project
 import com.jetbrains.twig.elements.TwigBlockTag
 import de.shyim.shopware6.util.TwigUtil
 
-class AddMissingTwigVersioningCommentFix: LocalQuickFix {
+class AddMissingTwigVersioningCommentFix : LocalQuickFix {
     override fun getFamilyName() = "Add missing versioning comment"
 
     override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
-        descriptor.psiElement?.containingFile?.virtualFile?.path?.let { TwigUtil.addVersioningComment(descriptor.psiElement.children[0] as TwigBlockTag, TwigUtil.getRelativePath(it)) }
+        descriptor.psiElement?.containingFile?.virtualFile?.path?.let {
+            TwigUtil.addVersioningComment(
+                descriptor.psiElement.children[0] as TwigBlockTag,
+                TwigUtil.getRelativePath(it)
+            )
+        }
     }
 }

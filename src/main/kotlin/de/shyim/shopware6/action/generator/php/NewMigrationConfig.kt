@@ -14,7 +14,7 @@ class NewMigrationConfig(
     }
 
     private fun className(): String {
-        return "Migration"+ this.timestamp + this.name
+        return "Migration" + this.timestamp + this.name
     }
 
     fun fileName(): String {

@@ -13,7 +13,8 @@ import org.apache.commons.lang3.StringUtils
 import java.text.SimpleDateFormat
 import java.util.*
 
-class NewChangelogAction: DumbAwareAction("Create a Changelog", "Create a new Changelog file", AllIcons.FileTypes.Text)  {
+class NewChangelogAction :
+    DumbAwareAction("Create a Changelog", "Create a new Changelog file", AllIcons.FileTypes.Text) {
     override fun actionPerformed(e: AnActionEvent) {
         if (e.project == null) {
             return

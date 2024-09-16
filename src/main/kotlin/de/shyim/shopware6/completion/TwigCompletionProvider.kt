@@ -93,7 +93,12 @@ class TwigCompletionProvider : CompletionContributor() {
                         return
                     }
 
-                    result.addAllElements(TwigUtil.getTwigLookupElements(parameters.position.project, Collections.emptyList()))
+                    result.addAllElements(
+                        TwigUtil.getTwigLookupElements(
+                            parameters.position.project,
+                            Collections.emptyList()
+                        )
+                    )
                 }
             }
         )

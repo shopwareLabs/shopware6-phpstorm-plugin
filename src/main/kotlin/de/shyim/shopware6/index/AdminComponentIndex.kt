@@ -94,7 +94,8 @@ class AdminComponentIndex : FileBasedIndexExtension<String, AdminComponent>() {
                                     if (template is ES6Property) {
                                         inputData.psiFile.children.forEach {
                                             if (it is ES6ImportDeclaration && it.importedBindings.size == 1 && it.importedBindings[0].name == "template" && it.fromClause?.referenceText != null) {
-                                                templatePath = StringUtil.stripQuotes(it.fromClause!!.referenceText.toString())
+                                                templatePath =
+                                                    StringUtil.stripQuotes(it.fromClause!!.referenceText.toString())
 
                                                 if (templatePath!!.startsWith("./")) {
                                                     val path = templatePath!!.substring(2)

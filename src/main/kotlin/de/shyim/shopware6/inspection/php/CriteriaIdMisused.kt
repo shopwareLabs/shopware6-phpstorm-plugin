@@ -12,7 +12,7 @@ import com.jetbrains.php.lang.psi.elements.PhpTypedElement
 import com.jetbrains.php.lang.psi.elements.StringLiteralExpression
 import de.shyim.shopware6.inspection.quickfix.php.CriteriaIdMisusedFix
 
-class CriteriaIdMisused: LocalInspectionTool() {
+class CriteriaIdMisused : LocalInspectionTool() {
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
         val file = holder.file
 

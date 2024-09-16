@@ -4,7 +4,8 @@ import com.intellij.openapi.ui.DialogWrapper
 import de.shyim.shopware6.ui.generic.GenericSimpleDialog
 import javax.swing.JComponent
 
-class GenericSimpleDialogWrapper(dialogTitle: String, fieldLabel: String, defaultFilename: String): DialogWrapper(true) {
+class GenericSimpleDialogWrapper(dialogTitle: String, fieldLabel: String, defaultFilename: String) :
+    DialogWrapper(true) {
     private var dialog: GenericSimpleDialog =
         GenericSimpleDialog()
 

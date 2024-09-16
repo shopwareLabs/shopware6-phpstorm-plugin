@@ -10,7 +10,9 @@ import org.apache.commons.lang3.StringUtils
 class GitlabCommitMessageProvider : CommitMessageProvider {
     override fun getCommitMessage(forChangelist: LocalChangeList, project: Project): String? {
         try {
-            val currentBranch = GitBranchUtil.guessWidgetRepository(project, DvcsUtil.getSelectedFile(project))?.currentBranch ?: return null
+            val currentBranch =
+                GitBranchUtil.guessWidgetRepository(project, DvcsUtil.getSelectedFile(project))?.currentBranch
+                    ?: return null
 
             if (!currentBranch.name.startsWith("next-")) {
                 return null

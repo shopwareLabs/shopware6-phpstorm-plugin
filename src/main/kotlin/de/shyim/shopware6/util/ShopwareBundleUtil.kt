@@ -61,11 +61,12 @@ object ShopwareBundleUtil {
         val components = mutableListOf<AdminComponent>()
 
         FileBasedIndex.getInstance().getAllKeys(AdminComponentIndex.key, project).forEach { key ->
-            FileBasedIndex.getInstance().getValues(AdminComponentIndex.key, key, GlobalSearchScope.projectScope(project)).forEach { component ->
-                if (component.file.startsWith(bundle.rootFolder)) {
-                    components.add(component)
+            FileBasedIndex.getInstance()
+                .getValues(AdminComponentIndex.key, key, GlobalSearchScope.projectScope(project)).forEach { component ->
+                    if (component.file.startsWith(bundle.rootFolder)) {
+                        components.add(component)
+                    }
                 }
-            }
         }
 
         return components
@@ -75,11 +76,21 @@ object ShopwareBundleUtil {
         val components = getAllComponentsInBundle(bundle, project)
 
         FileBasedIndex.getInstance().getAllKeys(AdminComponentOverrideIndex.key, project).forEach { key ->
-            FileBasedIndex.getInstance().getValues(AdminComponentOverrideIndex.key, key, GlobalSearchScope.projectScope(project)).forEach { component ->
-                if (component.file.startsWith(bundle.rootFolder)) {
-                    components.add(AdminComponent("override: ${component.name}", component.name, "override", HashSet(), component.file))
+            FileBasedIndex.getInstance()
+                .getValues(AdminComponentOverrideIndex.key, key, GlobalSearchScope.projectScope(project))
+                .forEach { component ->
+                    if (component.file.startsWith(bundle.rootFolder)) {
+                        components.add(
+                            AdminComponent(
+                                "override: ${component.name}",
+                                component.name,
+                                "override",
+                                HashSet(),
+                                component.file
+                            )
+                        )
+                    }
                 }
-            }
         }
 
         return components

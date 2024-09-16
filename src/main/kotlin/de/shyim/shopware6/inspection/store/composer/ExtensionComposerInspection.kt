@@ -22,6 +22,6 @@ abstract class ExtensionComposerInspection : LocalInspectionTool() {
     }
 
     private fun isInsideCustomPlugins(holder: ProblemsHolder): Boolean {
-        return holder.file.virtualFile.path.startsWith("${holder.project.basePath}/custom/plugins");
+        return holder.file.virtualFile.path.startsWith("${holder.project.basePath}/custom/plugins")
     }
 }

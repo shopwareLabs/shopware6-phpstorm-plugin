@@ -11,7 +11,7 @@ import de.shyim.shopware6.index.AdminComponentIndex
 import fr.adrienbrault.idea.symfony2plugin.navigation.NavigationItemEx
 import icons.ShopwareToolBoxIcons
 
-class AdminComponentSymbolContributor: ChooseByNameContributor {
+class AdminComponentSymbolContributor : ChooseByNameContributor {
     override fun getNames(project: Project?, includeNonProjectItems: Boolean): Array<String> {
         val names = mutableListOf<String>()
         if (project == null) {
@@ -35,7 +35,9 @@ class AdminComponentSymbolContributor: ChooseByNameContributor {
             return targets.toTypedArray()
         }
 
-        val component = FileBasedIndex.getInstance().getValues(AdminComponentIndex.key, name, GlobalSearchScope.allScope(project)).firstOrNull() ?: return targets.toTypedArray()
+        val component =
+            FileBasedIndex.getInstance().getValues(AdminComponentIndex.key, name, GlobalSearchScope.allScope(project))
+                .firstOrNull() ?: return targets.toTypedArray()
         val file = LocalFileSystem.getInstance().findFileByPath(component.file)
 
         if (file != null) {

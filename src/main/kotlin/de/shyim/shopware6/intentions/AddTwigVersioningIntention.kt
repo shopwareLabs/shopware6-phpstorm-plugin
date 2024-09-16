@@ -11,7 +11,7 @@ import com.jetbrains.twig.elements.TwigBlockTag
 import de.shyim.shopware6.index.TwigBlockHashIndex
 import de.shyim.shopware6.util.TwigUtil
 
-class AddTwigVersioningIntention: PsiElementBaseIntentionAction() {
+class AddTwigVersioningIntention : PsiElementBaseIntentionAction() {
     override fun getFamilyName() = "Add/Update the Shopware 6 Twig versioning comment"
     override fun getText() = "Add/Update the Shopware 6 versioning comment"
 
@@ -28,7 +28,10 @@ class AddTwigVersioningIntention: PsiElementBaseIntentionAction() {
             return false
         }
 
-        val found = FileBasedIndex.getInstance().getValues(TwigBlockHashIndex.key, blockTag.name!!, GlobalSearchScope.allScope(project)).firstOrNull { it.relativePath == TwigUtil.getRelativePath(element.containingFile.virtualFile.path) && it.absolutePath != element.containingFile.virtualFile.path } ?: return false
+        val found = FileBasedIndex.getInstance()
+            .getValues(TwigBlockHashIndex.key, blockTag.name!!, GlobalSearchScope.allScope(project))
+            .firstOrNull { it.relativePath == TwigUtil.getRelativePath(element.containingFile.virtualFile.path) && it.absolutePath != element.containingFile.virtualFile.path }
+            ?: return false
 
         // When not comment there, offer to create one
         val existingComment = TwigUtil.getShopwareBlockComment(element) ?: return true

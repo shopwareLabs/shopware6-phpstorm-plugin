@@ -127,7 +127,7 @@ class ShopwareProjectGenerator : WebProjectTemplate<ShopwareProjectSettings>() {
         val composerJsonFile = File(toDir, "composer.json")
         composerJsonFile.writeText(composerJson)
 
-            val task: Task.Backgroundable = object : Task.Backgroundable(project, "Installing dependencies", true) {
+        val task: Task.Backgroundable = object : Task.Backgroundable(project, "Installing dependencies", true) {
             override fun run(progressIndicator: ProgressIndicator) {
                 try {
                     // Run command

@@ -4,7 +4,7 @@ import com.intellij.openapi.ui.DialogWrapper
 import de.shyim.shopware6.ui.vue.NewModule
 import javax.swing.JComponent
 
-class NewModuleDialogWrapper: DialogWrapper(true) {
+class NewModuleDialogWrapper : DialogWrapper(true) {
     private var panel: NewModule = NewModule()
 
     override fun createCenterPanel(): JComponent? {

@@ -92,7 +92,12 @@ object JavaScriptPattern {
                                                         PlatformPatterns.psiElement().withText("Component")
                                                     )
                                             )
-                                            .withLastChild(PlatformPatterns.or(PlatformPatterns.psiElement().withText("register"), PlatformPatterns.psiElement().withText("extend")))
+                                            .withLastChild(
+                                                PlatformPatterns.or(
+                                                    PlatformPatterns.psiElement().withText("register"),
+                                                    PlatformPatterns.psiElement().withText("extend")
+                                                )
+                                            )
                                     )
                             )
                     )

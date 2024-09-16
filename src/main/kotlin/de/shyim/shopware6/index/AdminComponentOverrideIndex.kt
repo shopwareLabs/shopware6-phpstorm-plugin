@@ -15,7 +15,7 @@ import de.shyim.shopware6.index.dict.AdminComponentOverride
 import de.shyim.shopware6.index.externalizer.ObjectStreamDataExternalizer
 import de.shyim.shopware6.util.StringUtil
 
-class AdminComponentOverrideIndex: FileBasedIndexExtension<String, AdminComponentOverride>() {
+class AdminComponentOverrideIndex : FileBasedIndexExtension<String, AdminComponentOverride>() {
     private val _externalizer = ObjectStreamDataExternalizer<AdminComponentOverride>()
 
     override fun getName(): ID<String, AdminComponentOverride> {

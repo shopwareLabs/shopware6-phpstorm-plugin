@@ -74,7 +74,7 @@ class PHPUnitInlineParameterHints : InlayHintsProvider<NoSettings> {
                         return@forEach
                     }
 
-                    val dataProvider = it.docComment!!.getTagElementsByName("@dataProvider");
+                    val dataProvider = it.docComment!!.getTagElementsByName("@dataProvider")
                     if (dataProvider.isEmpty()) {
                         return@forEach
                     }
@@ -107,7 +107,7 @@ class PHPUnitInlineParameterHints : InlayHintsProvider<NoSettings> {
     override fun createConfigurable(settings: NoSettings): ImmediateConfigurable {
         return object : ImmediateConfigurable {
             override fun createComponent(listener: ChangeListener): JPanel {
-                return JPanel();
+                return JPanel()
             }
         }
     }

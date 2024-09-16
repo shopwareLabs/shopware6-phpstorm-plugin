@@ -30,7 +30,8 @@ import java.awt.Component
 import javax.swing.JLabel
 import javax.swing.JList
 
-class ExtendAdminComponentMethodAction: DumbAwareAction("Extend this method", "Extend this method in your component", ShopwareToolBoxIcons.SHOPWARE) {
+class ExtendAdminComponentMethodAction :
+    DumbAwareAction("Extend this method", "Extend this method in your component", ShopwareToolBoxIcons.SHOPWARE) {
     override fun actionPerformed(e: AnActionEvent) {
         val pf: PsiFile = LangDataKeys.PSI_FILE.getData(e.dataContext) ?: return
         val editor = LangDataKeys.EDITOR.getData(e.dataContext) ?: return
@@ -88,11 +89,14 @@ class ExtendAdminComponentMethodAction: DumbAwareAction("Extend this method", "E
             popup
                 .setItemChoosenCallback {
                     val bundle =
-                        (popup.chooserComponent as JBList<ShopwareBundle>).selectedValue ?: return@setItemChoosenCallback
+                        (popup.chooserComponent as JBList<ShopwareBundle>).selectedValue
+                            ?: return@setItemChoosenCallback
 
-                    val allExistingComponents = ShopwareBundleUtil.getAllComponentsWithOverridesInBundle(bundle, element.project).filterSmartMutable { component ->
-                        return@filterSmartMutable component.extends == componentName || (component.extends == componentName && component.templatePath == "override")
-                    }
+                    val allExistingComponents =
+                        ShopwareBundleUtil.getAllComponentsWithOverridesInBundle(bundle, element.project)
+                            .filterSmartMutable { component ->
+                                return@filterSmartMutable component.extends == componentName || (component.extends == componentName && component.templatePath == "override")
+                            }
 
                     allExistingComponents.add(AdminComponent(newComponent, null, null, HashSet(), ""))
 
@@ -105,7 +109,8 @@ class ExtendAdminComponentMethodAction: DumbAwareAction("Extend this method", "E
                             isSelected: Boolean,
                             cellHasFocus: Boolean
                         ): Component {
-                            val renderer = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus)
+                            val renderer =
+                                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus)
 
                             if (renderer is JLabel && value is AdminComponent) {
                                 renderer.text = value.name
@@ -122,7 +127,12 @@ class ExtendAdminComponentMethodAction: DumbAwareAction("Extend this method", "E
                             val component = list.selectedValue ?: return@setItemChoosenCallback
 
                             if (component.name == newComponent) {
-                                ExtendAdminComponentAction.createComponent(componentName, element.project, editor, bundle) {
+                                ExtendAdminComponentAction.createComponent(
+                                    componentName,
+                                    element.project,
+                                    editor,
+                                    bundle
+                                ) {
                                     addMethodToComponent(element, it)
                                 }
                             } else {
@@ -139,7 +149,8 @@ class ExtendAdminComponentMethodAction: DumbAwareAction("Extend this method", "E
         private fun addMethodToComponent(baseElement: PsiElement, path: String) {
             val virtualFile = LocalFileSystem.getInstance().findFileByPath(path)!!
 
-            FileEditorManager.getInstance(baseElement.project).openTextEditor(OpenFileDescriptor(baseElement.project, virtualFile), true)
+            FileEditorManager.getInstance(baseElement.project)
+                .openTextEditor(OpenFileDescriptor(baseElement.project, virtualFile), true)
 
             val psiFile = PsiManager.getInstance(baseElement.project).findFile(virtualFile)!!
 
@@ -167,13 +178,17 @@ class ExtendAdminComponentMethodAction: DumbAwareAction("Extend this method", "E
 
 
 
-            psiFile.acceptChildren(object: PsiRecursiveElementWalkingVisitor() {
+            psiFile.acceptChildren(object : PsiRecursiveElementWalkingVisitor() {
                 override fun visitElement(element: PsiElement) {
                     if (getBasePattern().accepts(element) && element is JSObjectLiteralExpression) {
                         ApplicationManager.getApplication().runWriteAction {
                             CommandProcessor.getInstance().executeCommand(element.project, {
                                 val newMethod = PsiFileFactory.getInstance(element.project)
-                                    .createFileFromText("test.js", JavascriptLanguage.INSTANCE, "{\n    ${methodName}(${methodHead}) {\n        return this.\$super('${methodName}'${methodPass})    \n    },}\n}")
+                                    .createFileFromText(
+                                        "test.js",
+                                        JavascriptLanguage.INSTANCE,
+                                        "{\n    ${methodName}(${methodHead}) {\n        return this.\$super('${methodName}'${methodPass})    \n    },}\n}"
+                                    )
                                     .firstChild
 
                                 if (propertyName.isNotEmpty()) {
@@ -188,7 +203,11 @@ class ExtendAdminComponentMethodAction: DumbAwareAction("Extend this method", "E
                                         propertyValue.addBefore(newMethod.children[6], propertyValue.lastChild)
                                     } else {
                                         val newProperty = PsiFileFactory.getInstance(element.project)
-                                            .createFileFromText("test.js", JavascriptLanguage.INSTANCE, "{${propertyName}: {}}")
+                                            .createFileFromText(
+                                                "test.js",
+                                                JavascriptLanguage.INSTANCE,
+                                                "{${propertyName}: {}}"
+                                            )
                                             .firstChild.children[1]
 
                                         element.addBefore(newProperty, element.lastChild)
@@ -219,7 +238,7 @@ class ExtendAdminComponentMethodAction: DumbAwareAction("Extend this method", "E
             })
         }
 
-        public fun getPattern(): PsiElementPattern.Capture<PsiElement> {
+        fun getPattern(): PsiElementPattern.Capture<PsiElement> {
             return PlatformPatterns
                 .psiElement(JSTokenTypes.IDENTIFIER)
                 .withParent(
@@ -251,7 +270,12 @@ class ExtendAdminComponentMethodAction: DumbAwareAction("Extend this method", "E
                                                     PlatformPatterns.psiElement().withText("Component")
                                                 )
                                         )
-                                        .withLastChild(PlatformPatterns.or(PlatformPatterns.psiElement().withText("register"), PlatformPatterns.psiElement().withText("extend")))
+                                        .withLastChild(
+                                            PlatformPatterns.or(
+                                                PlatformPatterns.psiElement().withText("register"),
+                                                PlatformPatterns.psiElement().withText("extend")
+                                            )
+                                        )
                                 )
                         )
                 )
@@ -271,7 +295,13 @@ class ExtendAdminComponentMethodAction: DumbAwareAction("Extend this method", "E
                                                     PlatformPatterns.psiElement().withText("Component")
                                                 )
                                         )
-                                        .withLastChild(PlatformPatterns.or(PlatformPatterns.psiElement().withText("register"), PlatformPatterns.psiElement().withText("extend"), PlatformPatterns.psiElement().withText("override")))
+                                        .withLastChild(
+                                            PlatformPatterns.or(
+                                                PlatformPatterns.psiElement().withText("register"),
+                                                PlatformPatterns.psiElement().withText("extend"),
+                                                PlatformPatterns.psiElement().withText("override")
+                                            )
+                                        )
                                 )
                         )
                 )

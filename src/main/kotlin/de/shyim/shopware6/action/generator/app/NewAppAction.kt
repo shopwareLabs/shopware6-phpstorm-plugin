@@ -8,7 +8,7 @@ import de.shyim.shopware6.action.generator.ActionUtil
 import de.shyim.shopware6.templates.ShopwareTemplates
 import icons.ShopwareToolBoxIcons
 
-class NewAppAction: DumbAwareAction("Create an App", "Create a new Shopware app", ShopwareToolBoxIcons.SHOPWARE) {
+class NewAppAction : DumbAwareAction("Create an App", "Create a new Shopware app", ShopwareToolBoxIcons.SHOPWARE) {
     override fun actionPerformed(e: AnActionEvent) {
         if (e.project == null) {
             return

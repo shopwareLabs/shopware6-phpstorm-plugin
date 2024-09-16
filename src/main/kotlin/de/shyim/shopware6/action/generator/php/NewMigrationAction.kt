@@ -8,7 +8,8 @@ import de.shyim.shopware6.action.generator.ActionUtil
 import de.shyim.shopware6.templates.ShopwareTemplates
 import icons.ShopwareToolBoxIcons
 
-class NewMigrationAction: DumbAwareAction("Create a Migration", "Create a new Migration", ShopwareToolBoxIcons.SHOPWARE) {
+class NewMigrationAction :
+    DumbAwareAction("Create a Migration", "Create a new Migration", ShopwareToolBoxIcons.SHOPWARE) {
     override fun actionPerformed(e: AnActionEvent) {
         val directory = ActionUtil.getViewDirectory(e.dataContext) ?: return
 

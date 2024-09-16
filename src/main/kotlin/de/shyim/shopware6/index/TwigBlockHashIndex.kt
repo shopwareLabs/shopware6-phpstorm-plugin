@@ -11,7 +11,7 @@ import de.shyim.shopware6.index.externalizer.ObjectStreamDataExternalizer
 import de.shyim.shopware6.util.StringUtil
 import de.shyim.shopware6.util.TwigUtil
 
-class TwigBlockHashIndex: FileBasedIndexExtension<String, TwigBlockHash>() {
+class TwigBlockHashIndex : FileBasedIndexExtension<String, TwigBlockHash>() {
     private val _externalizer = ObjectStreamDataExternalizer<TwigBlockHash>()
 
     override fun getName(): ID<String, TwigBlockHash> {
@@ -22,14 +22,23 @@ class TwigBlockHashIndex: FileBasedIndexExtension<String, TwigBlockHash>() {
         return DataIndexer { inputData ->
             val hashes = HashMap<String, TwigBlockHash>()
 
-            if (!inputData.file.path.contains("src/Storefront/Resources/views/storefront") && !inputData.file.path.contains("vendor/shopware/storefront/Resources/views/storefront")) {
+            if (!inputData.file.path.contains("src/Storefront/Resources/views/storefront") && !inputData.file.path.contains(
+                    "vendor/shopware/storefront/Resources/views/storefront"
+                )
+            ) {
                 return@DataIndexer mapOf()
             }
 
             inputData.psiFile.acceptChildren(object : PsiRecursiveElementWalkingVisitor() {
                 override fun visitElement(element: com.intellij.psi.PsiElement) {
                     if (element is TwigBlockTag && element.name !== null) {
-                        hashes[element.name!!] = TwigBlockHash(element.name!!, TwigUtil.getRelativePath(inputData.file.path), inputData.file.path, StringUtil.sha512(element.parent.text), element.parent.text)
+                        hashes[element.name!!] = TwigBlockHash(
+                            element.name!!,
+                            TwigUtil.getRelativePath(inputData.file.path),
+                            inputData.file.path,
+                            StringUtil.sha512(element.parent.text),
+                            element.parent.text
+                        )
                     }
 
                     super.visitElement(element)
@@ -58,7 +67,7 @@ class TwigBlockHashIndex: FileBasedIndexExtension<String, TwigBlockHash>() {
     }
 
     override fun dependsOnFileContent(): Boolean {
-        return true;
+        return true
     }
 
     companion object {
