@@ -20,6 +20,6 @@ class SystemConfigIndexTest : BasePlatformTestCase() {
         assertEquals(21, configs.size)
         assertEquals("SwagFooBar.config", configs[0].namespace)
         assertEquals("senderAddressFirstName", configs[0].name)
-        assertEquals("senderAddressEmail", configs[20].name)
+        assertEquals("customsInformationComment", configs[20].name)
     }
 }
