@@ -7,6 +7,7 @@ import com.intellij.util.io.KeyDescriptor
 import com.jetbrains.twig.TwigFileType
 import com.jetbrains.twig.elements.TwigBlockStatement
 import com.jetbrains.twig.elements.TwigBlockTag
+import com.jetbrains.twig.elements.TwigComment
 import de.shyim.shopware6.index.dict.TwigDeprecation
 import de.shyim.shopware6.index.externalizer.ObjectStreamDataExternalizer
 import de.shyim.shopware6.util.TwigUtil
@@ -27,7 +28,7 @@ class TwigBlockDeprecationIndex : FileBasedIndexExtension<String, TwigDeprecatio
                     if (element is TwigBlockStatement && element.firstChild is TwigBlockTag) {
                         val blockName = (element.firstChild as TwigBlockTag).name!!
 
-                        if (element.prevSibling !== null && element.prevSibling.prevSibling !== null && element.prevSibling.prevSibling.text.contains(
+                        if (element.prevSibling !== null && element.prevSibling.prevSibling is TwigComment && element.prevSibling.prevSibling.text.contains(
                                 "@deprecated"
                             )
                         ) {
@@ -57,7 +58,7 @@ class TwigBlockDeprecationIndex : FileBasedIndexExtension<String, TwigDeprecatio
     }
 
     override fun getVersion(): Int {
-        return 2
+        return 3
     }
 
     override fun dependsOnFileContent(): Boolean {
