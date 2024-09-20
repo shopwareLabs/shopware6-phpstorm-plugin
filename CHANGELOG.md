@@ -4,6 +4,10 @@
 
 ## Unreleased
 
+## 0.0.45 - 2024-09-20
+
+- Fixed that previous deprecated blocks mark the next block also as deprecated
+
 ## 0.0.44 - 2024-09-16
 
 - Added Twig Block Versioning
