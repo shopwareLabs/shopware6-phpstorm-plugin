@@ -26,6 +26,7 @@ Current features:
   - `Module.register` labels
   - Show only admin component autocompletion when the twig file is next to an index.js
   - Feature flag
+- [Twig Block Versioning](https://www.shopware.com/en/news/twig-block-versioning-in-shopware-phpstorm-plugin/)  
 <!-- Plugin description end -->
 
 ## Installation
