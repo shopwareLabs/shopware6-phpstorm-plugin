@@ -3,6 +3,7 @@ package de.shyim.shopware6.xml
 import com.intellij.codeInsight.completion.XmlTagInsertHandler
 import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.lookup.LookupElementBuilder
+import com.intellij.openapi.project.DumbService
 import com.intellij.psi.html.HtmlTag
 import com.intellij.psi.impl.source.xml.XmlElementDescriptorProvider
 import com.intellij.psi.search.GlobalSearchScope
@@ -37,12 +38,14 @@ class AdminComponentProvider : XmlTagNameProvider, XmlElementDescriptorProvider 
     override fun getDescriptor(tag: XmlTag): XmlElementDescriptor? {
         val adminComponents = HashMap<String, AdminComponent>()
 
-        for (key in FileBasedIndex.getInstance().getAllKeys(AdminComponentIndex.key, tag.project)) {
-            val values = FileBasedIndex.getInstance()
-                .getValues(AdminComponentIndex.key, key, GlobalSearchScope.allScope(tag.project))
+        if (!DumbService.getInstance(tag.project).isDumb) {
+            for (key in FileBasedIndex.getInstance().getAllKeys(AdminComponentIndex.key, tag.project)) {
+                val values = FileBasedIndex.getInstance()
+                    .getValues(AdminComponentIndex.key, key, GlobalSearchScope.allScope(tag.project))
 
-            values.forEach {
-                adminComponents[it.name] = it
+                values.forEach {
+                    adminComponents[it.name] = it
+                }
             }
         }
 
