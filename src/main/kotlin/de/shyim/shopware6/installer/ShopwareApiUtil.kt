@@ -7,7 +7,7 @@ import com.intellij.openapi.application.ApplicationInfo
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
-import java.net.URL
+import java.net.URI
 import java.net.URLConnection
 
 
@@ -46,7 +46,7 @@ object ShopwareApiUtil {
         )
 
         return try {
-            val url = URL("https://releases.shopware.com/changelog/index.json")
+            val url = URI("https://api.shopware.com/platform/releases").toURL()
             val conn: URLConnection = url.openConnection()
             conn.setRequestProperty("User-Agent", userAgent)
             conn.connect()

@@ -10,7 +10,6 @@ plugins {
     alias(libs.plugins.kotlin) // Kotlin support
     alias(libs.plugins.intelliJPlatform) // IntelliJ Platform Gradle Plugin
     alias(libs.plugins.changelog) // Gradle Changelog Plugin
-    alias(libs.plugins.qodana) // Gradle Qodana Plugin
     alias(libs.plugins.kover) // Gradle Kover Plugin
 }
 
@@ -48,6 +47,9 @@ dependencies {
 
         // Plugin Dependencies. Uses `platformPlugins` property from the gradle.properties file for plugin from JetBrains Marketplace.
         plugins(providers.gradleProperty("platformPlugins").map { it.split(',') })
+
+        // Workaround Intelij Gradle Bug
+        bundledModule("intellij.platform.vcs.dvcs.impl")
 
         instrumentationTools()
         pluginVerifier()

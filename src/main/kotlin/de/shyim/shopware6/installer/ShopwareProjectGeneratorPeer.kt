@@ -1,6 +1,7 @@
 package de.shyim.shopware6.installer
 
 import com.intellij.ide.util.projectWizard.SettingsStep
+import com.intellij.openapi.ui.TextFieldWithBrowseButton
 import com.intellij.openapi.ui.ValidationInfo
 import com.intellij.platform.ProjectGeneratorPeer
 import de.shyim.shopware6.ui.installer.ShopwareInstallerForm
@@ -9,7 +10,10 @@ import javax.swing.JComponent
 class ShopwareProjectGeneratorPeer : ProjectGeneratorPeer<ShopwareProjectSettings> {
     private var shopwareProjectGenerator: ShopwareInstallerForm = ShopwareInstallerForm()
 
-    override fun getComponent(): JComponent {
+    override fun getComponent(
+        myLocationField: TextFieldWithBrowseButton,
+        checkValid: Runnable
+    ): JComponent {
         return shopwareProjectGenerator.contentPane
     }
 
