@@ -184,7 +184,7 @@ class ConfigureShopwareProjectAction : DumbAwareAction(
         val composerJsonBody = FileUtils.readFileToString(File(composerJsonPath), "UTF-8")
         val jsonObject = JSONObject(composerJsonBody)
 
-        if (jsonObject.getString("name") != "shopware/platform") {
+        if (jsonObject.has("name") && jsonObject.getString("name") != "shopware/platform") {
             return
         }
 
