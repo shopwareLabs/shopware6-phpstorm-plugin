@@ -15,6 +15,9 @@ import org.apache.commons.io.FileUtils
 import org.apache.commons.lang3.StringUtils
 import org.codehaus.jettison.json.JSONObject
 import java.io.File
+import com.intellij.notification.Notification
+import com.intellij.notification.NotificationType
+import com.intellij.notification.Notifications
 
 class ConfigureShopwareProjectAction : DumbAwareAction(
     "Configure Shopware Project",
@@ -69,6 +72,16 @@ class ConfigureShopwareProjectAction : DumbAwareAction(
             },
             "Updating Project Settings", null
         )
+
+        Notifications.Bus.notify(
+            Notification(
+                "Shopware",
+                "Configure Shopware Project",
+                "The current project was configured with sensible Shopware defaults: <ul><li>Excluded paths</li><li>Source folders</li><li>Test namespaces (only for shopware/platform)</li></ul>",
+                NotificationType.INFORMATION
+            ), e.project
+        )
+
     }
 
     private fun addShopwareExcludes(model: ContentEntry) {
