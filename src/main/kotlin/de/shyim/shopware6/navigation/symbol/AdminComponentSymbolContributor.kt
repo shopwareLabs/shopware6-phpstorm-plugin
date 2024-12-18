@@ -8,8 +8,8 @@ import com.intellij.psi.PsiManager
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.util.indexing.FileBasedIndex
 import de.shyim.shopware6.index.AdminComponentIndex
-import fr.adrienbrault.idea.symfony2plugin.navigation.NavigationItemEx
 import icons.ShopwareToolBoxIcons
+import de.shyim.shopware6.navigation.NavigationItemEx
 
 class AdminComponentSymbolContributor : ChooseByNameContributor {
     override fun getNames(project: Project?, includeNonProjectItems: Boolean): Array<String> {

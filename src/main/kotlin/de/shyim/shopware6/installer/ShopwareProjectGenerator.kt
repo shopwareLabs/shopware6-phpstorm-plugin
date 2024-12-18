@@ -13,7 +13,6 @@ import com.intellij.openapi.progress.Task
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.platform.ProjectGeneratorPeer
-import fr.adrienbrault.idea.symfony2plugin.util.IdeHelper
 import icons.ShopwareToolBoxIcons
 import java.io.File
 import java.io.IOException
@@ -134,9 +133,6 @@ class ShopwareProjectGenerator : WebProjectTemplate<ShopwareProjectSettings>() {
                     val commandLine = GeneralCommandLine("composer", "install", "--no-interaction")
                     commandLine.setWorkDirectory(toDir)
                     CapturingProcessHandler(commandLine).runProcess()
-
-                    // Activate Plugin
-                    IdeHelper.enablePluginAndConfigure(project)
                 } catch (e: IOException) {
                     showErrorNotification(project, "There is a error occurred: ${e.message}")
                 }

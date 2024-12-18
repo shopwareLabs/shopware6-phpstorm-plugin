@@ -1,161 +1,124 @@
 package de.shyim.shopware6.util
 
 import com.intellij.patterns.PlatformPatterns
-import com.intellij.patterns.PsiElementPattern
 import com.intellij.psi.PsiElement
-import com.jetbrains.php.lang.psi.elements.*
-import fr.adrienbrault.idea.symfony2plugin.util.MethodMatcher
+import com.jetbrains.php.lang.parser.PhpElementTypes
+import com.jetbrains.php.lang.psi.elements.impl.ClassReferenceImpl
+import com.jetbrains.php.lang.psi.elements.impl.FieldReferenceImpl
+import com.jetbrains.php.lang.psi.elements.impl.MethodReferenceImpl
+import com.jetbrains.php.lang.psi.elements.impl.PhpClassImpl
+import com.jetbrains.php.lang.psi.elements.impl.StringLiteralExpressionImpl
+import com.jetbrains.php.lang.psi.elements.impl.VariableImpl
 
 object PHPPattern {
-    private val FEATURE_FLAG_SIGNATURES: Array<MethodMatcher.CallToSignature> = arrayOf(
-        MethodMatcher.CallToSignature("\\Shopware\\Core\\Framework\\Feature", "isActive"),
-        MethodMatcher.CallToSignature("\\Shopware\\Core\\Framework\\Feature", "ifActive"),
-        MethodMatcher.CallToSignature("\\Shopware\\Core\\Framework\\Feature", "ifActiveCall"),
-        MethodMatcher.CallToSignature("\\Shopware\\Core\\Framework\\Feature", "skipTestIfInActive"),
-        MethodMatcher.CallToSignature("\\Shopware\\Core\\Framework\\Feature", "skipTestIfActive"),
-        MethodMatcher.CallToSignature("\\Shopware\\Core\\Framework\\Feature", "triggerDeprecated"),
-        MethodMatcher.CallToSignature("\\Shopware\\Core\\Framework\\Feature", "throwException"),
-        MethodMatcher.CallToSignature("\\Shopware\\Core\\Framework\\Feature", "has"),
-        MethodMatcher.CallToSignature("\\Shopware\\Core\\Framework\\Feature", "triggerDeprecationOrThrow"),
-    )
+    fun isStaticClassMethodCall(element: PsiElement): Boolean {
+        return PlatformPatterns
+            .psiElement()
+            .withParent(
+                PlatformPatterns
+                    .psiElement(StringLiteralExpressionImpl::class.java)
+                    .withParent(
+                        PlatformPatterns.psiElement(PhpElementTypes.PARAMETER_LIST)
+                            .withParent(
+                                PlatformPatterns
+                                    .psiElement(PhpElementTypes.METHOD_REFERENCE)
+                            )
+                    )
 
-    private val SHOPWARE_STOREFRONT_CONTROLLER_TRANS_SIGNATURES: Array<MethodMatcher.CallToSignature> = arrayOf(
-        MethodMatcher.CallToSignature("\\Shopware\\Storefront\\Controller\\StorefrontController", "trans")
-    )
-
-    private val SHOPWARE_CORE_SYSTEM_CONFIG_SERVICE_GET_SINGLE: Array<MethodMatcher.CallToSignature> = arrayOf(
-        MethodMatcher.CallToSignature("\\Shopware\\Core\\System\\SystemConfig\\SystemConfigService", "get"),
-        MethodMatcher.CallToSignature("\\Shopware\\Core\\System\\SystemConfig\\SystemConfigService", "getString"),
-        MethodMatcher.CallToSignature("\\Shopware\\Core\\System\\SystemConfig\\SystemConfigService", "getInt"),
-        MethodMatcher.CallToSignature("\\Shopware\\Core\\System\\SystemConfig\\SystemConfigService", "getFloat"),
-        MethodMatcher.CallToSignature("\\Shopware\\Core\\System\\SystemConfig\\SystemConfigService", "getBool"),
-    )
-
-    private val SHOPWARE_CORE_SYSTEM_CONFIG_SERVICE_GET_DOMAIN: Array<MethodMatcher.CallToSignature> = arrayOf(
-        MethodMatcher.CallToSignature("\\Shopware\\Core\\System\\SystemConfig\\SystemConfigService", "getDomain"),
-    )
-
-    private val SHOPWARE_CORE_CRITERIA_ADD_FIELDS: Array<MethodMatcher.CallToSignature> = arrayOf(
-        MethodMatcher.CallToSignature(
-            "\\Shopware\\Core\\Framework\\DataAbstractionLayer\\Search\\Criteria",
-            "addAssociation"
-        ),
-        MethodMatcher.CallToSignature(
-            "\\Shopware\\Core\\Framework\\DataAbstractionLayer\\Search\\Criteria",
-            "addAssociations"
-        ),
-        MethodMatcher.CallToSignature(
-            "\\Shopware\\Core\\Framework\\DataAbstractionLayer\\Search\\Criteria",
-            "addFilter"
-        ),
-        MethodMatcher.CallToSignature(
-            "\\Shopware\\Core\\Framework\\DataAbstractionLayer\\Search\\Criteria",
-            "addPostFilter"
-        ),
-        MethodMatcher.CallToSignature(
-            "\\Shopware\\Core\\Framework\\DataAbstractionLayer\\Search\\Criteria",
-            "addSorting"
-        ),
-        MethodMatcher.CallToSignature(
-            "\\Shopware\\Core\\Framework\\DataAbstractionLayer\\Search\\Criteria",
-            "addGroupField"
-        ),
-    )
-
-    private val SHOPWARE_CORE_CRITERIA_ADD_AGGREGATION: Array<MethodMatcher.CallToSignature> = arrayOf(
-        MethodMatcher.CallToSignature(
-            "\\Shopware\\Core\\Framework\\DataAbstractionLayer\\Search\\Criteria",
-            "addAggregation"
-        ),
-    )
+            ).accepts(element)
+    }
 
     fun isFeatureFlagFunction(element: PsiElement): Boolean {
-        return MethodMatcher.getMatchedSignatureWithDepth(element.context, FEATURE_FLAG_SIGNATURES) != null
+        if (!isStaticClassMethodCall(element)) {
+            return false
+        }
+
+        val methodReference = element.parent.parent.parent as MethodReferenceImpl
+
+        if (methodReference.classReference !is ClassReferenceImpl) {
+            return false
+        }
+
+        val classRef = methodReference.classReference as ClassReferenceImpl
+
+        if (classRef.fqn != "\\Shopware\\Core\\Framework\\Feature") {
+            return false
+        }
+
+        return methodReference.name == "isActive" || methodReference.name == "ifActive" || methodReference.name == "ifActiveCall" || methodReference.name == "skipTestIfInActive" || methodReference.name == "skipTestIfActive" || methodReference.name == "triggerDeprecated" || methodReference.name == "throwException" || methodReference.name == "has" || methodReference.name == "triggerDeprecationOrThrow"
     }
 
     fun isShopwareStorefrontControllerTrans(element: PsiElement): Boolean {
-        return MethodMatcher.getMatchedSignatureWithDepth(
-            element.context,
-            SHOPWARE_STOREFRONT_CONTROLLER_TRANS_SIGNATURES
-        ) != null
+        if (!isStaticClassMethodCall(element)) {
+            return false
+        }
+
+        val methodReference = element.parent.parent.parent as MethodReferenceImpl
+
+        if (methodReference.name != "trans") {
+            return false
+        }
+
+        if (methodReference.classReference !is VariableImpl) {
+            return false
+        }
+
+        val resolved = (methodReference.classReference as VariableImpl).resolve()
+
+        if (resolved == null) {
+            return false
+        }
+
+        val classContaining = resolved as PhpClassImpl
+
+        classContaining.extendsList.children.forEach {
+            if ((it as ClassReferenceImpl).fqn == "\\Shopware\\Storefront\\Controller\\StorefrontController") {
+                return true
+            }
+        }
+
+        return false
     }
 
     fun isShopwareCoreSystemConfigServiceGetSingle(element: PsiElement): Boolean {
-        return MethodMatcher.getMatchedSignatureWithDepth(
-            element.context,
-            SHOPWARE_CORE_SYSTEM_CONFIG_SERVICE_GET_SINGLE
-        ) != null
+        if (!isStaticClassMethodCall(element)) {
+            return false
+        }
+
+        val methodReference = element.parent.parent.parent as MethodReferenceImpl
+
+        if (methodReference.classReference !is FieldReferenceImpl) {
+            return false
+        }
+
+        val fieldRef = methodReference.classReference as FieldReferenceImpl
+
+
+        if (fieldRef.resolveLocalType().toString() != "\\Shopware\\Core\\System\\SystemConfig\\SystemConfigService") {
+            return false
+        }
+
+        return methodReference.name == "get" || methodReference.name == "getString" || methodReference.name == "getInt" || methodReference.name == "getFloat" || methodReference.name == "getBool"
     }
 
     fun isShopwareCoreSystemConfigServiceGetDomain(element: PsiElement): Boolean {
-        return MethodMatcher.getMatchedSignatureWithDepth(
-            element.context,
-            SHOPWARE_CORE_SYSTEM_CONFIG_SERVICE_GET_DOMAIN
-        ) != null
-    }
+        if (!isStaticClassMethodCall(element)) {
+            return false
+        }
 
-    fun isShopwareCriteriaAddFields(element: PsiElement): Boolean {
-        return MethodMatcher.getMatchedSignatureWithDepth(
-            element.context,
-            SHOPWARE_CORE_CRITERIA_ADD_FIELDS
-        ) != null
-    }
+        val methodReference = element.parent.parent.parent as MethodReferenceImpl
 
-    fun isShopwareCriteriaAddAggregation(element: PsiElement): Boolean {
-        return MethodMatcher.getMatchedSignatureWithDepth(
-            element.context,
-            SHOPWARE_CORE_CRITERIA_ADD_AGGREGATION
-        ) != null
-    }
+        if (methodReference.classReference !is FieldReferenceImpl) {
+            return false
+        }
 
-    fun isCriteriaPatternAddAssociation(): PsiElementPattern.Capture<PsiElement> {
-        return PlatformPatterns.psiElement().withParent(
-            PlatformPatterns.psiElement(StringLiteralExpression::class.java).inside(
-                PlatformPatterns.psiElement(ParameterList::class.java)
-            )
-        )
-    }
+        val fieldRef = methodReference.classReference as FieldReferenceImpl
 
-    fun isCriteriaPatternAddAssociations(): PsiElementPattern.Capture<PsiElement> {
-        return PlatformPatterns.psiElement().withParent(
-            PlatformPatterns.psiElement(StringLiteralExpression::class.java).withParent(
-                PlatformPatterns.psiElement(PhpPsiElement::class.java)
-                    .inside(
-                        PlatformPatterns.psiElement(ArrayCreationExpression::class.java)
-                            .withParent(
-                                PlatformPatterns.psiElement(ParameterList::class.java)
-                            )
-                    )
-            )
-        )
-    }
 
-    fun isCriteriaPatternAddFilter(): PsiElementPattern.Capture<PsiElement> {
-        return PlatformPatterns.psiElement().withParent(
-            PlatformPatterns.psiElement(StringLiteralExpression::class.java)
-                .insideStarting(
-                    PlatformPatterns.psiElement(ParameterList::class.java)
-                        .withParent(
-                            PlatformPatterns.psiElement(NewExpression::class.java)
-                                .withParent(PlatformPatterns.psiElement(ParameterList::class.java))
-                        )
-                )
-        )
-    }
+        if (fieldRef.resolveLocalType().toString() != "\\Shopware\\Core\\System\\SystemConfig\\SystemConfigService") {
+            return false
+        }
 
-    fun isCriteriaPatternAddAggregation(): PsiElementPattern.Capture<PsiElement> {
-        return PlatformPatterns.psiElement().withParent(
-            PlatformPatterns.psiElement(StringLiteralExpression::class.java)
-                .afterSibling(
-                    PlatformPatterns.psiElement(StringLiteralExpression::class.java)
-                )
-                .inside(
-                    PlatformPatterns.psiElement(ParameterList::class.java)
-                        .withParent(
-                            PlatformPatterns.psiElement(NewExpression::class.java)
-                                .withParent(PlatformPatterns.psiElement(ParameterList::class.java))
-                        )
-                )
-        )
+        return methodReference.name == "getDomain"
     }
 }

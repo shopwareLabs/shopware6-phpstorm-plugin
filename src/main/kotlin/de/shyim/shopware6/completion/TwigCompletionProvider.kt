@@ -5,11 +5,7 @@ import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.openapi.project.Project
 import com.intellij.util.ProcessingContext
 import de.shyim.shopware6.util.*
-import fr.adrienbrault.idea.symfony2plugin.Symfony2ProjectComponent
-import fr.adrienbrault.idea.symfony2plugin.routing.RouteHelper
-import fr.adrienbrault.idea.symfony2plugin.templating.util.TwigUtil
 import icons.ShopwareToolBoxIcons
-import java.util.*
 
 
 class TwigCompletionProvider : CompletionContributor() {
@@ -64,58 +60,13 @@ class TwigCompletionProvider : CompletionContributor() {
 
         extend(
             CompletionType.BASIC,
-            TwigPattern.getPrintBlockOrTagFunctionPattern("seoUrl", "sw_csrf"),
+            TwigPattern.getTagTokenParserPattern(),
             object : CompletionProvider<CompletionParameters>() {
                 override fun addCompletions(
                     parameters: CompletionParameters,
                     context: ProcessingContext,
                     result: CompletionResultSet
                 ) {
-                    if (!Symfony2ProjectComponent.isEnabled(parameters.position)) {
-                        return
-                    }
-
-                    result.addAllElements(RouteHelper.getRoutesLookupElements(parameters.position.project))
-                }
-            }
-        )
-
-        extend(
-            CompletionType.BASIC,
-            TwigPattern.getShopwareIncludeExtendsTagPattern(),
-            object : CompletionProvider<CompletionParameters>() {
-                override fun addCompletions(
-                    parameters: CompletionParameters,
-                    context: ProcessingContext,
-                    result: CompletionResultSet
-                ) {
-                    if (!Symfony2ProjectComponent.isEnabled(parameters.position)) {
-                        return
-                    }
-
-                    result.addAllElements(
-                        TwigUtil.getTwigLookupElements(
-                            parameters.position.project,
-                            Collections.emptyList()
-                        )
-                    )
-                }
-            }
-        )
-
-        extend(
-            CompletionType.BASIC,
-            fr.adrienbrault.idea.symfony2plugin.templating.TwigPattern.getTagTokenParserPattern(),
-            object : CompletionProvider<CompletionParameters>() {
-                override fun addCompletions(
-                    parameters: CompletionParameters,
-                    context: ProcessingContext,
-                    result: CompletionResultSet
-                ) {
-                    if (!Symfony2ProjectComponent.isEnabled(parameters.position)) {
-                        return
-                    }
-
                     result.addElement(
                         LookupElementBuilder.create("sw_include").withIcon(ShopwareToolBoxIcons.SHOPWARE)
                     )
