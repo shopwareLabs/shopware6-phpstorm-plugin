@@ -11,7 +11,7 @@
     <depends>org.jetbrains.plugins.yaml</depends>
     <depends>JavaScript</depends>
     <depends>Git4Idea</depends>
-    <depends>fr.adrienbrault.idea.symfony2plugin</depends>
+    <depends optional="true" config-file="de.shyim.shopware6.symfony.xml">fr.adrienbrault.idea.symfony2plugin</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <defaultLiveTemplates file="/liveTemplates/Shopware 6 Config_xml.xml"/>
@@ -39,13 +39,11 @@
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.FeatureFlagGoToDeclareHandler"/>
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.AdminComponentGoToDeclareHandler"/>
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.AdminSnippetGoToDeclareHandler"/>
-        <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.RouteGoToDeclareHandler"/>
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.PHPSnippetGoToDeclareHandler"/>
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.ThemeConfigGoToDeclareHandler"/>
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.SystemConfigGoToDeclareHandler"/>
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.EntityDefinitionGoToDeclareHandler"/>
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.AdminMixinGoToDeclareHandler"/>
-        <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.DALCriteriaGoToDeclareHandler"/>
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.AdminModuleGoToDeclareHandler"/>
 
         <completion.contributor language="PHP"
@@ -58,10 +56,6 @@
 
         <completion.contributor language="JavaScript"
                                 implementationClass="de.shyim.shopware6.completion.JavaScriptCompletionProvider"
-                                order="first"/>
-
-        <completion.contributor language="PHP"
-                                implementationClass="de.shyim.shopware6.completion.DALCompletionProvider"
                                 order="first"/>
 
         <lang.foldingBuilder language="JavaScript"
@@ -257,11 +251,6 @@
         <notificationGroup id="Shopware"
                            displayType="BALLOON"
                            key="notification.group.name"/>
-    </extensions>
-
-    <extensions defaultExtensionNs="fr.adrienbrault.idea.symfony2plugin.extension">
-        <TranslatorProvider implementation="de.shyim.shopware6.symfonyplugin.ShopwareTranslationProvider"/>
-        <TwigFileUsage implementation="de.shyim.shopware6.symfonyplugin.TwigFileUsageProvider"/>
     </extensions>
 
     <actions>

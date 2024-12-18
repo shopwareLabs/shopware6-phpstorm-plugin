@@ -4,6 +4,7 @@ import com.intellij.patterns.ElementPattern
 import com.intellij.patterns.PlatformPatterns
 import com.intellij.patterns.PsiElementPattern
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiErrorElement
 import com.intellij.psi.PsiWhiteSpace
 import com.jetbrains.twig.TwigLanguage
 import com.jetbrains.twig.TwigTokenTypes
@@ -135,6 +136,35 @@ object TwigPattern {
                                     )
                             )
                     )
+            )
+            .withLanguage(TwigLanguage.INSTANCE)
+    }
+
+    /**
+     * Twig tag pattern with some hack
+     * because we have invalid psi elements after STATEMENT_BLOCK_START
+     *
+     * {% <caret> %}
+     */
+    fun getTagTokenParserPattern(): ElementPattern<PsiElement> {
+        return PlatformPatterns
+            .psiElement()
+            .afterLeafSkipping(
+                PlatformPatterns.or(
+                    PlatformPatterns.psiElement(PsiWhiteSpace::class.java),
+                    PlatformPatterns.psiElement(TwigTokenTypes.WHITE_SPACE)
+                ),
+                PlatformPatterns.or(
+                    PlatformPatterns.psiElement(TwigTokenTypes.STATEMENT_BLOCK_START),
+                    PlatformPatterns.psiElement(PsiErrorElement::class.java)
+                )
+            )
+            .beforeLeafSkipping(
+                PlatformPatterns.or(
+                    PlatformPatterns.psiElement(PsiWhiteSpace::class.java),
+                    PlatformPatterns.psiElement(TwigTokenTypes.WHITE_SPACE)
+                ),
+                PlatformPatterns.psiElement(TwigTokenTypes.STATEMENT_BLOCK_END)
             )
             .withLanguage(TwigLanguage.INSTANCE)
     }
