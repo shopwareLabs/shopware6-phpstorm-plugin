@@ -4,6 +4,19 @@
 
 ## Unreleased
 
+## 0.0.46 - 2024-12-18
+
+- Changelog update - `v0.0.45` by @github-actions in https://github.com/shopwareLabs/shopware6-phpstorm-plugin/pull/219
+- chore(deps): bump org.jetbrains.qodana from 2024.2.2 to 2024.2.3 by @dependabot in https://github.com/shopwareLabs/shopware6-phpstorm-plugin/pull/220
+- chore(deps): bump codecov/codecov-action from 4 to 5 by @dependabot in https://github.com/shopwareLabs/shopware6-phpstorm-plugin/pull/227
+- Add link to Block versioning blog post by @amenk in https://github.com/shopwareLabs/shopware6-phpstorm-plugin/pull/228
+- chore: upgrade dependencies & compatibility by @jankal in https://github.com/shopwareLabs/shopware6-phpstorm-plugin/pull/230
+- fix(indexing): do not access index before it is ready / while in dumb mode by @jankal in https://github.com/shopwareLabs/shopware6-phpstorm-plugin/pull/232
+- chore(deps): bump org.gradle.toolchains.foojay-resolver-convention from 0.8.0 to 0.9.0 by @dependabot in https://github.com/shopwareLabs/shopware6-phpstorm-plugin/pull/233
+- #222 configure project by @amenk in https://github.com/shopwareLabs/shopware6-phpstorm-plugin/pull/234
+- feat: made symfony plugin optional by @shyim in https://github.com/shopwareLabs/shopware6-phpstorm-plugin/pull/237
+- @jankal made their first contribution in https://github.com/shopwareLabs/shopware6-phpstorm-plugin/pull/230
+
 ## 0.0.45 - 2024-09-20
 
 - Fixed that previous deprecated blocks mark the next block also as deprecated
