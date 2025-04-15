@@ -61,9 +61,9 @@ class InsertSnippetAction : DumbAwareAction("Insert Snippet", "Insert snippet co
             .setFilteringEnabled {
                 return@setFilteringEnabled (it as SnippetCompletionElement).key + " " + it.value
             }
-            .setItemChoosenCallback {
+            .setItemChosenCallback(Runnable {
                 if (snippetList.selectedValue == null) {
-                    return@setItemChoosenCallback
+                    return@Runnable
                 }
 
                 ApplicationManager.getApplication().runWriteAction {
@@ -76,7 +76,7 @@ class InsertSnippetAction : DumbAwareAction("Insert Snippet", "Insert snippet co
                             )
                     }, "Insert Snippet", null)
                 }
-            }
+            })
             .createPopup()
             .showInBestPositionFor(e.dataContext)
     }

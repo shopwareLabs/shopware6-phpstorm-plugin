@@ -56,9 +56,9 @@ class NewAppScriptAction :
             .setFilteringEnabled {
                 return@setFilteringEnabled (it as ScriptHook).name
             }
-            .setItemChoosenCallback {
+            .setItemChosenCallback(Runnable {
                 this.chooseApp(jbHookList.selectedValue!!, e.project!!)
-            }
+            })
             .createPopup()
             .showInFocusCenter()
     }
@@ -87,12 +87,12 @@ class NewAppScriptAction :
 
         PopupChooserBuilder(jbAppList)
             .setTitle("Shopware: Select App")
-            .setItemChoosenCallback {
+            .setItemChosenCallback(Runnable {
                 CommandProcessor.getInstance().executeCommand(project, {
                     this.createFile(jbAppList.selectedValue, scriptHook, project)
 
                 }, "Create Hook", null)
-            }
+            })
             .createPopup()
             .showInFocusCenter()
     }

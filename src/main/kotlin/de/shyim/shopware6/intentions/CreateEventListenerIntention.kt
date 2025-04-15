@@ -79,7 +79,7 @@ class CreateEventListenerIntention : PsiElementBaseIntentionAction() {
 
         PopupChooserBuilder(jbBundleList)
             .setTitle("Shopware: Select Bundle")
-            .setItemChoosenCallback {
+            .setItemChosenCallback(Runnable {
                 CommandProcessor.getInstance().executeCommand(project, {
                     ApplicationManager.getApplication().runWriteAction {
                         this.createEventListener(
@@ -89,7 +89,7 @@ class CreateEventListenerIntention : PsiElementBaseIntentionAction() {
                         )
                     }
                 }, "Create Event Listener", null)
-            }
+            })
             .createPopup()
             .showInBestPositionFor(editor!!)
     }

@@ -30,7 +30,7 @@ class CopySnippet : DumbAwareAction("Copy Snippet Code", "Copy the snippet code"
 
         PopupChooserBuilder(jbBundleList)
             .setTitle("Target?")
-            .setItemChoosenCallback {
+            .setItemChosenCallback(Runnable {
                 var code = ""
 
                 when (jbBundleList.selectedValue!!) {
@@ -45,7 +45,7 @@ class CopySnippet : DumbAwareAction("Copy Snippet Code", "Copy the snippet code"
                         StringSelection(code),
                         null
                     )
-            }
+            })
             .createPopup()
             .showInBestPositionFor(editor)
     }

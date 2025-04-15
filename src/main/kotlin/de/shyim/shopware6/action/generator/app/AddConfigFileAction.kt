@@ -73,7 +73,7 @@ abstract class AddConfigFileAction(
 
         PopupChooserBuilder(jbAppList)
             .setTitle("Shopware: Select App")
-            .setItemChoosenCallback {
+            .setItemChosenCallback(Runnable {
                 CommandProcessor.getInstance().executeCommand(project, {
                     val localFolder = LocalFileSystem.getInstance().findFileByPath(jbAppList.selectedValue.rootFolder)
                     val psiDirectory = PsiManager.getInstance(project).findDirectory(localFolder!!) as PsiDirectory
@@ -101,7 +101,7 @@ abstract class AddConfigFileAction(
                     FileEditorManager.getInstance(project)
                         .openTextEditor(OpenFileDescriptor(project, createdConfigFile.virtualFile), true)
                 }, "Creating Config File", null)
-            }
+            })
             .createPopup()
             .showInFocusCenter()
     }

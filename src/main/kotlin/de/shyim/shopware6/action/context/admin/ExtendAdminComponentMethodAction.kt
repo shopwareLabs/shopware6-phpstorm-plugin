@@ -86,11 +86,10 @@ class ExtendAdminComponentMethodAction :
             val componentName = getComponentName(element)
 
             val popup = ShopwareBundleUtil.getBundleSelectionPopup(element.project)
-            popup
-                .setItemChoosenCallback {
+            val bundleSelectionCallback = Runnable {
                     val bundle =
                         (popup.chooserComponent as JBList<ShopwareBundle>).selectedValue
-                            ?: return@setItemChoosenCallback
+                            ?: return@Runnable
 
                     val allExistingComponents =
                         ShopwareBundleUtil.getAllComponentsWithOverridesInBundle(bundle, element.project)
@@ -119,29 +118,35 @@ class ExtendAdminComponentMethodAction :
                             return renderer
                         }
                     }
+
+                    val componentSelectionCallback = Runnable {
+                        val component = list.selectedValue ?: return@Runnable
+
+                        if (component.name == NEW_COMPONENT) {
+                            ExtendAdminComponentAction.createComponent(
+                                componentName,
+                                element.project,
+                                editor,
+                                bundle
+                            ) {
+                                addMethodToComponent(element, it)
+                            }
+                        } else {
+                            addMethodToComponent(element, component.file)
+                        }
+                    }
+
                     PopupChooserBuilder(list)
                         .setFilteringEnabled {
                             return@setFilteringEnabled (it as AdminComponent).name
                         }
-                        .setItemChoosenCallback {
-                            val component = list.selectedValue ?: return@setItemChoosenCallback
-
-                            if (component.name == NEW_COMPONENT) {
-                                ExtendAdminComponentAction.createComponent(
-                                    componentName,
-                                    element.project,
-                                    editor,
-                                    bundle
-                                ) {
-                                    addMethodToComponent(element, it)
-                                }
-                            } else {
-                                addMethodToComponent(element, component.file)
-                            }
-                        }
+                        .setItemChosenCallback(componentSelectionCallback)
                         .createPopup()
                         .showInBestPositionFor(editor)
                 }
+
+            popup
+                .setItemChosenCallback(bundleSelectionCallback)
                 .createPopup()
                 .showInBestPositionFor(editor)
         }

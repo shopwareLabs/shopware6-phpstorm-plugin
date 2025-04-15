@@ -94,9 +94,9 @@ class ExtendTwigBlockIntention : PsiElementBaseIntentionAction() {
 
             PopupChooserBuilder(jbBundleList)
                 .setTitle("Shopware: Select Extension")
-                .setItemChoosenCallback {
+                .setItemChosenCallback(Runnable {
                     if (jbBundleList.selectedValue == null) {
-                        return@setItemChoosenCallback
+                        return@Runnable
                     }
 
                     CommandProcessor.getInstance().executeCommand(project, {
@@ -109,7 +109,7 @@ class ExtendTwigBlockIntention : PsiElementBaseIntentionAction() {
                             )
                         }
                     }, "Extend Twig Block", null)
-                }
+                })
                 .createPopup()
                 .showInBestPositionFor(editor)
         }
