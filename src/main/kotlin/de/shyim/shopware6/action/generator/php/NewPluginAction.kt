@@ -67,6 +67,8 @@ class NewPluginAction : DumbAwareAction("Create a Plugin", "Create a new Plugin"
 
         // Create default resources
 
+        ActionUtil.createDirectory(srcFolder, "Controller") ?: return
+
         val resourcesFolder = ActionUtil.createDirectory(srcFolder, "Resources") ?: return
         val configFolder = ActionUtil.createDirectory(resourcesFolder, "config") ?: return
 
@@ -85,6 +87,18 @@ class NewPluginAction : DumbAwareAction("Create a Plugin", "Create a new Plugin"
             ShopwareTemplates.renderTemplate(
                 e.project!!,
                 ShopwareTemplates.SHOPWARE_PLUGIN_SERVICES_XML,
+                config.toMap()
+            ),
+            configFolder
+        )
+
+        ActionUtil.createFile(
+            e.project!!,
+            XmlFileType.INSTANCE,
+            "routes.xml",
+            ShopwareTemplates.renderTemplate(
+                e.project!!,
+                ShopwareTemplates.SHOPWARE_PLUGIN_ROUTES_XML,
                 config.toMap()
             ),
             configFolder

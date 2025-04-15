@@ -2,8 +2,10 @@
 
 <container xmlns="http://symfony.com/schema/dic/services"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xsi:schemaLocation="https://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
+>
 
     <services>
+        <defaults autowire="true" autoconfigure="true" />
+        <prototype namespace="${NAMESPACE}\" resource="../../" exclude="../../{Resources,${NAME}.php}" />
     </services>
 </container>
