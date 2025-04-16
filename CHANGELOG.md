@@ -4,6 +4,12 @@
 
 ## Unreleased
 
+## 0.0.47 - 2025-04-16
+
+- 2025.1 support
+- [fix: add event listener attribute](https://github.com/shopwareLabs/shopware6-phpstorm-plugin/commit/4cfe9d84e11e42b5a126907eabcb733e798472c0)
+- [feat: enable autoconfigure autowire on new plugins](https://github.com/shopwareLabs/shopware6-phpstorm-plugin/commit/04dff895eb065e3024cda86c84d38f5812890bb9)
+
 ## 0.0.46 - 2024-12-18
 
 - Changelog update - `v0.0.45` by @github-actions in https://github.com/shopwareLabs/shopware6-phpstorm-plugin/pull/219
