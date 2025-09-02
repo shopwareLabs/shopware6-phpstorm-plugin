@@ -1,7 +1,6 @@
 package de.shyim.shopware6.index
 
 import com.intellij.lang.ecmascript6.psi.ES6ImportDeclaration
-import com.intellij.lang.ecmascript6.psi.ES6Property
 import com.intellij.lang.javascript.JSTokenTypes
 import com.intellij.lang.javascript.JavaScriptFileType
 import com.intellij.lang.javascript.psi.JSCallExpression
@@ -91,7 +90,7 @@ class AdminComponentIndex : FileBasedIndexExtension<String, AdminComponent>() {
                                         }
                                     }
 
-                                    if (template is ES6Property) {
+                                    if (template is JSProperty) {
                                         inputData.psiFile.children.forEach {
                                             if (it is ES6ImportDeclaration && it.importedBindings.size == 1 && it.importedBindings[0].name == "template" && it.fromClause?.referenceText != null) {
                                                 templatePath =
