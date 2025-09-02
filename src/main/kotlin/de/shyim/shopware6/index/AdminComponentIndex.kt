@@ -142,7 +142,7 @@ class AdminComponentIndex : FileBasedIndexExtension<String, AdminComponent>() {
     }
 
     override fun getInputFilter(): FileBasedIndex.InputFilter {
-        return object : DefaultFileTypeSpecificInputFilter(JavaScriptFileType.INSTANCE) {
+        return object : DefaultFileTypeSpecificInputFilter(JavaScriptFileType) {
         }
     }
 }

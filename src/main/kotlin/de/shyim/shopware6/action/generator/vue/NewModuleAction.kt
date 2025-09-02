@@ -47,7 +47,7 @@ class NewModuleAction :
 
         ActionUtil.createFile(
             project,
-            JavaScriptFileType.INSTANCE,
+            JavaScriptFileType,
             "index.js",
             content,
             moduleFolder
@@ -89,7 +89,7 @@ class NewModuleAction :
         )
 
         val factory = PsiFileFactory.getInstance(project)
-        val file = factory.createFileFromText("$language.json", JavaScriptFileType.INSTANCE, content)
+        val file = factory.createFileFromText("$language.json", JavaScriptFileType, content)
 
         ApplicationManager.getApplication().runWriteAction {
             CodeStyleManager.getInstance(project).reformat(file)

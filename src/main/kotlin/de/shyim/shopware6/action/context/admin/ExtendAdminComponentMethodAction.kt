@@ -191,7 +191,7 @@ class ExtendAdminComponentMethodAction :
                                 val newMethod = PsiFileFactory.getInstance(element.project)
                                     .createFileFromText(
                                         "test.js",
-                                        JavascriptLanguage.INSTANCE,
+                                        JavascriptLanguage,
                                         "{\n    ${methodName}(${methodHead}) {\n        return this.\$super('${methodName}'${methodPass})    \n    },}\n}"
                                     )
                                     .firstChild
@@ -210,7 +210,7 @@ class ExtendAdminComponentMethodAction :
                                         val newProperty = PsiFileFactory.getInstance(element.project)
                                             .createFileFromText(
                                                 "test.js",
-                                                JavascriptLanguage.INSTANCE,
+                                                JavascriptLanguage,
                                                 "{${propertyName}: {}}"
                                             )
                                             .firstChild.children[1]

@@ -60,7 +60,7 @@ class NewComponentAction :
         )
 
         val factory = PsiFileFactory.getInstance(project)
-        val file = factory.createFileFromText("index.js", JavaScriptFileType.INSTANCE, content)
+        val file = factory.createFileFromText("index.js", JavaScriptFileType, content)
 
         ApplicationManager.getApplication().runWriteAction {
             componentFolder!!.add(file)

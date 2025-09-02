@@ -206,7 +206,7 @@ class ExtendAdminComponentAction : DumbAwareAction(
 
             val file = ActionUtil.createFile(
                 project,
-                JavaScriptFileType.INSTANCE,
+                JavaScriptFileType,
                 "index.js",
                 content,
                 componentFolder
@@ -249,7 +249,7 @@ class ExtendAdminComponentAction : DumbAwareAction(
             }
 
             if (adminRoot.findFile("main.js") == null) {
-                ActionUtil.createFile(project, JavaScriptFileType.INSTANCE, "main.js", "", adminRoot)
+                ActionUtil.createFile(project, JavaScriptFileType, "main.js", "", adminRoot)
             }
         }
     }

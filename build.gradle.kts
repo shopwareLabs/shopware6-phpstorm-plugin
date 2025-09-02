@@ -33,7 +33,7 @@ repositories {
 
 dependencies {
     implementation("com.jayway.jsonpath:json-path:2.9.0")
-    implementation("net.minidev:json-smart:2.5.1")
+    implementation("net.minidev:json-smart:2.5.2")
     implementation("org.codehaus.jettison:jettison:1.5.4")
 
     testImplementation(libs.junit)
@@ -56,6 +56,8 @@ dependencies {
 
 // Configure IntelliJ Platform Gradle Plugin - read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-extension.html
 intellijPlatform {
+    buildSearchableOptions = false
+
     pluginConfiguration {
         version = providers.gradleProperty("pluginVersion")
 

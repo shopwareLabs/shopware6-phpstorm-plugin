@@ -85,7 +85,7 @@ class AdminMixinIndex : FileBasedIndexExtension<String, AdminMixin>() {
     }
 
     override fun getInputFilter(): FileBasedIndex.InputFilter {
-        return object : DefaultFileTypeSpecificInputFilter(JavaScriptFileType.INSTANCE) {
+        return object : DefaultFileTypeSpecificInputFilter(JavaScriptFileType) {
         }
     }
 }

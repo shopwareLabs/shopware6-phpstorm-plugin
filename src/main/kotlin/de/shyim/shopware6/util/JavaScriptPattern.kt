@@ -34,7 +34,7 @@ object JavaScriptPattern {
                             )
                     )
             )
-            .withLanguage(JavascriptLanguage.INSTANCE)
+            .withLanguage(JavascriptLanguage)
     }
 
     fun getComponentPattern(): ElementPattern<PsiElement> {
@@ -73,7 +73,7 @@ object JavaScriptPattern {
                             )
                     )
             )
-            .withLanguage(JavascriptLanguage.INSTANCE)
+            .withLanguage(JavascriptLanguage)
     }
 
     fun getComponentRegisterFirstParameter(): PsiElementPattern.Capture<PsiElement> {
@@ -130,7 +130,7 @@ object JavaScriptPattern {
                             )
                     )
             )
-            .withLanguage(JavascriptLanguage.INSTANCE)
+            .withLanguage(JavascriptLanguage)
     }
 
     fun getTranslationPattern(): ElementPattern<PsiElement> {
@@ -165,7 +165,7 @@ object JavaScriptPattern {
                         )
                     )
             )
-            .withLanguage(JavascriptLanguage.INSTANCE)
+            .withLanguage(JavascriptLanguage)
     }
 
     private fun getModuleSnippetPattern(): PsiElementPattern.Capture<PsiElement> {
@@ -277,7 +277,7 @@ object JavaScriptPattern {
                             )
                     )
             )
-            .withLanguage(JavascriptLanguage.INSTANCE)
+            .withLanguage(JavascriptLanguage)
     }
 
     fun getRouteCompletion(): ElementPattern<PsiElement> {
@@ -302,7 +302,7 @@ object JavaScriptPattern {
                             )
                     )
             )
-            .withLanguage(JavascriptLanguage.INSTANCE)
+            .withLanguage(JavascriptLanguage)
     }
 
     private fun getModuleRedirectRoute(): PsiElementPattern.Capture<PsiElement> {
@@ -320,7 +320,7 @@ object JavaScriptPattern {
                             )
                     )
             )
-            .withLanguage(JavascriptLanguage.INSTANCE)
+            .withLanguage(JavascriptLanguage)
     }
 
     private fun getModuleNavigationRoute(): PsiElementPattern.Capture<PsiElement> {
@@ -342,7 +342,7 @@ object JavaScriptPattern {
                             )
                     )
             )
-            .withLanguage(JavascriptLanguage.INSTANCE)
+            .withLanguage(JavascriptLanguage)
     }
 
     private fun getModuleRouterPush(): PsiElementPattern.Capture<PsiElement> {
@@ -383,7 +383,7 @@ object JavaScriptPattern {
                             )
                     )
             )
-            .withLanguage(JavascriptLanguage.INSTANCE)
+            .withLanguage(JavascriptLanguage)
     }
 
 }

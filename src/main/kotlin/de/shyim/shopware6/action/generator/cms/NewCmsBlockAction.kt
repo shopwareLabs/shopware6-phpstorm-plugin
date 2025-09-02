@@ -37,7 +37,7 @@ class NewCmsBlockAction :
 
         val rootFile = ActionUtil.createFile(
             e.project!!,
-            JavaScriptFileType.INSTANCE,
+            JavaScriptFileType,
             "index.js",
             ShopwareTemplates.renderTemplate(
                 e.project!!,
@@ -51,7 +51,7 @@ class NewCmsBlockAction :
 
         ActionUtil.createFile(
             e.project!!,
-            JavaScriptFileType.INSTANCE,
+            JavaScriptFileType,
             "index.js",
             ShopwareTemplates.renderTemplate(
                 e.project!!,
@@ -77,7 +77,7 @@ class NewCmsBlockAction :
 
         ActionUtil.createFile(
             e.project!!,
-            JavaScriptFileType.INSTANCE,
+            JavaScriptFileType,
             "index.js",
             ShopwareTemplates.renderTemplate(
                 e.project!!,

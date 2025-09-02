@@ -41,7 +41,7 @@ class NewCmsElementAction :
 
         val rootFile = ActionUtil.createFile(
             e.project!!,
-            JavaScriptFileType.INSTANCE,
+            JavaScriptFileType,
             "index.js",
             ShopwareTemplates.renderTemplate(
                 e.project!!,
@@ -55,7 +55,7 @@ class NewCmsElementAction :
 
         ActionUtil.createFile(
             e.project!!,
-            JavaScriptFileType.INSTANCE,
+            JavaScriptFileType,
             "index.js",
             ShopwareTemplates.renderTemplate(
                 e.project!!,
@@ -93,7 +93,7 @@ class NewCmsElementAction :
 
         ActionUtil.createFile(
             e.project!!,
-            JavaScriptFileType.INSTANCE,
+            JavaScriptFileType,
             "index.js",
             ShopwareTemplates.renderTemplate(
                 e.project!!,
@@ -131,7 +131,7 @@ class NewCmsElementAction :
 
         ActionUtil.createFile(
             e.project!!,
-            JavaScriptFileType.INSTANCE,
+            JavaScriptFileType,
             "index.js",
             ShopwareTemplates.renderTemplate(
                 e.project!!,
