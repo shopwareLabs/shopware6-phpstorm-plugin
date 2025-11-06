@@ -28,8 +28,10 @@ class AddTwigVersioningIntention : PsiElementBaseIntentionAction() {
             return false
         }
 
+        val blockName = blockTag.name ?: return false
+
         val found = FileBasedIndex.getInstance()
-            .getValues(TwigBlockHashIndex.key, blockTag.name!!, GlobalSearchScope.allScope(project))
+            .getValues(TwigBlockHashIndex.key, blockName, GlobalSearchScope.allScope(project))
             .firstOrNull { it.relativePath == TwigUtil.getRelativePath(element.containingFile.virtualFile.path) && it.absolutePath != element.containingFile.virtualFile.path }
             ?: return false
 
