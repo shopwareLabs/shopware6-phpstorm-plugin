@@ -280,12 +280,6 @@
                text="Shopware Platform" icon="ShopwareToolBoxIcons.SHOPWARE"
                popup="true">
 
-            <group id="ShopwareToolboxContributionGroup" class="com.intellij.ide.actions.NonTrivialActionGroup"
-                   text="Contribution" icon="ShopwareToolBoxIcons.SHOPWARE" popup="true">
-                <action id="ShopwareToolboxNewContribution"
-                        class="de.shyim.shopware6.action.generator.NewChangelogAction"/>
-            </group>
-
             <group id="ShopwareToolboxPluginGroup" class="com.intellij.ide.actions.NonTrivialActionGroup" text="Plugin"
                    icon="ShopwareToolBoxIcons.SHOPWARE" popup="true">
                 <action id="ShopwareToolboxNewConfigXml"
