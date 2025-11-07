@@ -4,6 +4,11 @@
 
 ## Unreleased
 
+## 0.0.49 - 2025-11-07
+
+- removed changelog creation, not required anymore in shopware itself
+- fixed a bug where the block indexer fails when the block name is empty
+
 ## 0.0.48 - 2025-09-02
 
 - Fixed 2025.2 build
