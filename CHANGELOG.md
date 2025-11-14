@@ -4,6 +4,11 @@
 
 ## Unreleased
 
+## 0.0.50 - 2025-11-14
+
+- Updated Shopware Icon to be better visible
+- Added Shopware Icon to all Shopware Intentions
+
 ## 0.0.49 - 2025-11-07
 
 - removed changelog creation, not required anymore in shopware itself
