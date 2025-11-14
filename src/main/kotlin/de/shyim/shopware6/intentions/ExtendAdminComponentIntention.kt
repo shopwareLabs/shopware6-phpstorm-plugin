@@ -6,16 +6,23 @@ import com.intellij.openapi.editor.impl.EditorImpl
 import com.intellij.openapi.fileEditor.FileEditorManager
 import com.intellij.openapi.fileEditor.OpenFileDescriptor
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.util.Iconable
 import com.intellij.openapi.vfs.LocalFileSystem
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import de.shyim.shopware6.action.context.admin.ExtendAdminComponentAction
 import de.shyim.shopware6.util.JavaScriptPattern
 import de.shyim.shopware6.util.StringUtil
+import icons.ShopwareToolBoxIcons
+import javax.swing.Icon
 
-class ExtendAdminComponentIntention : PsiElementBaseIntentionAction() {
+class ExtendAdminComponentIntention : PsiElementBaseIntentionAction(), Iconable {
     override fun getFamilyName() = "Extend/override this component"
     override fun getText() = "Extend/override this component"
+
+    override fun getIcon(p0: Int): Icon {
+        return ShopwareToolBoxIcons.SHOPWARE
+    }
 
     override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean {
         return JavaScriptPattern.getComponentRegisterFirstParameter().accepts(element)

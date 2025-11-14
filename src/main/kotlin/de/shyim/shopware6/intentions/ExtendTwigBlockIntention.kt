@@ -11,6 +11,7 @@ import com.intellij.openapi.fileEditor.FileEditorManager
 import com.intellij.openapi.fileEditor.OpenFileDescriptor
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.popup.PopupChooserBuilder
+import com.intellij.openapi.util.Iconable
 import com.intellij.openapi.vfs.LocalFileSystem
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.profile.codeInspection.InspectionProjectProfileManager
@@ -22,12 +23,14 @@ import de.shyim.shopware6.index.dict.ShopwareBundle
 import de.shyim.shopware6.index.dict.ShopwareExtension
 import de.shyim.shopware6.util.ShopwareExtensionUtil
 import de.shyim.shopware6.util.TwigUtil
+import icons.ShopwareToolBoxIcons
 import java.awt.Component
+import javax.swing.Icon
 import javax.swing.JLabel
 import javax.swing.JList
 
 
-class ExtendTwigBlockIntention : PsiElementBaseIntentionAction() {
+class ExtendTwigBlockIntention : PsiElementBaseIntentionAction(), Iconable {
     override fun getFamilyName() = "Extends this block in other template directory"
     override fun getText() = "Extends this block in other template directory"
 
@@ -46,6 +49,10 @@ class ExtendTwigBlockIntention : PsiElementBaseIntentionAction() {
 
     override fun checkFile(file: PsiFile?): Boolean {
         return true
+    }
+
+    override fun getIcon(p0: Int): Icon {
+        return ShopwareToolBoxIcons.SHOPWARE
     }
 
     companion object {

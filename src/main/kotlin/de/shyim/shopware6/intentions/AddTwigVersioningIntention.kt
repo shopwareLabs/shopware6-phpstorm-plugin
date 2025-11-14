@@ -3,6 +3,7 @@ package de.shyim.shopware6.intentions
 import com.intellij.codeInsight.intention.PsiElementBaseIntentionAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.util.Iconable
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.search.GlobalSearchScope
@@ -10,10 +11,17 @@ import com.intellij.util.indexing.FileBasedIndex
 import com.jetbrains.twig.elements.TwigBlockTag
 import de.shyim.shopware6.index.TwigBlockHashIndex
 import de.shyim.shopware6.util.TwigUtil
+import icons.ShopwareToolBoxIcons
+import javax.swing.Icon
 
-class AddTwigVersioningIntention : PsiElementBaseIntentionAction() {
+class AddTwigVersioningIntention : PsiElementBaseIntentionAction(), Iconable {
     override fun getFamilyName() = "Add/Update the Shopware 6 Twig versioning comment"
     override fun getText() = "Add/Update the Shopware 6 versioning comment"
+
+
+    override fun getIcon(p0: Int): Icon {
+        return ShopwareToolBoxIcons.SHOPWARE
+    }
 
     override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean {
         if (editor == null) {

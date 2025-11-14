@@ -9,6 +9,7 @@ import com.intellij.openapi.fileEditor.OpenFileDescriptor
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.ui.popup.PopupChooserBuilder
+import com.intellij.openapi.util.Iconable
 import com.intellij.openapi.vfs.LocalFileSystem
 import com.intellij.psi.*
 import com.intellij.ui.components.JBList
@@ -18,13 +19,19 @@ import com.jetbrains.php.roots.PhpNamespaceByFilesProvider
 import de.shyim.shopware6.index.dict.ShopwareBundle
 import de.shyim.shopware6.templates.ShopwareTemplates
 import de.shyim.shopware6.util.ShopwareBundleUtil
+import icons.ShopwareToolBoxIcons
 import java.awt.Component
+import javax.swing.Icon
 import javax.swing.JLabel
 import javax.swing.JList
 
-class CreateEventListenerIntention : PsiElementBaseIntentionAction() {
+class CreateEventListenerIntention : PsiElementBaseIntentionAction(), Iconable {
     override fun getFamilyName() = "Subscribe to this event using a event listener"
     override fun getText() = "Subscribe to this event using a event listener"
+
+    override fun getIcon(p0: Int): Icon {
+        return ShopwareToolBoxIcons.SHOPWARE
+    }
 
     override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean {
         if (element.parent !is PhpClass || editor == null) {

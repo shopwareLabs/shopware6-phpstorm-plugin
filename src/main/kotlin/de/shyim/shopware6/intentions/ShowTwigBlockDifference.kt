@@ -8,6 +8,7 @@ import com.intellij.diff.requests.SimpleDiffRequest
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.guessProjectDir
+import com.intellij.openapi.util.Iconable
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiFileFactory
@@ -19,12 +20,19 @@ import com.jetbrains.twig.TwigFileType
 import com.jetbrains.twig.elements.TwigBlockTag
 import de.shyim.shopware6.index.TwigBlockHashIndex
 import de.shyim.shopware6.util.TwigUtil
+import icons.ShopwareToolBoxIcons
 import java.net.HttpURLConnection
 import java.net.URI
+import javax.swing.Icon
 
-class ShowTwigBlockDifference : PsiElementBaseIntentionAction() {
+class ShowTwigBlockDifference : PsiElementBaseIntentionAction(), Iconable {
     override fun getFamilyName() = "Show Twig block difference"
     override fun getText() = "Show Twig block difference"
+
+
+    override fun getIcon(p0: Int): Icon {
+        return ShopwareToolBoxIcons.SHOPWARE
+    }
 
     override fun startInWriteAction(): Boolean {
         return false
