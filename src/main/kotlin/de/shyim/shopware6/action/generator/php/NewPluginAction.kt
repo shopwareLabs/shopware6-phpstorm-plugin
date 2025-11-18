@@ -13,6 +13,7 @@ import com.jetbrains.php.lang.PhpFileType
 import de.shyim.shopware6.action.generator.ActionUtil
 import de.shyim.shopware6.templates.ShopwareTemplates
 import icons.ShopwareToolBoxIcons
+import org.jetbrains.yaml.YAMLFileType
 
 class NewPluginAction : DumbAwareAction("Create a Plugin", "Create a new Plugin", ShopwareToolBoxIcons.SHOPWARE) {
     override fun actionPerformed(e: AnActionEvent) {
@@ -82,11 +83,11 @@ class NewPluginAction : DumbAwareAction("Create a Plugin", "Create a new Plugin"
 
         ActionUtil.createFile(
             e.project!!,
-            XmlFileType.INSTANCE,
-            "services.xml",
+            YAMLFileType.YML,
+            "services.yaml",
             ShopwareTemplates.renderTemplate(
                 e.project!!,
-                ShopwareTemplates.SHOPWARE_PLUGIN_SERVICES_XML,
+                ShopwareTemplates.SHOPWARE_PLUGIN_SERVICES_YAML,
                 config.toMap()
             ),
             configFolder
@@ -94,11 +95,11 @@ class NewPluginAction : DumbAwareAction("Create a Plugin", "Create a new Plugin"
 
         ActionUtil.createFile(
             e.project!!,
-            XmlFileType.INSTANCE,
-            "routes.xml",
+            YAMLFileType.YML,
+            "routes.yaml",
             ShopwareTemplates.renderTemplate(
                 e.project!!,
-                ShopwareTemplates.SHOPWARE_PLUGIN_ROUTES_XML,
+                ShopwareTemplates.SHOPWARE_PLUGIN_ROUTES_YAML,
                 config.toMap()
             ),
             configFolder

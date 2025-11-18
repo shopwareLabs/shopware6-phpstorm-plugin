@@ -1,0 +1,3 @@
+${NAMESPACE}_controllers:
+  resource: ../../Controller
+  type: attribute
