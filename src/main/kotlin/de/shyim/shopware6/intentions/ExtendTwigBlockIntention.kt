@@ -40,11 +40,11 @@ class ExtendTwigBlockIntention : PsiElementBaseIntentionAction(), Iconable {
     }
 
     override fun invoke(project: Project, editor: Editor?, element: PsiElement) {
-        if (editor == null || editor !is EditorImpl) {
+        if (editor == null || editor !is EditorImpl || editor.virtualFile == null) {
             return
         }
 
-        extendSelectedTwigBlock(editor, editor.virtualFile, project, element)
+        extendSelectedTwigBlock(editor, editor.virtualFile!!, project, element)
     }
 
     override fun checkFile(file: PsiFile?): Boolean {
