@@ -17,7 +17,7 @@ open class AdminSnippetIndex : FileBasedIndexExtension<String, SnippetFile>() {
     }
 
     override fun getVersion(): Int {
-        return 2
+        return 3
     }
 
     override fun dependsOnFileContent(): Boolean {
@@ -26,7 +26,7 @@ open class AdminSnippetIndex : FileBasedIndexExtension<String, SnippetFile>() {
 
     override fun getIndexer(): DataIndexer<String, SnippetFile, FileContent> {
         return DataIndexer { inputData ->
-            if (inputData.file.name != "en-GB.json") {
+            if (inputData.file.name != "en-GB.json" && inputData.file.name != "en.json") {
                 return@DataIndexer mapOf()
             }
 

@@ -20,7 +20,7 @@ class AdminSnippetIndexTest : BasePlatformTestCase() {
     }
 
     fun testSnippetsAreIndexed() {
-        TestCase.assertTrue(AdminSnippetUtil.hasSnippet("test.foo", project))
+        assertTrue(AdminSnippetUtil.hasSnippet("test.foo", project))
 
         val values = FileBasedIndex.getInstance()
             .getValues(AdminSnippetIndex.key, "/src/snippet/en-GB.json", GlobalSearchScope.allScope(project))
@@ -31,16 +31,16 @@ class AdminSnippetIndexTest : BasePlatformTestCase() {
     }
 
     fun testNotExistingKey() {
-        TestCase.assertFalse(AdminSnippetUtil.hasSnippet("test.foo-not-existing", project))
+        assertFalse(AdminSnippetUtil.hasSnippet("test.foo-not-existing", project))
     }
 
     fun testLookupWorks() {
         val lookupItems = AdminSnippetUtil.getAllLookupItems(project)
-        TestCase.assertSame(2, lookupItems.size)
+        assertSame(2, lookupItems.size)
 
         val lookupStrings = listOf(lookupItems[0].lookupString, lookupItems[1].lookupString)
 
-        TestCase.assertTrue(lookupStrings.contains("test.foo"))
-        TestCase.assertTrue(lookupStrings.contains("test.foo2"))
+        assertTrue(lookupStrings.contains("test.foo"))
+        assertTrue(lookupStrings.contains("test.foo2"))
     }
 }

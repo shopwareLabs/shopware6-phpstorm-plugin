@@ -26,7 +26,7 @@ object FrontendSnippetUtil {
 
     fun getAllLookupItems(project: Project): MutableList<LookupElement> {
         val list: MutableList<LookupElement> = ArrayList()
-        val usedKeys: MutableList<String> = ArrayList()
+        val usedKeys: MutableSet<String> = LinkedHashSet()
 
         getAllSnippets(project).forEach { file ->
             file.snippets.forEach snippetLoop@{ snippet ->

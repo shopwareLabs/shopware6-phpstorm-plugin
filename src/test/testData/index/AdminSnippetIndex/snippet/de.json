@@ -1,0 +1,7 @@
+{
+  "test": {
+    "foo": "DE",
+    "foo2": "DE-2",
+    "onlyDe": "DE-ONLY"
+  }
+}
