@@ -19,14 +19,14 @@ class AdminModuleIndexTest : BasePlatformTestCase() {
 
     fun testModuleAreRegistered() {
         val keys = FileBasedIndex.getInstance().getAllKeys(AdminModuleIndex.key, project)
-        TestCase.assertSame(1, keys.size)
+        assertSame(1, keys.size)
 
         val values = FileBasedIndex.getInstance()
             .getValues(AdminModuleIndex.key, keys.first(), GlobalSearchScope.allScope(project))
         val module = values.first()
 
         TestCase.assertEquals("sw-product", module.name)
-        TestCase.assertSame(4, module.routes.size)
+        assertSame(4, module.routes.size)
 
         var route = module.routes["sw.product.index"]!!
         TestCase.assertEquals("sw.product.index", route.name)
@@ -52,9 +52,9 @@ class AdminModuleIndexTest : BasePlatformTestCase() {
             lookupStrings.add(it.lookupString)
         }
 
-        TestCase.assertTrue(lookupStrings.contains("sw.product.index"))
-        TestCase.assertTrue(lookupStrings.contains("sw.product.detail"))
-        TestCase.assertTrue(lookupStrings.contains("sw.product.detail.base"))
-        TestCase.assertTrue(lookupStrings.contains("sw.product.detail.specifications"))
+        assertTrue(lookupStrings.contains("sw.product.index"))
+        assertTrue(lookupStrings.contains("sw.product.detail"))
+        assertTrue(lookupStrings.contains("sw.product.detail.base"))
+        assertTrue(lookupStrings.contains("sw.product.detail.specifications"))
     }
 }

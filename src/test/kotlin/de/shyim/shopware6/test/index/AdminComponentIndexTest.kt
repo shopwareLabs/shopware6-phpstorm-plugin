@@ -19,7 +19,7 @@ class AdminComponentIndexTest: BasePlatformTestCase() {
 
     fun testComponentsAreRegistered() {
         val keys = FileBasedIndex.getInstance().getAllKeys(AdminComponentIndex.key, project)
-        TestCase.assertSame(2, keys.size)
+        assertSame(2, keys.size)
 
         val button = FileBasedIndex.getInstance()
             .getValues(AdminComponentIndex.key, "sw-button", GlobalSearchScope.allScope(project)).first()

@@ -17,14 +17,14 @@ class EntityDefinitionIndexTest : BasePlatformTestCase() {
         myFixture.copyFileToProject("MailArchiveDefinition.php")
 
         val definitions = EntityDefinitionUtil.getAllDefinitions(project)
-        TestCase.assertSame(1, definitions.size)
+        assertSame(1, definitions.size)
         val definition = definitions.first()
         TestCase.assertEquals("frosh_mail_archive", definition.name)
         TestCase.assertEquals("\\Frosh\\MailArchive\\Content\\MailArchive\\MailArchiveDefinition", definition.fqn)
-        TestCase.assertSame(11, definition.fields.size)
+        assertSame(11, definition.fields.size)
 
         TestCase.assertEquals("id", definition.fields[0].name)
-        TestCase.assertFalse(definition.fields[0].association)
+        assertFalse(definition.fields[0].association)
         TestCase.assertEquals("", definition.fields[0].associationTarget)
         TestCase.assertEquals(
             "\\Shopware\\Core\\Framework\\DataAbstractionLayer\\Field\\IdField",
@@ -32,7 +32,7 @@ class EntityDefinitionIndexTest : BasePlatformTestCase() {
         )
 
         TestCase.assertEquals("sender", definition.fields[1].name)
-        TestCase.assertFalse(definition.fields[1].association)
+        assertFalse(definition.fields[1].association)
         TestCase.assertEquals("", definition.fields[1].associationTarget)
         TestCase.assertEquals(
             "\\Shopware\\Core\\Framework\\DataAbstractionLayer\\Field\\JsonField",
@@ -40,7 +40,7 @@ class EntityDefinitionIndexTest : BasePlatformTestCase() {
         )
 
         TestCase.assertEquals("receiver", definition.fields[2].name)
-        TestCase.assertFalse(definition.fields[2].association)
+        assertFalse(definition.fields[2].association)
         TestCase.assertEquals("", definition.fields[2].associationTarget)
         TestCase.assertEquals(
             "\\Shopware\\Core\\Framework\\DataAbstractionLayer\\Field\\JsonField",
@@ -48,7 +48,7 @@ class EntityDefinitionIndexTest : BasePlatformTestCase() {
         )
 
         TestCase.assertEquals("subject", definition.fields[3].name)
-        TestCase.assertFalse(definition.fields[3].association)
+        assertFalse(definition.fields[3].association)
         TestCase.assertEquals("", definition.fields[3].associationTarget)
         TestCase.assertEquals(
             "\\Shopware\\Core\\Framework\\DataAbstractionLayer\\Field\\StringField",
@@ -56,7 +56,7 @@ class EntityDefinitionIndexTest : BasePlatformTestCase() {
         )
 
         TestCase.assertEquals("plainText", definition.fields[4].name)
-        TestCase.assertFalse(definition.fields[4].association)
+        assertFalse(definition.fields[4].association)
         TestCase.assertEquals("", definition.fields[4].associationTarget)
         TestCase.assertEquals(
             "\\Shopware\\Core\\Framework\\DataAbstractionLayer\\Field\\LongTextField",
@@ -64,7 +64,7 @@ class EntityDefinitionIndexTest : BasePlatformTestCase() {
         )
 
         TestCase.assertEquals("htmlText", definition.fields[5].name)
-        TestCase.assertFalse(definition.fields[5].association)
+        assertFalse(definition.fields[5].association)
         TestCase.assertEquals("", definition.fields[5].associationTarget)
         TestCase.assertEquals(
             "\\Shopware\\Core\\Framework\\DataAbstractionLayer\\Field\\LongTextField",
@@ -72,7 +72,7 @@ class EntityDefinitionIndexTest : BasePlatformTestCase() {
         )
 
         TestCase.assertEquals("eml", definition.fields[6].name)
-        TestCase.assertFalse(definition.fields[6].association)
+        assertFalse(definition.fields[6].association)
         TestCase.assertEquals("", definition.fields[6].associationTarget)
         TestCase.assertEquals(
             "\\Shopware\\Core\\Framework\\DataAbstractionLayer\\Field\\LongTextField",
@@ -80,7 +80,7 @@ class EntityDefinitionIndexTest : BasePlatformTestCase() {
         )
 
         TestCase.assertEquals("salesChannelId", definition.fields[7].name)
-        TestCase.assertFalse(definition.fields[7].association)
+        assertFalse(definition.fields[7].association)
         TestCase.assertEquals("", definition.fields[7].associationTarget)
         TestCase.assertEquals(
             "\\Shopware\\Core\\Framework\\DataAbstractionLayer\\Field\\FkField",
@@ -88,7 +88,7 @@ class EntityDefinitionIndexTest : BasePlatformTestCase() {
         )
 
         TestCase.assertEquals("salesChannel", definition.fields[8].name)
-        TestCase.assertTrue(definition.fields[8].association)
+        assertTrue(definition.fields[8].association)
         TestCase.assertEquals(
             "\\Shopware\\Core\\System\\SalesChannel\\SalesChannelDefinition",
             definition.fields[8].associationTarget
@@ -99,7 +99,7 @@ class EntityDefinitionIndexTest : BasePlatformTestCase() {
         )
 
         TestCase.assertEquals("customerId", definition.fields[9].name)
-        TestCase.assertFalse(definition.fields[9].association)
+        assertFalse(definition.fields[9].association)
         TestCase.assertEquals("", definition.fields[9].associationTarget)
         TestCase.assertEquals(
             "\\Shopware\\Core\\Framework\\DataAbstractionLayer\\Field\\FkField",
@@ -107,7 +107,7 @@ class EntityDefinitionIndexTest : BasePlatformTestCase() {
         )
 
         TestCase.assertEquals("customer", definition.fields[10].name)
-        TestCase.assertTrue(definition.fields[10].association)
+        assertTrue(definition.fields[10].association)
         TestCase.assertEquals(
             "\\Shopware\\Core\\Checkout\\Customer\\CustomerDefinition",
             definition.fields[10].associationTarget
@@ -122,14 +122,14 @@ class EntityDefinitionIndexTest : BasePlatformTestCase() {
         myFixture.copyFileToProject("AppShippingMethodDefinition.php")
 
         val definitions = EntityDefinitionUtil.getAllDefinitions(project)
-        TestCase.assertSame(1, definitions.size)
+        assertSame(1, definitions.size)
         val definition = definitions.first()
         TestCase.assertEquals("app_shipping_method", definition.name)
         TestCase.assertEquals("\\Shopware\\Core\\Framework\\App\\Aggregate\\AppShippingMethod\\AppShippingMethodDefinition", definition.fqn)
-        TestCase.assertSame(9, definition.fields.size)
+        assertSame(9, definition.fields.size)
 
         TestCase.assertEquals("id", definition.fields[0].name)
-        TestCase.assertFalse(definition.fields[0].association)
+        assertFalse(definition.fields[0].association)
         TestCase.assertEquals("", definition.fields[0].associationTarget)
         TestCase.assertEquals(
             "\\Shopware\\Core\\Framework\\DataAbstractionLayer\\Field\\IdField",
