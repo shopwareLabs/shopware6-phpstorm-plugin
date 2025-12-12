@@ -4,6 +4,10 @@
 
 ## Unreleased
 
+## 0.0.51 - 2025-12-11
+
+- Fixed release for latest 2025.3 update for Twig versioning commment and snippet indexing
+
 ## 0.0.50 - 2025-11-14
 
 - Updated Shopware Icon to be better visible
