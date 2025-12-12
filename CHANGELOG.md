@@ -4,6 +4,11 @@
 
 ## Unreleased
 
+## 0.0.52 - 2025-12-12
+
+- Fixed creating new Shopware projects
+- Fixed missing Admin snippets in newer Shopware versions
+
 ## 0.0.51 - 2025-12-11
 
 - Fixed release for latest 2025.3 update for Twig versioning commment and snippet indexing
