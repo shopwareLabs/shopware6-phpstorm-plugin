@@ -46,7 +46,7 @@ object ShopwareApiUtil {
         )
 
         return try {
-            val url = URI("https://api.shopware.com/platform/releases").toURL()
+            val url = URI("https://releases.shopware.com/changelog/index.json").toURL()
             val conn: URLConnection = url.openConnection()
             conn.setRequestProperty("User-Agent", userAgent)
             conn.connect()
