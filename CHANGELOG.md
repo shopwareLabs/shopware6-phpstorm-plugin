@@ -4,6 +4,10 @@
 
 ## Unreleased
 
+## 0.0.53 - 2026-02-11
+
+- Changed YAML Symfony Config to PHP File
+
 ## 0.0.52 - 2025-12-12
 
 - Fixed creating new Shopware projects
