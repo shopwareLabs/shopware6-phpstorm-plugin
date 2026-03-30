@@ -4,6 +4,10 @@
 
 ## Unreleased
 
+## 0.0.54 - 2026-03-30
+
+- Changelog update - `0.0.53` by @github-actions[bot] in https://github.com/shopwareLabs/shopware6-phpstorm-plugin/pull/259
+
 ## 0.0.53 - 2026-02-11
 
 - Changed YAML Symfony Config to PHP File
