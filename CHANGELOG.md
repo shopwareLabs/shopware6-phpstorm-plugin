@@ -4,6 +4,10 @@
 
 ## Unreleased
 
+## 0.0.55 - 2026-07-10
+
+- Marked as compatible with next major version of Jetbrains IDEs
+
 ## 0.0.54 - 2026-03-30
 
 - Changelog update - `0.0.53` by @github-actions[bot] in https://github.com/shopwareLabs/shopware6-phpstorm-plugin/pull/259
