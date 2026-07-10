@@ -12,7 +12,6 @@ import com.intellij.openapi.vfs.LocalFileSystem
 import de.shyim.shopware6.util.ShopwareBundleUtil
 import icons.ShopwareToolBoxIcons
 import org.apache.commons.io.FileUtils
-import org.apache.commons.lang3.StringUtils
 import org.codehaus.jettison.json.JSONObject
 import java.io.File
 import com.intellij.notification.Notification
@@ -156,11 +155,7 @@ class ConfigureShopwareProjectAction : DumbAwareAction(
             var alreadyRegistered = false
 
             foundContentEntry.sourceFolders.forEach { sourceFolder ->
-                if (StringUtils.removeEnd(
-                        sourceFolder?.file.toString(),
-                        "/"
-                    ) == StringUtils.removeEnd(bundleFolder.toString(), "/")
-                ) {
+                if (sourceFolder?.file.toString().removeSuffix("/") == bundleFolder.toString().removeSuffix("/")) {
                     sourceFolder.packagePrefix = key
                     alreadyRegistered = true
                 }
