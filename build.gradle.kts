@@ -143,6 +143,18 @@ tasks {
     runIde {
         jvmArgs("-Xmx4000m")
     }
+
+    // The bundled Vue plugin fails to initialize its LSP service in the test IDE because it cannot
+    // resolve its language-server binary from the transformed distribution layout. That failure
+    // fires from VFS listeners as soon as a `.js` file is added to a fixture project and is promoted
+    // to a test failure. We don't use Vue, so disable the plugin in the test sandbox.
+    prepareTestSandbox {
+        val configDir = sandboxConfigDirectory
+        doLast {
+            configDir.get().asFile.resolve("disabled_plugins.txt")
+                .writeText("org.jetbrains.plugins.vue\n")
+        }
+    }
     processResources {
         exclude("fileTemplates/j2ee/**")
         from(fileTree("src/main/resources/fileTemplates/j2ee").files) {

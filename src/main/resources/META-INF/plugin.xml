@@ -10,7 +10,6 @@
     <depends>org.jetbrains.plugins.sass</depends>
     <depends>org.jetbrains.plugins.yaml</depends>
     <depends>JavaScript</depends>
-    <depends>Git4Idea</depends>
     <depends optional="true" config-file="de.shyim.shopware6.symfony.xml">fr.adrienbrault.idea.symfony2plugin</depends>
 
     <extensions defaultExtensionNs="com.intellij">
