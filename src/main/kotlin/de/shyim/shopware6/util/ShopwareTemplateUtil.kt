@@ -4,19 +4,40 @@ import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
-import com.intellij.psi.search.FileTypeIndex
-import com.intellij.psi.search.FilenameIndex
+import com.intellij.openapi.vfs.VirtualFileManager
 import com.intellij.psi.search.GlobalSearchScope
-import com.jetbrains.twig.TwigFileType
+import com.intellij.psi.util.CachedValueProvider
+import com.intellij.psi.util.CachedValuesManager
+import com.intellij.util.indexing.FileBasedIndex
+import de.shyim.shopware6.index.ShopwareTemplateIndex
 import icons.ShopwareToolBoxIcons
 
 object ShopwareTemplateUtil {
     fun findTemplateInBundle(project: Project, bundleName: String, templatePath: String): VirtualFile? {
-        val suffix = "Resources/views/$templatePath"
-
-        return filterByBundle(getTemplatesByViewPath(project, templatePath), suffix, bundleName)
+        return filterByBundle(getTemplatesByViewPath(project, templatePath), templatePath, bundleName)
             .sortedWith(templateOrder())
             .firstOrNull()
+    }
+
+    fun findTemplateByPath(project: Project, path: String): VirtualFile? {
+        return getTemplatesByViewPath(project, TwigUtil.getRelativePath(path)).firstOrNull { it.path == path }
+    }
+
+    fun getExtendsTarget(project: Project, file: VirtualFile): String? {
+        var target: String? = null
+
+        FileBasedIndex.getInstance().processValues(
+            ShopwareTemplateIndex.key,
+            TwigUtil.getRelativePath(file.path),
+            file,
+            { _, value ->
+                target = value
+                true
+            },
+            GlobalSearchScope.allScope(project)
+        )
+
+        return target?.takeIf { it.isNotEmpty() }
     }
 
     fun resolveTemplateReference(project: Project, reference: String): List<VirtualFile> {
@@ -43,30 +64,20 @@ object ShopwareTemplateUtil {
 
         // the referenced bundle first, then every other template with the same view path, as
         // they are all part of the inheritance chain at runtime
-        val bundleMatches = filterByBundle(candidates, "Resources/views/$templatePath", bundleName)
+        val bundleMatches = filterByBundle(candidates, templatePath, bundleName)
 
         return bundleMatches.sortedWith(templateOrder()) +
                 (candidates - bundleMatches.toSet()).sortedWith(templateOrder())
     }
 
     fun getTemplateLookupElements(project: Project): List<LookupElement> {
-        val elements = HashMap<String, LookupElement>()
-
-        FileTypeIndex.getFiles(TwigFileType.INSTANCE, GlobalSearchScope.allScope(project)).forEach { file ->
-            if (!file.path.contains("Resources/views/")) {
-                return@forEach
-            }
-
-            val bundleName = getBundleNameForPath(file.path) ?: return@forEach
-            val reference = "@$bundleName/${TwigUtil.getRelativePath(file.path)}"
-
-            elements.putIfAbsent(
-                reference,
-                LookupElementBuilder.create(reference).withIcon(ShopwareToolBoxIcons.SHOPWARE)
+        // the template set only changes when files are created, moved or deleted
+        return CachedValuesManager.getManager(project).getCachedValue(project) {
+            CachedValueProvider.Result.create(
+                buildTemplateLookupElements(project),
+                VirtualFileManager.VFS_STRUCTURE_MODIFICATIONS
             )
         }
-
-        return elements.values.toList()
     }
 
     fun getBundleNameForPath(path: String): String? {
@@ -103,20 +114,42 @@ object ShopwareTemplateUtil {
         return if (last == "src") root.getOrNull(root.size - 2) else last
     }
 
-    private fun getTemplatesByViewPath(project: Project, templatePath: String): List<VirtualFile> {
-        val suffix = "Resources/views/$templatePath"
+    private fun buildTemplateLookupElements(project: Project): List<LookupElement> {
+        val elements = HashMap<String, LookupElement>()
+        val index = FileBasedIndex.getInstance()
+        val scope = GlobalSearchScope.allScope(project)
 
-        return FilenameIndex.getVirtualFilesByName(
-            templatePath.substringAfterLast('/'),
+        index.processAllKeys(ShopwareTemplateIndex.key, { viewPath ->
+            index.getContainingFiles(ShopwareTemplateIndex.key, viewPath, scope).forEach { file ->
+                val bundleName = getBundleNameForPath(file.path) ?: return@forEach
+                val reference = "@$bundleName/$viewPath"
+
+                elements.putIfAbsent(
+                    reference,
+                    LookupElementBuilder.create(reference).withIcon(ShopwareToolBoxIcons.SHOPWARE)
+                )
+            }
+
+            true
+        }, project)
+
+        return elements.values.toList()
+    }
+
+    private fun getTemplatesByViewPath(project: Project, templatePath: String): List<VirtualFile> {
+        return FileBasedIndex.getInstance().getContainingFiles(
+            ShopwareTemplateIndex.key,
+            templatePath,
             GlobalSearchScope.allScope(project)
-        ).filter { it.path.endsWith(suffix) }
+        ).filter { it.path.endsWith("Resources/views/$templatePath") }
     }
 
     private fun filterByBundle(
         candidates: List<VirtualFile>,
-        suffix: String,
+        templatePath: String,
         bundleName: String
     ): List<VirtualFile> {
+        val suffix = "Resources/views/$templatePath"
         val normalizedBundle = normalize(bundleName)
 
         // prefer a path segment exactly matching the bundle name, fall back to a substring

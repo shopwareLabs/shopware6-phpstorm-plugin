@@ -9,7 +9,6 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.PsiManager
 import com.intellij.psi.PsiRecursiveElementWalkingVisitor
-import com.intellij.psi.search.FilenameIndex
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.util.indexing.FileBasedIndex
 import com.jetbrains.php.composer.actions.update.ComposerInstalledPackagesService
@@ -64,10 +63,14 @@ object TwigUtil {
     }
 
     private val EXTENDS_PATTERN = Regex("\\{%-?\\s*(sw_)?extends\\s")
-    private val EXTENDS_TARGET_PATTERN = Regex("\\{%-?\\s*(?:sw_)?extends\\s+['\"]@([A-Za-z0-9_]+)/([^'\"]+)['\"]")
+    private val EXTENDS_TARGET_PATTERN = Regex("\\{%-?\\s*(?:sw_)?extends\\s+['\"](@[A-Za-z0-9_]+/[^'\"]+)['\"]")
 
     fun isExtendingTemplate(file: PsiFile): Boolean {
         return EXTENDS_PATTERN.containsMatchIn(file.text)
+    }
+
+    fun findExtendsTargetReference(content: CharSequence): String? {
+        return EXTENDS_TARGET_PATTERN.find(content)?.groupValues?.get(1)
     }
 
     fun getExtendsChainPaths(file: PsiFile): List<String> {
@@ -76,30 +79,33 @@ object TwigUtil {
         val visited = HashSet<String>()
         file.originalFile.virtualFile?.path?.let { visited.add(it) }
 
-        var current: PsiFile? = file
+        var target = findExtendsTargetReference(file.text)
 
-        while (current != null && paths.size < 10) {
-            val target = EXTENDS_TARGET_PATTERN.find(current.text) ?: break
-            val parent =
-                ShopwareTemplateUtil.findTemplateInBundle(project, target.groupValues[1], target.groupValues[2])
-                    ?: break
+        while (target != null && paths.size < 10) {
+            val bundleName = target.substring(1).substringBefore("/")
+            val templatePath = target.substringAfter("/", "")
+
+            if (templatePath.isEmpty()) {
+                break
+            }
+
+            val parent = ShopwareTemplateUtil.findTemplateInBundle(project, bundleName, templatePath) ?: break
 
             if (!visited.add(parent.path)) {
                 break
             }
 
             paths.add(parent.path)
-            current = PsiManager.getInstance(project).findFile(parent)
+
+            // the parents' extends targets come from the index, so no further files need to be loaded
+            target = ShopwareTemplateUtil.getExtendsTarget(project, parent)
         }
 
         return paths
     }
 
     fun findBlockTagInFile(project: Project, path: String, blockName: String): PsiElement? {
-        val virtualFile = FilenameIndex.getVirtualFilesByName(
-            path.substringAfterLast('/'),
-            GlobalSearchScope.allScope(project)
-        ).firstOrNull { it.path == path } ?: return null
+        val virtualFile = ShopwareTemplateUtil.findTemplateByPath(project, path) ?: return null
 
         val psiFile = PsiManager.getInstance(project).findFile(virtualFile) ?: return null
 
@@ -265,10 +271,7 @@ object TwigUtil {
         }
 
         // extensions in custom/plugins: read the version from the extension's composer.json
-        val templateFile = FilenameIndex.getVirtualFilesByName(
-            path.substringAfterLast('/'),
-            GlobalSearchScope.allScope(project)
-        ).firstOrNull { it.path == path } ?: return null
+        val templateFile = ShopwareTemplateUtil.findTemplateByPath(project, path) ?: return null
 
         var dir = templateFile.parent
         while (dir != null) {
