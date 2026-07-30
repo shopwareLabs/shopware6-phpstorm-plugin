@@ -48,7 +48,7 @@ class TwigBlockRemoved : LocalInspectionTool() {
                         holder.registerProblem(
                             element.parent,
                             "The upstream block has been removed from this template, but still exists in: ${
-                                upstreamBlocks.joinToString(", ") { it.relativePath }
+                                upstreamBlocks.map { it.relativePath }.distinct().joinToString(", ")
                             }",
                             ProblemHighlightType.WARNING
                         )

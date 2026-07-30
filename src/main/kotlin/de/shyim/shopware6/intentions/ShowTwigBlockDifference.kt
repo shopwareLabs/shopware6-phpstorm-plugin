@@ -59,7 +59,8 @@ class ShowTwigBlockDifference : PsiElementBaseIntentionAction(), Iconable {
             blockTag.name!!,
             GlobalSearchScope.allScope(project)
         ).any {
-            it.hash != commentData.hash && it.absolutePath != element.containingFile.virtualFile.path && it.relativePath == TwigUtil.getRelativePath(
+            // the diff is fetched from the shopware/shopware repository, so only core templates can be compared
+            TwigUtil.isShopwareCoreTemplate(it.absolutePath) && it.hash != commentData.hash && it.absolutePath != element.containingFile.virtualFile.path && it.relativePath == TwigUtil.getRelativePath(
                 element.containingFile.virtualFile.path
             )
         }
@@ -84,7 +85,7 @@ class ShowTwigBlockDifference : PsiElementBaseIntentionAction(), Iconable {
             TwigBlockHashIndex.key,
             blockTag.name!!,
             GlobalSearchScope.allScope(element.project)
-        ).firstOrNull { it.relativePath == templatePath } ?: return
+        ).firstOrNull { it.relativePath == templatePath && TwigUtil.isShopwareCoreTemplate(it.absolutePath) } ?: return
 
         val content = fetchTwigBlockContent(editor, blockCommentData.version, hash.relativePath) ?: return
 

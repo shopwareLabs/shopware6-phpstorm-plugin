@@ -51,6 +51,24 @@ object TwigUtil {
         return path.contains("src/Storefront/Resources/views/storefront") || path.contains("vendor/shopware/storefront/Resources/views/storefront")
     }
 
+    fun isUpstreamTemplate(path: String): Boolean {
+        return isShopwareCoreTemplate(path) || (path.contains("vendor/") && path.contains("Resources/views/"))
+    }
+
+    fun getComposerPackageByPath(path: String): String? {
+        if (!path.contains("vendor/")) {
+            return null
+        }
+
+        val parts = path.substringAfterLast("vendor/").split("/")
+
+        if (parts.size < 3) {
+            return null
+        }
+
+        return "${parts[0]}/${parts[1]}"
+    }
+
     fun getShopwareBlockComment(element: PsiElement?): PsiElement? {
         if (element == null) {
             return null
@@ -102,17 +120,18 @@ object TwigUtil {
     }
 
     fun getVersioningComment(project: Project, blockName: String, templatePath: String): String? {
-        val hash = (FileBasedIndex.getInstance()
+        val upstreamBlock = FileBasedIndex.getInstance()
             .getValues(TwigBlockHashIndex.key, blockName, GlobalSearchScope.allScope(project))
-            .firstOrNull { it.relativePath == templatePath } ?: return null).hash
+            .firstOrNull { it.relativePath == templatePath } ?: return null
 
-        val shopwareVersion = ComposerInstalledPackagesService.getInstance(project, project.guessProjectDir())
-            ?.getCurrentPackageVersion("shopware/storefront")
+        val packageName = getComposerPackageByPath(upstreamBlock.absolutePath) ?: "shopware/storefront"
+        val packageVersion = ComposerInstalledPackagesService.getInstance(project, project.guessProjectDir())
+            ?.getCurrentPackageVersion(packageName)
 
-        var commentText = hash
+        var commentText = upstreamBlock.hash
 
-        if (shopwareVersion != null) {
-            commentText += "@${shopwareVersion}"
+        if (packageVersion != null) {
+            commentText += "@${packageVersion}"
         }
 
         return "{# shopware-block: $commentText #}\n"

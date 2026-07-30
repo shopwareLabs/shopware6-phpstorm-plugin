@@ -39,4 +39,33 @@ class TwigBlockHashChangedTest : BasePlatformTestCase() {
         myFixture.configureFromExistingVirtualFile(file.virtualFile)
         myFixture.checkHighlighting(true, false, true)
     }
+
+    fun testHashMatchingAnyUpstreamCandidateIsAccepted() {
+        myFixture.copyDirectoryToProject("ShopwarePlatform", "ShopwarePlatform")
+        myFixture.copyDirectoryToProject("vendor", "vendor")
+        myFixture.enableInspections(TwigBlockHashChanged())
+
+        // base_content exists in the core template and in a third-party override with the same relative path
+        val upstreamBlocks = FileBasedIndex.getInstance().getValues(
+            TwigBlockHashIndex.key,
+            "base_content",
+            GlobalSearchScope.allScope(project)
+        )
+        assertSame(2, upstreamBlocks.size)
+
+        val thirdPartyHash = upstreamBlocks.first { it.absolutePath.contains("vendor/") }.hash
+
+        val file = myFixture.addFileToProject(
+            "MyPlugin/Resources/views/storefront/page/content/index.html.twig",
+            """
+            {# shopware-block: $thirdPartyHash@1.0.0 #}
+            {% block base_content %}
+                <div>override based on the third-party version</div>
+            {% endblock %}
+            """.trimIndent()
+        )
+
+        myFixture.configureFromExistingVirtualFile(file.virtualFile)
+        myFixture.checkHighlighting(true, false, true)
+    }
 }

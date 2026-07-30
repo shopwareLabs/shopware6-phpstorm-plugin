@@ -17,6 +17,23 @@ class TwigBlockHashMissingTest : BasePlatformTestCase() {
         myFixture.checkHighlighting(true, false, true)
     }
 
+    fun testThirdPartyExtensionBlocksAreReported() {
+        myFixture.copyDirectoryToProject("vendor", "vendor")
+        myFixture.copyDirectoryToProject("MyPlugin", "MyPlugin")
+        myFixture.enableInspections(TwigBlockHashMissing())
+
+        myFixture.configureFromTempProjectFile("MyPlugin/Resources/views/storefront/component/example.html.twig")
+        myFixture.checkHighlighting(true, false, true)
+    }
+
+    fun testThirdPartyExtensionTemplatesThemselvesAreNotReported() {
+        myFixture.copyDirectoryToProject("vendor", "vendor")
+        myFixture.enableInspections(TwigBlockHashMissing())
+
+        myFixture.configureFromTempProjectFile("vendor/acme/example-plugin/Resources/views/storefront/component/example.html.twig")
+        myFixture.checkHighlighting(true, false, true)
+    }
+
     fun testShopwareCoreTemplatesAreNotReported() {
         myFixture.copyDirectoryToProject("ShopwarePlatform", "ShopwarePlatform")
         myFixture.enableInspections(TwigBlockHashMissing())

@@ -14,9 +14,9 @@ import de.shyim.shopware6.util.TwigUtil
 
 class TwigBlockHashMissing : LocalInspectionTool() {
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
-        // the Shopware core templates itself don't need a versioning comment
+        // the upstream templates themselves don't need a versioning comment
         val virtualFile = holder.file.originalFile.virtualFile
-        if (virtualFile != null && TwigUtil.isShopwareCoreTemplate(virtualFile.path)) {
+        if (virtualFile != null && TwigUtil.isUpstreamTemplate(virtualFile.path)) {
             return super.buildVisitor(holder, isOnTheFly)
         }
 
