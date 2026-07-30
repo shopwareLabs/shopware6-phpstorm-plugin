@@ -1,10 +1,9 @@
 package de.shyim.shopware6.telemetry
 
-import com.intellij.ide.plugins.PluginManagerCore
+import com.intellij.ide.plugins.cl.PluginAwareClassLoader
 import com.intellij.openapi.application.ApplicationInfo
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.components.Service
-import com.intellij.openapi.extensions.PluginId
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.SystemInfo
 import org.codehaus.jettison.json.JSONObject
@@ -73,8 +72,8 @@ class TelemetryClient {
     }
 
     private fun pluginVersion(): String =
-        PluginManagerCore
-            .getPlugin(PluginId.getId(PLUGIN_ID))
+        (TelemetryClient::class.java.classLoader as? PluginAwareClassLoader)
+            ?.pluginDescriptor
             ?.version
             ?: "unknown"
 
@@ -88,7 +87,6 @@ class TelemetryClient {
 
     companion object {
         private const val EVENT_NAME = "shopware_phpstorm.feature_used"
-        private const val PLUGIN_ID = "de.shyim.shopware6"
         private const val DEFAULT_DOMAIN = "udp.usage.shopware.io"
         private const val DEFAULT_PORT = 9000
 
