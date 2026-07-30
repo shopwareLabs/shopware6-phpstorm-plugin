@@ -6,6 +6,7 @@ import com.intellij.openapi.project.guessProjectDir
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiFileFactory
+import com.intellij.psi.search.FilenameIndex
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.util.indexing.FileBasedIndex
 import com.jetbrains.php.composer.actions.update.ComposerInstalledPackagesService
@@ -13,6 +14,8 @@ import com.jetbrains.twig.TwigFileType
 import com.jetbrains.twig.elements.TwigBlockTag
 import com.jetbrains.twig.elements.TwigComment
 import de.shyim.shopware6.index.TwigBlockHashIndex
+import org.codehaus.jettison.json.JSONException
+import org.codehaus.jettison.json.JSONObject
 
 object TwigUtil {
     fun getTemplatePathByFilePath(filePath: String, project: Project): String? {
@@ -144,9 +147,7 @@ object TwigUtil {
             .sortedByDescending { isShopwareCoreTemplate(it.absolutePath) }
             .firstOrNull() ?: return null
 
-        val packageName = getComposerPackageByPath(upstreamBlock.absolutePath) ?: "shopware/storefront"
-        val packageVersion = ComposerInstalledPackagesService.getInstance(project, project.guessProjectDir())
-            ?.getCurrentPackageVersion(packageName)
+        val packageVersion = getUpstreamPackageVersion(project, upstreamBlock.absolutePath)
 
         var commentText = upstreamBlock.hash
 
@@ -155,6 +156,38 @@ object TwigUtil {
         }
 
         return "{# shopware-block: $commentText #}\n"
+    }
+
+    private fun getUpstreamPackageVersion(project: Project, path: String): String? {
+        val packageName = getComposerPackageByPath(path)
+        if (packageName != null) {
+            return ComposerInstalledPackagesService.getInstance(project, project.guessProjectDir())
+                ?.getCurrentPackageVersion(packageName)
+        }
+
+        // extensions in custom/plugins: read the version from the extension's composer.json
+        val templateFile = FilenameIndex.getVirtualFilesByName(
+            path.substringAfterLast('/'),
+            GlobalSearchScope.allScope(project)
+        ).firstOrNull { it.path == path } ?: return null
+
+        var dir = templateFile.parent
+        while (dir != null) {
+            val composerJson = dir.findChild("composer.json")
+            if (composerJson != null) {
+                return try {
+                    JSONObject(composerJson.contentsToByteArray().toString(Charsets.UTF_8))
+                        .optString("version")
+                        .takeIf { it.isNotEmpty() }
+                } catch (e: JSONException) {
+                    null
+                }
+            }
+
+            dir = dir.parent
+        }
+
+        return null
     }
 }
 
