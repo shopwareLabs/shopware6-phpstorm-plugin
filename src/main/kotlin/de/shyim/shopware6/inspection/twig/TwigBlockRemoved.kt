@@ -5,6 +5,7 @@ import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
+import com.intellij.psi.search.FilenameIndex
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.util.indexing.FileBasedIndex
 import com.jetbrains.twig.TwigFile
@@ -20,21 +21,25 @@ class TwigBlockRemoved : LocalInspectionTool() {
             return super.buildVisitor(holder, isOnTheFly)
         }
 
+        // without the Shopware sources in the project every block would be reported as removed
+        if (FilenameIndex.getVirtualFilesByName("base.html.twig", GlobalSearchScope.allScope(file.project))
+                .none { TwigUtil.isShopwareCoreTemplate(it.path) }
+        ) {
+            return super.buildVisitor(holder, isOnTheFly)
+        }
+
         return object : PsiElementVisitor() {
             override fun visitElement(element: PsiElement) {
                 if (element is TwigBlockTag && element.name !== null && TwigUtil.getShopwareBlockComment(element) !== null) {
+                    val filePath = element.containingFile.originalFile.virtualFile.path
+
                     val upstreamBlocks = FileBasedIndex.getInstance().getValues(
                         TwigBlockHashIndex.key,
                         element.name!!,
                         GlobalSearchScope.allScope(element.project)
-                    )
+                    ).filter { it.absolutePath != filePath }
 
-                    if (upstreamBlocks.any { it.relativePath == TwigUtil.getRelativePath(element.containingFile.originalFile.virtualFile.path) }) {
-                        return
-                    }
-
-                    // without any indexed upstream templates every block would be reported as removed
-                    if (FileBasedIndex.getInstance().getAllKeys(TwigBlockHashIndex.key, element.project).isEmpty()) {
+                    if (upstreamBlocks.any { it.relativePath == TwigUtil.getRelativePath(filePath) }) {
                         return
                     }
 

@@ -20,15 +20,22 @@ class TwigBlockHashMissing : LocalInspectionTool() {
             return super.buildVisitor(holder, isOnTheFly)
         }
 
+        // only files extending another template override upstream blocks
+        if (!TwigUtil.isExtendingTemplate(holder.file)) {
+            return super.buildVisitor(holder, isOnTheFly)
+        }
+
         return object : PsiElementVisitor() {
             override fun visitElement(element: PsiElement) {
                 if (element is TwigBlockTag && element.name !== null && TwigUtil.getShopwareBlockComment(element) === null) {
+                    val filePath = element.containingFile.originalFile.virtualFile.path
+
                     if (!FileBasedIndex.getInstance().getValues(
                             TwigBlockHashIndex.key,
                             element.name!!,
                             GlobalSearchScope.allScope(element.project)
                         )
-                            .any { it.relativePath == TwigUtil.getRelativePath(element.containingFile.originalFile.virtualFile.path) }
+                            .any { it.relativePath == TwigUtil.getRelativePath(filePath) && it.absolutePath != filePath }
                     ) {
                         return
                     }

@@ -16,4 +16,22 @@ class TwigBlockRemovedTest : BasePlatformTestCase() {
         myFixture.configureFromTempProjectFile("MyPlugin/Resources/views/storefront/page/content/index.html.twig")
         myFixture.checkHighlighting(true, false, true)
     }
+
+    fun testNothingIsReportedWithoutShopwareSources() {
+        myFixture.enableInspections(TwigBlockRemoved())
+
+        // a standalone plugin repository without the Shopware sources cannot know if a block was removed
+        val file = myFixture.addFileToProject(
+            "StandalonePlugin/Resources/views/storefront/page/index.html.twig",
+            """
+            {# shopware-block: somehash@6.6.0.0 #}
+            {% block some_block %}
+                <div>override</div>
+            {% endblock %}
+            """.trimIndent()
+        )
+
+        myFixture.configureFromExistingVirtualFile(file.virtualFile)
+        myFixture.checkHighlighting(true, false, true)
+    }
 }

@@ -17,6 +17,25 @@ class TwigBlockHashMissingTest : BasePlatformTestCase() {
         myFixture.checkHighlighting(true, false, true)
     }
 
+    fun testCustomPluginsThirdPartyBlocksAreReported() {
+        myFixture.copyDirectoryToProject("custom", "custom")
+        myFixture.copyDirectoryToProject("MyPlugin", "MyPlugin")
+        myFixture.enableInspections(TwigBlockHashMissing())
+
+        myFixture.configureFromTempProjectFile("MyPlugin/Resources/views/storefront/themeware/example.html.twig")
+        myFixture.checkHighlighting(true, false, true)
+    }
+
+    fun testCustomPluginsSourceTemplatesAreNotReported() {
+        myFixture.copyDirectoryToProject("custom", "custom")
+        myFixture.copyDirectoryToProject("MyPlugin", "MyPlugin")
+        myFixture.enableInspections(TwigBlockHashMissing())
+
+        // the theme file itself does not extend anything, so it must not be treated as an override
+        myFixture.configureFromTempProjectFile("custom/plugins/TcinnTheme/src/Resources/views/storefront/themeware/example.html.twig")
+        myFixture.checkHighlighting(true, false, true)
+    }
+
     fun testThirdPartyExtensionBlocksAreReported() {
         myFixture.copyDirectoryToProject("vendor", "vendor")
         myFixture.copyDirectoryToProject("MyPlugin", "MyPlugin")

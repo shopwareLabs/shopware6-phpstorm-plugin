@@ -4,6 +4,7 @@ import com.intellij.openapi.command.CommandProcessor
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.guessProjectDir
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.util.indexing.FileBasedIndex
@@ -53,6 +54,12 @@ object TwigUtil {
 
     fun isUpstreamTemplate(path: String): Boolean {
         return isShopwareCoreTemplate(path) || (path.contains("vendor/") && path.contains("Resources/views/"))
+    }
+
+    private val EXTENDS_PATTERN = Regex("\\{%-?\\s*(sw_)?extends\\s")
+
+    fun isExtendingTemplate(file: PsiFile): Boolean {
+        return EXTENDS_PATTERN.containsMatchIn(file.text)
     }
 
     fun getComposerPackageByPath(path: String): String? {
@@ -106,7 +113,12 @@ object TwigUtil {
     ) {
         val commentBlock = getShopwareBlockComment(blockTag)
 
-        val commentTag = getVersioningComment(blockTag.project, blockTag.name!!, templatePath) ?: return
+        val commentTag = getVersioningComment(
+            blockTag.project,
+            blockTag.name!!,
+            templatePath,
+            blockTag.containingFile.originalFile.virtualFile?.path
+        ) ?: return
 
         CommandProcessor.getInstance().executeCommand(blockTag.project, {
             if (commentBlock != null) {
@@ -119,10 +131,18 @@ object TwigUtil {
         }, "Add Twig Versioning Comment", null)
     }
 
-    fun getVersioningComment(project: Project, blockName: String, templatePath: String): String? {
+    fun getVersioningComment(
+        project: Project,
+        blockName: String,
+        templatePath: String,
+        excludePath: String? = null
+    ): String? {
+        // prefer the Shopware core template when multiple upstream templates contain the block
         val upstreamBlock = FileBasedIndex.getInstance()
             .getValues(TwigBlockHashIndex.key, blockName, GlobalSearchScope.allScope(project))
-            .firstOrNull { it.relativePath == templatePath } ?: return null
+            .filter { it.relativePath == templatePath && it.absolutePath != excludePath }
+            .sortedByDescending { isShopwareCoreTemplate(it.absolutePath) }
+            .firstOrNull() ?: return null
 
         val packageName = getComposerPackageByPath(upstreamBlock.absolutePath) ?: "shopware/storefront"
         val packageVersion = ComposerInstalledPackagesService.getInstance(project, project.guessProjectDir())

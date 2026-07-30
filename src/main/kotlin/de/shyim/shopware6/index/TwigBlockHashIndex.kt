@@ -22,7 +22,7 @@ class TwigBlockHashIndex : FileBasedIndexExtension<String, TwigBlockHash>() {
         return DataIndexer { inputData ->
             val hashes = HashMap<String, TwigBlockHash>()
 
-            if (!TwigUtil.isUpstreamTemplate(inputData.file.path)) {
+            if (!inputData.file.path.contains("Resources/views/")) {
                 return@DataIndexer mapOf()
             }
 
@@ -55,7 +55,7 @@ class TwigBlockHashIndex : FileBasedIndexExtension<String, TwigBlockHash>() {
     }
 
     override fun getVersion(): Int {
-        return 2
+        return 3
     }
 
     override fun getInputFilter(): FileBasedIndex.InputFilter {

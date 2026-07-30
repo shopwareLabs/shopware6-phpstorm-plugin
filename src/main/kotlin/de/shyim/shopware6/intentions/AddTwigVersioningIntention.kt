@@ -38,17 +38,20 @@ class AddTwigVersioningIntention : PsiElementBaseIntentionAction(), Iconable {
 
         val blockName = blockTag.name ?: return false
 
-        val found = FileBasedIndex.getInstance()
+        val candidates = FileBasedIndex.getInstance()
             .getValues(TwigBlockHashIndex.key, blockName, GlobalSearchScope.allScope(project))
-            .firstOrNull { it.relativePath == TwigUtil.getRelativePath(element.containingFile.virtualFile.path) && it.absolutePath != element.containingFile.virtualFile.path }
-            ?: return false
+            .filter { it.relativePath == TwigUtil.getRelativePath(element.containingFile.virtualFile.path) && it.absolutePath != element.containingFile.virtualFile.path }
+
+        if (candidates.isEmpty()) {
+            return false
+        }
 
         // When not comment there, offer to create one
         val existingComment = TwigUtil.getShopwareBlockComment(element) ?: return true
         // Invalid comment, offer to create one
         val commentData = TwigUtil.extractShopwareBlockData(existingComment) ?: return true
 
-        return commentData.hash != found.hash
+        return candidates.none { it.hash == commentData.hash }
     }
 
     override fun checkFile(file: PsiFile?): Boolean {

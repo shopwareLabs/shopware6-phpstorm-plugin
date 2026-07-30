@@ -23,6 +23,8 @@ class TwigBlockHashChanged : LocalInspectionTool() {
         return object : PsiElementVisitor() {
             override fun visitElement(element: PsiElement) {
                 if (element is TwigBlockTag && element.name !== null && TwigUtil.getShopwareBlockComment(element) !== null) {
+                    val filePath = element.containingFile.originalFile.virtualFile.path
+
                     // the same block can exist multiple times upstream, e.g. when a third-party
                     // extension overrides a core template with the same relative path
                     val upstreamBlocks = FileBasedIndex.getInstance().getValues(
@@ -30,7 +32,7 @@ class TwigBlockHashChanged : LocalInspectionTool() {
                         element.name!!,
                         GlobalSearchScope.allScope(element.project)
                     )
-                        .filter { it.relativePath == TwigUtil.getRelativePath(element.containingFile.originalFile.virtualFile.path) }
+                        .filter { it.relativePath == TwigUtil.getRelativePath(filePath) && it.absolutePath != filePath }
 
                     if (upstreamBlocks.isEmpty()) {
                         return
