@@ -20,25 +20,37 @@ class TwigBlockRemoved : LocalInspectionTool() {
             return super.buildVisitor(holder, isOnTheFly)
         }
 
+        val filePath = file.originalFile.virtualFile?.path ?: return super.buildVisitor(holder, isOnTheFly)
+
+        // a block can only be recognized as removed when the extended template is part of the
+        // project. Otherwise (e.g. a standalone plugin repository without the Shopware sources)
+        // every block would be reported as removed
+        val chainPaths = TwigUtil.getExtendsChainPaths(file)
+        if (chainPaths.isEmpty()) {
+            return super.buildVisitor(holder, isOnTheFly)
+        }
+
         return object : PsiElementVisitor() {
             override fun visitElement(element: PsiElement) {
                 if (element is TwigBlockTag && element.name !== null && TwigUtil.getShopwareBlockComment(element) !== null) {
-                    val upstreamBlocks = FileBasedIndex.getInstance().getValues(
+                    if (TwigUtil.getUpstreamBlocks(element.project, filePath, chainPaths, element.name!!)
+                            .isNotEmpty()
+                    ) {
+                        return
+                    }
+
+                    // blocks with a versioning comment themselves are overrides of another plugin,
+                    // they cannot prove that the block still exists upstream
+                    val otherLocations = FileBasedIndex.getInstance().getValues(
                         TwigBlockHashIndex.key,
                         element.name!!,
                         GlobalSearchScope.allScope(element.project)
                     )
+                        .filter { it.absolutePath != filePath && !it.hasVersioningComment }
+                        .map { it.relativePath }
+                        .distinct()
 
-                    if (upstreamBlocks.any { it.relativePath == TwigUtil.getRelativePath(element.containingFile.originalFile.virtualFile.path) }) {
-                        return
-                    }
-
-                    // without any indexed upstream templates every block would be reported as removed
-                    if (FileBasedIndex.getInstance().getAllKeys(TwigBlockHashIndex.key, element.project).isEmpty()) {
-                        return
-                    }
-
-                    if (upstreamBlocks.isEmpty()) {
+                    if (otherLocations.isEmpty()) {
                         holder.registerProblem(
                             element.parent,
                             "The upstream block has been removed, please check if your override is still needed",
@@ -48,7 +60,7 @@ class TwigBlockRemoved : LocalInspectionTool() {
                         holder.registerProblem(
                             element.parent,
                             "The upstream block has been removed from this template, but still exists in: ${
-                                upstreamBlocks.joinToString(", ") { it.relativePath }
+                                otherLocations.joinToString(", ")
                             }",
                             ProblemHighlightType.WARNING
                         )

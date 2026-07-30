@@ -7,13 +7,14 @@ class TwigBlockHash(
     val relativePath: String,
     val absolutePath: String,
     val hash: String,
-    val text: String
+    val text: String,
+    val hasVersioningComment: Boolean
 ) : Serializable {
     override fun hashCode(): Int {
-        return name.hashCode() + hash.hashCode() + relativePath.hashCode() + absolutePath.hashCode() + text.hashCode()
+        return name.hashCode() + hash.hashCode() + relativePath.hashCode() + absolutePath.hashCode() + text.hashCode() + hasVersioningComment.hashCode()
     }
 
     override fun equals(other: Any?): Boolean {
-        return other is TwigBlockHash && other.name == name && other.hash == hash && other.relativePath == relativePath && other.absolutePath == absolutePath && other.text == text
+        return other is TwigBlockHash && other.name == name && other.hash == hash && other.relativePath == relativePath && other.absolutePath == absolutePath && other.text == text && other.hasVersioningComment == hasVersioningComment
     }
 }

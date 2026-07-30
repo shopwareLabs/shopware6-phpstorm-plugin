@@ -6,10 +6,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Iconable
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
-import com.intellij.psi.search.GlobalSearchScope
-import com.intellij.util.indexing.FileBasedIndex
 import com.jetbrains.twig.elements.TwigBlockTag
-import de.shyim.shopware6.index.TwigBlockHashIndex
 import de.shyim.shopware6.util.TwigUtil
 import icons.ShopwareToolBoxIcons
 import javax.swing.Icon
@@ -38,17 +35,18 @@ class AddTwigVersioningIntention : PsiElementBaseIntentionAction(), Iconable {
 
         val blockName = blockTag.name ?: return false
 
-        val found = FileBasedIndex.getInstance()
-            .getValues(TwigBlockHashIndex.key, blockName, GlobalSearchScope.allScope(project))
-            .firstOrNull { it.relativePath == TwigUtil.getRelativePath(element.containingFile.virtualFile.path) && it.absolutePath != element.containingFile.virtualFile.path }
-            ?: return false
+        val candidates = TwigUtil.getUpstreamBlocks(element.containingFile.originalFile, blockName)
+
+        if (candidates.isEmpty()) {
+            return false
+        }
 
         // When not comment there, offer to create one
         val existingComment = TwigUtil.getShopwareBlockComment(element) ?: return true
         // Invalid comment, offer to create one
         val commentData = TwigUtil.extractShopwareBlockData(existingComment) ?: return true
 
-        return commentData.hash != found.hash
+        return candidates.none { it.hash == commentData.hash }
     }
 
     override fun checkFile(file: PsiFile?): Boolean {

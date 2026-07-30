@@ -5,11 +5,8 @@ import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
-import com.intellij.psi.search.GlobalSearchScope
-import com.intellij.util.indexing.FileBasedIndex
 import com.jetbrains.twig.TwigFile
 import com.jetbrains.twig.elements.TwigBlockTag
-import de.shyim.shopware6.index.TwigBlockHashIndex
 import de.shyim.shopware6.util.TwigUtil
 
 class TwigBlockHashChanged : LocalInspectionTool() {
@@ -20,21 +17,25 @@ class TwigBlockHashChanged : LocalInspectionTool() {
             return super.buildVisitor(holder, isOnTheFly)
         }
 
+        val filePath = file.originalFile.virtualFile?.path ?: return super.buildVisitor(holder, isOnTheFly)
+        val chainPaths = TwigUtil.getExtendsChainPaths(file)
+
         return object : PsiElementVisitor() {
             override fun visitElement(element: PsiElement) {
                 if (element is TwigBlockTag && element.name !== null && TwigUtil.getShopwareBlockComment(element) !== null) {
-                    val hash = FileBasedIndex.getInstance().getValues(
-                        TwigBlockHashIndex.key,
-                        element.name!!,
-                        GlobalSearchScope.allScope(element.project)
-                    )
-                        .firstOrNull { it.relativePath == TwigUtil.getRelativePath(element.containingFile.originalFile.virtualFile.path) }
-                        ?: return
+                    // the same block can exist multiple times upstream, e.g. when a third-party
+                    // extension overrides a core template with the same relative path
+                    val upstreamBlocks =
+                        TwigUtil.getUpstreamBlocks(element.project, filePath, chainPaths, element.name!!)
+
+                    if (upstreamBlocks.isEmpty()) {
+                        return
+                    }
 
                     var commentBlock =
                         TwigUtil.extractShopwareBlockData(element.parent.prevSibling?.prevSibling!!) ?: return
 
-                    if (hash.hash != commentBlock.hash) {
+                    if (upstreamBlocks.none { it.hash == commentBlock.hash }) {
                         holder.registerProblem(
                             element.parent,
                             "The upstream block has been changed, please update the block",

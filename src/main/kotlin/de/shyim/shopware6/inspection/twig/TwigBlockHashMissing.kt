@@ -5,31 +5,30 @@ import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
-import com.intellij.psi.search.GlobalSearchScope
-import com.intellij.util.indexing.FileBasedIndex
 import com.jetbrains.twig.elements.TwigBlockTag
-import de.shyim.shopware6.index.TwigBlockHashIndex
 import de.shyim.shopware6.inspection.quickfix.twig.AddMissingTwigVersioningCommentFix
 import de.shyim.shopware6.util.TwigUtil
 
 class TwigBlockHashMissing : LocalInspectionTool() {
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
-        // the Shopware core templates itself don't need a versioning comment
+        // the upstream templates themselves don't need a versioning comment
         val virtualFile = holder.file.originalFile.virtualFile
-        if (virtualFile != null && TwigUtil.isShopwareCoreTemplate(virtualFile.path)) {
+        if (virtualFile != null && TwigUtil.isUpstreamTemplate(virtualFile.path)) {
             return super.buildVisitor(holder, isOnTheFly)
         }
+
+        // only files extending another template override upstream blocks
+        if (!TwigUtil.isExtendingTemplate(holder.file)) {
+            return super.buildVisitor(holder, isOnTheFly)
+        }
+
+        val filePath = virtualFile?.path ?: return super.buildVisitor(holder, isOnTheFly)
+        val chainPaths = TwigUtil.getExtendsChainPaths(holder.file)
 
         return object : PsiElementVisitor() {
             override fun visitElement(element: PsiElement) {
                 if (element is TwigBlockTag && element.name !== null && TwigUtil.getShopwareBlockComment(element) === null) {
-                    if (!FileBasedIndex.getInstance().getValues(
-                            TwigBlockHashIndex.key,
-                            element.name!!,
-                            GlobalSearchScope.allScope(element.project)
-                        )
-                            .any { it.relativePath == TwigUtil.getRelativePath(element.containingFile.originalFile.virtualFile.path) }
-                    ) {
+                    if (TwigUtil.getUpstreamBlocks(element.project, filePath, chainPaths, element.name!!).isEmpty()) {
                         return
                     }
 

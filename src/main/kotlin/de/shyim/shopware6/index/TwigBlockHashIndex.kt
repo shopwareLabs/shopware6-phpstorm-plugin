@@ -22,7 +22,7 @@ class TwigBlockHashIndex : FileBasedIndexExtension<String, TwigBlockHash>() {
         return DataIndexer { inputData ->
             val hashes = HashMap<String, TwigBlockHash>()
 
-            if (!TwigUtil.isShopwareCoreTemplate(inputData.file.path)) {
+            if (!inputData.file.path.contains("Resources/views/")) {
                 return@DataIndexer mapOf()
             }
 
@@ -34,7 +34,8 @@ class TwigBlockHashIndex : FileBasedIndexExtension<String, TwigBlockHash>() {
                             TwigUtil.getRelativePath(inputData.file.path),
                             inputData.file.path,
                             StringUtil.sha512(element.parent.text),
-                            element.parent.text
+                            element.parent.text,
+                            TwigUtil.getShopwareBlockComment(element) !== null
                         )
                     }
 
@@ -55,7 +56,7 @@ class TwigBlockHashIndex : FileBasedIndexExtension<String, TwigBlockHash>() {
     }
 
     override fun getVersion(): Int {
-        return 1
+        return 4
     }
 
     override fun getInputFilter(): FileBasedIndex.InputFilter {
