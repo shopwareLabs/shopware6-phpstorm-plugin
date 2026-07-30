@@ -13,6 +13,7 @@ import com.intellij.ui.components.JBList
 import com.jetbrains.php.lang.psi.PhpFile
 import com.jetbrains.twig.TwigFile
 import de.shyim.shopware6.completion.SnippetCompletionElement
+import de.shyim.shopware6.telemetry.TelemetryClient
 import de.shyim.shopware6.util.AdminSnippetUtil
 import de.shyim.shopware6.util.FrontendSnippetUtil
 import icons.ShopwareToolBoxIcons
@@ -24,6 +25,8 @@ class InsertSnippetAction : DumbAwareAction("Insert Snippet", "Insert snippet co
     override fun actionPerformed(e: AnActionEvent) {
         val pf: PsiFile = LangDataKeys.PSI_FILE.getData(e.dataContext) ?: return
         val editor = LangDataKeys.EDITOR.getData(e.dataContext) ?: return
+
+        val startedAt = System.currentTimeMillis()
 
         val items: MutableList<SnippetCompletionElement> = if (pf.virtualFile.path.contains("app/administration")) {
             AdminSnippetUtil.getAllEnglishKeys(pf.project)
@@ -76,6 +79,8 @@ class InsertSnippetAction : DumbAwareAction("Insert Snippet", "Insert snippet co
                             )
                     }, "Insert Snippet", null)
                 }
+
+                TelemetryClient.trackFeature(pf.project, "snippet.insert", startedAt)
             })
             .createPopup()
             .showInBestPositionFor(e.dataContext)

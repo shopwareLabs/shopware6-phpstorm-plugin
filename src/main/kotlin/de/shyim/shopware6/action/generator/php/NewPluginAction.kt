@@ -13,7 +13,6 @@ import com.jetbrains.php.lang.PhpFileType
 import de.shyim.shopware6.action.generator.ActionUtil
 import de.shyim.shopware6.templates.ShopwareTemplates
 import de.shyim.shopware6.telemetry.TelemetryClient
-import de.shyim.shopware6.telemetry.TelemetryConsent
 import icons.ShopwareToolBoxIcons
 
 class NewPluginAction : DumbAwareAction("Create a Plugin", "Create a new Plugin", ShopwareToolBoxIcons.SHOPWARE) {
@@ -108,13 +107,7 @@ class NewPluginAction : DumbAwareAction("Create a Plugin", "Create a new Plugin"
             configFolder
         )
 
-        if (TelemetryConsent.requestIfNeeded(e.project)) {
-            TelemetryClient.getInstance().track(
-                feature = "generator.plugin",
-                result = "success",
-                durationMs = System.currentTimeMillis() - startedAt,
-            )
-        }
+        TelemetryClient.trackFeature(e.project, "generator.plugin", startedAt)
 
         val view = LangDataKeys.IDE_VIEW.getData(e.dataContext) ?: return
         view.selectElement(pluginBootstrapFile!!)
@@ -136,4 +129,3 @@ class NewPluginAction : DumbAwareAction("Create a Plugin", "Create a new Plugin"
         )
     }
 }
-

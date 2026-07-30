@@ -12,6 +12,7 @@ import com.intellij.openapi.ui.Messages
 import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiFileFactory
 import de.shyim.shopware6.action.generator.ActionUtil
+import de.shyim.shopware6.telemetry.TelemetryClient
 import de.shyim.shopware6.templates.ShopwareTemplates
 
 class NewComponentAction :
@@ -21,6 +22,8 @@ class NewComponentAction :
             return
         }
 
+        val startedAt = System.currentTimeMillis()
+
         val dialog = NewComponentDialogWrapper()
         val config = dialog.showAndGetName() ?: return
 
@@ -29,6 +32,8 @@ class NewComponentAction :
         val folder = ActionUtil.getViewDirectory(e.dataContext) ?: return
 
         val componentFolder = createComponent(e.project!!, folder, config)
+
+        TelemetryClient.trackFeature(e.project, "generator.admin_component", startedAt)
 
         val view = LangDataKeys.IDE_VIEW.getData(e.dataContext) ?: return
         val psiFile = componentFolder!!.findFile("index.js")

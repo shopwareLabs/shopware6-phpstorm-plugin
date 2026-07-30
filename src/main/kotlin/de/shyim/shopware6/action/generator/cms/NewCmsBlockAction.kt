@@ -8,6 +8,7 @@ import com.intellij.openapi.vfs.LocalFileSystem
 import com.intellij.psi.PsiManager
 import com.jetbrains.twig.TwigFileType
 import de.shyim.shopware6.action.generator.ActionUtil
+import de.shyim.shopware6.telemetry.TelemetryClient
 import de.shyim.shopware6.templates.ShopwareTemplates
 import de.shyim.shopware6.util.PsiUtil
 import de.shyim.shopware6.util.ShopwareBundleUtil
@@ -22,6 +23,8 @@ class NewCmsBlockAction :
         if (e.project == null) {
             return
         }
+
+        val startedAt = System.currentTimeMillis()
 
         val ui = NewCmsBlockDialogWrapper(ShopwareBundleUtil.getAllBundles(e.project!!))
         val result = ui.showAndGetResult() ?: return
@@ -124,6 +127,8 @@ class NewCmsBlockAction :
             ),
             storefrontFolder
         ) ?: return
+
+        TelemetryClient.trackFeature(e.project, "generator.cms_block", startedAt)
 
         val view = LangDataKeys.IDE_VIEW.getData(e.dataContext) ?: return
 

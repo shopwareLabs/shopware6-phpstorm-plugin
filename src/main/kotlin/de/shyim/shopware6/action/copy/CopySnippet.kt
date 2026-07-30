@@ -10,6 +10,7 @@ import com.intellij.openapi.ui.popup.PopupChooserBuilder
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.ui.components.JBList
+import de.shyim.shopware6.telemetry.TelemetryClient
 import icons.ShopwareToolBoxIcons
 import java.awt.Toolkit
 import java.awt.datatransfer.StringSelection
@@ -19,6 +20,8 @@ class CopySnippet : DumbAwareAction("Copy Snippet Code", "Copy the snippet code"
         val pf: PsiFile = LangDataKeys.PSI_FILE.getData(e.dataContext) ?: return
         val editor = LangDataKeys.EDITOR.getData(e.dataContext) ?: return
         val pe = pf.findElementAt(editor.caretModel.offset) ?: return
+
+        val startedAt = System.currentTimeMillis()
 
         val key = resolveKey(pe)
         val collectionList: MutableCollection<String> = mutableListOf()
@@ -45,6 +48,8 @@ class CopySnippet : DumbAwareAction("Copy Snippet Code", "Copy the snippet code"
                         StringSelection(code),
                         null
                     )
+
+                TelemetryClient.trackFeature(pf.project, "snippet.copy", startedAt)
             })
             .createPopup()
             .showInBestPositionFor(editor)

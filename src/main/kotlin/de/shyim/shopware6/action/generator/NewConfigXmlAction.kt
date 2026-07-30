@@ -6,11 +6,14 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.PlatformDataKeys
 import com.intellij.openapi.project.DumbAwareAction
 import com.intellij.openapi.project.Project
+import de.shyim.shopware6.telemetry.TelemetryClient
 import de.shyim.shopware6.templates.ShopwareTemplates
 
 class NewConfigXmlAction : DumbAwareAction("Create a Config.Xml", "Create a new config.xml", AllIcons.FileTypes.Xml) {
 
     override fun actionPerformed(e: AnActionEvent) {
+        val startedAt = System.currentTimeMillis()
+
         val project: Project? = e.getData(PlatformDataKeys.PROJECT)
 
         if (project === null) {
@@ -24,6 +27,8 @@ class NewConfigXmlAction : DumbAwareAction("Create a Config.Xml", "Create a new 
             "config.xml",
             XmlFileType.INSTANCE
         )
+
+        TelemetryClient.trackFeature(project, "generator.config_xml", startedAt)
     }
 
 }

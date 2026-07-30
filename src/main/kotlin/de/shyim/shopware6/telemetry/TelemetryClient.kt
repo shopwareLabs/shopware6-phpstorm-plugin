@@ -5,6 +5,7 @@ import com.intellij.openapi.application.ApplicationInfo
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.extensions.PluginId
+import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.SystemInfo
 import org.codehaus.jettison.json.JSONObject
 import java.net.DatagramPacket
@@ -93,5 +94,15 @@ class TelemetryClient {
 
         fun getInstance(): TelemetryClient =
             ApplicationManager.getApplication().getService(TelemetryClient::class.java)
+
+        fun trackFeature(project: Project?, feature: String, startedAt: Long) {
+            if (TelemetryConsent.requestIfNeeded(project)) {
+                getInstance().track(
+                    feature = feature,
+                    result = "success",
+                    durationMs = System.currentTimeMillis() - startedAt,
+                )
+            }
+        }
     }
 }
