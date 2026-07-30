@@ -8,6 +8,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.PsiManager
+import com.intellij.psi.PsiRecursiveElementWalkingVisitor
 import com.intellij.psi.search.FilenameIndex
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.util.indexing.FileBasedIndex
@@ -79,7 +80,9 @@ object TwigUtil {
 
         while (current != null && paths.size < 10) {
             val target = EXTENDS_TARGET_PATTERN.find(current.text) ?: break
-            val parent = findTemplateInBundle(project, target.groupValues[1], target.groupValues[2]) ?: break
+            val parent =
+                ShopwareTemplateUtil.findTemplateInBundle(project, target.groupValues[1], target.groupValues[2])
+                    ?: break
 
             if (!visited.add(parent.path)) {
                 break
@@ -92,30 +95,29 @@ object TwigUtil {
         return paths
     }
 
-    private fun findTemplateInBundle(project: Project, bundleName: String, templatePath: String): VirtualFile? {
-        val suffix = "Resources/views/$templatePath"
-        val normalizedBundle = bundleName.replace("-", "").replace("_", "").lowercase()
-
-        val candidates = FilenameIndex.getVirtualFilesByName(
-            templatePath.substringAfterLast('/'),
+    fun findBlockTagInFile(project: Project, path: String, blockName: String): PsiElement? {
+        val virtualFile = FilenameIndex.getVirtualFilesByName(
+            path.substringAfterLast('/'),
             GlobalSearchScope.allScope(project)
-        ).filter { it.path.endsWith(suffix) }
+        ).firstOrNull { it.path == path } ?: return null
 
-        // prefer a path segment exactly matching the bundle name, fall back to a substring
-        // match to also cover vendor packages (@AcmeFoo -> vendor/acme/foo)
-        val matches = candidates.filter { candidate ->
-            candidate.path.removeSuffix(suffix).split('/')
-                .any { it.replace("-", "").replace("_", "").equals(normalizedBundle, true) }
-        }.ifEmpty {
-            candidates.filter { candidate ->
-                candidate.path.removeSuffix(suffix).replace("-", "").replace("_", "").replace("/", "")
-                    .lowercase().contains(normalizedBundle)
+        val psiFile = PsiManager.getInstance(project).findFile(virtualFile) ?: return null
+
+        var blockTag: PsiElement? = null
+
+        psiFile.acceptChildren(object : PsiRecursiveElementWalkingVisitor() {
+            override fun visitElement(element: PsiElement) {
+                if (element is TwigBlockTag && element.name == blockName) {
+                    blockTag = element
+                    stopWalking()
+                    return
+                }
+
+                super.visitElement(element)
             }
-        }
+        })
 
-        return matches.sortedWith(
-            compareByDescending<VirtualFile> { isShopwareCoreTemplate(it.path) }.thenBy { it.path }
-        ).firstOrNull()
+        return blockTag
     }
 
     fun getUpstreamBlocks(file: PsiFile, blockName: String): List<TwigBlockHash> {

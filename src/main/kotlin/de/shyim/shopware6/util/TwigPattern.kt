@@ -90,32 +90,15 @@ object TwigPattern {
 
     fun getShopwareIncludeExtendsTagPattern(): PsiElementPattern.Capture<PsiElement> {
         return PlatformPatterns.psiElement(TwigTokenTypes.STRING_TEXT)
-            .afterLeafSkipping(
-                PlatformPatterns.or(
-                    PlatformPatterns.psiElement(PsiWhiteSpace::class.java),
-                    PlatformPatterns.psiElement(TwigTokenTypes.SINGLE_QUOTE),
-                    PlatformPatterns.psiElement(TwigTokenTypes.DOUBLE_QUOTE),
-                    PlatformPatterns.psiElement(TwigTokenTypes.LBRACE)
-                ),
-                PlatformPatterns.psiElement(TwigTokenTypes.IDENTIFIER).withText("search")
-            )
-            .withParent(
-                PlatformPatterns.psiElement(TwigElementTypes.METHOD_CALL)
-                    .withFirstChild(
-                        PlatformPatterns.psiElement(TwigElementTypes.FIELD_REFERENCE)
-                            .withFirstChild(
-                                PlatformPatterns.psiElement(TwigElementTypes.VARIABLE_REFERENCE).withText("services")
-                                    .beforeLeafSkipping(
-                                        PlatformPatterns.or(
-                                            PlatformPatterns.psiElement(PsiWhiteSpace::class.java),
-                                            PlatformPatterns.psiElement(TwigTokenTypes.DOT)
-                                        ),
-                                        PlatformPatterns.psiElement(TwigTokenTypes.IDENTIFIER).withText("repository")
-                                    )
-                            )
-                    )
-            )
+            .withParent(PlatformPatterns.psiElement(TwigElementTypes.TAG))
             .withLanguage(TwigLanguage.INSTANCE)
+    }
+
+    fun isShopwareIncludeExtendsTag(element: PsiElement): Boolean {
+        val tag = element.parent ?: return false
+        val tagName = tag.node?.findChildByType(TwigTokenTypes.TAG_NAME)?.text
+
+        return tagName == "sw_extends" || tagName == "sw_include"
     }
 
     fun getScriptRepositorySearchPattern(): PsiElementPattern.Capture<PsiElement> {

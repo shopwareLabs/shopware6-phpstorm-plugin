@@ -79,6 +79,24 @@ class TwigCompletionProvider : CompletionContributor() {
 
         extend(
             CompletionType.BASIC,
+            TwigPattern.getShopwareIncludeExtendsTagPattern(),
+            object : CompletionProvider<CompletionParameters>() {
+                override fun addCompletions(
+                    parameters: CompletionParameters,
+                    context: ProcessingContext,
+                    result: CompletionResultSet
+                ) {
+                    if (!TwigPattern.isShopwareIncludeExtendsTag(parameters.position)) {
+                        return
+                    }
+
+                    result.addAllElements(ShopwareTemplateUtil.getTemplateLookupElements(parameters.position.project))
+                }
+            }
+        )
+
+        extend(
+            CompletionType.BASIC,
             TwigPattern.getPrintBlockOrTagFunctionPattern("theme_config"),
             object : CompletionProvider<CompletionParameters>() {
                 override fun addCompletions(
