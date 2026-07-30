@@ -6,6 +6,8 @@
 
 - Twig block versioning comments now also work for templates of third-party extensions, both installed via Composer and in `custom/plugins` (block changed / removed / comment missing inspections). The versioning comment records the version of the extension the block belongs to (from the Composer package or the extension's composer.json). Showing a diff of the upstream changes is only supported for Shopware core templates.
 - The "versioning comment missing" inspection only reports files that extend another template via `sw_extends`
+- The upstream of a block is now resolved through the `sw_extends` chain of the template, so versioning also works when extending a template at a different relative path and sibling overrides of other plugins cannot be mistaken for the upstream
+- When the chain cannot be resolved, blocks carrying a versioning comment are treated as overrides and no longer count as upstream, so they cannot mask upstream changes or removals
 
 - Added new inspection that warns when a Twig block with a versioning comment has been removed from the upstream Shopware template
 - Fixed "block does not have a versioning comment" inspection being reported on the Shopware core templates themselves

@@ -28,22 +28,30 @@ class TwigBlockRemoved : LocalInspectionTool() {
             return super.buildVisitor(holder, isOnTheFly)
         }
 
+        val filePath = file.originalFile.virtualFile?.path ?: return super.buildVisitor(holder, isOnTheFly)
+        val chainPaths = TwigUtil.getExtendsChainPaths(file)
+
         return object : PsiElementVisitor() {
             override fun visitElement(element: PsiElement) {
                 if (element is TwigBlockTag && element.name !== null && TwigUtil.getShopwareBlockComment(element) !== null) {
-                    val filePath = element.containingFile.originalFile.virtualFile.path
-
-                    val upstreamBlocks = FileBasedIndex.getInstance().getValues(
-                        TwigBlockHashIndex.key,
-                        element.name!!,
-                        GlobalSearchScope.allScope(element.project)
-                    ).filter { it.absolutePath != filePath }
-
-                    if (upstreamBlocks.any { it.relativePath == TwigUtil.getRelativePath(filePath) }) {
+                    if (TwigUtil.getUpstreamBlocks(element.project, filePath, chainPaths, element.name!!)
+                            .isNotEmpty()
+                    ) {
                         return
                     }
 
-                    if (upstreamBlocks.isEmpty()) {
+                    // blocks with a versioning comment themselves are overrides of another plugin,
+                    // they cannot prove that the block still exists upstream
+                    val otherLocations = FileBasedIndex.getInstance().getValues(
+                        TwigBlockHashIndex.key,
+                        element.name!!,
+                        GlobalSearchScope.allScope(element.project)
+                    )
+                        .filter { it.absolutePath != filePath && !it.hasVersioningComment }
+                        .map { it.relativePath }
+                        .distinct()
+
+                    if (otherLocations.isEmpty()) {
                         holder.registerProblem(
                             element.parent,
                             "The upstream block has been removed, please check if your override is still needed",
@@ -53,7 +61,7 @@ class TwigBlockRemoved : LocalInspectionTool() {
                         holder.registerProblem(
                             element.parent,
                             "The upstream block has been removed from this template, but still exists in: ${
-                                upstreamBlocks.map { it.relativePath }.distinct().joinToString(", ")
+                                otherLocations.joinToString(", ")
                             }",
                             ProblemHighlightType.WARNING
                         )

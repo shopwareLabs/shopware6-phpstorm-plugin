@@ -34,7 +34,8 @@ class TwigBlockHashIndex : FileBasedIndexExtension<String, TwigBlockHash>() {
                             TwigUtil.getRelativePath(inputData.file.path),
                             inputData.file.path,
                             StringUtil.sha512(element.parent.text),
-                            element.parent.text
+                            element.parent.text,
+                            TwigUtil.getShopwareBlockComment(element) !== null
                         )
                     }
 
@@ -55,7 +56,7 @@ class TwigBlockHashIndex : FileBasedIndexExtension<String, TwigBlockHash>() {
     }
 
     override fun getVersion(): Int {
-        return 3
+        return 4
     }
 
     override fun getInputFilter(): FileBasedIndex.InputFilter {

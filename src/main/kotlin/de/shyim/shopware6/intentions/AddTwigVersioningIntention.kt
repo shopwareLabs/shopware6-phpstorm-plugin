@@ -6,10 +6,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Iconable
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
-import com.intellij.psi.search.GlobalSearchScope
-import com.intellij.util.indexing.FileBasedIndex
 import com.jetbrains.twig.elements.TwigBlockTag
-import de.shyim.shopware6.index.TwigBlockHashIndex
 import de.shyim.shopware6.util.TwigUtil
 import icons.ShopwareToolBoxIcons
 import javax.swing.Icon
@@ -38,9 +35,7 @@ class AddTwigVersioningIntention : PsiElementBaseIntentionAction(), Iconable {
 
         val blockName = blockTag.name ?: return false
 
-        val candidates = FileBasedIndex.getInstance()
-            .getValues(TwigBlockHashIndex.key, blockName, GlobalSearchScope.allScope(project))
-            .filter { it.relativePath == TwigUtil.getRelativePath(element.containingFile.virtualFile.path) && it.absolutePath != element.containingFile.virtualFile.path }
+        val candidates = TwigUtil.getUpstreamBlocks(element.containingFile.originalFile, blockName)
 
         if (candidates.isEmpty()) {
             return false
