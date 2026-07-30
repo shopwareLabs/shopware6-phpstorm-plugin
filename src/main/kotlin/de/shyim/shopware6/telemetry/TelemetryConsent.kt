@@ -1,9 +1,14 @@
 package de.shyim.shopware6.telemetry
 
+import com.intellij.notification.NotificationAction
+import com.intellij.notification.NotificationGroupManager
+import com.intellij.notification.NotificationType
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.ui.Messages
+import java.util.concurrent.atomic.AtomicBoolean
 
 object TelemetryConsent {
+    private val consentRequested = AtomicBoolean(false)
+
     fun requestIfNeeded(project: Project?): Boolean {
         val settings = TelemetrySettings.getInstance()
 
@@ -12,26 +17,32 @@ object TelemetryConsent {
             TelemetrySettings.CONSENT_DISABLED -> return false
         }
 
-        val answer = Messages.showYesNoDialog(
-            project,
-            """
-            Help improve Shopware 6 Toolbox by sending anonymous feature-usage statistics.
+        if (consentRequested.compareAndSet(false, true)) {
+            showConsentNotification(project)
+        }
 
-            We do not collect source code, file names, project names, or personal information.
-            """.trimIndent(),
-            "Anonymous Usage Statistics",
-            "Allow",
-            "No Thanks",
-            Messages.getQuestionIcon(),
-        )
+        return false
+    }
 
-        settings.consent =
-            if (answer == Messages.YES) {
-                TelemetrySettings.CONSENT_ENABLED
-            } else {
-                TelemetrySettings.CONSENT_DISABLED
-            }
+    private fun showConsentNotification(project: Project?) {
+        val notification = NotificationGroupManager.getInstance()
+            .getNotificationGroup("Shopware Telemetry")
+            .createNotification(
+                "Anonymous usage statistics",
+                "Help improve Shopware 6 Toolbox by sending anonymous feature-usage statistics. " +
+                    "We do not collect source code, file names, project names, or personal information. " +
+                    "You can change this anytime in Settings | Tools | Shopware 6 Toolbox.",
+                NotificationType.INFORMATION,
+            )
 
-        return answer == Messages.YES
+        notification.addAction(NotificationAction.createSimpleExpiring("Allow") {
+            TelemetrySettings.getInstance().consent = TelemetrySettings.CONSENT_ENABLED
+        })
+
+        notification.addAction(NotificationAction.createSimpleExpiring("No thanks") {
+            TelemetrySettings.getInstance().consent = TelemetrySettings.CONSENT_DISABLED
+        })
+
+        notification.notify(project)
     }
 }

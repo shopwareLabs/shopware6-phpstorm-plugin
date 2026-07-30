@@ -254,6 +254,9 @@
         <notificationGroup id="Shopware"
                            displayType="BALLOON"
                            key="notification.group.name"/>
+
+        <notificationGroup id="Shopware Telemetry"
+                           displayType="STICKY_BALLOON"/>
     </extensions>
 
     <actions>
