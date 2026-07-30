@@ -50,7 +50,7 @@ When several upstream candidates remain, a hash matching **any** of them counts 
 Additional safeguards:
 
 - Upstream templates themselves (`vendor/`, `src/Storefront`) are never asked for versioning comments, and the missing-comment inspection only considers files that extend another template.
-- The removed-block inspection stays silent when the Shopware sources are not part of the project (e.g. a standalone plugin repository without `vendor/`), because there is no upstream to compare against.
+- The removed-block inspection only runs when the template extended via `sw_extends` is resolvable within the project. In a standalone plugin repository without the Shopware sources nothing is reported, because there is no upstream to compare against.
 
 ## Limitations
 

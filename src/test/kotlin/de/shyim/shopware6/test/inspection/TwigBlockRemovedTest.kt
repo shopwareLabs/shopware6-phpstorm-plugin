@@ -55,10 +55,13 @@ class TwigBlockRemovedTest : BasePlatformTestCase() {
     fun testNothingIsReportedWithoutShopwareSources() {
         myFixture.enableInspections(TwigBlockRemoved())
 
-        // a standalone plugin repository without the Shopware sources cannot know if a block was removed
+        // a standalone plugin repository without the Shopware sources cannot know if a block
+        // was removed: the extended template is not resolvable in the project
         val file = myFixture.addFileToProject(
             "StandalonePlugin/Resources/views/storefront/page/index.html.twig",
             """
+            {% sw_extends '@Storefront/storefront/page/index.html.twig' %}
+
             {# shopware-block: somehash@6.6.0.0 #}
             {% block some_block %}
                 <div>override</div>

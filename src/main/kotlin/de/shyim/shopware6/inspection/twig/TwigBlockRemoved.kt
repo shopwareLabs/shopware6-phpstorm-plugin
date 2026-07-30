@@ -5,7 +5,6 @@ import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
-import com.intellij.psi.search.FilenameIndex
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.util.indexing.FileBasedIndex
 import com.jetbrains.twig.TwigFile
@@ -21,15 +20,15 @@ class TwigBlockRemoved : LocalInspectionTool() {
             return super.buildVisitor(holder, isOnTheFly)
         }
 
-        // without the Shopware sources in the project every block would be reported as removed
-        if (FilenameIndex.getVirtualFilesByName("base.html.twig", GlobalSearchScope.allScope(file.project))
-                .none { TwigUtil.isShopwareCoreTemplate(it.path) }
-        ) {
+        val filePath = file.originalFile.virtualFile?.path ?: return super.buildVisitor(holder, isOnTheFly)
+
+        // a block can only be recognized as removed when the extended template is part of the
+        // project. Otherwise (e.g. a standalone plugin repository without the Shopware sources)
+        // every block would be reported as removed
+        val chainPaths = TwigUtil.getExtendsChainPaths(file)
+        if (chainPaths.isEmpty()) {
             return super.buildVisitor(holder, isOnTheFly)
         }
-
-        val filePath = file.originalFile.virtualFile?.path ?: return super.buildVisitor(holder, isOnTheFly)
-        val chainPaths = TwigUtil.getExtendsChainPaths(file)
 
         return object : PsiElementVisitor() {
             override fun visitElement(element: PsiElement) {
