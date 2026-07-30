@@ -28,10 +28,10 @@ class NewComponentAction :
 
         val folder = ActionUtil.getViewDirectory(e.dataContext) ?: return
 
-        val componentFolder = createComponent(e.project!!, folder, config)
+        val componentFolder = createComponent(e.project!!, folder, config) ?: return
 
         val view = LangDataKeys.IDE_VIEW.getData(e.dataContext) ?: return
-        val psiFile = componentFolder!!.findFile("index.js")
+        val psiFile = componentFolder.findFile("index.js")
         if (psiFile != null) {
             view.selectElement(psiFile)
         }
@@ -48,9 +48,7 @@ class NewComponentAction :
             componentFolder = folder.createSubdirectory(config.name)
         }
 
-        if (componentFolder == null) {
-            return null
-        }
+        val createdComponentFolder = componentFolder ?: return null
 
         // Create index.js
         val content = ShopwareTemplates.renderTemplate(
@@ -63,7 +61,7 @@ class NewComponentAction :
         val file = factory.createFileFromText("index.js", JavaScriptFileType, content)
 
         ApplicationManager.getApplication().runWriteAction {
-            componentFolder!!.add(file)
+            createdComponentFolder.add(file)
         }
 
         if (config.generateTwig) {
@@ -78,7 +76,7 @@ class NewComponentAction :
             )
 
             ApplicationManager.getApplication().runWriteAction {
-                componentFolder!!.add(htmlFile)
+                createdComponentFolder.add(htmlFile)
             }
         }
 
@@ -95,10 +93,10 @@ class NewComponentAction :
             )
 
             ApplicationManager.getApplication().runWriteAction {
-                componentFolder!!.add(cssFile)
+                createdComponentFolder.add(cssFile)
             }
         }
 
-        return componentFolder
+        return createdComponentFolder
     }
 }

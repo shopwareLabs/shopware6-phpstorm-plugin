@@ -18,7 +18,7 @@ object ShopwareBundleUtil {
     private val NON_VIEW_SHOPWARE_BUNDLES =
         arrayOf("Administration", "DevOps", "Checkout", "Profiling", "Elasticsearch", "Content", "System", "Framework")
 
-    fun getAllBundles(project: Project): MutableList<ShopwareBundle> {
+    fun getAllBundles(project: Project): List<ShopwareBundle> {
         return FileBasedIndex.getInstance()
             .getValues(ShopwareBundleIndex.key, "all", GlobalSearchScope.allScope(project))
     }

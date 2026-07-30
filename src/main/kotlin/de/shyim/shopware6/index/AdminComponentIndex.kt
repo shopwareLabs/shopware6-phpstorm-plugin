@@ -84,20 +84,19 @@ class AdminComponentIndex : FileBasedIndexExtension<String, AdminComponent>() {
                                         val properties = (props.value as JSObjectLiteralExpression).properties
 
                                         properties.forEach {
-                                            if (it.name != null) {
-                                                propsSet.add(it.name!!)
-                                            }
+                                            it.name?.let(propsSet::add)
                                         }
                                     }
 
                                     if (template is JSProperty) {
                                         inputData.psiFile.children.forEach {
                                             if (it is ES6ImportDeclaration && it.importedBindings.size == 1 && it.importedBindings[0].name == "template" && it.fromClause?.referenceText != null) {
-                                                templatePath =
-                                                    StringUtil.stripQuotes(it.fromClause!!.referenceText.toString())
+                                                val importPath =
+                                                    StringUtil.stripQuotes(it.fromClause.referenceText.toString())
+                                                templatePath = importPath
 
-                                                if (templatePath!!.startsWith("./")) {
-                                                    val path = templatePath!!.substring(2)
+                                                if (importPath.startsWith("./")) {
+                                                    val path = importPath.substring(2)
                                                     templatePath = "${inputData.file.parent.path}/${path}"
                                                 }
                                             }
