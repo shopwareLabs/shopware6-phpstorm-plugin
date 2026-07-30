@@ -1,0 +1,12 @@
+<warning descr="The block does not have a versioning comment">{% block base_content %}
+    <div>override without comment</div>
+{% endblock %}</warning>
+
+{# shopware-block: somehash@6.6.0.0 #}
+{% block base_footer %}
+    <div>override with comment</div>
+{% endblock %}
+
+{% block custom_plugin_block %}
+    <div>own block, not upstream</div>
+{% endblock %}

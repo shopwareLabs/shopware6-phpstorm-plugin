@@ -1,0 +1,18 @@
+{# shopware-block: hash1@6.6.0.0 #}
+{% block base_content %}
+    <div>override</div>
+{% endblock %}
+
+{# shopware-block: hash2@6.6.0.0 #}
+<warning descr="The upstream block has been removed, please check if your override is still needed">{% block base_removed %}
+    <div>gone</div>
+{% endblock %}</warning>
+
+{# shopware-block: hash3@6.6.0.0 #}
+<warning descr="The upstream block has been removed from this template, but still exists in: storefront/layout/header.html.twig">{% block page_header %}
+    <div>moved</div>
+{% endblock %}</warning>
+
+{% block custom_plugin_block %}
+    <div>own block without versioning comment</div>
+{% endblock %}

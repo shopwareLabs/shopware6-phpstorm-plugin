@@ -16,7 +16,14 @@ class TwigBlockDeprecationIndexTest : BasePlatformTestCase() {
     }
 
     fun testDeprecationFound() {
+        // getAllKeys can contain stale keys from other tests sharing the index storage,
+        // so only count keys with values in this project
         val keys = FileBasedIndex.getInstance().getAllKeys(TwigBlockDeprecationIndex.key, project)
+            .filter {
+                FileBasedIndex.getInstance()
+                    .getValues(TwigBlockDeprecationIndex.key, it, GlobalSearchScope.allScope(project))
+                    .isNotEmpty()
+            }
         assertSame(1, keys.size)
         assertEquals("component_line_item_type_product_order_number", keys.first())
 

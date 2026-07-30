@@ -22,10 +22,7 @@ class TwigBlockHashIndex : FileBasedIndexExtension<String, TwigBlockHash>() {
         return DataIndexer { inputData ->
             val hashes = HashMap<String, TwigBlockHash>()
 
-            if (!inputData.file.path.contains("src/Storefront/Resources/views/storefront") && !inputData.file.path.contains(
-                    "vendor/shopware/storefront/Resources/views/storefront"
-                )
-            ) {
+            if (!TwigUtil.isShopwareCoreTemplate(inputData.file.path)) {
                 return@DataIndexer mapOf()
             }
 
