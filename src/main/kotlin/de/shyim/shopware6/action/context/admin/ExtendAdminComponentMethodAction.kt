@@ -88,7 +88,7 @@ class ExtendAdminComponentMethodAction :
             val popup = ShopwareBundleUtil.getBundleSelectionPopup(element.project)
             val bundleSelectionCallback = Runnable {
                     val bundle =
-                        (popup.chooserComponent as JBList<ShopwareBundle>).selectedValue
+                        ((popup.chooserComponent as? JBList<*>)?.selectedValue as? ShopwareBundle)
                             ?: return@Runnable
 
                     val allExistingComponents =

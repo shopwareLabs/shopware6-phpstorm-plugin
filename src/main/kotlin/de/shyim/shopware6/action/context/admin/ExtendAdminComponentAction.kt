@@ -133,7 +133,7 @@ class ExtendAdminComponentAction : DumbAwareAction(
             val popup = ShopwareBundleUtil.getBundleSelectionPopup(project)
             val itemChosenCallback = Runnable {
                     val bundle =
-                        (popup.chooserComponent as JBList<ShopwareBundle>).selectedValue
+                        ((popup.chooserComponent as? JBList<*>)?.selectedValue as? ShopwareBundle)
                             ?: return@Runnable
 
                     ensureAdminEntrypointExists(bundle, project)

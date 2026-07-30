@@ -137,26 +137,19 @@ class ExtendTwigBlockIntention : PsiElementBaseIntentionAction(), Iconable {
         ) {
             val localFolder = LocalFileSystem.getInstance().findFileByPath(bundle.getStorefrontViewFolder())
 
-            var currentFolder: PsiDirectory?
-            currentFolder = if (localFolder == null) {
+            var currentFolder = if (localFolder == null) {
                 createMissingViewFolder(bundle, project)
             } else {
                 PsiManager.getInstance(project).findDirectory(localFolder) as PsiDirectory
             }
 
-            var fileName: String? = null
-
             val templateParts = templatePath.split("/")
+            val fileName = templateParts.lastOrNull { it.endsWith(".twig") } ?: return
 
             templateParts.forEach { part ->
                 if (!part.endsWith(".twig")) {
-                    currentFolder = if (currentFolder!!.findSubdirectory(part) != null) {
-                        currentFolder!!.findSubdirectory(part)!!
-                    } else {
-                        currentFolder!!.createSubdirectory(part)
-                    }
-                } else {
-                    fileName = part
+                    currentFolder = currentFolder.findSubdirectory(part)
+                        ?: currentFolder.createSubdirectory(part)
                 }
             }
 
@@ -181,8 +174,9 @@ class ExtendTwigBlockIntention : PsiElementBaseIntentionAction(), Iconable {
 {% sw_extends "@Storefront/${templatePath}" %}
         """.trimIndent()
 
-            if (currentFolder!!.findFile(fileName!!) != null) {
-                val file = currentFolder!!.findFile(fileName!!)!!
+            val existingFile = currentFolder.findFile(fileName)
+            if (existingFile != null) {
+                val file = existingFile
 
                 val editor = FileEditorManager.getInstance(project)
                     .openTextEditor(OpenFileDescriptor(project, file.containingFile.virtualFile), true) ?: return
@@ -195,12 +189,12 @@ class ExtendTwigBlockIntention : PsiElementBaseIntentionAction(), Iconable {
             } else {
                 val factory = PsiFileFactory.getInstance(project)
                 val file =
-                    factory.createFileFromText(fileName!!, TwigFileType.INSTANCE, blockHeader + "\n\n" + blockCode)
-                currentFolder!!.add(file)
+                    factory.createFileFromText(fileName, TwigFileType.INSTANCE, blockHeader + "\n\n" + blockCode)
+                currentFolder.add(file)
 
                 FileEditorManager.getInstance(project)
                     .openTextEditor(
-                        OpenFileDescriptor(project, currentFolder!!.findFile(fileName!!)!!.virtualFile),
+                        OpenFileDescriptor(project, currentFolder.findFile(fileName)!!.virtualFile),
                         true
                     )
                     ?: return

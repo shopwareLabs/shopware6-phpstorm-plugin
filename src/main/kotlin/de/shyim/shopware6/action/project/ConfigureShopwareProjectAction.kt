@@ -59,8 +59,8 @@ class ConfigureShopwareProjectAction : DumbAwareAction(
                 FileUtils.readFileToString(File("${shopwareBundle.composerFolder}/composer.json"), "UTF-8")
             val jsonObject = JSONObject(composerJsonBody)
 
-            addSourceFolders("autoload", jsonObject, foundContentEntry!!, shopwareBundle.composerFolder)
-            addSourceFolders("autoload-dev", jsonObject, foundContentEntry!!, shopwareBundle.composerFolder)
+            addSourceFolders("autoload", jsonObject, foundContentEntry, shopwareBundle.composerFolder)
+            addSourceFolders("autoload-dev", jsonObject, foundContentEntry, shopwareBundle.composerFolder)
         }
 
         CommandProcessor.getInstance().executeCommand(
