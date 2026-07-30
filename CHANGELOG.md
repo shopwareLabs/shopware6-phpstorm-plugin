@@ -4,6 +4,10 @@
 
 ## Unreleased
 
+- Replaced the Symfony plugin integration for `sw_extends` / `sw_include` with own navigation and autocompletion: navigating a template reference now offers all templates of that view path (the referenced bundle first, then all plugin overrides), and completion suggests templates of every bundle including plugins in `custom/plugins`
+- Added navigation from a Twig block name to the upstream block it overrides (nearest parent first, following the `sw_extends` chain)
+- Templates are indexed by their view path and `sw_extends` target, so template resolution, chain walking and completion no longer scan files
+
 - Twig block versioning comments now also work for templates of third-party extensions, both installed via Composer and in `custom/plugins` (block changed / removed / comment missing inspections). The versioning comment records the version of the extension the block belongs to (from the Composer package or the extension's composer.json). Showing a diff of the upstream changes is only supported for Shopware core templates.
 - The "versioning comment missing" inspection only reports files that extend another template via `sw_extends`
 - The upstream of a block is now resolved through the `sw_extends` chain of the template, so versioning also works when extending a template at a different relative path and sibling overrides of other plugins cannot be mistaken for the upstream

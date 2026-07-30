@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.PsiManager
-import com.intellij.psi.search.FilenameIndex
+import com.intellij.psi.PsiRecursiveElementWalkingVisitor
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.util.indexing.FileBasedIndex
 import com.jetbrains.php.composer.actions.update.ComposerInstalledPackagesService
@@ -63,10 +63,14 @@ object TwigUtil {
     }
 
     private val EXTENDS_PATTERN = Regex("\\{%-?\\s*(sw_)?extends\\s")
-    private val EXTENDS_TARGET_PATTERN = Regex("\\{%-?\\s*(?:sw_)?extends\\s+['\"]@([A-Za-z0-9_]+)/([^'\"]+)['\"]")
+    private val EXTENDS_TARGET_PATTERN = Regex("\\{%-?\\s*(?:sw_)?extends\\s+['\"](@[A-Za-z0-9_]+/[^'\"]+)['\"]")
 
     fun isExtendingTemplate(file: PsiFile): Boolean {
         return EXTENDS_PATTERN.containsMatchIn(file.text)
+    }
+
+    fun findExtendsTargetReference(content: CharSequence): String? {
+        return EXTENDS_TARGET_PATTERN.find(content)?.groupValues?.get(1)
     }
 
     fun getExtendsChainPaths(file: PsiFile): List<String> {
@@ -75,47 +79,51 @@ object TwigUtil {
         val visited = HashSet<String>()
         file.originalFile.virtualFile?.path?.let { visited.add(it) }
 
-        var current: PsiFile? = file
+        var target = findExtendsTargetReference(file.text)
 
-        while (current != null && paths.size < 10) {
-            val target = EXTENDS_TARGET_PATTERN.find(current.text) ?: break
-            val parent = findTemplateInBundle(project, target.groupValues[1], target.groupValues[2]) ?: break
+        while (target != null && paths.size < 10) {
+            val bundleName = target.substring(1).substringBefore("/")
+            val templatePath = target.substringAfter("/", "")
+
+            if (templatePath.isEmpty()) {
+                break
+            }
+
+            val parent = ShopwareTemplateUtil.findTemplateInBundle(project, bundleName, templatePath) ?: break
 
             if (!visited.add(parent.path)) {
                 break
             }
 
             paths.add(parent.path)
-            current = PsiManager.getInstance(project).findFile(parent)
+
+            // the parents' extends targets come from the index, so no further files need to be loaded
+            target = ShopwareTemplateUtil.getExtendsTarget(project, parent)
         }
 
         return paths
     }
 
-    private fun findTemplateInBundle(project: Project, bundleName: String, templatePath: String): VirtualFile? {
-        val suffix = "Resources/views/$templatePath"
-        val normalizedBundle = bundleName.replace("-", "").replace("_", "").lowercase()
+    fun findBlockTagInFile(project: Project, path: String, blockName: String): PsiElement? {
+        val virtualFile = ShopwareTemplateUtil.findTemplateByPath(project, path) ?: return null
 
-        val candidates = FilenameIndex.getVirtualFilesByName(
-            templatePath.substringAfterLast('/'),
-            GlobalSearchScope.allScope(project)
-        ).filter { it.path.endsWith(suffix) }
+        val psiFile = PsiManager.getInstance(project).findFile(virtualFile) ?: return null
 
-        // prefer a path segment exactly matching the bundle name, fall back to a substring
-        // match to also cover vendor packages (@AcmeFoo -> vendor/acme/foo)
-        val matches = candidates.filter { candidate ->
-            candidate.path.removeSuffix(suffix).split('/')
-                .any { it.replace("-", "").replace("_", "").equals(normalizedBundle, true) }
-        }.ifEmpty {
-            candidates.filter { candidate ->
-                candidate.path.removeSuffix(suffix).replace("-", "").replace("_", "").replace("/", "")
-                    .lowercase().contains(normalizedBundle)
+        var blockTag: PsiElement? = null
+
+        psiFile.acceptChildren(object : PsiRecursiveElementWalkingVisitor() {
+            override fun visitElement(element: PsiElement) {
+                if (element is TwigBlockTag && element.name == blockName) {
+                    blockTag = element
+                    stopWalking()
+                    return
+                }
+
+                super.visitElement(element)
             }
-        }
+        })
 
-        return matches.sortedWith(
-            compareByDescending<VirtualFile> { isShopwareCoreTemplate(it.path) }.thenBy { it.path }
-        ).firstOrNull()
+        return blockTag
     }
 
     fun getUpstreamBlocks(file: PsiFile, blockName: String): List<TwigBlockHash> {
@@ -263,10 +271,7 @@ object TwigUtil {
         }
 
         // extensions in custom/plugins: read the version from the extension's composer.json
-        val templateFile = FilenameIndex.getVirtualFilesByName(
-            path.substringAfterLast('/'),
-            GlobalSearchScope.allScope(project)
-        ).firstOrNull { it.path == path } ?: return null
+        val templateFile = ShopwareTemplateUtil.findTemplateByPath(project, path) ?: return null
 
         var dir = templateFile.parent
         while (dir != null) {

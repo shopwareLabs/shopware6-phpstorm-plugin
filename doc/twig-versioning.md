@@ -38,6 +38,8 @@ Versioning works for blocks of the Shopware core **and any other extension** —
 
 Once an override is reviewed, re-run the *"Add/Update"* intention (or the quick fix) to record the new hash, which clears the warning.
 
+To compare an override with its origin, **Ctrl+Click (Go to Declaration) on a block name** navigates to the upstream block it overrides — nearest parent in the `sw_extends` chain first. Template references in `sw_extends` / `sw_include` navigate to all templates of that view path: the referenced bundle first, followed by every plugin override.
+
 ## How the upstream of a block is resolved
 
 All blocks of all templates under `Resources/views/` are indexed with their content hash. For a block in your file, the upstream candidates are determined in two steps:
