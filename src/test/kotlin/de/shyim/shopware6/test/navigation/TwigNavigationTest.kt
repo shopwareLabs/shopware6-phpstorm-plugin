@@ -37,6 +37,23 @@ class TwigNavigationTest : BasePlatformTestCase() {
         assertTrue(targets[1].containingFile.virtualFile.path.contains("MyPluginOther"))
     }
 
+    fun testTemplateNavigationExcludesTheCurrentFile() {
+        // the navigation source file overrides the referenced path itself and must not be offered
+        val file = myFixture.addFileToProject(
+            "MyPlugin/Resources/views/storefront/page/content/index.html.twig",
+            "{% sw_extends '@Storefront/storefront/page/content/index.html.twig' %}\n"
+        )
+        myFixture.configureFromExistingVirtualFile(file.virtualFile)
+
+        val element = myFixture.file.findElementAt(myFixture.file.text.indexOf("storefront/page"))
+
+        val targets = TwigTemplateGoToDeclareHandler().getGotoDeclarationTargets(element, 0, myFixture.editor)
+
+        assertNotNull(targets)
+        assertSame(2, targets!!.size)
+        assertFalse(targets.any { it.containingFile.virtualFile.path.contains("/MyPlugin/") })
+    }
+
     fun testTemplateNavigationToCustomPluginsBundle() {
         myFixture.configureByText(
             "test.html.twig",

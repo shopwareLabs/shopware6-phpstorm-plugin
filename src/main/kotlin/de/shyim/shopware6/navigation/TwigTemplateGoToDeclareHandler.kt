@@ -36,7 +36,10 @@ class TwigTemplateGoToDeclareHandler : GotoDeclarationHandler {
         }
 
         val project = element.project
+        val currentPath = element.containingFile.originalFile.virtualFile?.path
+
         val targets = ShopwareTemplateUtil.resolveTemplateReference(project, element.text)
+            .filter { it.path != currentPath }
             .mapNotNull { PsiManager.getInstance(project).findFile(it) }
 
         return if (targets.isEmpty()) null else targets.toTypedArray()
