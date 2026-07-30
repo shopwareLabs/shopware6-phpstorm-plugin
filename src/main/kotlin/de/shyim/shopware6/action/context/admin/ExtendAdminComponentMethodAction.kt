@@ -23,6 +23,7 @@ import com.intellij.ui.components.JBList
 import com.intellij.util.containers.filterSmartMutable
 import de.shyim.shopware6.index.dict.AdminComponent
 import de.shyim.shopware6.index.dict.ShopwareBundle
+import de.shyim.shopware6.telemetry.TelemetryClient
 import de.shyim.shopware6.util.ShopwareBundleUtil
 import de.shyim.shopware6.util.StringUtil
 import icons.ShopwareToolBoxIcons
@@ -83,6 +84,8 @@ class ExtendAdminComponentMethodAction :
         private const val NEW_COMPONENT = "Create new component"
 
         fun extendMethod(element: PsiElement, editor: Editor) {
+            val startedAt = System.currentTimeMillis()
+
             val componentName = getComponentName(element)
 
             val popup = ShopwareBundleUtil.getBundleSelectionPopup(element.project)
@@ -130,9 +133,13 @@ class ExtendAdminComponentMethodAction :
                                 bundle
                             ) {
                                 addMethodToComponent(element, it)
+
+                                TelemetryClient.trackFeature(element.project, "admin.extend_method", startedAt)
                             }
                         } else {
                             addMethodToComponent(element, component.file)
+
+                            TelemetryClient.trackFeature(element.project, "admin.extend_method", startedAt)
                         }
                     }
 

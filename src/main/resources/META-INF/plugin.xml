@@ -13,6 +13,12 @@
     <depends optional="true" config-file="de.shyim.shopware6.symfony.xml">fr.adrienbrault.idea.symfony2plugin</depends>
 
     <extensions defaultExtensionNs="com.intellij">
+        <applicationConfigurable
+                id="de.shyim.shopware6.telemetry"
+                parentId="tools"
+                displayName="Shopware 6 Toolbox"
+                instance="de.shyim.shopware6.telemetry.TelemetryConfigurable"/>
+
         <defaultLiveTemplates file="/liveTemplates/Shopware 6 Config_xml.xml"/>
         <defaultLiveTemplates file="/liveTemplates/Shopware 6 PHP.xml"/>
         <defaultLiveTemplates file="/liveTemplates/Shopware 6 General.xml"/>
@@ -262,6 +268,9 @@
         <notificationGroup id="Shopware"
                            displayType="BALLOON"
                            key="notification.group.name"/>
+
+        <notificationGroup id="Shopware Telemetry"
+                           displayType="STICKY_BALLOON"/>
     </extensions>
 
     <actions>

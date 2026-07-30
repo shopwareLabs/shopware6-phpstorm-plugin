@@ -13,6 +13,7 @@ import com.jetbrains.twig.TwigFileType
 import de.shyim.shopware6.action.generator.ActionUtil
 import de.shyim.shopware6.index.dict.ScriptHook
 import de.shyim.shopware6.index.dict.ShopwareApp
+import de.shyim.shopware6.telemetry.TelemetryClient
 import de.shyim.shopware6.templates.ShopwareTemplates
 import de.shyim.shopware6.util.PsiUtil
 import de.shyim.shopware6.util.ScriptHookUtil
@@ -28,6 +29,8 @@ class NewAppScriptAction :
         if (e.project == null) {
             return
         }
+
+        val startedAt = System.currentTimeMillis()
 
         val hooks = ScriptHookUtil.getAllHooks(e.project!!)
 
@@ -57,13 +60,13 @@ class NewAppScriptAction :
                 return@setFilteringEnabled (it as ScriptHook).name
             }
             .setItemChosenCallback(Runnable {
-                this.chooseApp(jbHookList.selectedValue!!, e.project!!)
+                this.chooseApp(jbHookList.selectedValue!!, e.project!!, startedAt)
             })
             .createPopup()
             .showInFocusCenter()
     }
 
-    private fun chooseApp(scriptHook: ScriptHook, project: Project) {
+    private fun chooseApp(scriptHook: ScriptHook, project: Project, startedAt: Long) {
         val apps = ShopwareAppUtil.getAllApps(project)
         val jbAppList = JBList(apps)
 
@@ -89,7 +92,7 @@ class NewAppScriptAction :
             .setTitle("Shopware: Select App")
             .setItemChosenCallback(Runnable {
                 CommandProcessor.getInstance().executeCommand(project, {
-                    this.createFile(jbAppList.selectedValue, scriptHook, project)
+                    this.createFile(jbAppList.selectedValue, scriptHook, project, startedAt)
 
                 }, "Create Hook", null)
             })
@@ -97,7 +100,7 @@ class NewAppScriptAction :
             .showInFocusCenter()
     }
 
-    private fun createFile(app: ShopwareApp, scriptHook: ScriptHook, project: Project) {
+    private fun createFile(app: ShopwareApp, scriptHook: ScriptHook, project: Project, startedAt: Long) {
         val localFolder = LocalFileSystem.getInstance().findFileByPath(app.rootFolder)
         val psiDir = PsiManager.getInstance(project).findDirectory(localFolder!!) as PsiDirectory
 
@@ -118,5 +121,7 @@ class NewAppScriptAction :
             ),
             scriptsDir
         ) ?: return
+
+        TelemetryClient.trackFeature(project, "generator.app_script", startedAt)
     }
 }

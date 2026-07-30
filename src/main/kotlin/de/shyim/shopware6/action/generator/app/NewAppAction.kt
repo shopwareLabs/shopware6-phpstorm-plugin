@@ -5,6 +5,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.project.DumbAwareAction
 import com.intellij.openapi.ui.Messages
 import de.shyim.shopware6.action.generator.ActionUtil
+import de.shyim.shopware6.telemetry.TelemetryClient
 import de.shyim.shopware6.templates.ShopwareTemplates
 import icons.ShopwareToolBoxIcons
 
@@ -13,6 +14,8 @@ class NewAppAction : DumbAwareAction("Create an App", "Create a new Shopware app
         if (e.project == null) {
             return
         }
+
+        val startedAt = System.currentTimeMillis()
 
         val rootDirectory = ActionUtil.getViewDirectory(e.dataContext) ?: return
 
@@ -40,5 +43,7 @@ class NewAppAction : DumbAwareAction("Create an App", "Create a new Shopware app
             content,
             appFolder
         )
+
+        TelemetryClient.trackFeature(e.project, "generator.app", startedAt)
     }
 }

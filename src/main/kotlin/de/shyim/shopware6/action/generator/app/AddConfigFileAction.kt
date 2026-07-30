@@ -14,6 +14,7 @@ import com.intellij.psi.PsiManager
 import com.intellij.ui.components.JBList
 import de.shyim.shopware6.action.generator.ActionUtil
 import de.shyim.shopware6.index.dict.ShopwareApp
+import de.shyim.shopware6.telemetry.TelemetryClient
 import de.shyim.shopware6.templates.ShopwareTemplates
 import de.shyim.shopware6.util.ShopwareAppUtil
 import java.awt.Component
@@ -25,6 +26,7 @@ abstract class AddConfigFileAction(
     private val configFileName: String,
     private val configFilePath: String,
     private val shopwareTemplate: String,
+    private val telemetryFeature: String,
     text: String,
     description: String,
     icon: Icon
@@ -40,7 +42,8 @@ abstract class AddConfigFileAction(
             e.project!!,
             this.configFileName,
             this.configFilePath,
-            this.shopwareTemplate
+            this.shopwareTemplate,
+            System.currentTimeMillis()
         )
     }
 
@@ -48,7 +51,8 @@ abstract class AddConfigFileAction(
         project: Project,
         configFile: String,
         configFilePath: String,
-        shopwareTemplate: String
+        shopwareTemplate: String,
+        startedAt: Long
     ) {
         val apps = ShopwareAppUtil.getAllApps(project)
         val jbAppList = JBList(apps)
@@ -100,6 +104,8 @@ abstract class AddConfigFileAction(
 
                     FileEditorManager.getInstance(project)
                         .openTextEditor(OpenFileDescriptor(project, createdConfigFile.virtualFile), true)
+
+                    TelemetryClient.trackFeature(project, telemetryFeature, startedAt)
                 }, "Creating Config File", null)
             })
             .createPopup()

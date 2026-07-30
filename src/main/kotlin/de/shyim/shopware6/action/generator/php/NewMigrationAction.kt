@@ -5,12 +5,15 @@ import com.intellij.openapi.project.DumbAwareAction
 import com.jetbrains.php.lang.PhpFileType
 import com.jetbrains.php.roots.PhpNamespaceCompositeProvider
 import de.shyim.shopware6.action.generator.ActionUtil
+import de.shyim.shopware6.telemetry.TelemetryClient
 import de.shyim.shopware6.templates.ShopwareTemplates
 import icons.ShopwareToolBoxIcons
 
 class NewMigrationAction :
     DumbAwareAction("Create a Migration", "Create a new Migration", ShopwareToolBoxIcons.SHOPWARE) {
     override fun actionPerformed(e: AnActionEvent) {
+        val startedAt = System.currentTimeMillis()
+
         val directory = ActionUtil.getViewDirectory(e.dataContext) ?: return
 
         val namespaces = PhpNamespaceCompositeProvider.INSTANCE.suggestNamespaces(directory)
@@ -26,5 +29,7 @@ class NewMigrationAction :
             config.fileName(),
             PhpFileType.INSTANCE
         )
+
+        TelemetryClient.trackFeature(e.project, "generator.migration", startedAt)
     }
 }

@@ -12,6 +12,7 @@ import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.codeStyle.CodeStyleManager
 import de.shyim.shopware6.action.generator.ActionUtil
+import de.shyim.shopware6.telemetry.TelemetryClient
 import de.shyim.shopware6.templates.ShopwareTemplates
 
 class NewModuleAction :
@@ -20,6 +21,8 @@ class NewModuleAction :
         if (e.project == null) {
             return
         }
+
+        val startedAt = System.currentTimeMillis()
 
         val ui = NewModuleDialogWrapper()
         val config = ui.showAndGetConfig() ?: return
@@ -71,6 +74,8 @@ class NewModuleAction :
 
         createSnippet(project, snippetFolder, config.name, "de-DE")
         createSnippet(project, snippetFolder, config.name, "en-GB")
+
+        TelemetryClient.trackFeature(project, "generator.admin_module", startedAt)
 
         val view = LangDataKeys.IDE_VIEW.getData(e.dataContext) ?: return
         val psiFile = moduleFolder.findFile("index.js")

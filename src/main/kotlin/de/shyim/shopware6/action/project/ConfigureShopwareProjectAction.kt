@@ -9,6 +9,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.roots.ContentEntry
 import com.intellij.openapi.roots.ModuleRootManager
 import com.intellij.openapi.vfs.LocalFileSystem
+import de.shyim.shopware6.telemetry.TelemetryClient
 import de.shyim.shopware6.util.ShopwareBundleUtil
 import icons.ShopwareToolBoxIcons
 import org.apache.commons.io.FileUtils
@@ -27,6 +28,8 @@ class ConfigureShopwareProjectAction : DumbAwareAction(
         if (e.project == null) {
             return
         }
+
+        val startedAt = System.currentTimeMillis()
 
         val model = ModuleRootManager.getInstance(ModuleManager.getInstance(e.project!!).modules[0]).modifiableModel
         val basePath = e.project!!.basePath + "/src"
@@ -81,6 +84,7 @@ class ConfigureShopwareProjectAction : DumbAwareAction(
             ), e.project
         )
 
+        TelemetryClient.trackFeature(e.project, "project.configure", startedAt)
     }
 
     private fun addShopwareExcludes(model: ContentEntry) {

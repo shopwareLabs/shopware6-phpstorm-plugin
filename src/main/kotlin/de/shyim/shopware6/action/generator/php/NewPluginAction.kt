@@ -12,10 +12,13 @@ import com.intellij.psi.PsiDirectory
 import com.jetbrains.php.lang.PhpFileType
 import de.shyim.shopware6.action.generator.ActionUtil
 import de.shyim.shopware6.templates.ShopwareTemplates
+import de.shyim.shopware6.telemetry.TelemetryClient
 import icons.ShopwareToolBoxIcons
 
 class NewPluginAction : DumbAwareAction("Create a Plugin", "Create a new Plugin", ShopwareToolBoxIcons.SHOPWARE) {
     override fun actionPerformed(e: AnActionEvent) {
+        val startedAt = System.currentTimeMillis()
+
         val wrapper = NewPluginDialogWrapper()
         val config = wrapper.showAndGetConfig() ?: return
 
@@ -103,6 +106,8 @@ class NewPluginAction : DumbAwareAction("Create a Plugin", "Create a new Plugin"
             ),
             configFolder
         )
+
+        TelemetryClient.trackFeature(e.project, "generator.plugin", startedAt)
 
         val view = LangDataKeys.IDE_VIEW.getData(e.dataContext) ?: return
         view.selectElement(pluginBootstrapFile!!)

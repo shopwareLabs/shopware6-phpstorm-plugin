@@ -23,6 +23,7 @@ import com.intellij.ui.components.JBList
 import de.shyim.shopware6.action.generator.ActionUtil
 import de.shyim.shopware6.action.generic.GenericSimpleDialogWrapper
 import de.shyim.shopware6.index.dict.ShopwareBundle
+import de.shyim.shopware6.telemetry.TelemetryClient
 import de.shyim.shopware6.templates.ShopwareTemplates
 import de.shyim.shopware6.util.JavaScriptPattern
 import de.shyim.shopware6.util.PsiUtil
@@ -154,6 +155,8 @@ class ExtendAdminComponentAction : DumbAwareAction(
             project: Project,
             runnable: (String) -> Unit
         ) {
+            val startedAt = System.currentTimeMillis()
+
             val newComponentName: String
             val defaultFilePath = if (type == "override") {
                 newComponentName = componentName
@@ -214,6 +217,8 @@ class ExtendAdminComponentAction : DumbAwareAction(
 
             if (file != null) {
                 runnable(file.virtualFile.path)
+
+                TelemetryClient.trackFeature(project, "admin.extend_component.$type", startedAt)
             }
 
             val entryPoint = LocalFileSystem.getInstance().findFileByPath(bundle.getAdministrationEntrypoint())!!
