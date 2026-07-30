@@ -212,6 +212,17 @@
                 language="Twig"
         />
 
+        <localInspection
+                groupPath="Shopware 6"
+                shortName="Shopware6TwigBlockRemoved"
+                displayName="The upstream block has been removed. Please check that your override is still needed"
+                groupName="Twig"
+                enabledByDefault="true"
+                level="WARNING"
+                implementationClass="de.shyim.shopware6.inspection.twig.TwigBlockRemoved"
+                language="Twig"
+        />
+
         <intentionAction>
             <className>de.shyim.shopware6.intentions.ExtendTwigBlockIntention</className>
             <category>Shopware</category>

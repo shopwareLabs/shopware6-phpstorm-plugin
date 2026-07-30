@@ -4,6 +4,8 @@
 
 ## Unreleased
 
+- Added new inspection that warns when a Twig block with a versioning comment has been removed from the upstream Shopware template
+
 ## 0.0.55 - 2026-07-10
 
 - Marked as compatible with next major version of Jetbrains IDEs
