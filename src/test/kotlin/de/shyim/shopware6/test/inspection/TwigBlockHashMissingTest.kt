@@ -16,4 +16,12 @@ class TwigBlockHashMissingTest : BasePlatformTestCase() {
         myFixture.configureFromTempProjectFile("MyPlugin/Resources/views/storefront/page/content/index.html.twig")
         myFixture.checkHighlighting(true, false, true)
     }
+
+    fun testShopwareCoreTemplatesAreNotReported() {
+        myFixture.copyDirectoryToProject("ShopwarePlatform", "ShopwarePlatform")
+        myFixture.enableInspections(TwigBlockHashMissing())
+
+        myFixture.configureFromTempProjectFile("ShopwarePlatform/src/Storefront/Resources/views/storefront/page/content/index.html.twig")
+        myFixture.checkHighlighting(true, false, true)
+    }
 }

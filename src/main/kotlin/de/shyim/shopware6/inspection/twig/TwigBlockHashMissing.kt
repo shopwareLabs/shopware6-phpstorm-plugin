@@ -14,6 +14,12 @@ import de.shyim.shopware6.util.TwigUtil
 
 class TwigBlockHashMissing : LocalInspectionTool() {
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
+        // the Shopware core templates itself don't need a versioning comment
+        val virtualFile = holder.file.originalFile.virtualFile
+        if (virtualFile != null && TwigUtil.isShopwareCoreTemplate(virtualFile.path)) {
+            return super.buildVisitor(holder, isOnTheFly)
+        }
+
         return object : PsiElementVisitor() {
             override fun visitElement(element: PsiElement) {
                 if (element is TwigBlockTag && element.name !== null && TwigUtil.getShopwareBlockComment(element) === null) {

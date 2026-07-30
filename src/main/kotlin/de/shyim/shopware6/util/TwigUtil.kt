@@ -47,6 +47,10 @@ object TwigUtil {
         return path.substringAfter("Resources/views/")
     }
 
+    fun isShopwareCoreTemplate(path: String): Boolean {
+        return path.contains("src/Storefront/Resources/views/storefront") || path.contains("vendor/shopware/storefront/Resources/views/storefront")
+    }
+
     fun getShopwareBlockComment(element: PsiElement?): PsiElement? {
         if (element == null) {
             return null

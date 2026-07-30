@@ -5,6 +5,7 @@
 ## Unreleased
 
 - Added new inspection that warns when a Twig block with a versioning comment has been removed from the upstream Shopware template
+- Fixed "block does not have a versioning comment" inspection being reported on the Shopware core templates themselves
 
 ## 0.0.55 - 2026-07-10
 
