@@ -25,7 +25,7 @@ class TwigBlockGoToDeclareHandler : GotoDeclarationHandler {
 
         // navigate to the upstream block this one overrides, nearest parent first
         val targets = TwigUtil.getUpstreamBlocks(element.containingFile.originalFile, blockName)
-            .mapNotNull { TwigUtil.findBlockTagInFile(element.project, it.absolutePath, blockName) }
+            .mapNotNull { TwigUtil.findBlockTagsInFile(element.project, it.absolutePath, blockName).firstOrNull() }
 
         return if (targets.isEmpty()) null else targets.toTypedArray()
     }

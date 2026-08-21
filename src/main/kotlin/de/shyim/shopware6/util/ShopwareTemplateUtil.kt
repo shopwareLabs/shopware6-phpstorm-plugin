@@ -9,6 +9,7 @@ import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.CachedValueProvider
 import com.intellij.psi.util.CachedValuesManager
 import com.intellij.util.indexing.FileBasedIndex
+import de.shyim.shopware6.index.ShopwareTemplateExtendsIndex
 import de.shyim.shopware6.index.ShopwareTemplateIndex
 import icons.ShopwareToolBoxIcons
 
@@ -68,6 +69,89 @@ object ShopwareTemplateUtil {
 
         return bundleMatches.sortedWith(templateOrder()) +
                 (candidates - bundleMatches.toSet()).sortedWith(templateOrder())
+    }
+
+    /**
+     * Every template extending the given one, nearest child first. Templates extending a child
+     * are collected transitively.
+     */
+    fun getTemplatesExtendingTemplate(project: Project, file: VirtualFile): List<VirtualFile> {
+        val children = LinkedHashSet<VirtualFile>()
+
+        // several extensions typically override the same view path, so every one of them
+        // references it and looks like a child of the others. The templates the file extends
+        // itself are upstream, never children
+        val visited = HashSet(getExtendsChainPaths(project, file))
+        visited.add(file.path)
+
+        var current = listOf(file)
+        var depth = 0
+
+        // a cycle is already broken by "visited", the depth limit only guards against
+        // pathologically long chains
+        while (current.isNotEmpty() && depth++ < 8) {
+            val next = ArrayList<VirtualFile>()
+
+            current.forEach { template ->
+                getDirectChildren(project, template).forEach { child ->
+                    if (visited.add(child.path)) {
+                        children.add(child)
+                        next.add(child)
+                    }
+                }
+            }
+
+            current = next
+        }
+
+        return children.toList()
+    }
+
+    /**
+     * Paths of the templates the given one extends, nearest parent first
+     */
+    fun getExtendsChainPaths(project: Project, file: VirtualFile): List<String> {
+        return followExtendsChain(project, file.path, getExtendsTarget(project, file))
+    }
+
+    /**
+     * Walks up the sw_extends chain, starting at the given target reference, nearest parent
+     * first. The targets of the parents come from the index, so no further files are loaded.
+     */
+    fun followExtendsChain(project: Project, startPath: String?, startTarget: String?): List<String> {
+        val paths = ArrayList<String>()
+        val visited = HashSet<String>()
+        startPath?.let { visited.add(it) }
+
+        var target = startTarget
+
+        while (target != null && paths.size < 10) {
+            val bundleName = target.substringBefore("/").removePrefix("@")
+            val templatePath = target.substringAfter("/", "")
+
+            if (templatePath.isEmpty()) {
+                break
+            }
+
+            val parent = findTemplateInBundle(project, bundleName, templatePath) ?: break
+
+            if (!visited.add(parent.path)) {
+                break
+            }
+
+            paths.add(parent.path)
+            target = getExtendsTarget(project, parent)
+        }
+
+        return paths
+    }
+
+    private fun getDirectChildren(project: Project, file: VirtualFile): List<VirtualFile> {
+        return FileBasedIndex.getInstance().getContainingFiles(
+            ShopwareTemplateExtendsIndex.key,
+            TwigUtil.getRelativePath(file.path),
+            GlobalSearchScope.allScope(project)
+        ).filter { it.path != file.path }.sortedWith(templateOrder())
     }
 
     fun getTemplateLookupElements(project: Project): List<LookupElement> {
