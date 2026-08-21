@@ -10,6 +10,9 @@ import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.PsiManager
 import com.intellij.psi.PsiRecursiveElementWalkingVisitor
 import com.intellij.psi.search.GlobalSearchScope
+import com.intellij.psi.util.CachedValueProvider
+import com.intellij.psi.util.CachedValuesManager
+import com.intellij.psi.util.PsiModificationTracker
 import com.intellij.util.indexing.FileBasedIndex
 import com.jetbrains.php.composer.actions.update.ComposerInstalledPackagesService
 import com.jetbrains.twig.TwigFileType
@@ -74,48 +77,30 @@ object TwigUtil {
     }
 
     fun getExtendsChainPaths(file: PsiFile): List<String> {
-        val project = file.project
-        val paths = ArrayList<String>()
-        val visited = HashSet<String>()
-        file.originalFile.virtualFile?.path?.let { visited.add(it) }
-
-        var target = findExtendsTargetReference(file.text)
-
-        while (target != null && paths.size < 10) {
-            val bundleName = target.substring(1).substringBefore("/")
-            val templatePath = target.substringAfter("/", "")
-
-            if (templatePath.isEmpty()) {
-                break
-            }
-
-            val parent = ShopwareTemplateUtil.findTemplateInBundle(project, bundleName, templatePath) ?: break
-
-            if (!visited.add(parent.path)) {
-                break
-            }
-
-            paths.add(parent.path)
-
-            // the parents' extends targets come from the index, so no further files need to be loaded
-            target = ShopwareTemplateUtil.getExtendsTarget(project, parent)
+        // cached per file, as every block of a template walks the same chain
+        return CachedValuesManager.getCachedValue(file) {
+            CachedValueProvider.Result.create(
+                // the first target is read from the PSI so that unsaved edits are respected
+                ShopwareTemplateUtil.followExtendsChain(
+                    file.project,
+                    file.originalFile.virtualFile?.path,
+                    findExtendsTargetReference(file.text)
+                ),
+                PsiModificationTracker.MODIFICATION_COUNT
+            )
         }
-
-        return paths
     }
 
-    fun findBlockTagInFile(project: Project, path: String, blockName: String): PsiElement? {
-        val virtualFile = ShopwareTemplateUtil.findTemplateByPath(project, path) ?: return null
+    fun findBlockTagsInFile(project: Project, path: String, blockName: String): List<PsiElement> {
+        val virtualFile = ShopwareTemplateUtil.findTemplateByPath(project, path) ?: return emptyList()
+        val psiFile = PsiManager.getInstance(project).findFile(virtualFile) ?: return emptyList()
 
-        val psiFile = PsiManager.getInstance(project).findFile(virtualFile) ?: return null
-
-        var blockTag: PsiElement? = null
+        val blockTags = ArrayList<PsiElement>()
 
         psiFile.acceptChildren(object : PsiRecursiveElementWalkingVisitor() {
             override fun visitElement(element: PsiElement) {
                 if (element is TwigBlockTag && element.name == blockName) {
-                    blockTag = element
-                    stopWalking()
+                    blockTags.add(element)
                     return
                 }
 
@@ -123,7 +108,55 @@ object TwigUtil {
             }
         })
 
-        return blockTag
+        return blockTags
+    }
+
+    /**
+     * Paths of the templates extending the given file, nearest child first. Cached per file, as
+     * every block of a template resolves the same set.
+     */
+    fun getExtendingTemplatePaths(file: PsiFile): List<String> {
+        return CachedValuesManager.getCachedValue(file) {
+            val virtualFile = file.originalFile.virtualFile
+
+            CachedValueProvider.Result.create(
+                if (virtualFile == null) {
+                    emptyList()
+                } else {
+                    ShopwareTemplateUtil.getTemplatesExtendingTemplate(file.project, virtualFile)
+                        .map { it.path }
+                },
+                PsiModificationTracker.MODIFICATION_COUNT
+            )
+        }
+    }
+
+    /**
+     * Paths of the templates extending the given file which define a block of the given name,
+     * nearest child first. Resolved from the indexes only, so it is cheap enough to decide
+     * whether a gutter marker is shown.
+     */
+    fun getDownstreamBlockPaths(file: PsiFile, blockName: String): List<String> {
+        val extending = getExtendingTemplatePaths(file)
+
+        if (extending.isEmpty()) {
+            return emptyList()
+        }
+
+        val paths = FileBasedIndex.getInstance()
+            .getValues(TwigBlockHashIndex.key, blockName, GlobalSearchScope.allScope(file.project))
+            .mapTo(HashSet()) { it.absolutePath }
+
+        return extending.filter { paths.contains(it) }
+    }
+
+    /**
+     * Every block of the given name in templates extending the given file, nearest child first
+     */
+    fun getDownstreamBlocks(file: PsiFile, blockName: String): List<PsiElement> {
+        val project = file.project
+
+        return getDownstreamBlockPaths(file, blockName).flatMap { findBlockTagsInFile(project, it, blockName) }
     }
 
     fun getUpstreamBlocks(file: PsiFile, blockName: String): List<TwigBlockHash> {

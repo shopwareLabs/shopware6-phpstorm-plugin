@@ -41,6 +41,7 @@
         <fileBasedIndex implementation="de.shyim.shopware6.index.TwigBlockDeprecationIndex"/>
         <fileBasedIndex implementation="de.shyim.shopware6.index.TwigBlockHashIndex"/>
         <fileBasedIndex implementation="de.shyim.shopware6.index.ShopwareTemplateIndex"/>
+        <fileBasedIndex implementation="de.shyim.shopware6.index.ShopwareTemplateExtendsIndex"/>
 
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.FeatureFlagGoToDeclareHandler"/>
         <gotoDeclarationHandler implementation="de.shyim.shopware6.navigation.AdminComponentGoToDeclareHandler"/>
@@ -263,6 +264,7 @@
         </intentionAction>
 
         <codeInsight.lineMarkerProvider implementationClass="de.shyim.shopware6.marker.js.AdminComponentMarker" language="JavaScript"/>
+        <codeInsight.lineMarkerProvider implementationClass="de.shyim.shopware6.marker.twig.TwigBlockMarker" language="Twig"/>
         <gotoSymbolContributor implementation="de.shyim.shopware6.navigation.symbol.AdminComponentSymbolContributor"/>
 
         <notificationGroup id="Shopware"
