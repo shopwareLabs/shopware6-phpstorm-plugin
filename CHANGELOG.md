@@ -4,6 +4,8 @@
 
 ## Unreleased
 
+## 0.1.1 - 2026-08-21
+
 - Restored the inheritance gutter markers on Twig blocks that were lost with the reworked Twig template handling in `0.1.0`: a block now shows an "overrides" icon when it overrides a block of the `sw_extends` chain and an "overridden" icon when extending templates override it, both navigating to the related blocks. The markers are provided by the plugin itself and no longer require the Symfony plugin. Fixes #307
 
 ## 0.1.0 - 2026-07-30
